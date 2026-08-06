@@ -1,0 +1,140 @@
+/*
+ * Distribution bar.
+ *
+ * The narrow-width problem, measured not assumed: at 320px the four positioned
+ * percentile labels collide. $187 sat underneath $498 with the 7 clipped. Every
+ * geometry assertion passed, no horizontal scroll, no console error. Only a
+ * screenshot caught it.
+ *
+ * So below 420px the track keeps its markers and the VALUES move to a stacked grid
+ * underneath. A broker on a phone gets four legible numbers instead of four
+ * overlapping ones, and the bar still carries the shape of the spread.
+ */
+
+.wrap { margin: 0; }
+
+.track {
+  position: relative;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--elev, var(--surface-2));
+  border: 1px solid var(--hair, var(--border));
+  margin-top: 44px;
+  margin-bottom: 56px;
+}
+
+.fill {
+  position: absolute;
+  top: -1px;
+  bottom: -1px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--dist-25), var(--dist-75));
+}
+
+.medicare {
+  position: absolute;
+  top: -12px;
+  bottom: -12px;
+  width: 2px;
+  background: var(--hair-strong, var(--border-strong));
+  transform: translateX(-1px);
+}
+
+.medicareLabel {
+  position: absolute;
+  top: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 11px;
+  color: var(--faint, var(--text-3));
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.marker {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--paper, var(--bg));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
+}
+
+.dotPrimary {
+  width: 18px;
+  height: 18px;
+  background: var(--paper, var(--bg));
+  border: 3px solid var(--dist-50);
+}
+
+.label {
+  position: absolute;
+  white-space: nowrap;
+}
+
+.value {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted, var(--text-2));
+}
+
+.valuePrimary {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink, var(--text));
+}
+
+.caption {
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint, var(--text-3));
+}
+
+/* The stacked read. Hidden by default, it is the narrow-width layout. */
+.stacked { display: none; }
+
+@media (max-width: 419px) {
+  .track { margin-bottom: 20px; }
+  .label { display: none; }
+
+  .stacked {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 16px;
+    margin-bottom: 8px;
+  }
+
+  .stackedItem {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+  }
+
+  .stackedValue {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--ink, var(--text));
+    line-height: 1.15;
+  }
+
+  .stackedValueMuted {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--muted, var(--text-2));
+    line-height: 1.15;
+  }
+
+  .stackedCaption {
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--faint, var(--text-3));
+  }
+}

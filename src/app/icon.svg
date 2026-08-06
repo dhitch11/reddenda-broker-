@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!--
+    PLACEHOLDER MARK. Owner: @BROKER-MARKETING (Brober4444). Replace with the real
+    logo when the design war room's Addendum A lands. This exists only because a
+    missing icon was throwing a 404 console error on every page load, which fails
+    the verification bar.
+
+    The idea it holds, in case it is worth keeping: the product is the SPREAD. A
+    track, and three points on it that are not evenly placed. That asymmetry is the
+    whole thesis, and it survives at 16px.
+  -->
+  <rect width="32" height="32" rx="7" fill="#077A70"/>
+  <rect x="6" y="15" width="20" height="2" rx="1" fill="#FFFFFF" opacity="0.32"/>
+  <circle cx="9.5" cy="16" r="2.1" fill="#FFFFFF" opacity="0.55"/>
+  <circle cx="15" cy="16" r="3.1" fill="#FFFFFF"/>
+  <circle cx="23.5" cy="16" r="2.1" fill="#FFFFFF" opacity="0.55"/>
+</svg>

@@ -1,0 +1,288 @@
+import { Distribution } from "@/components/Distribution";
+import type { MarketRate, NoMarketRate } from "@/lib/rates";
+import { SourceLine } from "./chrome";
+
+/**
+ * The result panel. The most important surface on the site.
+ *
+ * Every honesty decision this product makes is visible here:
+ *
+ *   - The scope is always stated. A broker in Fresno must never see a California
+ *     number quietly labelled as theirs.
+ *   - A fallback says so, in words, naming the metro it fell back from and why.
+ *   - A rejected cell renders the reason, not a blank and not a zero.
+ *   - The Medicare anchor carries the one caveat that stops a broker from saying
+ *     something false out loud in a renewal meeting. See MEDICARE NOTE below.
+ *   - Percent of Medicare is a ratio of two measured numbers, which is the fluent
+ *     metric in this market. It is derived, so it is labelled as derived.
+ *
+ * MEDICARE NOTE, measured 2026-08-06 by scripts/probe-site-of-service.mjs.
+ * `fac_rate` is the PHYSICIAN fee when the service is performed in a facility. It
+ * is lower than the office rate because the practice expense is stripped out and
+ * the facility bills its own payment separately under OPPS. That facility payment
+ * is not in this dataset. So "facility $170" is NOT the cost of care in a hospital.
+ * Printing the two side by side without that sentence would tell a broker the
+ * hospital is the cheap site, which is backwards. We print the sentence.
+ */
+
+const money = (v: number) => "$" + Math.round(v).toLocaleString("en-US");
+
+export function RatePanel({
+  result,
+  plainName,
+}: {
+  result: MarketRate | NoMarketRate;
+  plainName?: string | null;
+}) {
+  if (!result.found) return <EmptyResult result={result} plainName={plainName} />;
+
+  const { cell, medicare } = result;
+  const pctOfMedicare =
+    medicare?.nonFacility && medicare.nonFacility > 0
+      ? Math.round((cell.p50 / medicare.nonFacility) * 100)
+      : null;
+
+  const spreadX = cell.p25 > 0 ? cell.p75 / cell.p25 : null;
+
+  return (
+    <section
+      className="card"
+      style={{ padding: "clamp(18px, 3vw, 30px)", borderColor: "var(--hair-strong)" }}
+      aria-live="polite"
+    >
+      <header style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "baseline", justifyContent: "space-between" }}>
+        <div style={{ minWidth: 0 }}>
+          <p className="eyebrow" style={{ marginBottom: 6 }}>
+            {result.scope === "metro" ? "Metro market" : "State market"}
+          </p>
+          <h2 className="display" style={{ fontSize: "var(--text-xl)", lineHeight: 1.15 }}>
+            {plainName ?? result.description}
+          </h2>
+          <p style={{ fontSize: "var(--text-sm)", color: "var(--muted)", marginTop: 4 }}>
+            {result.geoName} <span style={{ color: "var(--ghost)" }}>·</span>{" "}
+            <span className="num">CPT {result.cpt}</span>
+          </p>
+        </div>
+
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <span className="chip">
+            <span className="chip-dot" />
+            <span className="num">{cell.n.toLocaleString("en-US")}</span> filings
+          </span>
+          {result.confidence === "reported" && (
+            <span className="chip" style={{ color: "var(--spread)", borderColor: "var(--spread)", background: "var(--spread-wash)" }}>
+              Limited sample
+            </span>
+          )}
+        </div>
+      </header>
+
+      {result.fellBackFrom && (
+        <p
+          style={{
+            marginTop: 16,
+            padding: "11px 14px",
+            borderRadius: "var(--r-sm)",
+            background: "var(--sunken)",
+            border: "1px solid var(--hair-sunken)",
+            fontSize: "var(--text-sm)",
+            color: "var(--muted)",
+          }}
+        >
+          We do not have a publishable distribution for {result.fellBackFrom.metro}, so this is the{" "}
+          {result.geoName} market instead. The label above says so on purpose.
+        </p>
+      )}
+
+      <div style={{ marginTop: 8 }}>
+        <Distribution
+          cell={cell}
+          medicare={medicare?.nonFacility ?? null}
+          label={`${plainName ?? result.description} price distribution in ${result.geoName}`}
+        />
+      </div>
+
+      <div
+        style={{
+          display: "grid",
+          gap: 10,
+          gridTemplateColumns: "repeat(auto-fit, minmax(158px, 1fr))",
+          marginTop: 4,
+        }}
+      >
+        <Stat label="Median negotiated" value={money(cell.p50)} tone="ink" />
+        <Stat
+          label="Middle half spans"
+          value={`${money(cell.p25)} to ${money(cell.p75)}`}
+          tone="ink"
+          sub={spreadX ? `${spreadX.toFixed(1)}x from low to high` : undefined}
+        />
+        {cell.p90 != null ? (
+          <Stat label="90th percentile" value={money(cell.p90)} tone="exposure" sub="What the expensive end costs" />
+        ) : (
+          <Stat label="90th percentile" value="gap" tone="gap" sub="Not published for this cell" />
+        )}
+        {pctOfMedicare != null ? (
+          <Stat label="Median vs Medicare" value={`${pctOfMedicare}%`} tone="spread" sub="Derived from the two figures shown" />
+        ) : (
+          <Stat label="Median vs Medicare" value="gap" tone="gap" sub="No Medicare rate for this market" />
+        )}
+      </div>
+
+      {medicare && <MedicareAnchorBlock medicare={medicare} />}
+
+      <SourceLine
+        updatedAt={result.updatedAt}
+        scope={result.scope === "metro" ? "Metro level, CBSA " + result.geoId : "State level"}
+      />
+    </section>
+  );
+}
+
+function MedicareAnchorBlock({
+  medicare,
+}: {
+  medicare: { nonFacility: number | null; facility: number | null; year: number | null };
+}) {
+  const { nonFacility, facility } = medicare;
+  if (nonFacility == null && facility == null) return null;
+
+  // A split only exists where the two figures actually differ. For 22 of the 39
+  // services in the basket they are identical, and printing "office $332,
+  // facility $332" as if it were a finding teaches the reader that site of
+  // service does not matter. So we only open the comparison when it is real.
+  const hasSplit = nonFacility != null && facility != null && Math.abs(nonFacility - facility) > 0.5;
+
+  return (
+    <div
+      style={{
+        marginTop: 18,
+        padding: 16,
+        borderRadius: "var(--r-sm)",
+        background: "var(--band)",
+        border: "1px solid var(--hair)",
+      }}
+    >
+      <p className="eyebrow" style={{ color: "var(--muted)", marginBottom: 10 }}>
+        Medicare reference
+      </p>
+
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 26, alignItems: "flex-start" }}>
+        {nonFacility != null && (
+          <div>
+            <p className="num" style={{ fontSize: "var(--text-lg)", fontWeight: 600, color: "var(--ink)" }}>
+              {money(nonFacility)}
+            </p>
+            <p style={{ fontSize: "var(--text-xs)", color: "var(--muted)", marginTop: 2 }}>
+              Performed in an office
+            </p>
+          </div>
+        )}
+        {hasSplit && facility != null && (
+          <div>
+            <p className="num" style={{ fontSize: "var(--text-lg)", fontWeight: 600, color: "var(--ink)" }}>
+              {money(facility)}
+            </p>
+            <p style={{ fontSize: "var(--text-xs)", color: "var(--muted)", marginTop: 2 }}>
+              Physician fee in a facility
+            </p>
+          </div>
+        )}
+      </div>
+
+      {hasSplit && (
+        <p
+          style={{
+            marginTop: 12,
+            fontSize: "var(--text-xs)",
+            lineHeight: 1.65,
+            color: "var(--muted)",
+            borderLeft: "2px solid var(--spread)",
+            paddingLeft: 11,
+          }}
+        >
+          <strong style={{ color: "var(--spread)", fontWeight: 600 }}>Read this carefully.</strong> The
+          facility figure is the physician fee only. When the same service happens in a hospital outpatient
+          department, the hospital bills its own facility payment on top, and that amount is not in this
+          dataset. So the lower number here does not mean the hospital is the cheaper site. It usually is
+          not. We will not publish a total cost by site of service until we hold the facility payment.
+        </p>
+      )}
+    </div>
+  );
+}
+
+function Stat({
+  label,
+  value,
+  sub,
+  tone,
+}: {
+  label: string;
+  value: string;
+  sub?: string;
+  tone: "ink" | "exposure" | "spread" | "gap";
+}) {
+  const color =
+    tone === "exposure" ? "var(--exposure)" : tone === "spread" ? "var(--spread)" : "var(--ink)";
+
+  return (
+    <div
+      style={{
+        background: "var(--elev)",
+        border: "1px solid var(--hair)",
+        borderRadius: "var(--r-sm)",
+        padding: "13px 14px",
+      }}
+    >
+      <p
+        style={{
+          fontSize: 10.5,
+          fontWeight: 600,
+          textTransform: "uppercase",
+          letterSpacing: ".05em",
+          color: "var(--faint)",
+          fontFamily: "var(--font-mono), monospace",
+        }}
+      >
+        {label}
+      </p>
+      {tone === "gap" ? (
+        <p style={{ marginTop: 7, display: "flex", alignItems: "center", gap: 8 }}>
+          <span className="gap-dot" />
+          <span style={{ fontSize: "var(--text-sm)", color: "var(--muted)" }}>Not available</span>
+        </p>
+      ) : (
+        <p className="num" style={{ marginTop: 5, fontSize: 21, fontWeight: 700, color, lineHeight: 1.2 }}>
+          {value}
+        </p>
+      )}
+      {sub && (
+        <p style={{ fontSize: "var(--text-xs)", color: "var(--faint)", marginTop: 4, lineHeight: 1.45 }}>{sub}</p>
+      )}
+    </div>
+  );
+}
+
+function EmptyResult({ result, plainName }: { result: NoMarketRate; plainName?: string | null }) {
+  return (
+    <section className="empty-state" style={{ padding: "clamp(18px, 3vw, 30px)" }} aria-live="polite">
+      <p className="eyebrow" style={{ color: "var(--muted)", marginBottom: 10 }}>
+        No publishable figure
+      </p>
+      <h2
+        className="display"
+        style={{ fontSize: "var(--text-lg)", color: "var(--ink)", marginBottom: 10 }}
+      >
+        {plainName ?? result.description} in {result.geoName}
+      </h2>
+      <p style={{ fontSize: "var(--text-sm)", color: "var(--body)", lineHeight: 1.65, maxWidth: "62ch" }}>
+        {result.message}
+      </p>
+      <p style={{ fontSize: "var(--text-xs)", color: "var(--muted)", marginTop: 14, lineHeight: 1.65, maxWidth: "62ch" }}>
+        This is the product working, not the product failing. We publish a number when the filings support
+        one and we say nothing when they do not. Try another market or another service.
+      </p>
+    </section>
+  );
+}
