@@ -22,6 +22,7 @@ type Site = {
   professional: number | null;
   facility: number | null;
   unavailable: string | null;
+  note?: string | null;
 };
 
 type Result = {
@@ -97,9 +98,10 @@ export function SiteOfService({
     : [];
 
   const max = Math.max(...sites.map(([, s]) => s.total ?? 0), 1);
-  const cheapest = sites
-    .filter(([, s]) => s.total != null)
-    .sort((a, b) => (a[1].total! - b[1].total!))[0]?.[0];
+  const priced = sites.filter(([, s]) => s.total != null).sort((a, b) => a[1].total! - b[1].total!);
+  // "Lowest total" is only a claim if there is something to be lower than. With one
+  // priced site the badge would be true and meaningless, which reads as a boast.
+  const cheapest = priced.length >= 2 ? priced[0][0] : undefined;
 
   return (
     <div>
@@ -201,8 +203,10 @@ export function SiteOfService({
             <p style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid var(--hair)", fontSize: 12.5, color: "var(--faint)", lineHeight: 1.6 }}>
               Medicare Physician Fee Schedule, OPPS addendum B and the ASC payment file
               {data.vintage ? `, ${data.vintage}` : ""}. Federal allowed amounts, not commercial rates and
-              not a guaranteed price. Where Medicare does not pay a facility separately we publish no total
-              for that site rather than an implied one.
+              not a guaranteed price. Where a site has no total, the reason is stated in place of the
+              number: a service can be bundled into another payment, paid under a different federal
+              schedule, inpatient only, or not payable in that setting. Those are different facts and we
+              do not collapse them into one.
             </p>
           </div>
         ) : null}
@@ -235,19 +239,24 @@ function SiteRow({
       </div>
 
       {site.total != null ? (
-        <div
-          style={{ marginTop: 8, height: 12, borderRadius: 6, background: "var(--elev)", overflow: "hidden" }}
-          role="img"
-          aria-label={`${label}: ${money(site.total)}`}
-        >
+        <>
           <div
-            style={{
-              width: `${pct}%`, height: "100%", borderRadius: 6,
-              background: best ? "var(--teal-deep)" : "var(--ghost)",
-              transition: "width 520ms cubic-bezier(.2,.7,.2,1)",
-            }}
-          />
-        </div>
+            style={{ marginTop: 8, height: 12, borderRadius: 6, background: "var(--elev)", overflow: "hidden" }}
+            role="img"
+            aria-label={`${label}: ${money(site.total)}`}
+          >
+            <div
+              style={{
+                width: `${pct}%`, height: "100%", borderRadius: 6,
+                background: best ? "var(--teal-deep)" : "var(--ghost)",
+                transition: "width 520ms cubic-bezier(.2,.7,.2,1)",
+              }}
+            />
+          </div>
+          {site.note && (
+            <p style={{ marginTop: 6, fontSize: 12.5, color: "var(--faint)", lineHeight: 1.5 }}>{site.note}</p>
+          )}
+        </>
       ) : (
         <p
           style={{

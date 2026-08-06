@@ -60,6 +60,40 @@ const CONDITIONALLY_PACKAGED = new Set(["Q1", "Q3"]);
 
 export const CONDITIONAL_NOTE = "Paid separately when billed alone";
 
+/**
+ * WHY A NULL FACILITY FEE NEEDS FOUR SENTENCES AND NOT ONE.
+ *
+ * This module originally rendered a single string for every absent facility fee:
+ * "Medicare does not price this separately in a hospital outpatient department."
+ * That is TRUE for a packaged or non-payable code and **FLATLY FALSE** for a code
+ * paid under a different fee schedule.
+ *
+ * Measured on the live table: screening mammography `77067` is `A` and EKG `93000`
+ * is `M`. Both are paid at a hospital, just not out of the OPPS file. Telling a
+ * broker a screening mammogram "is not priced at a hospital" is a wrong statement
+ * of fact, and a broker repeating it in a renewal meeting is the exact failure this
+ * product cannot have. 3,540 codes carry `A` or `M`.
+ *
+ * The absence is real either way. What differs is WHAT the absence means, and the
+ * honest empty state has to say the true one.
+ */
+const OPPS_STATUS: Record<string, { kind: "packaged" | "elsewhere" | "inpatient" | "unpayable"; say: string }> = {
+  N:  { kind: "packaged",  say: "is bundled into the payment for the procedure it accompanies, so it carries no separate facility price" },
+  Q2: { kind: "packaged",  say: "is bundled into the payment for the procedure it accompanies, so it carries no separate facility price" },
+  A:  { kind: "elsewhere", say: "is paid under a different federal fee schedule in this setting, so the hospital total is not comparable from this file" },
+  M:  { kind: "elsewhere", say: "is paid by a different method in this setting, so the hospital total is not comparable from this file" },
+  C:  { kind: "inpatient", say: "is an inpatient-only procedure, so there is no outpatient price to compare" },
+  B:  { kind: "unpayable", say: "is not paid under the hospital outpatient schedule, and the facility payment it does carry is not on this record" },
+  E1: { kind: "unpayable", say: "is not payable by Medicare in this setting" },
+};
+
+/**
+ * Drugs and biologicals. Excluded from any ranking: the payment is the cost of the
+ * drug, not of a place, so "steer this somewhere cheaper" is not a sentence that
+ * means anything. One row measures $4,505,000 and would top every league table.
+ */
+const DRUG_STATUS = new Set(["K", "G"]);
+
 export type Site = {
   /** Total allowed amount at this site, or null when it cannot be priced honestly. */
   total: number | null;
@@ -69,6 +103,8 @@ export type Site = {
   facility: number | null;
   /** Why there is no total, written for a broker rather than a developer. */
   unavailable: string | null;
+  /** A true caveat about a total that DOES exist. Never used to explain an absence. */
+  note?: string | null;
 };
 
 export type SiteComparison = {
@@ -84,6 +120,12 @@ export type SiteComparison = {
   hopdVsOfficePct: number | null;
   /** ASC versus HOPD in dollars. The saving a plan captures by steering. */
   ascSavingVsHopd: number | null;
+  /**
+   * False when nonfac_rate equals fac_rate, meaning the physician is paid the same
+   * everywhere and there is no distinct office option. True for 1,415 codes in CA,
+   * which is the honest size of the office-versus-hospital story.
+   */
+  officeIsDistinct: boolean;
   /** Set when the OPPS status makes the number conditional. */
   caveat: string | null;
   statusIndicator: string | null;
@@ -160,8 +202,25 @@ export async function siteComparison(
   const hopdTotal = oppsFee != null && professional != null ? round2(professional + oppsFee) : null;
   const ascTotal = ascFee != null && professional != null ? round2(professional + ascFee) : null;
 
-  const notPriced = (site: string) =>
-    `Medicare does not price ${plain} separately in ${site}, so we do not publish a total for it.`;
+  // The reason a site has no total, said accurately. `si` decides the sentence for
+  // the hospital column; anything we cannot classify gets the narrow, defensible
+  // claim ("this file does not carry it") rather than the broad, wrong one
+  // ("Medicare does not price it").
+  const status = si ? OPPS_STATUS[si] : undefined;
+  const hopdReason = oppsFee != null
+    ? null
+    : status
+      ? `${plain} ${status.say}.`
+      : `The hospital outpatient file does not carry a separate facility payment for ${plain}, so we do not compute a hospital total.`;
+
+  const ascReason = ascFee != null
+    ? null
+    : `${plain} is not on the ambulatory surgery centre payment list, so Medicare publishes no surgery centre total for it.`;
+
+  // 72.1% of codes carry nonfac_rate EXACTLY equal to fac_rate, which means there
+  // is no distinct office option for that service. Reporting it as an "office
+  // price" invents a choice the member does not have.
+  const officeIsDistinct = office != null && professional != null && office !== professional;
 
   return {
     found: true,
@@ -169,23 +228,28 @@ export async function siteComparison(
     name,
     plain,
     state,
+    officeIsDistinct,
     office: {
       total: office,
       professional: office,
       facility: null,
-      unavailable: office == null ? notPriced("an office") : null,
+      unavailable: office == null ? `Medicare publishes no office rate for ${plain} in ${state}.` : null,
+      note:
+        office != null && !officeIsDistinct
+          ? "The physician is paid the same wherever this happens, so the whole difference between sites is the facility fee."
+          : null,
     },
     asc: {
       total: ascTotal,
       professional,
       facility: ascFee,
-      unavailable: ascTotal == null ? notPriced("an ambulatory surgery centre") : null,
+      unavailable: ascTotal == null ? ascReason : null,
     },
     hopd: {
       total: hopdTotal,
       professional,
       facility: oppsFee,
-      unavailable: hopdTotal == null ? notPriced("a hospital outpatient department") : null,
+      unavailable: hopdTotal == null ? hopdReason : null,
     },
     hopdVsOfficePct:
       hopdTotal != null && office != null && office > 0
@@ -214,17 +278,30 @@ export async function steerableBasket(state: string, limit = 12) {
     candidates.map((s) => siteComparison(s.cpt, state)),
   );
 
+  // RANK ON HOSPITAL VERSUS SURGERY CENTRE, NOT HOSPITAL VERSUS OFFICE.
+  //
+  // 72.1% of codes have nonfac_rate exactly equal to fac_rate, so an office-based
+  // ranking sorts mostly on a difference that does not exist and surfaces advice
+  // like "steer a distal ulna arthroplasty to an office". The hospital-versus-ASC
+  // spread is the comparison that is real for a surgical basket and is the one a
+  // plan can actually act on.
   const priced = rows.filter(
     (r): r is SiteComparison =>
-      r.found && r.hopd.total != null && r.office.total != null && r.hopdVsOfficePct != null,
+      r.found &&
+      r.hopd.total != null &&
+      r.asc.total != null &&
+      !DRUG_STATUS.has(r.statusIndicator ?? ""),
   );
 
-  priced.sort((a, b) => (b.hopdVsOfficePct ?? 0) - (a.hopdVsOfficePct ?? 0));
+  priced.sort((a, b) => (b.ascSavingVsHopd ?? 0) - (a.ascSavingVsHopd ?? 0));
 
   return {
     rows: priced.slice(0, limit),
     considered: candidates.length,
+    // Reported, never silently truncated. A service drops out because it cannot be
+    // priced at both facility sites, and that is a fact about the data worth saying.
     excluded: candidates.length - priced.length,
+    rankedBy: "hospital outpatient versus ambulatory surgery centre",
   };
 }
 
