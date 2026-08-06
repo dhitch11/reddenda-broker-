@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { SiteHeader, SiteFooter } from "@/components/marketing/chrome";
-import { RateCheck } from "./RateCheck";
+import { MarketBrief } from "./MarketBrief";
 
 export const metadata: Metadata = {
-  title: "Rate check",
-  description: "What plans actually pay for one service in one metro. Real filings, sourced and dated.",
+  title: "Market brief",
+  description:
+    "Every service we hold for one metro, ranked by how far apart the cheap and expensive options are.",
 };
 
 export default function Page() {
@@ -12,7 +13,7 @@ export default function Page() {
     <>
       <SiteHeader />
       <main>
-        <RateCheck />
+        <MarketBrief />
       </main>
       <SiteFooter />
     </>
