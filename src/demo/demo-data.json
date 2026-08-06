@@ -1,0 +1,7917 @@
+{
+ "employer_groups": [
+  {
+   "group_id": "demo_grp_01",
+   "name": "Harbor Point Manufacturing",
+   "lives": 1355,
+   "funding": "self-funded",
+   "cbsa": "31080",
+   "cbsa_name": "Los Angeles-Long Beach-Anaheim, CA",
+   "renewal_month": "Jan",
+   "brokerage_id": "demo_bkr_1",
+   "brokerage_name": "Meridian Benefit Advisors",
+   "annual_medical_spend": 13023463.05,
+   "modeled_site_of_care_opportunity": 137022.32,
+   "top_drivers": [
+    {
+     "cpt": "29881",
+     "service": "Knee arthroscopy, meniscectomy",
+     "cases": 6,
+     "per_case": 3426.96,
+     "annual": 20895.88
+    },
+    {
+     "cpt": "66984",
+     "service": "Cataract removal with IOL",
+     "cases": 8,
+     "per_case": 2508.42,
+     "annual": 20393.49
+    },
+    {
+     "cpt": "45378",
+     "service": "Colonoscopy, diagnostic",
+     "cases": 19,
+     "per_case": 1009.89,
+     "annual": 19157.57
+    },
+    {
+     "cpt": "64483",
+     "service": "Epidural injection, lumbar",
+     "cases": 16,
+     "per_case": 1177.67,
+     "annual": 19148.97
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "group_id": "demo_grp_02",
+   "name": "Cedarline Logistics",
+   "lives": 1718,
+   "funding": "self-funded",
+   "cbsa": "35620",
+   "cbsa_name": "New York-Newark-Jersey City, NY-NJ",
+   "renewal_month": "Jun",
+   "brokerage_id": "demo_bkr_2",
+   "brokerage_name": "Cornerstone Risk Partners",
+   "annual_medical_spend": 17576907.59,
+   "modeled_site_of_care_opportunity": 189970.87,
+   "top_drivers": [
+    {
+     "cpt": "29881",
+     "service": "Knee arthroscopy, meniscectomy",
+     "cases": 8,
+     "per_case": 4745.51,
+     "annual": 36687.51
+    },
+    {
+     "cpt": "45378",
+     "service": "Colonoscopy, diagnostic",
+     "cases": 24,
+     "per_case": 1237.46,
+     "annual": 29763.4
+    },
+    {
+     "cpt": "66984",
+     "service": "Cataract removal with IOL",
+     "cases": 10,
+     "per_case": 2534.45,
+     "annual": 26125.13
+    },
+    {
+     "cpt": "64483",
+     "service": "Epidural injection, lumbar",
+     "cases": 21,
+     "per_case": 1196.6,
+     "annual": 24669.05
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "group_id": "demo_grp_03",
+   "name": "Vantage Ridge Foods",
+   "lives": 2094,
+   "funding": "self-funded",
+   "cbsa": "16980",
+   "cbsa_name": "Chicago-Naperville-Elgin, IL-IN",
+   "renewal_month": "Nov",
+   "brokerage_id": "demo_bkr_3",
+   "brokerage_name": "Alder Creek Benefits",
+   "annual_medical_spend": 22482876.21,
+   "modeled_site_of_care_opportunity": 210699.62,
+   "top_drivers": [
+    {
+     "cpt": "29881",
+     "service": "Knee arthroscopy, meniscectomy",
+     "cases": 9,
+     "per_case": 3978.39,
+     "annual": 37488.4
+    },
+    {
+     "cpt": "45378",
+     "service": "Colonoscopy, diagnostic",
+     "cases": 29,
+     "per_case": 1162.33,
+     "annual": 34074.8
+    },
+    {
+     "cpt": "64483",
+     "service": "Epidural injection, lumbar",
+     "cases": 25,
+     "per_case": 1150.25,
+     "annual": 28903.55
+    },
+    {
+     "cpt": "66984",
+     "service": "Cataract removal with IOL",
+     "cases": 13,
+     "per_case": 2123.26,
+     "annual": 26676.69
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "group_id": "demo_grp_04",
+   "name": "Ironwood Construction",
+   "lives": 1296,
+   "funding": "self-funded",
+   "cbsa": "26420",
+   "cbsa_name": "Houston-Pasadena-The Woodlands, TX",
+   "renewal_month": "Apr",
+   "brokerage_id": "demo_bkr_1",
+   "brokerage_name": "Meridian Benefit Advisors",
+   "annual_medical_spend": 14946395.42,
+   "modeled_site_of_care_opportunity": 119903.88,
+   "top_drivers": [
+    {
+     "cpt": "29881",
+     "service": "Knee arthroscopy, meniscectomy",
+     "cases": 6,
+     "per_case": 3715.02,
+     "annual": 21666.01
+    },
+    {
+     "cpt": "66984",
+     "service": "Cataract removal with IOL",
+     "cases": 8,
+     "per_case": 2336.35,
+     "annual": 18167.45
+    },
+    {
+     "cpt": "45380",
+     "service": "Colonoscopy with biopsy",
+     "cases": 12,
+     "per_case": 1356.47,
+     "annual": 15821.87
+    },
+    {
+     "cpt": "45378",
+     "service": "Colonoscopy, diagnostic",
+     "cases": 18,
+     "per_case": 844,
+     "annual": 15313.58
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "group_id": "demo_grp_05",
+   "name": "Blue Harbor Dental Group",
+   "lives": 2308,
+   "funding": "self-funded",
+   "cbsa": "12060",
+   "cbsa_name": "Atlanta-Sandy Springs-Roswell, GA",
+   "renewal_month": "Sep",
+   "brokerage_id": "demo_bkr_2",
+   "brokerage_name": "Cornerstone Risk Partners",
+   "annual_medical_spend": 28108615.45,
+   "modeled_site_of_care_opportunity": 235530.54,
+   "top_drivers": [
+    {
+     "cpt": "45378",
+     "service": "Colonoscopy, diagnostic",
+     "cases": 32,
+     "per_case": 1129.05,
+     "annual": 36481.86
+    },
+    {
+     "cpt": "66984",
+     "service": "Cataract removal with IOL",
+     "cases": 14,
+     "per_case": 2560.36,
+     "annual": 35455.86
+    },
+    {
+     "cpt": "29881",
+     "service": "Knee arthroscopy, meniscectomy",
+     "cases": 10,
+     "per_case": 3244.84,
+     "annual": 33700.93
+    },
+    {
+     "cpt": "43239",
+     "service": "Upper endoscopy with biopsy",
+     "cases": 25,
+     "per_case": 1229.42,
+     "annual": 31212.55
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "group_id": "demo_grp_06",
+   "name": "Summit Field Services",
+   "lives": 1039,
+   "funding": "self-funded",
+   "cbsa": "19100",
+   "cbsa_name": "Dallas-Fort Worth-Arlington, TX",
+   "renewal_month": "Feb",
+   "brokerage_id": "demo_bkr_3",
+   "brokerage_name": "Alder Creek Benefits",
+   "annual_medical_spend": 14268947.3,
+   "modeled_site_of_care_opportunity": 113692.08,
+   "top_drivers": [
+    {
+     "cpt": "66984",
+     "service": "Cataract removal with IOL",
+     "cases": 6,
+     "per_case": 3238.63,
+     "annual": 20189.62
+    },
+    {
+     "cpt": "29881",
+     "service": "Knee arthroscopy, meniscectomy",
+     "cases": 5,
+     "per_case": 3959.11,
+     "annual": 18510.83
+    },
+    {
+     "cpt": "45378",
+     "service": "Colonoscopy, diagnostic",
+     "cases": 15,
+     "per_case": 1225.67,
+     "annual": 17828.63
+    },
+    {
+     "cpt": "45380",
+     "service": "Colonoscopy with biopsy",
+     "cases": 9,
+     "per_case": 1716.73,
+     "annual": 16053.16
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "group_id": "demo_grp_07",
+   "name": "Northgate Retail Partners",
+   "lives": 593,
+   "funding": "level-funded",
+   "cbsa": "38060",
+   "cbsa_name": "Phoenix-Mesa-Chandler, AZ",
+   "renewal_month": "Jul",
+   "brokerage_id": "demo_bkr_1",
+   "brokerage_name": "Meridian Benefit Advisors",
+   "annual_medical_spend": 8043564.89,
+   "modeled_site_of_care_opportunity": 62980.28,
+   "top_drivers": [
+    {
+     "cpt": "29881",
+     "service": "Knee arthroscopy, meniscectomy",
+     "cases": 3,
+     "per_case": 4158.79,
+     "annual": 11097.74
+    },
+    {
+     "cpt": "66984",
+     "service": "Cataract removal with IOL",
+     "cases": 4,
+     "per_case": 2645.05,
+     "annual": 9411.07
+    },
+    {
+     "cpt": "64483",
+     "service": "Epidural injection, lumbar",
+     "cases": 7,
+     "per_case": 1239.84,
+     "annual": 8822.67
+    },
+    {
+     "cpt": "45378",
+     "service": "Colonoscopy, diagnostic",
+     "cases": 8,
+     "per_case": 977.07,
+     "annual": 8111.64
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "group_id": "demo_grp_08",
+   "name": "Lakeshore Behavioral",
+   "lives": 713,
+   "funding": "self-funded",
+   "cbsa": "14460",
+   "cbsa_name": "Boston-Cambridge-Newton, MA-NH",
+   "renewal_month": "Dec",
+   "brokerage_id": "demo_bkr_2",
+   "brokerage_name": "Cornerstone Risk Partners",
+   "annual_medical_spend": 6775416.4,
+   "modeled_site_of_care_opportunity": 72083.8,
+   "top_drivers": [
+    {
+     "cpt": "29881",
+     "service": "Knee arthroscopy, meniscectomy",
+     "cases": 3,
+     "per_case": 4047.71,
+     "annual": 12987.08
+    },
+    {
+     "cpt": "66984",
+     "service": "Cataract removal with IOL",
+     "cases": 4,
+     "per_case": 2592.73,
+     "annual": 11091.69
+    },
+    {
+     "cpt": "45378",
+     "service": "Colonoscopy, diagnostic",
+     "cases": 10,
+     "per_case": 976.37,
+     "annual": 9746.14
+    },
+    {
+     "cpt": "45380",
+     "service": "Colonoscopy with biopsy",
+     "cases": 6,
+     "per_case": 1379.46,
+     "annual": 8851.99
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "group_id": "demo_grp_09",
+   "name": "Pioneer Ag Cooperative",
+   "lives": 1833,
+   "funding": "self-funded",
+   "cbsa": "31080",
+   "cbsa_name": "Los Angeles-Long Beach-Anaheim, CA",
+   "renewal_month": "May",
+   "brokerage_id": "demo_bkr_3",
+   "brokerage_name": "Alder Creek Benefits",
+   "annual_medical_spend": 26177597.54,
+   "modeled_site_of_care_opportunity": 204834.43,
+   "top_drivers": [
+    {
+     "cpt": "45378",
+     "service": "Colonoscopy, diagnostic",
+     "cases": 26,
+     "per_case": 1358.2,
+     "annual": 34854.06
+    },
+    {
+     "cpt": "29881",
+     "service": "Knee arthroscopy, meniscectomy",
+     "cases": 8,
+     "per_case": 4041.83,
+     "annual": 33339.07
+    },
+    {
+     "cpt": "66984",
+     "service": "Cataract removal with IOL",
+     "cases": 11,
+     "per_case": 2660.51,
+     "annual": 29260.29
+    },
+    {
+     "cpt": "45380",
+     "service": "Colonoscopy with biopsy",
+     "cases": 16,
+     "per_case": 1738.39,
+     "annual": 28678.23
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "group_id": "demo_grp_10",
+   "name": "Redstone Technologies",
+   "lives": 337,
+   "funding": "level-funded",
+   "cbsa": "35620",
+   "cbsa_name": "New York-Newark-Jersey City, NY-NJ",
+   "renewal_month": "Oct",
+   "brokerage_id": "demo_bkr_1",
+   "brokerage_name": "Meridian Benefit Advisors",
+   "annual_medical_spend": 3799822,
+   "modeled_site_of_care_opportunity": 36597.1,
+   "top_drivers": [
+    {
+     "cpt": "29881",
+     "service": "Knee arthroscopy, meniscectomy",
+     "cases": 2,
+     "per_case": 4626.71,
+     "annual": 7016.41
+    },
+    {
+     "cpt": "45378",
+     "service": "Colonoscopy, diagnostic",
+     "cases": 5,
+     "per_case": 1298.02,
+     "annual": 6124.04
+    },
+    {
+     "cpt": "66984",
+     "service": "Cataract removal with IOL",
+     "cases": 2,
+     "per_case": 2730.92,
+     "annual": 5521.93
+    },
+    {
+     "cpt": "64483",
+     "service": "Epidural injection, lumbar",
+     "cases": 4,
+     "per_case": 1145.86,
+     "annual": 4633.85
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "group_id": "demo_grp_11",
+   "name": "Fairmount Senior Living",
+   "lives": 311,
+   "funding": "level-funded",
+   "cbsa": "16980",
+   "cbsa_name": "Chicago-Naperville-Elgin, IL-IN",
+   "renewal_month": "Mar",
+   "brokerage_id": "demo_bkr_2",
+   "brokerage_name": "Cornerstone Risk Partners",
+   "annual_medical_spend": 3253803.84,
+   "modeled_site_of_care_opportunity": 34272.03,
+   "top_drivers": [
+    {
+     "cpt": "29881",
+     "service": "Knee arthroscopy, meniscectomy",
+     "cases": 1,
+     "per_case": 5109.08,
+     "annual": 7150.15
+    },
+    {
+     "cpt": "66984",
+     "service": "Cataract removal with IOL",
+     "cases": 2,
+     "per_case": 2967.42,
+     "annual": 5537.21
+    },
+    {
+     "cpt": "45378",
+     "service": "Colonoscopy, diagnostic",
+     "cases": 4,
+     "per_case": 1201.82,
+     "annual": 5232.71
+    },
+    {
+     "cpt": "45380",
+     "service": "Colonoscopy with biopsy",
+     "cases": 3,
+     "per_case": 1483.89,
+     "annual": 4153.41
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "group_id": "demo_grp_12",
+   "name": "Copperfield Transport",
+   "lives": 1723,
+   "funding": "self-funded",
+   "cbsa": "26420",
+   "cbsa_name": "Houston-Pasadena-The Woodlands, TX",
+   "renewal_month": "Aug",
+   "brokerage_id": "demo_bkr_3",
+   "brokerage_name": "Alder Creek Benefits",
+   "annual_medical_spend": 19995818.14,
+   "modeled_site_of_care_opportunity": 193512.59,
+   "top_drivers": [
+    {
+     "cpt": "29881",
+     "service": "Knee arthroscopy, meniscectomy",
+     "cases": 8,
+     "per_case": 5017.07,
+     "annual": 38899.83
+    },
+    {
+     "cpt": "45378",
+     "service": "Colonoscopy, diagnostic",
+     "cases": 24,
+     "per_case": 1179.69,
+     "annual": 28456.56
+    },
+    {
+     "cpt": "66984",
+     "service": "Cataract removal with IOL",
+     "cases": 10,
+     "per_case": 2622.28,
+     "annual": 27109.17
+    },
+    {
+     "cpt": "43239",
+     "service": "Upper endoscopy with biopsy",
+     "cases": 19,
+     "per_case": 1290.58,
+     "annual": 24460.35
+    }
+   ],
+   "__synthetic": true
+  }
+ ],
+ "ga_book": {
+  "ga_id": "demo_ga_1",
+  "ga_name": "Pacific Crest General Agency",
+  "brokerages": [
+   {
+    "id": "demo_bkr_1",
+    "name": "Meridian Benefit Advisors",
+    "groups": 4,
+    "lives": 3581,
+    "modeled_opportunity": 356503.58,
+    "__synthetic": true
+   },
+   {
+    "id": "demo_bkr_2",
+    "name": "Cornerstone Risk Partners",
+    "groups": 4,
+    "lives": 5050,
+    "modeled_opportunity": 531857.24,
+    "__synthetic": true
+   },
+   {
+    "id": "demo_bkr_3",
+    "name": "Alder Creek Benefits",
+    "groups": 4,
+    "lives": 6689,
+    "modeled_opportunity": 722738.72,
+    "__synthetic": true
+   }
+  ],
+  "total_groups": 12,
+  "total_lives": 15320,
+  "total_modeled_opportunity": 1611099.54,
+  "__synthetic": true
+ },
+ "brokerages": [
+  {
+   "id": "demo_bkr_1",
+   "name": "Meridian Benefit Advisors"
+  },
+  {
+   "id": "demo_bkr_2",
+   "name": "Cornerstone Risk Partners"
+  },
+  {
+   "id": "demo_bkr_3",
+   "name": "Alder Creek Benefits"
+  }
+ ],
+ "utilization_per_1k": {
+  "29881": 4.5,
+  "43239": 11,
+  "45378": 14,
+  "45380": 9,
+  "64483": 12,
+  "66984": 6,
+  "70553": 8,
+  "73721": 16,
+  "74177": 22,
+  "99214": 1900
+ },
+ "__MANIFEST": {
+  "BANNER": "SYNTHETIC DEMO DATA — NOT REAL CONTRACTED RATES — DO NOT PUBLISH OR LOAD INTO ANY DATABASE",
+  "generated_by": "scripts/gen-demo-fixture.mjs",
+  "authorised_by": "David, 2026-08-06, demo environment only",
+  "commercial_numbers": "FABRICATED (seeded PRNG, deterministic)",
+  "federal_reference_numbers": "REAL public CMS 2026-Q3 (OPPS Addendum B, ASC Addenda, PFS) — public domain",
+  "npis": "ALL CHECKSUM-INVALID BY CONSTRUCTION — cannot match a real provider",
+  "payer_slugs": "ALL PREFIXED demo_ — cannot match a real payer",
+  "never": [
+   "Supabase",
+   "ClickHouse",
+   "any production table",
+   "any customer-facing surface"
+  ]
+ },
+ "metros": [
+  {
+   "cbsa": "31080",
+   "name": "Los Angeles-Long Beach-Anaheim, CA",
+   "idx": 1.18
+  },
+  {
+   "cbsa": "35620",
+   "name": "New York-Newark-Jersey City, NY-NJ",
+   "idx": 1.26
+  },
+  {
+   "cbsa": "16980",
+   "name": "Chicago-Naperville-Elgin, IL-IN",
+   "idx": 1.09
+  },
+  {
+   "cbsa": "26420",
+   "name": "Houston-Pasadena-The Woodlands, TX",
+   "idx": 0.94
+  },
+  {
+   "cbsa": "12060",
+   "name": "Atlanta-Sandy Springs-Roswell, GA",
+   "idx": 0.99
+  },
+  {
+   "cbsa": "19100",
+   "name": "Dallas-Fort Worth-Arlington, TX",
+   "idx": 0.97
+  },
+  {
+   "cbsa": "38060",
+   "name": "Phoenix-Mesa-Chandler, AZ",
+   "idx": 0.92
+  },
+  {
+   "cbsa": "14460",
+   "name": "Boston-Cambridge-Newton, MA-NH",
+   "idx": 1.21
+  }
+ ],
+ "payers": [
+  {
+   "slug": "demo_meridian_health",
+   "label": "Meridian Health Plan",
+   "power": 1
+  },
+  {
+   "slug": "demo_cascade_mutual",
+   "label": "Cascade Mutual",
+   "power": 0.88
+  },
+  {
+   "slug": "demo_northstar_ppo",
+   "label": "Northstar PPO",
+   "power": 1.14
+  },
+  {
+   "slug": "demo_atlas_benefit",
+   "label": "Atlas Benefit Group",
+   "power": 1.32
+  },
+  {
+   "slug": "demo_keystone_select",
+   "label": "Keystone Select",
+   "power": 0.79
+  },
+  {
+   "slug": "demo_bluepeak_choice",
+   "label": "BluePeak Choice",
+   "power": 1.06
+  }
+ ],
+ "basket": [
+  {
+   "cpt": "45378",
+   "name": "Colonoscopy, diagnostic",
+   "cat": "GI",
+   "office": 423,
+   "facProf": 171,
+   "opps": 950.1,
+   "asc": 510.49
+  },
+  {
+   "cpt": "45380",
+   "name": "Colonoscopy with biopsy",
+   "cat": "GI",
+   "office": 542,
+   "facProf": 184,
+   "opps": 1222.56,
+   "asc": 656.75
+  },
+  {
+   "cpt": "43239",
+   "name": "Upper endoscopy with biopsy",
+   "cat": "GI",
+   "office": 478,
+   "facProf": 129,
+   "opps": 926.63,
+   "asc": 497.85
+  },
+  {
+   "cpt": "29881",
+   "name": "Knee arthroscopy, meniscectomy",
+   "cat": "Ortho",
+   "office": 547,
+   "facProf": 546,
+   "opps": 3342.87,
+   "asc": 1644.87
+  },
+  {
+   "cpt": "66984",
+   "name": "Cataract removal with IOL",
+   "cat": "Ophth",
+   "office": 501,
+   "facProf": 500,
+   "opps": 2357.81,
+   "asc": 1255.73
+  },
+  {
+   "cpt": "64483",
+   "name": "Epidural injection, lumbar",
+   "cat": "Pain",
+   "office": 301,
+   "facProf": 105,
+   "opps": 904,
+   "asc": 486
+  },
+  {
+   "cpt": "70553",
+   "name": "MRI brain, with & without dye",
+   "cat": "Imaging",
+   "office": 361,
+   "facProf": 361,
+   "opps": 356,
+   "asc": 193
+  },
+  {
+   "cpt": "73721",
+   "name": "MRI lower extremity joint",
+   "cat": "Imaging",
+   "office": 233,
+   "facProf": 233,
+   "opps": 244,
+   "asc": 131
+  },
+  {
+   "cpt": "74177",
+   "name": "CT abdomen & pelvis with dye",
+   "cat": "Imaging",
+   "office": 312,
+   "facProf": 312,
+   "opps": 398,
+   "asc": 214
+  },
+  {
+   "cpt": "99214",
+   "name": "Office visit, established, 30m",
+   "cat": "E&M",
+   "office": 148,
+   "facProf": 88,
+   "opps": null,
+   "asc": null
+  }
+ ],
+ "providers": [
+  {
+   "npi": "1900000000",
+   "name": "Demo Provider 01",
+   "specialty": "Gastroenterology",
+   "cbsa": "31080",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000018",
+   "name": "Demo Provider 02",
+   "specialty": "Orthopedic Surgery",
+   "cbsa": "35620",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000026",
+   "name": "Demo Provider 03",
+   "specialty": "Radiology",
+   "cbsa": "16980",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000034",
+   "name": "Demo Provider 04",
+   "specialty": "Ophthalmology",
+   "cbsa": "26420",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000042",
+   "name": "Demo Provider 05",
+   "specialty": "Family Medicine",
+   "cbsa": "12060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000059",
+   "name": "Demo Provider 06",
+   "specialty": "Gastroenterology",
+   "cbsa": "19100",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000067",
+   "name": "Demo Provider 07",
+   "specialty": "Orthopedic Surgery",
+   "cbsa": "38060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000075",
+   "name": "Demo Provider 08",
+   "specialty": "Radiology",
+   "cbsa": "14460",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000083",
+   "name": "Demo Provider 09",
+   "specialty": "Ophthalmology",
+   "cbsa": "31080",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000091",
+   "name": "Demo Provider 10",
+   "specialty": "Family Medicine",
+   "cbsa": "35620",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000109",
+   "name": "Demo Provider 11",
+   "specialty": "Gastroenterology",
+   "cbsa": "16980",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000117",
+   "name": "Demo Provider 12",
+   "specialty": "Orthopedic Surgery",
+   "cbsa": "26420",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000125",
+   "name": "Demo Provider 13",
+   "specialty": "Radiology",
+   "cbsa": "12060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000133",
+   "name": "Demo Provider 14",
+   "specialty": "Ophthalmology",
+   "cbsa": "19100",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000141",
+   "name": "Demo Provider 15",
+   "specialty": "Family Medicine",
+   "cbsa": "38060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000158",
+   "name": "Demo Provider 16",
+   "specialty": "Gastroenterology",
+   "cbsa": "14460",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000166",
+   "name": "Demo Provider 17",
+   "specialty": "Orthopedic Surgery",
+   "cbsa": "31080",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000174",
+   "name": "Demo Provider 18",
+   "specialty": "Radiology",
+   "cbsa": "35620",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000182",
+   "name": "Demo Provider 19",
+   "specialty": "Ophthalmology",
+   "cbsa": "16980",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000190",
+   "name": "Demo Provider 20",
+   "specialty": "Family Medicine",
+   "cbsa": "26420",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000208",
+   "name": "Demo Provider 21",
+   "specialty": "Gastroenterology",
+   "cbsa": "12060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000216",
+   "name": "Demo Provider 22",
+   "specialty": "Orthopedic Surgery",
+   "cbsa": "19100",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000224",
+   "name": "Demo Provider 23",
+   "specialty": "Radiology",
+   "cbsa": "38060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000232",
+   "name": "Demo Provider 24",
+   "specialty": "Ophthalmology",
+   "cbsa": "14460",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000240",
+   "name": "Demo Provider 25",
+   "specialty": "Family Medicine",
+   "cbsa": "31080",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000257",
+   "name": "Demo Provider 26",
+   "specialty": "Gastroenterology",
+   "cbsa": "35620",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000265",
+   "name": "Demo Provider 27",
+   "specialty": "Orthopedic Surgery",
+   "cbsa": "16980",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000273",
+   "name": "Demo Provider 28",
+   "specialty": "Radiology",
+   "cbsa": "26420",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000281",
+   "name": "Demo Provider 29",
+   "specialty": "Ophthalmology",
+   "cbsa": "12060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000299",
+   "name": "Demo Provider 30",
+   "specialty": "Family Medicine",
+   "cbsa": "19100",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000307",
+   "name": "Demo Provider 31",
+   "specialty": "Gastroenterology",
+   "cbsa": "38060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000315",
+   "name": "Demo Provider 32",
+   "specialty": "Orthopedic Surgery",
+   "cbsa": "14460",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000323",
+   "name": "Demo Provider 33",
+   "specialty": "Radiology",
+   "cbsa": "31080",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000331",
+   "name": "Demo Provider 34",
+   "specialty": "Ophthalmology",
+   "cbsa": "35620",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000349",
+   "name": "Demo Provider 35",
+   "specialty": "Family Medicine",
+   "cbsa": "16980",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000356",
+   "name": "Demo Provider 36",
+   "specialty": "Gastroenterology",
+   "cbsa": "26420",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000364",
+   "name": "Demo Provider 37",
+   "specialty": "Orthopedic Surgery",
+   "cbsa": "12060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000372",
+   "name": "Demo Provider 38",
+   "specialty": "Radiology",
+   "cbsa": "19100",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000380",
+   "name": "Demo Provider 39",
+   "specialty": "Ophthalmology",
+   "cbsa": "38060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000398",
+   "name": "Demo Provider 40",
+   "specialty": "Family Medicine",
+   "cbsa": "14460",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000406",
+   "name": "Demo Provider 41",
+   "specialty": "Gastroenterology",
+   "cbsa": "31080",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000414",
+   "name": "Demo Provider 42",
+   "specialty": "Orthopedic Surgery",
+   "cbsa": "35620",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000422",
+   "name": "Demo Provider 43",
+   "specialty": "Radiology",
+   "cbsa": "16980",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000430",
+   "name": "Demo Provider 44",
+   "specialty": "Ophthalmology",
+   "cbsa": "26420",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000448",
+   "name": "Demo Provider 45",
+   "specialty": "Family Medicine",
+   "cbsa": "12060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000455",
+   "name": "Demo Provider 46",
+   "specialty": "Gastroenterology",
+   "cbsa": "19100",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000463",
+   "name": "Demo Provider 47",
+   "specialty": "Orthopedic Surgery",
+   "cbsa": "38060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000471",
+   "name": "Demo Provider 48",
+   "specialty": "Radiology",
+   "cbsa": "14460",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000489",
+   "name": "Demo Provider 49",
+   "specialty": "Ophthalmology",
+   "cbsa": "31080",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000497",
+   "name": "Demo Provider 50",
+   "specialty": "Family Medicine",
+   "cbsa": "35620",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000505",
+   "name": "Demo Provider 51",
+   "specialty": "Gastroenterology",
+   "cbsa": "16980",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000513",
+   "name": "Demo Provider 52",
+   "specialty": "Orthopedic Surgery",
+   "cbsa": "26420",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000521",
+   "name": "Demo Provider 53",
+   "specialty": "Radiology",
+   "cbsa": "12060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000539",
+   "name": "Demo Provider 54",
+   "specialty": "Ophthalmology",
+   "cbsa": "19100",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000547",
+   "name": "Demo Provider 55",
+   "specialty": "Family Medicine",
+   "cbsa": "38060",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000554",
+   "name": "Demo Provider 56",
+   "specialty": "Gastroenterology",
+   "cbsa": "14460",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000562",
+   "name": "Demo Provider 57",
+   "specialty": "Orthopedic Surgery",
+   "cbsa": "31080",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000570",
+   "name": "Demo Provider 58",
+   "specialty": "Radiology",
+   "cbsa": "35620",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000588",
+   "name": "Demo Provider 59",
+   "specialty": "Ophthalmology",
+   "cbsa": "16980",
+   "__synthetic": true
+  },
+  {
+   "npi": "1900000596",
+   "name": "Demo Provider 60",
+   "specialty": "Family Medicine",
+   "cbsa": "26420",
+   "__synthetic": true
+  }
+ ],
+ "rates": [
+  {
+   "cbsa": "31080",
+   "cbsa_name": "Los Angeles-Long Beach-Anaheim, CA",
+   "cpt": "45378",
+   "service": "Colonoscopy, diagnostic",
+   "category": "GI",
+   "p10": 629.06,
+   "p25": 747.82,
+   "p50": 1005.27,
+   "p75": 1287.24,
+   "p90": 1796.95,
+   "n_npi": 441,
+   "medicare_office": 423,
+   "site_of_care": {
+    "office_total": 423,
+    "asc_total": 681.49,
+    "hopd_total": 1121.1,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 786.37,
+     "p50": 1097.02,
+     "p75": 1582.42,
+     "n_npi": 81,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 779.92,
+     "p50": 968.36,
+     "p75": 1247.23,
+     "n_npi": 70,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 888.16,
+     "p50": 1208.8,
+     "p75": 1574.32,
+     "n_npi": 48,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1185.42,
+     "p50": 1502.43,
+     "p75": 2037.8,
+     "n_npi": 117,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 658.19,
+     "p50": 845.76,
+     "p75": 1135.63,
+     "n_npi": 105,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 764.48,
+     "p50": 1024.3,
+     "p75": 1473.05,
+     "n_npi": 20,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "31080",
+   "cbsa_name": "Los Angeles-Long Beach-Anaheim, CA",
+   "cpt": "45380",
+   "service": "Colonoscopy with biopsy",
+   "category": "GI",
+   "p10": 882.96,
+   "p25": 1067,
+   "p50": 1444.21,
+   "p75": 2036.22,
+   "p90": 2604.97,
+   "n_npi": 145,
+   "medicare_office": 542,
+   "site_of_care": {
+    "office_total": 542,
+    "asc_total": 840.75,
+    "hopd_total": 1406.56,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 1081.46,
+     "p50": 1522.31,
+     "p75": 1863.99,
+     "n_npi": 33,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 845.02,
+     "p50": 1135.02,
+     "p75": 1621.4,
+     "n_npi": 9,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 1324.52,
+     "p50": 1708.02,
+     "p75": 2202.95,
+     "n_npi": 49,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1603.2,
+     "p50": 2021.67,
+     "p75": 2818.22,
+     "n_npi": 54,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 880.62,
+     "p50": 1203.81,
+     "p75": 1640.14,
+     "n_npi": 6,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 1030.53,
+     "p50": 1390.5,
+     "p75": 1712.58,
+     "n_npi": 10,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "31080",
+   "cbsa_name": "Los Angeles-Long Beach-Anaheim, CA",
+   "cpt": "43239",
+   "service": "Upper endoscopy with biopsy",
+   "category": "GI",
+   "p10": 770.69,
+   "p25": 932.71,
+   "p50": 1307.21,
+   "p75": 1830.58,
+   "p90": 2477.8,
+   "n_npi": 267,
+   "medicare_office": 478,
+   "site_of_care": {
+    "office_total": 478,
+    "asc_total": 626.85,
+    "hopd_total": 1055.63,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 1021.5,
+     "p50": 1350.6,
+     "p75": 1738.06,
+     "n_npi": 81,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 933.7,
+     "p50": 1271.21,
+     "p75": 1793.41,
+     "n_npi": 75,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 1147.01,
+     "p50": 1596.93,
+     "p75": 2048.68,
+     "n_npi": 9,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1471.72,
+     "p50": 1857.54,
+     "p75": 2492.28,
+     "n_npi": 62,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 881.87,
+     "p50": 1115.5,
+     "p75": 1599.25,
+     "n_npi": 92,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 988.86,
+     "p50": 1297.07,
+     "p75": 1774.63,
+     "n_npi": 7,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "31080",
+   "cbsa_name": "Los Angeles-Long Beach-Anaheim, CA",
+   "cpt": "29881",
+   "service": "Knee arthroscopy, meniscectomy",
+   "category": "Ortho",
+   "p10": 767.16,
+   "p25": 1013.87,
+   "p50": 1361.97,
+   "p75": 2003.07,
+   "p90": 2807.05,
+   "n_npi": 445,
+   "medicare_office": 547,
+   "site_of_care": {
+    "office_total": 547,
+    "asc_total": 2190.87,
+    "hopd_total": 3888.87,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 916.25,
+     "p50": 1211.16,
+     "p75": 1531.87,
+     "n_npi": 26,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 770.2,
+     "p50": 1032.35,
+     "p75": 1343.58,
+     "n_npi": 14,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 1262.79,
+     "p50": 1714.44,
+     "p75": 2206.7,
+     "n_npi": 24,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1361.22,
+     "p50": 1794.99,
+     "p75": 2649.18,
+     "n_npi": 110,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 999.76,
+     "p50": 1242.36,
+     "p75": 1598.29,
+     "n_npi": 92,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 1145.64,
+     "p50": 1600.88,
+     "p75": 2156.9,
+     "n_npi": 40,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "31080",
+   "cbsa_name": "Los Angeles-Long Beach-Anaheim, CA",
+   "cpt": "66984",
+   "service": "Cataract removal with IOL",
+   "category": "Ophth",
+   "p10": 432.68,
+   "p25": 622.94,
+   "p50": 921.95,
+   "p75": 1228.92,
+   "p90": 1562.07,
+   "n_npi": 178,
+   "medicare_office": 501,
+   "site_of_care": {
+    "office_total": 501,
+    "asc_total": 1755.73,
+    "hopd_total": 2857.81,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 631.31,
+     "p50": 835.93,
+     "p75": 1059.62,
+     "n_npi": 55,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 614.48,
+     "p50": 847.79,
+     "p75": 1104.43,
+     "n_npi": 94,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 856.14,
+     "p50": 1215.35,
+     "p75": 1789.72,
+     "n_npi": 88,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 922.5,
+     "p50": 1131.22,
+     "p75": 1594.95,
+     "n_npi": 110,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 499.63,
+     "p50": 701.88,
+     "p75": 868.14,
+     "n_npi": 53,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 762.73,
+     "p50": 939.63,
+     "p75": 1287.96,
+     "n_npi": 117,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "31080",
+   "cbsa_name": "Los Angeles-Long Beach-Anaheim, CA",
+   "cpt": "64483",
+   "service": "Epidural injection, lumbar",
+   "category": "Pain",
+   "p10": 358.33,
+   "p25": 458.21,
+   "p50": 620.6,
+   "p75": 944.48,
+   "p90": 1204.43,
+   "n_npi": 500,
+   "medicare_office": 301,
+   "site_of_care": {
+    "office_total": 301,
+    "asc_total": 591,
+    "hopd_total": 1009,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 491.97,
+     "p50": 645.05,
+     "p75": 823.08,
+     "n_npi": 28,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 495.17,
+     "p50": 625.42,
+     "p75": 763.52,
+     "n_npi": 31,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 534.37,
+     "p50": 677.01,
+     "p75": 887.09,
+     "n_npi": 120,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 625.39,
+     "p50": 825.92,
+     "p75": 1217.01,
+     "n_npi": 112,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 351.68,
+     "p50": 466.08,
+     "p75": 573.93,
+     "n_npi": 117,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 533.84,
+     "p50": 675.28,
+     "p75": 924.69,
+     "n_npi": 36,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "31080",
+   "cbsa_name": "Los Angeles-Long Beach-Anaheim, CA",
+   "cpt": "70553",
+   "service": "MRI brain, with & without dye",
+   "category": "Imaging",
+   "p10": 325.74,
+   "p25": 470.03,
+   "p50": 697.14,
+   "p75": 994.17,
+   "p90": 1429.69,
+   "n_npi": 347,
+   "medicare_office": 361,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 554,
+    "hopd_total": 717,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 546.62,
+     "p50": 699.8,
+     "p75": 1033.1,
+     "n_npi": 108,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 475.84,
+     "p50": 612.37,
+     "p75": 764.49,
+     "n_npi": 44,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 558.82,
+     "p50": 757.84,
+     "p75": 1109.29,
+     "n_npi": 88,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 624.01,
+     "p50": 818.97,
+     "p75": 1175.34,
+     "n_npi": 34,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 392.77,
+     "p50": 485.55,
+     "p75": 624.09,
+     "n_npi": 40,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 626.76,
+     "p50": 821.88,
+     "p75": 1118.36,
+     "n_npi": 12,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "31080",
+   "cbsa_name": "Los Angeles-Long Beach-Anaheim, CA",
+   "cpt": "73721",
+   "service": "MRI lower extremity joint",
+   "category": "Imaging",
+   "p10": 319.43,
+   "p25": 388.58,
+   "p50": 586.89,
+   "p75": 847.39,
+   "p90": 1199.33,
+   "n_npi": 249,
+   "medicare_office": 233,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 364,
+    "hopd_total": 477,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 513.05,
+     "p50": 646.09,
+     "p75": 807.19,
+     "n_npi": 31,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 334.93,
+     "p50": 460.32,
+     "p75": 576.14,
+     "n_npi": 52,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 425.96,
+     "p50": 577.55,
+     "p75": 845.74,
+     "n_npi": 120,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 531.2,
+     "p50": 691.65,
+     "p75": 1010.8,
+     "n_npi": 47,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 408.9,
+     "p50": 511.5,
+     "p75": 670.79,
+     "n_npi": 46,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 425.92,
+     "p50": 547.53,
+     "p75": 797.31,
+     "n_npi": 70,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "31080",
+   "cbsa_name": "Los Angeles-Long Beach-Anaheim, CA",
+   "cpt": "74177",
+   "service": "CT abdomen & pelvis with dye",
+   "category": "Imaging",
+   "p10": 466.04,
+   "p25": 563.44,
+   "p50": 815.12,
+   "p75": 1244.7,
+   "p90": 1536.72,
+   "n_npi": 336,
+   "medicare_office": 312,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 526,
+    "hopd_total": 710,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 629.37,
+     "p50": 877.05,
+     "p75": 1145.53,
+     "n_npi": 55,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 557.12,
+     "p50": 686.64,
+     "p75": 978.85,
+     "n_npi": 24,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 646.86,
+     "p50": 818.43,
+     "p75": 1018.76,
+     "n_npi": 41,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 974.63,
+     "p50": 1192.58,
+     "p75": 1653.31,
+     "n_npi": 106,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 545.79,
+     "p50": 729.3,
+     "p75": 1016.91,
+     "n_npi": 89,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 620,
+     "p50": 772.21,
+     "p75": 1019.99,
+     "n_npi": 12,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "31080",
+   "cbsa_name": "Los Angeles-Long Beach-Anaheim, CA",
+   "cpt": "99214",
+   "service": "Office visit, established, 30m",
+   "category": "E&M",
+   "p10": 186.2,
+   "p25": 252.56,
+   "p50": 343.82,
+   "p75": 531.13,
+   "p90": 711.88,
+   "n_npi": 598,
+   "medicare_office": 148,
+   "site_of_care": {
+    "office_total": 148,
+    "asc_total": null,
+    "hopd_total": null,
+    "absence_reason": "not payable in this setting (OPPS status B)",
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 284.35,
+     "p50": 348.35,
+     "p75": 481.93,
+     "n_npi": 32,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 239,
+     "p50": 315.37,
+     "p75": 390.3,
+     "n_npi": 96,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 292.58,
+     "p50": 391.4,
+     "p75": 507.53,
+     "n_npi": 97,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 289.96,
+     "p50": 400.88,
+     "p75": 491.38,
+     "n_npi": 115,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 186,
+     "p50": 235.55,
+     "p75": 338.34,
+     "n_npi": 13,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 306.46,
+     "p50": 416.9,
+     "p75": 603.18,
+     "n_npi": 96,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "35620",
+   "cbsa_name": "New York-Newark-Jersey City, NY-NJ",
+   "cpt": "45378",
+   "service": "Colonoscopy, diagnostic",
+   "category": "GI",
+   "p10": 534.65,
+   "p25": 781.52,
+   "p50": 1082.36,
+   "p75": 1645.74,
+   "p90": 2213.81,
+   "n_npi": 356,
+   "medicare_office": 423,
+   "site_of_care": {
+    "office_total": 423,
+    "asc_total": 681.49,
+    "hopd_total": 1121.1,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 909.07,
+     "p50": 1132.07,
+     "p75": 1583.05,
+     "n_npi": 19,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 719.7,
+     "p50": 883.03,
+     "p75": 1179.18,
+     "n_npi": 23,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 1064.88,
+     "p50": 1347.35,
+     "p75": 1865.49,
+     "n_npi": 81,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1054.81,
+     "p50": 1465.11,
+     "p75": 1874.09,
+     "n_npi": 31,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 730.92,
+     "p50": 985.62,
+     "p75": 1285.39,
+     "n_npi": 17,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 825.24,
+     "p50": 1083.14,
+     "p75": 1406.41,
+     "n_npi": 89,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "35620",
+   "cbsa_name": "New York-Newark-Jersey City, NY-NJ",
+   "cpt": "45380",
+   "service": "Colonoscopy with biopsy",
+   "category": "GI",
+   "p10": 786.04,
+   "p25": 1012.73,
+   "p50": 1469.38,
+   "p75": 2000.14,
+   "p90": 2374.81,
+   "n_npi": 91,
+   "medicare_office": 542,
+   "site_of_care": {
+    "office_total": 542,
+    "asc_total": 840.75,
+    "hopd_total": 1406.56,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 1133.84,
+     "p50": 1431.46,
+     "p75": 1843.54,
+     "n_npi": 95,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 887.64,
+     "p50": 1147.28,
+     "p75": 1663.81,
+     "n_npi": 119,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 1036.87,
+     "p50": 1476.87,
+     "p75": 1810.43,
+     "n_npi": 10,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1416.34,
+     "p50": 1766.28,
+     "p75": 2450.62,
+     "n_npi": 95,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 896.36,
+     "p50": 1243.23,
+     "p75": 1744.14,
+     "n_npi": 104,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 1249.94,
+     "p50": 1737.83,
+     "p75": 2495.78,
+     "n_npi": 47,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "35620",
+   "cbsa_name": "New York-Newark-Jersey City, NY-NJ",
+   "cpt": "43239",
+   "service": "Upper endoscopy with biopsy",
+   "category": "GI",
+   "p10": 666.79,
+   "p25": 798.33,
+   "p50": 1116.26,
+   "p75": 1509.49,
+   "p90": 2024.59,
+   "n_npi": 356,
+   "medicare_office": 478,
+   "site_of_care": {
+    "office_total": 478,
+    "asc_total": 626.85,
+    "hopd_total": 1055.63,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 952,
+     "p50": 1284.36,
+     "p75": 1897.38,
+     "n_npi": 55,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 663.82,
+     "p50": 910.43,
+     "p75": 1120.89,
+     "n_npi": 27,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 1144.95,
+     "p50": 1434.59,
+     "p75": 1930.69,
+     "n_npi": 87,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1054.56,
+     "p50": 1424.3,
+     "p75": 1958.32,
+     "n_npi": 30,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 690.98,
+     "p50": 862.56,
+     "p75": 1241.48,
+     "n_npi": 8,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 874.85,
+     "p50": 1170.21,
+     "p75": 1446.77,
+     "n_npi": 93,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "35620",
+   "cbsa_name": "New York-Newark-Jersey City, NY-NJ",
+   "cpt": "29881",
+   "service": "Knee arthroscopy, meniscectomy",
+   "category": "Ortho",
+   "p10": 952.78,
+   "p25": 1180.17,
+   "p50": 1604.99,
+   "p75": 2197.07,
+   "p90": 2588.5,
+   "n_npi": 597,
+   "medicare_office": 547,
+   "site_of_care": {
+    "office_total": 547,
+    "asc_total": 2190.87,
+    "hopd_total": 3888.87,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 1315.93,
+     "p50": 1739.82,
+     "p75": 2455.13,
+     "n_npi": 81,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 937.4,
+     "p50": 1331.34,
+     "p75": 1838.41,
+     "n_npi": 94,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 1509.58,
+     "p50": 1929.63,
+     "p75": 2587.83,
+     "n_npi": 29,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1534.63,
+     "p50": 2045.86,
+     "p75": 2996.59,
+     "n_npi": 72,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 1038.08,
+     "p50": 1424.29,
+     "p75": 1933.24,
+     "n_npi": 80,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 1157.35,
+     "p50": 1634.51,
+     "p75": 2408.74,
+     "n_npi": 78,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "35620",
+   "cbsa_name": "New York-Newark-Jersey City, NY-NJ",
+   "cpt": "66984",
+   "service": "Cataract removal with IOL",
+   "category": "Ophth",
+   "p10": 550.24,
+   "p25": 701.78,
+   "p50": 1124.8,
+   "p75": 1798.78,
+   "p90": 2147.74,
+   "n_npi": 117,
+   "medicare_office": 501,
+   "site_of_care": {
+    "office_total": 501,
+    "asc_total": 1755.73,
+    "hopd_total": 2857.81,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 832.22,
+     "p50": 1126.88,
+     "p75": 1562.23,
+     "n_npi": 95,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 757.51,
+     "p50": 1019.91,
+     "p75": 1491.03,
+     "n_npi": 24,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 970.78,
+     "p50": 1232.37,
+     "p75": 1654.12,
+     "n_npi": 75,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1037.8,
+     "p50": 1452.34,
+     "p75": 1977.75,
+     "n_npi": 37,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 681.04,
+     "p50": 970.71,
+     "p75": 1207.33,
+     "n_npi": 113,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 969.83,
+     "p50": 1201.98,
+     "p75": 1553.33,
+     "n_npi": 56,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "35620",
+   "cbsa_name": "New York-Newark-Jersey City, NY-NJ",
+   "cpt": "64483",
+   "service": "Epidural injection, lumbar",
+   "category": "Pain",
+   "p10": 304.77,
+   "p25": 423.08,
+   "p50": 616.65,
+   "p75": 804.39,
+   "p90": 1054.51,
+   "n_npi": 405,
+   "medicare_office": 301,
+   "site_of_care": {
+    "office_total": 301,
+    "asc_total": 591,
+    "hopd_total": 1009,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 429.78,
+     "p50": 601.68,
+     "p75": 762.77,
+     "n_npi": 101,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 385.42,
+     "p50": 529.62,
+     "p75": 725.49,
+     "n_npi": 99,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 545.13,
+     "p50": 760.16,
+     "p75": 1120.08,
+     "n_npi": 43,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 629.16,
+     "p50": 843.52,
+     "p75": 1048.24,
+     "n_npi": 91,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 414.36,
+     "p50": 562.99,
+     "p75": 696.66,
+     "n_npi": 93,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 559.51,
+     "p50": 739.47,
+     "p75": 1061.53,
+     "n_npi": 12,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "35620",
+   "cbsa_name": "New York-Newark-Jersey City, NY-NJ",
+   "cpt": "70553",
+   "service": "MRI brain, with & without dye",
+   "category": "Imaging",
+   "p10": 619.33,
+   "p25": 751.75,
+   "p50": 965.37,
+   "p75": 1303.84,
+   "p90": 1624.41,
+   "n_npi": 159,
+   "medicare_office": 361,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 554,
+    "hopd_total": 717,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 785.91,
+     "p50": 1101.5,
+     "p75": 1397.52,
+     "n_npi": 85,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 594.61,
+     "p50": 828.67,
+     "p75": 1172.39,
+     "n_npi": 58,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 869.36,
+     "p50": 1160.04,
+     "p75": 1690.71,
+     "n_npi": 30,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1094.01,
+     "p50": 1344.99,
+     "p75": 1847.93,
+     "n_npi": 102,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 608.16,
+     "p50": 837.62,
+     "p75": 1121.95,
+     "n_npi": 12,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 834.34,
+     "p50": 1052.22,
+     "p75": 1404.33,
+     "n_npi": 35,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "35620",
+   "cbsa_name": "New York-Newark-Jersey City, NY-NJ",
+   "cpt": "73721",
+   "service": "MRI lower extremity joint",
+   "category": "Imaging",
+   "p10": 310.96,
+   "p25": 399.5,
+   "p50": 538.9,
+   "p75": 866.5,
+   "p90": 1123.85,
+   "n_npi": 337,
+   "medicare_office": 233,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 364,
+    "hopd_total": 477,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 409.93,
+     "p50": 519.45,
+     "p75": 662.28,
+     "n_npi": 47,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 340.86,
+     "p50": 435.27,
+     "p75": 609.78,
+     "n_npi": 8,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 523.33,
+     "p50": 644.52,
+     "p75": 831.73,
+     "n_npi": 102,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 609.04,
+     "p50": 771.32,
+     "p75": 1073.59,
+     "n_npi": 38,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 354.66,
+     "p50": 480.23,
+     "p75": 666.28,
+     "n_npi": 33,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 507.37,
+     "p50": 638.62,
+     "p75": 882.01,
+     "n_npi": 93,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "35620",
+   "cbsa_name": "New York-Newark-Jersey City, NY-NJ",
+   "cpt": "74177",
+   "service": "CT abdomen & pelvis with dye",
+   "category": "Imaging",
+   "p10": 482.5,
+   "p25": 597.53,
+   "p50": 839.28,
+   "p75": 1144.76,
+   "p90": 1438.34,
+   "n_npi": 582,
+   "medicare_office": 312,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 526,
+    "hopd_total": 710,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 628.2,
+     "p50": 872.61,
+     "p75": 1278.33,
+     "n_npi": 77,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 593.51,
+     "p50": 752.29,
+     "p75": 1052.12,
+     "n_npi": 37,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 669.78,
+     "p50": 827.47,
+     "p75": 1197.15,
+     "n_npi": 33,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 815.92,
+     "p50": 1153.28,
+     "p75": 1605.66,
+     "n_npi": 68,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 618.77,
+     "p50": 767,
+     "p75": 1118.26,
+     "n_npi": 100,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 600.2,
+     "p50": 819.77,
+     "p75": 1203.81,
+     "n_npi": 70,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "35620",
+   "cbsa_name": "New York-Newark-Jersey City, NY-NJ",
+   "cpt": "99214",
+   "service": "Office visit, established, 30m",
+   "category": "E&M",
+   "p10": 208.59,
+   "p25": 272.62,
+   "p50": 386.4,
+   "p75": 539.5,
+   "p90": 624.62,
+   "n_npi": 452,
+   "medicare_office": 148,
+   "site_of_care": {
+    "office_total": 148,
+    "asc_total": null,
+    "hopd_total": null,
+    "absence_reason": "not payable in this setting (OPPS status B)",
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 315.6,
+     "p50": 385.37,
+     "p75": 537.01,
+     "n_npi": 19,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 284.29,
+     "p50": 348.02,
+     "p75": 434.54,
+     "n_npi": 68,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 332.1,
+     "p50": 466.83,
+     "p75": 577.27,
+     "n_npi": 31,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 375.18,
+     "p50": 486.46,
+     "p75": 638.27,
+     "n_npi": 66,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 197.36,
+     "p50": 279.04,
+     "p75": 347.52,
+     "n_npi": 115,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 335.48,
+     "p50": 410.09,
+     "p75": 562.45,
+     "n_npi": 91,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "16980",
+   "cbsa_name": "Chicago-Naperville-Elgin, IL-IN",
+   "cpt": "45378",
+   "service": "Colonoscopy, diagnostic",
+   "category": "GI",
+   "p10": 472.71,
+   "p25": 685.63,
+   "p50": 949.72,
+   "p75": 1347.39,
+   "p90": 1658.21,
+   "n_npi": 161,
+   "medicare_office": 423,
+   "site_of_care": {
+    "office_total": 423,
+    "asc_total": 681.49,
+    "hopd_total": 1121.1,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 669.82,
+     "p50": 907.41,
+     "p75": 1256.43,
+     "n_npi": 14,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 677.38,
+     "p50": 830.22,
+     "p75": 1080.95,
+     "n_npi": 76,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 803.5,
+     "p50": 1092.67,
+     "p75": 1608.2,
+     "n_npi": 45,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 867.89,
+     "p50": 1135.6,
+     "p75": 1434.3,
+     "n_npi": 109,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 618.51,
+     "p50": 848.11,
+     "p75": 1127.39,
+     "n_npi": 9,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 707.91,
+     "p50": 910.85,
+     "p75": 1152.25,
+     "n_npi": 100,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "16980",
+   "cbsa_name": "Chicago-Naperville-Elgin, IL-IN",
+   "cpt": "45380",
+   "service": "Colonoscopy with biopsy",
+   "category": "GI",
+   "p10": 547.84,
+   "p25": 720.57,
+   "p50": 952.95,
+   "p75": 1495.8,
+   "p90": 2033.1,
+   "n_npi": 560,
+   "medicare_office": 542,
+   "site_of_care": {
+    "office_total": 542,
+    "asc_total": 840.75,
+    "hopd_total": 1406.56,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 672.25,
+     "p50": 905.93,
+     "p75": 1114.92,
+     "n_npi": 51,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 635.28,
+     "p50": 793.33,
+     "p75": 1168.84,
+     "n_npi": 27,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 795.42,
+     "p50": 1033.62,
+     "p75": 1393.28,
+     "n_npi": 40,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 955.77,
+     "p50": 1290.46,
+     "p75": 1810.49,
+     "n_npi": 59,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 615.22,
+     "p50": 774.45,
+     "p75": 951.22,
+     "n_npi": 36,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 732.21,
+     "p50": 1031.67,
+     "p75": 1284.04,
+     "n_npi": 26,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "16980",
+   "cbsa_name": "Chicago-Naperville-Elgin, IL-IN",
+   "cpt": "43239",
+   "service": "Upper endoscopy with biopsy",
+   "category": "GI",
+   "p10": 544.3,
+   "p25": 774.43,
+   "p50": 1221.57,
+   "p75": 1597.83,
+   "p90": 2047.88,
+   "n_npi": 194,
+   "medicare_office": 478,
+   "site_of_care": {
+    "office_total": 478,
+    "asc_total": 626.85,
+    "hopd_total": 1055.63,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 1067.19,
+     "p50": 1316.34,
+     "p75": 1873.75,
+     "n_npi": 10,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 866.12,
+     "p50": 1134.88,
+     "p75": 1387.4,
+     "n_npi": 49,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 925.16,
+     "p50": 1230.55,
+     "p75": 1813.49,
+     "n_npi": 95,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1160.09,
+     "p50": 1632.84,
+     "p75": 2198.22,
+     "n_npi": 62,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 783.68,
+     "p50": 998.82,
+     "p75": 1436.37,
+     "n_npi": 41,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 921.28,
+     "p50": 1306.88,
+     "p75": 1646.35,
+     "n_npi": 31,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "16980",
+   "cbsa_name": "Chicago-Naperville-Elgin, IL-IN",
+   "cpt": "29881",
+   "service": "Knee arthroscopy, meniscectomy",
+   "category": "Ortho",
+   "p10": 754.91,
+   "p25": 950.32,
+   "p50": 1223.44,
+   "p75": 1908.29,
+   "p90": 2209.41,
+   "n_npi": 108,
+   "medicare_office": 547,
+   "site_of_care": {
+    "office_total": 547,
+    "asc_total": 2190.87,
+    "hopd_total": 3888.87,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 1112.17,
+     "p50": 1379.79,
+     "p75": 1691.76,
+     "n_npi": 117,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 952.74,
+     "p50": 1202.85,
+     "p75": 1693.47,
+     "n_npi": 18,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 1142.79,
+     "p50": 1537.17,
+     "p75": 2252.91,
+     "n_npi": 81,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1352.78,
+     "p50": 1819.05,
+     "p75": 2388.9,
+     "n_npi": 118,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 656.65,
+     "p50": 901.08,
+     "p75": 1295.76,
+     "n_npi": 75,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 1081.24,
+     "p50": 1472.73,
+     "p75": 2054.68,
+     "n_npi": 108,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "16980",
+   "cbsa_name": "Chicago-Naperville-Elgin, IL-IN",
+   "cpt": "66984",
+   "service": "Cataract removal with IOL",
+   "category": "Ophth",
+   "p10": 609.72,
+   "p25": 775.44,
+   "p50": 1016.41,
+   "p75": 1369.77,
+   "p90": 1763.88,
+   "n_npi": 205,
+   "medicare_office": 501,
+   "site_of_care": {
+    "office_total": 501,
+    "asc_total": 1755.73,
+    "hopd_total": 2857.81,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 706.88,
+     "p50": 976.71,
+     "p75": 1279.1,
+     "n_npi": 101,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 723.13,
+     "p50": 954.26,
+     "p75": 1209.66,
+     "n_npi": 95,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 993.67,
+     "p50": 1304.41,
+     "p75": 1920.86,
+     "n_npi": 38,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1035.07,
+     "p50": 1275.35,
+     "p75": 1710.42,
+     "n_npi": 103,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 630.54,
+     "p50": 776.15,
+     "p75": 1076.03,
+     "n_npi": 52,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 685.6,
+     "p50": 946.3,
+     "p75": 1340.56,
+     "n_npi": 38,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "16980",
+   "cbsa_name": "Chicago-Naperville-Elgin, IL-IN",
+   "cpt": "64483",
+   "service": "Epidural injection, lumbar",
+   "category": "Pain",
+   "p10": 234.86,
+   "p25": 336.63,
+   "p50": 542.09,
+   "p75": 711.88,
+   "p90": 944,
+   "n_npi": 141,
+   "medicare_office": 301,
+   "site_of_care": {
+    "office_total": 301,
+    "asc_total": 591,
+    "hopd_total": 1009,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 407.29,
+     "p50": 573.98,
+     "p75": 827.7,
+     "n_npi": 44,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 350.84,
+     "p50": 480.82,
+     "p75": 659.77,
+     "n_npi": 82,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 389.83,
+     "p50": 536.78,
+     "p75": 767.76,
+     "n_npi": 65,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 574.34,
+     "p50": 787.67,
+     "p75": 1063.29,
+     "n_npi": 105,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 303.33,
+     "p50": 397.65,
+     "p75": 553.95,
+     "n_npi": 40,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 382.59,
+     "p50": 505.73,
+     "p75": 634.57,
+     "n_npi": 103,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "16980",
+   "cbsa_name": "Chicago-Naperville-Elgin, IL-IN",
+   "cpt": "70553",
+   "service": "MRI brain, with & without dye",
+   "category": "Imaging",
+   "p10": 348.31,
+   "p25": 420.28,
+   "p50": 626.58,
+   "p75": 830.24,
+   "p90": 1188.28,
+   "n_npi": 548,
+   "medicare_office": 361,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 554,
+    "hopd_total": 717,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 462.42,
+     "p50": 636.06,
+     "p75": 921.36,
+     "n_npi": 79,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 452.4,
+     "p50": 560.88,
+     "p75": 804.9,
+     "n_npi": 72,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 488.07,
+     "p50": 670.44,
+     "p75": 903.21,
+     "n_npi": 95,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 599.43,
+     "p50": 811.33,
+     "p75": 1022.59,
+     "n_npi": 105,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 415.93,
+     "p50": 536.35,
+     "p75": 740.07,
+     "n_npi": 96,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 463.31,
+     "p50": 596.55,
+     "p75": 729.41,
+     "n_npi": 60,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "16980",
+   "cbsa_name": "Chicago-Naperville-Elgin, IL-IN",
+   "cpt": "73721",
+   "service": "MRI lower extremity joint",
+   "category": "Imaging",
+   "p10": 266.21,
+   "p25": 313.76,
+   "p50": 422.74,
+   "p75": 582.8,
+   "p90": 824.12,
+   "n_npi": 635,
+   "medicare_office": 233,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 364,
+    "hopd_total": 477,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 301.73,
+     "p50": 377.2,
+     "p75": 509.89,
+     "n_npi": 62,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 237.33,
+     "p50": 320.27,
+     "p75": 417.85,
+     "n_npi": 91,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 313.54,
+     "p50": 414.61,
+     "p75": 519.52,
+     "n_npi": 105,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 463.14,
+     "p50": 640.82,
+     "p75": 835.21,
+     "n_npi": 97,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 232.62,
+     "p50": 289.74,
+     "p75": 381.3,
+     "n_npi": 16,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 372.96,
+     "p50": 483.49,
+     "p75": 693.21,
+     "n_npi": 21,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "16980",
+   "cbsa_name": "Chicago-Naperville-Elgin, IL-IN",
+   "cpt": "74177",
+   "service": "CT abdomen & pelvis with dye",
+   "category": "Imaging",
+   "p10": 291.55,
+   "p25": 412.22,
+   "p50": 537.84,
+   "p75": 814.13,
+   "p90": 1084.69,
+   "n_npi": 123,
+   "medicare_office": 312,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 526,
+    "hopd_total": 710,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 456.25,
+     "p50": 586.53,
+     "p75": 731.68,
+     "n_npi": 67,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 392.34,
+     "p50": 514.42,
+     "p75": 684.82,
+     "n_npi": 18,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 458.98,
+     "p50": 624.99,
+     "p75": 844.67,
+     "n_npi": 89,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 516.15,
+     "p50": 651.63,
+     "p75": 819.23,
+     "n_npi": 86,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 393.43,
+     "p50": 491.8,
+     "p75": 666.24,
+     "n_npi": 64,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 425.21,
+     "p50": 556.62,
+     "p75": 698.46,
+     "n_npi": 41,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "16980",
+   "cbsa_name": "Chicago-Naperville-Elgin, IL-IN",
+   "cpt": "99214",
+   "service": "Office visit, established, 30m",
+   "category": "E&M",
+   "p10": 177.65,
+   "p25": 222.7,
+   "p50": 330.9,
+   "p75": 485.39,
+   "p90": 682.6,
+   "n_npi": 164,
+   "medicare_office": 148,
+   "site_of_care": {
+    "office_total": 148,
+    "asc_total": null,
+    "hopd_total": null,
+    "absence_reason": "not payable in this setting (OPPS status B)",
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 270.25,
+     "p50": 376.97,
+     "p75": 495.74,
+     "n_npi": 46,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 180.57,
+     "p50": 250.96,
+     "p75": 367.51,
+     "n_npi": 65,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 308.77,
+     "p50": 422.46,
+     "p75": 624.37,
+     "n_npi": 54,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 317.41,
+     "p50": 409.11,
+     "p75": 593.62,
+     "n_npi": 110,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 197.73,
+     "p50": 271.89,
+     "p75": 401.16,
+     "n_npi": 57,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 278.53,
+     "p50": 355.65,
+     "p75": 514.56,
+     "n_npi": 100,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "26420",
+   "cbsa_name": "Houston-Pasadena-The Woodlands, TX",
+   "cpt": "45378",
+   "service": "Colonoscopy, diagnostic",
+   "category": "GI",
+   "p10": 308.79,
+   "p25": 451.17,
+   "p50": 716.29,
+   "p75": 954.15,
+   "p90": 1123.39,
+   "n_npi": 486,
+   "medicare_office": 423,
+   "site_of_care": {
+    "office_total": 423,
+    "asc_total": 681.49,
+    "hopd_total": 1121.1,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 529.68,
+     "p50": 752.16,
+     "p75": 1001.4,
+     "n_npi": 81,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 400.31,
+     "p50": 551.63,
+     "p75": 738.67,
+     "n_npi": 37,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 680.6,
+     "p50": 893.03,
+     "p75": 1146.84,
+     "n_npi": 95,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 837.63,
+     "p50": 1090.98,
+     "p75": 1505.55,
+     "n_npi": 106,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 433.72,
+     "p50": 584.72,
+     "p75": 794.45,
+     "n_npi": 49,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 576.03,
+     "p50": 728.6,
+     "p75": 1036.2,
+     "n_npi": 15,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "26420",
+   "cbsa_name": "Houston-Pasadena-The Woodlands, TX",
+   "cpt": "45380",
+   "service": "Colonoscopy with biopsy",
+   "category": "GI",
+   "p10": 583.53,
+   "p25": 742.34,
+   "p50": 1019.98,
+   "p75": 1459.84,
+   "p90": 2105.34,
+   "n_npi": 172,
+   "medicare_office": 542,
+   "site_of_care": {
+    "office_total": 542,
+    "asc_total": 840.75,
+    "hopd_total": 1406.56,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 739.01,
+     "p50": 1020.08,
+     "p75": 1421.84,
+     "n_npi": 43,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 698.85,
+     "p50": 937.1,
+     "p75": 1237,
+     "n_npi": 72,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 935.02,
+     "p50": 1222.33,
+     "p75": 1536.58,
+     "n_npi": 32,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 992.84,
+     "p50": 1344.29,
+     "p75": 1792.59,
+     "n_npi": 22,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 679.8,
+     "p50": 865.27,
+     "p75": 1062.68,
+     "n_npi": 95,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 768.16,
+     "p50": 980.62,
+     "p75": 1241.39,
+     "n_npi": 31,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "26420",
+   "cbsa_name": "Houston-Pasadena-The Woodlands, TX",
+   "cpt": "43239",
+   "service": "Upper endoscopy with biopsy",
+   "category": "GI",
+   "p10": 520.21,
+   "p25": 700.94,
+   "p50": 989.99,
+   "p75": 1360.06,
+   "p90": 1892.72,
+   "n_npi": 131,
+   "medicare_office": 478,
+   "site_of_care": {
+    "office_total": 478,
+    "asc_total": 626.85,
+    "hopd_total": 1055.63,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 673.29,
+     "p50": 886.09,
+     "p75": 1197.14,
+     "n_npi": 83,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 574.36,
+     "p50": 803.65,
+     "p75": 1143.13,
+     "n_npi": 52,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 800.47,
+     "p50": 1034.98,
+     "p75": 1469.23,
+     "n_npi": 27,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1143.93,
+     "p50": 1485.92,
+     "p75": 1946.49,
+     "n_npi": 94,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 520.33,
+     "p50": 705.62,
+     "p75": 961.31,
+     "n_npi": 36,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 709.77,
+     "p50": 966.36,
+     "p75": 1344.65,
+     "n_npi": 46,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "26420",
+   "cbsa_name": "Houston-Pasadena-The Woodlands, TX",
+   "cpt": "29881",
+   "service": "Knee arthroscopy, meniscectomy",
+   "category": "Ortho",
+   "p10": 519.37,
+   "p25": 719.92,
+   "p50": 1138.97,
+   "p75": 1717.35,
+   "p90": 2294.26,
+   "n_npi": 640,
+   "medicare_office": 547,
+   "site_of_care": {
+    "office_total": 547,
+    "asc_total": 2190.87,
+    "hopd_total": 3888.87,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 722.97,
+     "p50": 990.58,
+     "p75": 1311.07,
+     "n_npi": 108,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 736.18,
+     "p50": 927.61,
+     "p75": 1361.12,
+     "n_npi": 113,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 895.36,
+     "p50": 1135.19,
+     "p75": 1430.31,
+     "n_npi": 63,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1274.25,
+     "p50": 1606.71,
+     "p75": 2212.5,
+     "n_npi": 72,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 785.94,
+     "p50": 997.62,
+     "p75": 1319.34,
+     "n_npi": 96,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 937.78,
+     "p50": 1165.43,
+     "p75": 1445.26,
+     "n_npi": 19,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "26420",
+   "cbsa_name": "Houston-Pasadena-The Woodlands, TX",
+   "cpt": "66984",
+   "service": "Cataract removal with IOL",
+   "category": "Ophth",
+   "p10": 603.1,
+   "p25": 748.6,
+   "p50": 1047.45,
+   "p75": 1651.22,
+   "p90": 2328.45,
+   "n_npi": 220,
+   "medicare_office": 501,
+   "site_of_care": {
+    "office_total": 501,
+    "asc_total": 1755.73,
+    "hopd_total": 2857.81,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 861.41,
+     "p50": 1117.09,
+     "p75": 1483.11,
+     "n_npi": 7,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 697.4,
+     "p50": 919.35,
+     "p75": 1259.97,
+     "n_npi": 71,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 880.27,
+     "p50": 1218.56,
+     "p75": 1786.53,
+     "n_npi": 49,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1141.12,
+     "p50": 1537.25,
+     "p75": 2234.77,
+     "n_npi": 91,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 578.15,
+     "p50": 806.31,
+     "p75": 1062.5,
+     "n_npi": 49,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 841.15,
+     "p50": 1135.68,
+     "p75": 1635.55,
+     "n_npi": 30,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "26420",
+   "cbsa_name": "Houston-Pasadena-The Woodlands, TX",
+   "cpt": "64483",
+   "service": "Epidural injection, lumbar",
+   "category": "Pain",
+   "p10": 344.89,
+   "p25": 475.81,
+   "p50": 615.5,
+   "p75": 842.66,
+   "p90": 1052.18,
+   "n_npi": 595,
+   "medicare_office": 301,
+   "site_of_care": {
+    "office_total": 301,
+    "asc_total": 591,
+    "hopd_total": 1009,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 449.63,
+     "p50": 566.03,
+     "p75": 694.68,
+     "n_npi": 118,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 407.16,
+     "p50": 518.4,
+     "p75": 689.31,
+     "n_npi": 50,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 563.66,
+     "p50": 769.6,
+     "p75": 1055.43,
+     "n_npi": 27,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 612,
+     "p50": 754.65,
+     "p75": 988.04,
+     "n_npi": 64,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 388.46,
+     "p50": 516.17,
+     "p75": 702.42,
+     "n_npi": 46,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 502.59,
+     "p50": 625.87,
+     "p75": 829.32,
+     "n_npi": 106,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "26420",
+   "cbsa_name": "Houston-Pasadena-The Woodlands, TX",
+   "cpt": "70553",
+   "service": "MRI brain, with & without dye",
+   "category": "Imaging",
+   "p10": 388.27,
+   "p25": 545.17,
+   "p50": 716.35,
+   "p75": 1112.31,
+   "p90": 1591.34,
+   "n_npi": 255,
+   "medicare_office": 361,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 554,
+    "hopd_total": 717,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 567.85,
+     "p50": 693.55,
+     "p75": 941.14,
+     "n_npi": 60,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 542.64,
+     "p50": 707.24,
+     "p75": 954.59,
+     "n_npi": 103,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 607.48,
+     "p50": 746.52,
+     "p75": 1040.16,
+     "n_npi": 12,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 648,
+     "p50": 879.55,
+     "p75": 1209.97,
+     "n_npi": 26,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 410.6,
+     "p50": 557.57,
+     "p75": 787.09,
+     "n_npi": 97,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 541.43,
+     "p50": 742.41,
+     "p75": 990.6,
+     "n_npi": 80,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "26420",
+   "cbsa_name": "Houston-Pasadena-The Woodlands, TX",
+   "cpt": "73721",
+   "service": "MRI lower extremity joint",
+   "category": "Imaging",
+   "p10": 267.1,
+   "p25": 357.71,
+   "p50": 498,
+   "p75": 672.67,
+   "p90": 867.99,
+   "n_npi": 389,
+   "medicare_office": 233,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 364,
+    "hopd_total": 477,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 362.66,
+     "p50": 494.38,
+     "p75": 641.76,
+     "n_npi": 12,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 405.17,
+     "p50": 507.13,
+     "p75": 629.34,
+     "n_npi": 42,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 384.33,
+     "p50": 515.08,
+     "p75": 722.79,
+     "n_npi": 46,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 473.59,
+     "p50": 637.64,
+     "p75": 921.97,
+     "n_npi": 19,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 340.62,
+     "p50": 441.74,
+     "p75": 570.46,
+     "n_npi": 41,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 420.1,
+     "p50": 523.09,
+     "p75": 767.96,
+     "n_npi": 84,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "26420",
+   "cbsa_name": "Houston-Pasadena-The Woodlands, TX",
+   "cpt": "74177",
+   "service": "CT abdomen & pelvis with dye",
+   "category": "Imaging",
+   "p10": 326.21,
+   "p25": 388.94,
+   "p50": 584.98,
+   "p75": 935.35,
+   "p90": 1285.17,
+   "n_npi": 124,
+   "medicare_office": 312,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 526,
+    "hopd_total": 710,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 525.32,
+     "p50": 642.99,
+     "p75": 811.51,
+     "n_npi": 49,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 397.55,
+     "p50": 554.32,
+     "p75": 752.56,
+     "n_npi": 27,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 444.66,
+     "p50": 599.15,
+     "p75": 869.26,
+     "n_npi": 73,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 571.87,
+     "p50": 737.7,
+     "p75": 951.49,
+     "n_npi": 96,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 339.02,
+     "p50": 475.88,
+     "p75": 585.64,
+     "n_npi": 120,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 433.93,
+     "p50": 553.48,
+     "p75": 687.06,
+     "n_npi": 40,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "26420",
+   "cbsa_name": "Houston-Pasadena-The Woodlands, TX",
+   "cpt": "99214",
+   "service": "Office visit, established, 30m",
+   "category": "E&M",
+   "p10": 169.77,
+   "p25": 227.81,
+   "p50": 312.44,
+   "p75": 410.6,
+   "p90": 475.5,
+   "n_npi": 152,
+   "medicare_office": 148,
+   "site_of_care": {
+    "office_total": 148,
+    "asc_total": null,
+    "hopd_total": null,
+    "absence_reason": "not payable in this setting (OPPS status B)",
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 242.82,
+     "p50": 333.63,
+     "p75": 458.31,
+     "n_npi": 103,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 175.84,
+     "p50": 244.22,
+     "p75": 358.48,
+     "n_npi": 52,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 255.87,
+     "p50": 328.13,
+     "p75": 428.87,
+     "n_npi": 68,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 323.53,
+     "p50": 431.6,
+     "p75": 569.08,
+     "n_npi": 29,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 167.51,
+     "p50": 229.85,
+     "p75": 329.33,
+     "n_npi": 82,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 246.44,
+     "p50": 306.25,
+     "p75": 417.76,
+     "n_npi": 15,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "12060",
+   "cbsa_name": "Atlanta-Sandy Springs-Roswell, GA",
+   "cpt": "45378",
+   "service": "Colonoscopy, diagnostic",
+   "category": "GI",
+   "p10": 429.47,
+   "p25": 508.57,
+   "p50": 772.3,
+   "p75": 1093.36,
+   "p90": 1490.19,
+   "n_npi": 268,
+   "medicare_office": 423,
+   "site_of_care": {
+    "office_total": 423,
+    "asc_total": 681.49,
+    "hopd_total": 1121.1,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 589.2,
+     "p50": 764.38,
+     "p75": 1056.08,
+     "n_npi": 61,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 519.79,
+     "p50": 634.43,
+     "p75": 810.18,
+     "n_npi": 77,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 622.3,
+     "p50": 869.52,
+     "p75": 1130.98,
+     "n_npi": 33,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 715.1,
+     "p50": 998.53,
+     "p75": 1254,
+     "n_npi": 80,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 514.43,
+     "p50": 666.97,
+     "p75": 820.2,
+     "n_npi": 114,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 637.69,
+     "p50": 878.11,
+     "p75": 1287.33,
+     "n_npi": 104,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "12060",
+   "cbsa_name": "Atlanta-Sandy Springs-Roswell, GA",
+   "cpt": "45380",
+   "service": "Colonoscopy with biopsy",
+   "category": "GI",
+   "p10": 451.34,
+   "p25": 610.04,
+   "p50": 914.69,
+   "p75": 1299.36,
+   "p90": 1681.14,
+   "n_npi": 72,
+   "medicare_office": 542,
+   "site_of_care": {
+    "office_total": 542,
+    "asc_total": 840.75,
+    "hopd_total": 1406.56,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 704.96,
+     "p50": 969.31,
+     "p75": 1359.59,
+     "n_npi": 76,
+     "confidence": "low",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 617.15,
+     "p50": 827.83,
+     "p75": 1014.55,
+     "n_npi": 43,
+     "confidence": "low",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 812.56,
+     "p50": 1049.15,
+     "p75": 1469.28,
+     "n_npi": 57,
+     "confidence": "low",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 757.68,
+     "p50": 1069.75,
+     "p75": 1385.72,
+     "n_npi": 65,
+     "confidence": "low",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 607.66,
+     "p50": 766.26,
+     "p75": 1126.38,
+     "n_npi": 71,
+     "confidence": "low",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 764.11,
+     "p50": 973,
+     "p75": 1280.5,
+     "n_npi": 49,
+     "confidence": "low",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "12060",
+   "cbsa_name": "Atlanta-Sandy Springs-Roswell, GA",
+   "cpt": "43239",
+   "service": "Upper endoscopy with biopsy",
+   "category": "GI",
+   "p10": 358.02,
+   "p25": 498.89,
+   "p50": 749.02,
+   "p75": 1119.7,
+   "p90": 1371.89,
+   "n_npi": 95,
+   "medicare_office": 478,
+   "site_of_care": {
+    "office_total": 478,
+    "asc_total": 626.85,
+    "hopd_total": 1055.63,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 653.07,
+     "p50": 819.74,
+     "p75": 1067.13,
+     "n_npi": 49,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 519.28,
+     "p50": 714.42,
+     "p75": 1045.88,
+     "n_npi": 118,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 673.99,
+     "p50": 859.19,
+     "p75": 1118.05,
+     "n_npi": 93,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 699.27,
+     "p50": 935.66,
+     "p75": 1159.29,
+     "n_npi": 44,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 403.91,
+     "p50": 525.23,
+     "p75": 690.36,
+     "n_npi": 67,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 678.38,
+     "p50": 912.84,
+     "p75": 1296.94,
+     "n_npi": 101,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "12060",
+   "cbsa_name": "Atlanta-Sandy Springs-Roswell, GA",
+   "cpt": "29881",
+   "service": "Knee arthroscopy, meniscectomy",
+   "category": "Ortho",
+   "p10": 409.77,
+   "p25": 542.44,
+   "p50": 862.87,
+   "p75": 1267.29,
+   "p90": 1839.68,
+   "n_npi": 137,
+   "medicare_office": 547,
+   "site_of_care": {
+    "office_total": 547,
+    "asc_total": 2190.87,
+    "hopd_total": 3888.87,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 597.31,
+     "p50": 747.54,
+     "p75": 1089.91,
+     "n_npi": 34,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 542.1,
+     "p50": 693.92,
+     "p75": 847.55,
+     "n_npi": 66,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 891.9,
+     "p50": 1099,
+     "p75": 1560.44,
+     "n_npi": 35,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 819.68,
+     "p50": 1159.54,
+     "p75": 1687.16,
+     "n_npi": 46,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 590.76,
+     "p50": 725.56,
+     "p75": 979.19,
+     "n_npi": 91,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 658.28,
+     "p50": 859.11,
+     "p75": 1112.94,
+     "n_npi": 23,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "12060",
+   "cbsa_name": "Atlanta-Sandy Springs-Roswell, GA",
+   "cpt": "66984",
+   "service": "Cataract removal with IOL",
+   "category": "Ophth",
+   "p10": 466.13,
+   "p25": 570.81,
+   "p50": 844.47,
+   "p75": 1108.49,
+   "p90": 1611.42,
+   "n_npi": 452,
+   "medicare_office": 501,
+   "site_of_care": {
+    "office_total": 501,
+    "asc_total": 1755.73,
+    "hopd_total": 2857.81,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 600,
+     "p50": 853.3,
+     "p75": 1133.01,
+     "n_npi": 59,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 544.19,
+     "p50": 665.79,
+     "p75": 975.71,
+     "n_npi": 96,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 812.13,
+     "p50": 993.97,
+     "p75": 1411.67,
+     "n_npi": 18,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 888.65,
+     "p50": 1259.95,
+     "p75": 1778.55,
+     "n_npi": 48,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 471.12,
+     "p50": 657.47,
+     "p75": 970.28,
+     "n_npi": 80,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 567.24,
+     "p50": 777.52,
+     "p75": 1031.1,
+     "n_npi": 86,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "12060",
+   "cbsa_name": "Atlanta-Sandy Springs-Roswell, GA",
+   "cpt": "64483",
+   "service": "Epidural injection, lumbar",
+   "category": "Pain",
+   "p10": 275.94,
+   "p25": 363.04,
+   "p50": 525,
+   "p75": 704.69,
+   "p90": 1001.02,
+   "n_npi": 207,
+   "medicare_office": 301,
+   "site_of_care": {
+    "office_total": 301,
+    "asc_total": 591,
+    "hopd_total": 1009,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 329.75,
+     "p50": 464.76,
+     "p75": 631.21,
+     "n_npi": 55,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 390.67,
+     "p50": 514.03,
+     "p75": 742.57,
+     "n_npi": 27,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 486.6,
+     "p50": 622.25,
+     "p75": 863.44,
+     "n_npi": 105,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 575.92,
+     "p50": 725.32,
+     "p75": 1022.55,
+     "n_npi": 57,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 321.25,
+     "p50": 398.12,
+     "p75": 561.5,
+     "n_npi": 71,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 449.37,
+     "p50": 596.74,
+     "p75": 836.48,
+     "n_npi": 37,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "12060",
+   "cbsa_name": "Atlanta-Sandy Springs-Roswell, GA",
+   "cpt": "70553",
+   "service": "MRI brain, with & without dye",
+   "category": "Imaging",
+   "p10": 378.03,
+   "p25": 520.71,
+   "p50": 772.2,
+   "p75": 1022.89,
+   "p90": 1294.58,
+   "n_npi": 509,
+   "medicare_office": 361,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 554,
+    "hopd_total": 717,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 648.52,
+     "p50": 796.65,
+     "p75": 1011.42,
+     "n_npi": 40,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 551.47,
+     "p50": 718.26,
+     "p75": 984.01,
+     "n_npi": 52,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 682.59,
+     "p50": 906.13,
+     "p75": 1192.35,
+     "n_npi": 39,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 692.15,
+     "p50": 890.9,
+     "p75": 1179.62,
+     "n_npi": 112,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 490.25,
+     "p50": 616.32,
+     "p75": 867.07,
+     "n_npi": 43,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 586.47,
+     "p50": 749.22,
+     "p75": 1001.66,
+     "n_npi": 82,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "12060",
+   "cbsa_name": "Atlanta-Sandy Springs-Roswell, GA",
+   "cpt": "73721",
+   "service": "MRI lower extremity joint",
+   "category": "Imaging",
+   "p10": 214.61,
+   "p25": 283.92,
+   "p50": 364.38,
+   "p75": 578.47,
+   "p90": 728.8,
+   "n_npi": 367,
+   "medicare_office": 233,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 364,
+    "hopd_total": 477,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 299.43,
+     "p50": 384.33,
+     "p75": 557.73,
+     "n_npi": 71,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 283.67,
+     "p50": 364.8,
+     "p75": 531.64,
+     "n_npi": 103,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 304.53,
+     "p50": 382.9,
+     "p75": 504.62,
+     "n_npi": 88,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 363.32,
+     "p50": 514.29,
+     "p75": 699.17,
+     "n_npi": 116,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 208.27,
+     "p50": 283.29,
+     "p75": 399.33,
+     "n_npi": 86,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 288.3,
+     "p50": 393.87,
+     "p75": 507.79,
+     "n_npi": 91,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "12060",
+   "cbsa_name": "Atlanta-Sandy Springs-Roswell, GA",
+   "cpt": "74177",
+   "service": "CT abdomen & pelvis with dye",
+   "category": "Imaging",
+   "p10": 347.01,
+   "p25": 435.96,
+   "p50": 633.12,
+   "p75": 966.91,
+   "p90": 1224.89,
+   "n_npi": 595,
+   "medicare_office": 312,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 526,
+    "hopd_total": 710,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 416.51,
+     "p50": 558.19,
+     "p75": 780.84,
+     "n_npi": 75,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 392.66,
+     "p50": 524.89,
+     "p75": 747.63,
+     "n_npi": 73,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 485.2,
+     "p50": 679.9,
+     "p75": 970.26,
+     "n_npi": 106,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 653.07,
+     "p50": 807.5,
+     "p75": 1050.46,
+     "n_npi": 17,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 379.51,
+     "p50": 473.67,
+     "p75": 614.95,
+     "n_npi": 110,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 571.39,
+     "p50": 728.14,
+     "p75": 963.49,
+     "n_npi": 91,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "12060",
+   "cbsa_name": "Atlanta-Sandy Springs-Roswell, GA",
+   "cpt": "99214",
+   "service": "Office visit, established, 30m",
+   "category": "E&M",
+   "p10": 220.54,
+   "p25": 264.35,
+   "p50": 339.19,
+   "p75": 467.62,
+   "p90": 574.81,
+   "n_npi": 223,
+   "medicare_office": 148,
+   "site_of_care": {
+    "office_total": 148,
+    "asc_total": null,
+    "hopd_total": null,
+    "absence_reason": "not payable in this setting (OPPS status B)",
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 213.97,
+     "p50": 305.28,
+     "p75": 432.38,
+     "n_npi": 96,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 210.77,
+     "p50": 262.67,
+     "p75": 347.34,
+     "n_npi": 74,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 286.32,
+     "p50": 386.38,
+     "p75": 517.74,
+     "n_npi": 59,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 314.73,
+     "p50": 445.08,
+     "p75": 653.34,
+     "n_npi": 86,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 198.11,
+     "p50": 281.17,
+     "p75": 404.3,
+     "n_npi": 33,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 304.67,
+     "p50": 376,
+     "p75": 480.68,
+     "n_npi": 15,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "19100",
+   "cbsa_name": "Dallas-Fort Worth-Arlington, TX",
+   "cpt": "45378",
+   "service": "Colonoscopy, diagnostic",
+   "category": "GI",
+   "p10": 394.11,
+   "p25": 542.22,
+   "p50": 697.99,
+   "p75": 1091.68,
+   "p90": 1348.92,
+   "n_npi": 212,
+   "medicare_office": 423,
+   "site_of_care": {
+    "office_total": 423,
+    "asc_total": 681.49,
+    "hopd_total": 1121.1,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 537.98,
+     "p50": 716.57,
+     "p75": 1022.86,
+     "n_npi": 115,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 463.7,
+     "p50": 612.93,
+     "p75": 761.12,
+     "n_npi": 99,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 707.25,
+     "p50": 909.03,
+     "p75": 1110.01,
+     "n_npi": 67,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 803.44,
+     "p50": 1028.19,
+     "p75": 1392.69,
+     "n_npi": 49,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 474.35,
+     "p50": 639.33,
+     "p75": 792.62,
+     "n_npi": 21,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 638.08,
+     "p50": 787.72,
+     "p75": 974.29,
+     "n_npi": 80,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "19100",
+   "cbsa_name": "Dallas-Fort Worth-Arlington, TX",
+   "cpt": "45380",
+   "service": "Colonoscopy with biopsy",
+   "category": "GI",
+   "p10": 462.71,
+   "p25": 612.82,
+   "p50": 820.81,
+   "p75": 1184.32,
+   "p90": 1434.52,
+   "n_npi": 357,
+   "medicare_office": 542,
+   "site_of_care": {
+    "office_total": 542,
+    "asc_total": 840.75,
+    "hopd_total": 1406.56,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 574.94,
+     "p50": 800.88,
+     "p75": 996.51,
+     "n_npi": 118,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 509.41,
+     "p50": 716.41,
+     "p75": 1043.49,
+     "n_npi": 113,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 724.32,
+     "p50": 915.69,
+     "p75": 1172.51,
+     "n_npi": 118,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 807.51,
+     "p50": 1065.04,
+     "p75": 1361.82,
+     "n_npi": 21,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 574.07,
+     "p50": 702.66,
+     "p75": 873.61,
+     "n_npi": 68,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 683.59,
+     "p50": 972.97,
+     "p75": 1337.04,
+     "n_npi": 83,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "19100",
+   "cbsa_name": "Dallas-Fort Worth-Arlington, TX",
+   "cpt": "43239",
+   "service": "Upper endoscopy with biopsy",
+   "category": "GI",
+   "p10": 565.1,
+   "p25": 737.97,
+   "p50": 1036.51,
+   "p75": 1574.76,
+   "p90": 2234.3,
+   "n_npi": 480,
+   "medicare_office": 478,
+   "site_of_care": {
+    "office_total": 478,
+    "asc_total": 626.85,
+    "hopd_total": 1055.63,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 774.92,
+     "p50": 1095.16,
+     "p75": 1371.53,
+     "n_npi": 6,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 834.22,
+     "p50": 1026.83,
+     "p75": 1418.13,
+     "n_npi": 107,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 764.18,
+     "p50": 1051.19,
+     "p75": 1497.98,
+     "n_npi": 11,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 885.24,
+     "p50": 1262.41,
+     "p75": 1637.7,
+     "n_npi": 26,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 656.08,
+     "p50": 800.64,
+     "p75": 1000.72,
+     "n_npi": 70,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 943.15,
+     "p50": 1196.95,
+     "p75": 1641.22,
+     "n_npi": 57,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "19100",
+   "cbsa_name": "Dallas-Fort Worth-Arlington, TX",
+   "cpt": "29881",
+   "service": "Knee arthroscopy, meniscectomy",
+   "category": "Ortho",
+   "p10": 614.77,
+   "p25": 751.73,
+   "p50": 1182.87,
+   "p75": 1762.61,
+   "p90": 2491.06,
+   "n_npi": 469,
+   "medicare_office": 547,
+   "site_of_care": {
+    "office_total": 547,
+    "asc_total": 2190.87,
+    "hopd_total": 3888.87,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 1112.39,
+     "p50": 1357.36,
+     "p75": 1808.98,
+     "n_npi": 74,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 797.15,
+     "p50": 1104.28,
+     "p75": 1553.17,
+     "n_npi": 17,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 963.64,
+     "p50": 1274.34,
+     "p75": 1657.83,
+     "n_npi": 38,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1108.41,
+     "p50": 1460.66,
+     "p75": 1959.92,
+     "n_npi": 62,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 657.6,
+     "p50": 920.29,
+     "p75": 1322.02,
+     "n_npi": 108,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 1060.71,
+     "p50": 1446.31,
+     "p75": 1796.15,
+     "n_npi": 21,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "19100",
+   "cbsa_name": "Dallas-Fort Worth-Arlington, TX",
+   "cpt": "66984",
+   "service": "Cataract removal with IOL",
+   "category": "Ophth",
+   "p10": 602.28,
+   "p25": 742.57,
+   "p50": 992.51,
+   "p75": 1562.05,
+   "p90": 1883.6,
+   "n_npi": 336,
+   "medicare_office": 501,
+   "site_of_care": {
+    "office_total": 501,
+    "asc_total": 1755.73,
+    "hopd_total": 2857.81,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 735.66,
+     "p50": 1047.98,
+     "p75": 1411.64,
+     "n_npi": 67,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 608.32,
+     "p50": 776.1,
+     "p75": 1118.83,
+     "n_npi": 68,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 821.56,
+     "p50": 1122.9,
+     "p75": 1648.74,
+     "n_npi": 61,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1003.74,
+     "p50": 1292.86,
+     "p75": 1813.76,
+     "n_npi": 88,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 636.77,
+     "p50": 789.93,
+     "p75": 1031.17,
+     "n_npi": 80,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 836.55,
+     "p50": 1074.38,
+     "p75": 1481.29,
+     "n_npi": 13,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "19100",
+   "cbsa_name": "Dallas-Fort Worth-Arlington, TX",
+   "cpt": "64483",
+   "service": "Epidural injection, lumbar",
+   "category": "Pain",
+   "p10": 308.5,
+   "p25": 398.35,
+   "p50": 611.32,
+   "p75": 949.91,
+   "p90": 1282.86,
+   "n_npi": 534,
+   "medicare_office": 301,
+   "site_of_care": {
+    "office_total": 301,
+    "asc_total": 591,
+    "hopd_total": 1009,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 406.11,
+     "p50": 564.23,
+     "p75": 780.93,
+     "n_npi": 73,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 394.93,
+     "p50": 513.62,
+     "p75": 640.17,
+     "n_npi": 103,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 501.8,
+     "p50": 673.43,
+     "p75": 915.62,
+     "n_npi": 26,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 551.98,
+     "p50": 742.84,
+     "p75": 913.3,
+     "n_npi": 33,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 311.11,
+     "p50": 442.57,
+     "p75": 545.93,
+     "n_npi": 49,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 495.66,
+     "p50": 707.64,
+     "p75": 875.28,
+     "n_npi": 48,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "19100",
+   "cbsa_name": "Dallas-Fort Worth-Arlington, TX",
+   "cpt": "70553",
+   "service": "MRI brain, with & without dye",
+   "category": "Imaging",
+   "p10": 421.98,
+   "p25": 518.45,
+   "p50": 666.31,
+   "p75": 1042.66,
+   "p90": 1315.86,
+   "n_npi": 168,
+   "medicare_office": 361,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 554,
+    "hopd_total": 717,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 500.66,
+     "p50": 635.16,
+     "p75": 881.43,
+     "n_npi": 95,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 452.03,
+     "p50": 644.85,
+     "p75": 907.88,
+     "n_npi": 93,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 553.6,
+     "p50": 699.15,
+     "p75": 1019.04,
+     "n_npi": 29,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 740.85,
+     "p50": 1009.29,
+     "p75": 1305.18,
+     "n_npi": 85,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 447.85,
+     "p50": 562.33,
+     "p75": 760.22,
+     "n_npi": 107,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 587.74,
+     "p50": 758.92,
+     "p75": 1118.65,
+     "n_npi": 53,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "19100",
+   "cbsa_name": "Dallas-Fort Worth-Arlington, TX",
+   "cpt": "73721",
+   "service": "MRI lower extremity joint",
+   "category": "Imaging",
+   "p10": 181.21,
+   "p25": 258.37,
+   "p50": 400.06,
+   "p75": 595.28,
+   "p90": 793.59,
+   "n_npi": 76,
+   "medicare_office": 233,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 364,
+    "hopd_total": 477,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 288.46,
+     "p50": 375.66,
+     "p75": 472.94,
+     "n_npi": 96,
+     "confidence": "low",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 227.92,
+     "p50": 314.71,
+     "p75": 446.08,
+     "n_npi": 102,
+     "confidence": "low",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 316.46,
+     "p50": 402.72,
+     "p75": 546.07,
+     "n_npi": 87,
+     "confidence": "low",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 404.35,
+     "p50": 566.83,
+     "p75": 709.05,
+     "n_npi": 66,
+     "confidence": "low",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 206.22,
+     "p50": 294.44,
+     "p75": 411.78,
+     "n_npi": 30,
+     "confidence": "low",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 353.64,
+     "p50": 436.71,
+     "p75": 599.72,
+     "n_npi": 9,
+     "confidence": "low",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "19100",
+   "cbsa_name": "Dallas-Fort Worth-Arlington, TX",
+   "cpt": "74177",
+   "service": "CT abdomen & pelvis with dye",
+   "category": "Imaging",
+   "p10": 277.28,
+   "p25": 345.75,
+   "p50": 552.32,
+   "p75": 787.22,
+   "p90": 1025.99,
+   "n_npi": 457,
+   "medicare_office": 312,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 526,
+    "hopd_total": 710,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 388.42,
+     "p50": 548.59,
+     "p75": 748.9,
+     "n_npi": 62,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 355.26,
+     "p50": 469.76,
+     "p75": 614.59,
+     "n_npi": 93,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 528.07,
+     "p50": 668.46,
+     "p75": 868.17,
+     "n_npi": 101,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 572.9,
+     "p50": 801.59,
+     "p75": 1022.54,
+     "n_npi": 40,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 395.93,
+     "p50": 502.88,
+     "p75": 742.68,
+     "n_npi": 106,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 393.4,
+     "p50": 536.5,
+     "p75": 760.1,
+     "n_npi": 13,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "19100",
+   "cbsa_name": "Dallas-Fort Worth-Arlington, TX",
+   "cpt": "99214",
+   "service": "Office visit, established, 30m",
+   "category": "E&M",
+   "p10": 129.59,
+   "p25": 185.89,
+   "p50": 257.7,
+   "p75": 342.42,
+   "p90": 469.38,
+   "n_npi": 361,
+   "medicare_office": 148,
+   "site_of_care": {
+    "office_total": 148,
+    "asc_total": null,
+    "hopd_total": null,
+    "absence_reason": "not payable in this setting (OPPS status B)",
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 232.82,
+     "p50": 293.08,
+     "p75": 422,
+     "n_npi": 118,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 181.64,
+     "p50": 249.42,
+     "p75": 356.58,
+     "n_npi": 63,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 266.32,
+     "p50": 333.9,
+     "p75": 428.7,
+     "n_npi": 67,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 283.64,
+     "p50": 376.2,
+     "p75": 460.92,
+     "n_npi": 45,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 129.91,
+     "p50": 181.44,
+     "p75": 267.12,
+     "n_npi": 71,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 217.49,
+     "p50": 295.76,
+     "p75": 402.75,
+     "n_npi": 94,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "38060",
+   "cbsa_name": "Phoenix-Mesa-Chandler, AZ",
+   "cpt": "45378",
+   "service": "Colonoscopy, diagnostic",
+   "category": "GI",
+   "p10": 375,
+   "p25": 508.8,
+   "p50": 809.85,
+   "p75": 1142.4,
+   "p90": 1546.02,
+   "n_npi": 612,
+   "medicare_office": 423,
+   "site_of_care": {
+    "office_total": 423,
+    "asc_total": 681.49,
+    "hopd_total": 1121.1,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 527.31,
+     "p50": 735.25,
+     "p75": 1065.82,
+     "n_npi": 8,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 533.64,
+     "p50": 668.61,
+     "p75": 929.18,
+     "n_npi": 103,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 695.83,
+     "p50": 882.54,
+     "p75": 1139.25,
+     "n_npi": 8,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 703.15,
+     "p50": 996.87,
+     "p75": 1331.92,
+     "n_npi": 18,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 457.64,
+     "p50": 615.66,
+     "p75": 797.76,
+     "n_npi": 91,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 668,
+     "p50": 879.89,
+     "p75": 1146.31,
+     "n_npi": 104,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "38060",
+   "cbsa_name": "Phoenix-Mesa-Chandler, AZ",
+   "cpt": "45380",
+   "service": "Colonoscopy with biopsy",
+   "category": "GI",
+   "p10": 483.79,
+   "p25": 631.33,
+   "p50": 853.92,
+   "p75": 1109.93,
+   "p90": 1430.62,
+   "n_npi": 250,
+   "medicare_office": 542,
+   "site_of_care": {
+    "office_total": 542,
+    "asc_total": 840.75,
+    "hopd_total": 1406.56,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 686.54,
+     "p50": 862.19,
+     "p75": 1102.71,
+     "n_npi": 99,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 557.9,
+     "p50": 776.33,
+     "p75": 1067.12,
+     "n_npi": 106,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 694.88,
+     "p50": 966.99,
+     "p75": 1272.27,
+     "n_npi": 75,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 846.14,
+     "p50": 1171.68,
+     "p75": 1637.04,
+     "n_npi": 118,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 565.67,
+     "p50": 724.14,
+     "p75": 937,
+     "n_npi": 67,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 614.9,
+     "p50": 830.67,
+     "p75": 1143.2,
+     "n_npi": 117,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "38060",
+   "cbsa_name": "Phoenix-Mesa-Chandler, AZ",
+   "cpt": "43239",
+   "service": "Upper endoscopy with biopsy",
+   "category": "GI",
+   "p10": 583.41,
+   "p25": 727.28,
+   "p50": 965.29,
+   "p75": 1301.18,
+   "p90": 1544.06,
+   "n_npi": 126,
+   "medicare_office": 478,
+   "site_of_care": {
+    "office_total": 478,
+    "asc_total": 626.85,
+    "hopd_total": 1055.63,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 635.39,
+     "p50": 850.59,
+     "p75": 1099.28,
+     "n_npi": 108,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 599.59,
+     "p50": 841.1,
+     "p75": 1230.06,
+     "n_npi": 15,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 719.2,
+     "p50": 1019.46,
+     "p75": 1289.83,
+     "n_npi": 115,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1055.47,
+     "p50": 1288.69,
+     "p75": 1597.66,
+     "n_npi": 54,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 572.04,
+     "p50": 802.14,
+     "p75": 978.71,
+     "n_npi": 118,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 787.58,
+     "p50": 1019.12,
+     "p75": 1490.25,
+     "n_npi": 106,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "38060",
+   "cbsa_name": "Phoenix-Mesa-Chandler, AZ",
+   "cpt": "29881",
+   "service": "Knee arthroscopy, meniscectomy",
+   "category": "Ortho",
+   "p10": 395.02,
+   "p25": 576.28,
+   "p50": 872.38,
+   "p75": 1323.19,
+   "p90": 1933.33,
+   "n_npi": 586,
+   "medicare_office": 547,
+   "site_of_care": {
+    "office_total": 547,
+    "asc_total": 2190.87,
+    "hopd_total": 3888.87,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 743.15,
+     "p50": 926.43,
+     "p75": 1265.79,
+     "n_npi": 86,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 495.91,
+     "p50": 705.2,
+     "p75": 966.67,
+     "n_npi": 27,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 872.72,
+     "p50": 1123.59,
+     "p75": 1569.86,
+     "n_npi": 106,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 821.65,
+     "p50": 1002.06,
+     "p75": 1307.22,
+     "n_npi": 89,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 549.77,
+     "p50": 680.39,
+     "p75": 929.12,
+     "n_npi": 86,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 747.38,
+     "p50": 925.41,
+     "p75": 1284.34,
+     "n_npi": 32,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "38060",
+   "cbsa_name": "Phoenix-Mesa-Chandler, AZ",
+   "cpt": "66984",
+   "service": "Cataract removal with IOL",
+   "category": "Ophth",
+   "p10": 389.11,
+   "p25": 490.97,
+   "p50": 752.87,
+   "p75": 1030.77,
+   "p90": 1334.23,
+   "n_npi": 608,
+   "medicare_office": 501,
+   "site_of_care": {
+    "office_total": 501,
+    "asc_total": 1755.73,
+    "hopd_total": 2857.81,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 519.04,
+     "p50": 701.39,
+     "p75": 950.92,
+     "n_npi": 35,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 543.21,
+     "p50": 699.53,
+     "p75": 1020.12,
+     "n_npi": 71,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 715.11,
+     "p50": 935.4,
+     "p75": 1251.21,
+     "n_npi": 52,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 790.89,
+     "p50": 1050.5,
+     "p75": 1538.76,
+     "n_npi": 23,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 436.88,
+     "p50": 599.07,
+     "p75": 806.41,
+     "n_npi": 93,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 663.63,
+     "p50": 859.61,
+     "p75": 1072.79,
+     "n_npi": 109,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "38060",
+   "cbsa_name": "Phoenix-Mesa-Chandler, AZ",
+   "cpt": "64483",
+   "service": "Epidural injection, lumbar",
+   "category": "Pain",
+   "p10": 262.95,
+   "p25": 332.27,
+   "p50": 474.19,
+   "p75": 628.83,
+   "p90": 858.05,
+   "n_npi": 616,
+   "medicare_office": 301,
+   "site_of_care": {
+    "office_total": 301,
+    "asc_total": 591,
+    "hopd_total": 1009,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 332.79,
+     "p50": 435.66,
+     "p75": 612.27,
+     "n_npi": 113,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 326.51,
+     "p50": 438.47,
+     "p75": 613.69,
+     "n_npi": 17,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 467.87,
+     "p50": 621.66,
+     "p75": 800.93,
+     "n_npi": 101,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 403.06,
+     "p50": 568.34,
+     "p75": 800.01,
+     "n_npi": 109,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 265.82,
+     "p50": 334,
+     "p75": 492.4,
+     "n_npi": 108,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 399.38,
+     "p50": 500.9,
+     "p75": 628.57,
+     "n_npi": 24,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "38060",
+   "cbsa_name": "Phoenix-Mesa-Chandler, AZ",
+   "cpt": "70553",
+   "service": "MRI brain, with & without dye",
+   "category": "Imaging",
+   "p10": 262.74,
+   "p25": 361.93,
+   "p50": 528.4,
+   "p75": 710.92,
+   "p90": 851.39,
+   "n_npi": 549,
+   "medicare_office": 361,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 554,
+    "hopd_total": 717,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 404.39,
+     "p50": 538.01,
+     "p75": 795.73,
+     "n_npi": 90,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 403.87,
+     "p50": 534.73,
+     "p75": 742.11,
+     "n_npi": 96,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 537.23,
+     "p50": 672.99,
+     "p75": 942.47,
+     "n_npi": 108,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 577.02,
+     "p50": 789.73,
+     "p75": 1084.8,
+     "n_npi": 80,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 327.64,
+     "p50": 433.17,
+     "p75": 626.19,
+     "n_npi": 110,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 385.61,
+     "p50": 549.6,
+     "p75": 677.55,
+     "n_npi": 21,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "38060",
+   "cbsa_name": "Phoenix-Mesa-Chandler, AZ",
+   "cpt": "73721",
+   "service": "MRI lower extremity joint",
+   "category": "Imaging",
+   "p10": 282.16,
+   "p25": 338.09,
+   "p50": 456.78,
+   "p75": 665.97,
+   "p90": 954.42,
+   "n_npi": 540,
+   "medicare_office": 233,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 364,
+    "hopd_total": 477,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 343.74,
+     "p50": 487.49,
+     "p75": 679.45,
+     "n_npi": 111,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 315.6,
+     "p50": 414.67,
+     "p75": 518.15,
+     "n_npi": 98,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 398.35,
+     "p50": 532.2,
+     "p75": 782.95,
+     "n_npi": 13,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 410.84,
+     "p50": 584.6,
+     "p75": 765.11,
+     "n_npi": 115,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 240.3,
+     "p50": 313.1,
+     "p75": 448.38,
+     "n_npi": 33,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 437.87,
+     "p50": 539.22,
+     "p75": 792.14,
+     "n_npi": 23,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "38060",
+   "cbsa_name": "Phoenix-Mesa-Chandler, AZ",
+   "cpt": "74177",
+   "service": "CT abdomen & pelvis with dye",
+   "category": "Imaging",
+   "p10": 325.55,
+   "p25": 412.11,
+   "p50": 614.47,
+   "p75": 866.19,
+   "p90": 1221.83,
+   "n_npi": 165,
+   "medicare_office": 312,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 526,
+    "hopd_total": 710,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 474.33,
+     "p50": 593.52,
+     "p75": 748.41,
+     "n_npi": 100,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 396.44,
+     "p50": 520.17,
+     "p75": 711.78,
+     "n_npi": 17,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 573.7,
+     "p50": 798.97,
+     "p75": 987.46,
+     "n_npi": 58,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 584.5,
+     "p50": 714.37,
+     "p75": 891.69,
+     "n_npi": 63,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 310.07,
+     "p50": 420.83,
+     "p75": 516.66,
+     "n_npi": 9,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 518.97,
+     "p50": 660.57,
+     "p75": 945.52,
+     "n_npi": 51,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "38060",
+   "cbsa_name": "Phoenix-Mesa-Chandler, AZ",
+   "cpt": "99214",
+   "service": "Office visit, established, 30m",
+   "category": "E&M",
+   "p10": 144.3,
+   "p25": 203.79,
+   "p50": 262.79,
+   "p75": 381.16,
+   "p90": 479.13,
+   "n_npi": 150,
+   "medicare_office": 148,
+   "site_of_care": {
+    "office_total": 148,
+    "asc_total": null,
+    "hopd_total": null,
+    "absence_reason": "not payable in this setting (OPPS status B)",
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 226.51,
+     "p50": 277.53,
+     "p75": 350.18,
+     "n_npi": 55,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 190.63,
+     "p50": 248.48,
+     "p75": 309.85,
+     "n_npi": 63,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 211.62,
+     "p50": 280.61,
+     "p75": 377.91,
+     "n_npi": 62,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 275.5,
+     "p50": 343.69,
+     "p75": 482.56,
+     "n_npi": 67,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 186.39,
+     "p50": 233.69,
+     "p75": 336.84,
+     "n_npi": 48,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 204.15,
+     "p50": 276.24,
+     "p75": 346.82,
+     "n_npi": 70,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "14460",
+   "cbsa_name": "Boston-Cambridge-Newton, MA-NH",
+   "cpt": "45378",
+   "service": "Colonoscopy, diagnostic",
+   "category": "GI",
+   "p10": 576.97,
+   "p25": 826.49,
+   "p50": 1142.09,
+   "p75": 1671.71,
+   "p90": 2234.85,
+   "n_npi": 231,
+   "medicare_office": 423,
+   "site_of_care": {
+    "office_total": 423,
+    "asc_total": 681.49,
+    "hopd_total": 1121.1,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 886.63,
+     "p50": 1140.08,
+     "p75": 1591.15,
+     "n_npi": 106,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 817.94,
+     "p50": 1150.83,
+     "p75": 1514.62,
+     "n_npi": 88,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 917.74,
+     "p50": 1210.64,
+     "p75": 1758.86,
+     "n_npi": 55,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1262.25,
+     "p50": 1690.92,
+     "p75": 2159.9,
+     "n_npi": 72,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 682.67,
+     "p50": 940.76,
+     "p75": 1272.42,
+     "n_npi": 45,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 921.55,
+     "p50": 1183.07,
+     "p75": 1529.34,
+     "n_npi": 10,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "14460",
+   "cbsa_name": "Boston-Cambridge-Newton, MA-NH",
+   "cpt": "45380",
+   "service": "Colonoscopy with biopsy",
+   "category": "GI",
+   "p10": 782.73,
+   "p25": 1029.61,
+   "p50": 1500.54,
+   "p75": 2367.54,
+   "p90": 2978.42,
+   "n_npi": 292,
+   "medicare_office": 542,
+   "site_of_care": {
+    "office_total": 542,
+    "asc_total": 840.75,
+    "hopd_total": 1406.56,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 1095.06,
+     "p50": 1400.24,
+     "p75": 1762.73,
+     "n_npi": 71,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 997.95,
+     "p50": 1320.46,
+     "p75": 1743.7,
+     "n_npi": 63,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 1459.8,
+     "p50": 1885.17,
+     "p75": 2701.88,
+     "n_npi": 93,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1570.4,
+     "p50": 2144.31,
+     "p75": 3171.25,
+     "n_npi": 58,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 915.11,
+     "p50": 1203.37,
+     "p75": 1759.55,
+     "n_npi": 74,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 1046.3,
+     "p50": 1403.54,
+     "p75": 1947.21,
+     "n_npi": 24,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "14460",
+   "cbsa_name": "Boston-Cambridge-Newton, MA-NH",
+   "cpt": "43239",
+   "service": "Upper endoscopy with biopsy",
+   "category": "GI",
+   "p10": 668.86,
+   "p25": 885.28,
+   "p50": 1241.96,
+   "p75": 1977.76,
+   "p90": 2884.7,
+   "n_npi": 150,
+   "medicare_office": 478,
+   "site_of_care": {
+    "office_total": 478,
+    "asc_total": 626.85,
+    "hopd_total": 1055.63,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 767.95,
+     "p50": 1071.19,
+     "p75": 1386.51,
+     "n_npi": 40,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 829.7,
+     "p50": 1024.21,
+     "p75": 1393.94,
+     "n_npi": 82,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 1154.56,
+     "p50": 1528.85,
+     "p75": 2146.64,
+     "n_npi": 60,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1219.78,
+     "p50": 1702.52,
+     "p75": 2351.97,
+     "n_npi": 51,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 708.5,
+     "p50": 1011.05,
+     "p75": 1243.02,
+     "n_npi": 119,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 984.54,
+     "p50": 1255.9,
+     "p75": 1850.59,
+     "n_npi": 56,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "14460",
+   "cbsa_name": "Boston-Cambridge-Newton, MA-NH",
+   "cpt": "29881",
+   "service": "Knee arthroscopy, meniscectomy",
+   "category": "Ortho",
+   "p10": 577.93,
+   "p25": 766.56,
+   "p50": 1066.51,
+   "p75": 1446.2,
+   "p90": 2111.82,
+   "n_npi": 160,
+   "medicare_office": 547,
+   "site_of_care": {
+    "office_total": 547,
+    "asc_total": 2190.87,
+    "hopd_total": 3888.87,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 877.84,
+     "p50": 1160.78,
+     "p75": 1473.23,
+     "n_npi": 29,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 766.83,
+     "p50": 1024.61,
+     "p75": 1375.98,
+     "n_npi": 60,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 1055.67,
+     "p50": 1403.43,
+     "p75": 1882.38,
+     "n_npi": 73,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1054.99,
+     "p50": 1469.95,
+     "p75": 1990.29,
+     "n_npi": 55,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 697.07,
+     "p50": 925.8,
+     "p75": 1200.39,
+     "n_npi": 81,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 916.33,
+     "p50": 1240.72,
+     "p75": 1610.75,
+     "n_npi": 104,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "14460",
+   "cbsa_name": "Boston-Cambridge-Newton, MA-NH",
+   "cpt": "66984",
+   "service": "Cataract removal with IOL",
+   "category": "Ophth",
+   "p10": 628.54,
+   "p25": 908.21,
+   "p50": 1165.76,
+   "p75": 1818.02,
+   "p90": 2653.16,
+   "n_npi": 335,
+   "medicare_office": 501,
+   "site_of_care": {
+    "office_total": 501,
+    "asc_total": 1755.73,
+    "hopd_total": 2857.81,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 854.47,
+     "p50": 1099.79,
+     "p75": 1587.04,
+     "n_npi": 45,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 694.4,
+     "p50": 940.32,
+     "p75": 1158.68,
+     "n_npi": 40,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 941.42,
+     "p50": 1220.53,
+     "p75": 1645.99,
+     "n_npi": 63,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 1021.73,
+     "p50": 1367.29,
+     "p75": 2008.52,
+     "n_npi": 77,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 800.61,
+     "p50": 1021.54,
+     "p75": 1477.12,
+     "n_npi": 46,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 919.8,
+     "p50": 1238.48,
+     "p75": 1545.06,
+     "n_npi": 23,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "14460",
+   "cbsa_name": "Boston-Cambridge-Newton, MA-NH",
+   "cpt": "64483",
+   "service": "Epidural injection, lumbar",
+   "category": "Pain",
+   "p10": 321.93,
+   "p25": 450.85,
+   "p50": 713.1,
+   "p75": 948.77,
+   "p90": 1356.12,
+   "n_npi": 419,
+   "medicare_office": 301,
+   "site_of_care": {
+    "office_total": 301,
+    "asc_total": 591,
+    "hopd_total": 1009,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 555.55,
+     "p50": 708.05,
+     "p75": 902.44,
+     "n_npi": 24,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 521.38,
+     "p50": 673.44,
+     "p75": 961.04,
+     "n_npi": 55,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 563.69,
+     "p50": 765.94,
+     "p75": 1046.71,
+     "n_npi": 99,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 809.15,
+     "p50": 1039.69,
+     "p75": 1341.81,
+     "n_npi": 119,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 386.81,
+     "p50": 506.33,
+     "p75": 637.74,
+     "n_npi": 48,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 512.64,
+     "p50": 727.78,
+     "p75": 1059.93,
+     "n_npi": 27,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "14460",
+   "cbsa_name": "Boston-Cambridge-Newton, MA-NH",
+   "cpt": "70553",
+   "service": "MRI brain, with & without dye",
+   "category": "Imaging",
+   "p10": 483.86,
+   "p25": 654.41,
+   "p50": 932.91,
+   "p75": 1235.23,
+   "p90": 1695.15,
+   "n_npi": 506,
+   "medicare_office": 361,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 554,
+    "hopd_total": 717,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 768.93,
+     "p50": 996.84,
+     "p75": 1432.8,
+     "n_npi": 99,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 669.06,
+     "p50": 892.71,
+     "p75": 1192.41,
+     "n_npi": 15,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 785.81,
+     "p50": 986.1,
+     "p75": 1289.88,
+     "n_npi": 65,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 965.71,
+     "p50": 1284.39,
+     "p75": 1684.46,
+     "n_npi": 45,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 565.79,
+     "p50": 730.24,
+     "p75": 1080.23,
+     "n_npi": 38,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 758.03,
+     "p50": 941.64,
+     "p75": 1267.28,
+     "n_npi": 74,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "14460",
+   "cbsa_name": "Boston-Cambridge-Newton, MA-NH",
+   "cpt": "73721",
+   "service": "MRI lower extremity joint",
+   "category": "Imaging",
+   "p10": 239.38,
+   "p25": 331.48,
+   "p50": 518.83,
+   "p75": 838.83,
+   "p90": 1069.92,
+   "n_npi": 453,
+   "medicare_office": 233,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 364,
+    "hopd_total": 477,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 413.84,
+     "p50": 544.48,
+     "p75": 743.95,
+     "n_npi": 33,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 403.64,
+     "p50": 517.1,
+     "p75": 667,
+     "n_npi": 84,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 438.76,
+     "p50": 538.83,
+     "p75": 679.85,
+     "n_npi": 85,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 491.92,
+     "p50": 616.95,
+     "p75": 763.45,
+     "n_npi": 63,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 309.1,
+     "p50": 378.62,
+     "p75": 480.27,
+     "n_npi": 48,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 519.45,
+     "p50": 635.44,
+     "p75": 826.01,
+     "n_npi": 114,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "14460",
+   "cbsa_name": "Boston-Cambridge-Newton, MA-NH",
+   "cpt": "74177",
+   "service": "CT abdomen & pelvis with dye",
+   "category": "Imaging",
+   "p10": 410.22,
+   "p25": 545.96,
+   "p50": 785.71,
+   "p75": 1167.48,
+   "p90": 1527.87,
+   "n_npi": 169,
+   "medicare_office": 312,
+   "site_of_care": {
+    "office_total": null,
+    "asc_total": 526,
+    "hopd_total": 710,
+    "absence_reason": null,
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 514.57,
+     "p50": 731.68,
+     "p75": 998.32,
+     "n_npi": 40,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 491.49,
+     "p50": 697.98,
+     "p75": 957.14,
+     "n_npi": 115,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 635.4,
+     "p50": 880.61,
+     "p75": 1113.65,
+     "n_npi": 67,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 788.02,
+     "p50": 985.78,
+     "p75": 1256.91,
+     "n_npi": 97,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 514.18,
+     "p50": 717.84,
+     "p75": 1006.43,
+     "n_npi": 99,
+     "confidence": "medium",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 639.08,
+     "p50": 867.36,
+     "p75": 1240.59,
+     "n_npi": 34,
+     "confidence": "medium",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  },
+  {
+   "cbsa": "14460",
+   "cbsa_name": "Boston-Cambridge-Newton, MA-NH",
+   "cpt": "99214",
+   "service": "Office visit, established, 30m",
+   "category": "E&M",
+   "p10": 183.01,
+   "p25": 225.53,
+   "p50": 291.55,
+   "p75": 403.57,
+   "p90": 550.6,
+   "n_npi": 384,
+   "medicare_office": 148,
+   "site_of_care": {
+    "office_total": 148,
+    "asc_total": null,
+    "hopd_total": null,
+    "absence_reason": "not payable in this setting (OPPS status B)",
+    "__basis": "REAL public CMS 2026-Q3 fee schedules (OPPS/ASC/PFS)"
+   },
+   "by_payer": [
+    {
+     "payer": "demo_meridian_health",
+     "payer_label": "Meridian Health Plan",
+     "p25": 245.21,
+     "p50": 310.35,
+     "p75": 385.53,
+     "n_npi": 89,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_cascade_mutual",
+     "payer_label": "Cascade Mutual",
+     "p25": 197.22,
+     "p50": 266.58,
+     "p75": 391.11,
+     "n_npi": 73,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_northstar_ppo",
+     "payer_label": "Northstar PPO",
+     "p25": 284.05,
+     "p50": 351.83,
+     "p75": 517.17,
+     "n_npi": 51,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_atlas_benefit",
+     "payer_label": "Atlas Benefit Group",
+     "p25": 322.83,
+     "p50": 394.16,
+     "p75": 502.89,
+     "n_npi": 51,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_keystone_select",
+     "payer_label": "Keystone Select",
+     "p25": 161.1,
+     "p50": 223.54,
+     "p75": 326.06,
+     "n_npi": 86,
+     "confidence": "high",
+     "__synthetic": true
+    },
+    {
+     "payer": "demo_bluepeak_choice",
+     "payer_label": "BluePeak Choice",
+     "p25": 236.34,
+     "p50": 309.26,
+     "p75": 377.37,
+     "n_npi": 53,
+     "confidence": "high",
+     "__synthetic": true
+    }
+   ],
+   "__synthetic": true
+  }
+ ]
+}
