@@ -60,11 +60,35 @@ Do not describe capability we do not have. Everything below is verified against 
 
 **These four rows are your hero.** Same scan, four American cities, and the median in Chicago is double Houston's. Use them.
 
-**A Medicare anchor with a real site-of-service split.** `nonfac_rate` versus `fac_rate`:
-- Colonoscopy: **office $423, facility $170**
-- Office visit, established, 30 to 39 min: **office $148, facility $88**
+**A real site-of-service comparison, and the direction is the opposite of what this document
+originally said.** ⛔ **CORRECTED 2026-08-06 by @BROKER-READY. The original text is left visible so
+nobody re-derives it from an old diff:** *"Colonoscopy: office $423, facility $170. Office visit: $148
+vs $88. That is the steering argument."*
 
-That is the steering argument with a federal number behind it, available now.
+**That was wrong, in the dangerous direction.** `fac_rate` is the **physician's professional fee when
+the service happens in a facility**, not the cost of care there. It is lower only because practice
+expense is stripped out; the hospital bills its own OPPS payment separately. Read plainly, the old line
+says *steer the member to the hospital*, which is backwards and would have been wrong in front of a
+client.
+
+**The true totals, measured live on the 2026-Q3 vintage** (office = `nonfac_rate` · ASC = `fac_rate` +
+ASC payment · HOPD = `fac_rate` + OPPS payment):
+
+| service | office | ASC | HOPD | HOPD vs office |
+|---|---|---|---|---|
+| Colonoscopy 45378 | $423 | **$681** | $1,121 | **+165%** |
+| Knee scope 29881 | $547 | **$2,191** | $3,889 | **+612%** |
+| Cataract 66984 | $501 | **$1,756** | $2,858 | **+471%** |
+
+**The ASC column is the money-saving steer** and it is the one brokers actually move money on. The
+hospital is the expensive site, not the cheap one. Live in `/tools/site-of-service`.
+
+**Two rules that come with it, both non-negotiable in copy:**
+1. **A missing facility fee never becomes a computed total.** Office-visit codes are OPPS status `B`,
+   so a naive total renders "the hospital is 41% cheaper", which is false.
+2. **"Not separately priced" is not one fact, it is four.** `A` and `M` mean *paid under a different
+   federal schedule* and cover 3,540 codes, including screening mammography and EKG. Saying a screening
+   mammogram "is not priced at a hospital" is flatly untrue.
 
 **A per-payer view, honestly attributed.** Texas, knee MRI: UnitedHealthcare $143, BCBS Texas $254, Centene $220.
 
