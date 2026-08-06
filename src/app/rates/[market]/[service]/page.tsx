@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const title = rateTitle(m, s);
   return {
     title,
-    description: `What health plans actually pay for ${s.plain} in ${metroShort(m)}, from federal Transparency in Coverage filings. Median, spread and Medicare reference, sourced and dated.`,
+    description: `What health plans have contracted to pay for ${s.plain} in ${metroShort(m)}, from federal Transparency in Coverage filings. Median, spread and a Medicare reference, sourced and dated.`,
     alternates: { canonical: ratePath(m, s) },
     openGraph: {
       title: `${title} . ${BRAND.name}`,
@@ -219,7 +219,7 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                     label="Against Medicare"
                     body={
                       vsMedicare != null
-                        ? `The median sits at ${vsMedicare}% of the Medicare rate for the same service in this state. Medicare is the benchmark most finance teams already have a feel for, which is why we print it beside every figure.`
+                        ? `The median sits at ${vsMedicare}% of the Medicare rate for the same service in this state. Medicare is a fixed reference line most finance teams already have a feel for, which is why we print it beside every figure. It is not a fair price and not what anything should cost.`
                         : `We do not hold a Medicare rate for this service in this state, so we do not show a comparison. The distribution above stands on its own.`
                     }
                   />

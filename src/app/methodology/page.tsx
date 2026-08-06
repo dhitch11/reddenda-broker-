@@ -141,6 +141,51 @@ export default async function Methodology() {
             </Callout>
           </Section>
 
+          {/* ---------------- GHOST RATES ---------------- */}
+          <Section
+            id="ghost-rates"
+            eyebrow="The biggest problem in this data"
+            title="Most published rates are for services the provider would never perform"
+          >
+            <P>
+              This is the largest known defect in the Transparency in Coverage files and we would rather you
+              heard it from us. Payers publish a rate for a provider and a billing code even where that
+              provider would never furnish that service. The federal government&apos;s own example, in the
+              December 2025 proposed rule, is rates for podiatrists to perform heart surgery. These are
+              called ghost rates.
+            </P>
+            <P>
+              A peer-reviewed study of 61 insurers found that 91.8% of all published negotiated rates were
+              ghost rates, with the median insurer&apos;s file at 84.3%. Restricted to the hundred most common
+              billing codes the share fell, but only to 70.3%. Estimates across the field range from roughly
+              60% to 96.5%, and there is no agreed definition of what counts, so anyone quoting a single
+              figure as settled is overstating what is known.
+            </P>
+            <Callout tone="spread" title="What this means for a figure on this site, stated plainly">
+              A ghost rate is an irrelevant row rather than a wrong number, so its effect is on the shape of
+              a distribution and on the filing count beside it, not on whether a given rate is real. It
+              matters most in the tails: a rate filed under a facility that would never perform the
+              procedure can sit at the top of a distribution and look like the expensive end of the market.
+              <strong> We do not currently apply a ghost-rate filter.</strong> The peer-reviewed method for
+              building one links rates to providers with billed claims for the procedure, and we hold no
+              claims data, so that method is closed to us. We are evaluating a specialty-to-code plausibility
+              test, which is a weaker proxy, and we will say so on this page when it is in force. Until then,
+              read the filing count as a measure of how much was filed, not of how much care was delivered.
+            </Callout>
+            <P>
+              The Departments have proposed requiring payers to strip these combinations from the files.
+              That rule is proposed and not final, so nothing about it is in effect and we do not treat it as
+              a fix that has already happened.
+            </P>
+            <p style={{ fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.7, maxWidth: "68ch" }}>
+              Sources: Muhlestein DB, &ldquo;High prevalence of ghost rates in transparency in coverage
+              data,&rdquo; Health Affairs Scholar 3(11):qxaf212, 2025. Congressional Research Service report
+              R48570, &ldquo;Technical Challenges with Private Health Insurance Price Transparency
+              Data,&rdquo; June 13, 2025. Transparency in Coverage proposed rule CMS-9882-P, 90 FR 60432,
+              December 23, 2025.
+            </p>
+          </Section>
+
           {/* ---------------- GEOGRAPHY ---------------- */}
           <Section id="geography" eyebrow="Geography" title="Metro first, and we always tell you which one you got">
             <P>
@@ -149,6 +194,14 @@ export default async function Methodology() {
               filings support it. When a metro cell does not pass the gate we fall back to the state, and the
               result says so, naming the metro it fell back from. A broker in Fresno is never shown a
               California number labelled as theirs.
+            </P>
+            <P>
+              One limit you should know about how a rate becomes a market. The transparency files carry no
+              provider address. They identify providers by NPI and tax identifier, so metro assignment is
+              derived by joining those identifiers to the national provider registry, and that registry can
+              lag a provider&apos;s actual practice location. The Congressional Research Service flags this
+              directly. It means metro assignment is a well-founded inference rather than something stated in
+              the source file, and a provider who has moved may be counted in the market they left.
             </P>
           </Section>
 
