@@ -35,7 +35,10 @@ export function loadDemoData() {
         'This data is fabricated and must never reach a real surface.'
     )
   }
-  return raw as DemoFixture
+  // The JSON's inferred literal type does not structurally overlap DemoFixture, so the
+  // cast goes through unknown. This is the shape assertion the fixture is validated
+  // against below, not a bypass of it.
+  return raw as unknown as DemoFixture
 }
 
 /**

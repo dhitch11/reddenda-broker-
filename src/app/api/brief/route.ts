@@ -84,13 +84,18 @@ export async function GET(req: NextRequest) {
       const m = mc.get(svc.cpt) ?? { office: null, facility: null };
       const cell = verdict.cell;
 
-      // The Medicare office/facility gap is the site-of-service lever, and it is the
-      // one an employer can act on this plan year. It is only meaningful where the
-      // two rates actually differ.
-      const siteGap =
-        m.office != null && m.facility != null && m.office !== m.facility
-          ? Math.round((Math.max(m.office, m.facility) / Math.min(m.office, m.facility)) * 100) / 100
-          : null;
+      // DELIBERATELY NOT COMPUTED HERE. A bare nonfac_rate/fac_rate ratio is NOT a
+      // site-of-service comparison and reading it as one is backwards.
+      // `fac_rate` is the PHYSICIAN professional fee when the service happens in a
+      // facility. It is lower than `nonfac_rate` only because practice expense is
+      // stripped out. The hospital then bills its OWN OPPS payment separately, on
+      // top. So "office $478 vs facility $129" reads as "steer to the hospital",
+      // which is the opposite of the truth: measured, a colonoscopy is $423 in an
+      // office, $681 in an ASC and $1,121 in hospital outpatient, so the hospital is
+      // +165%. Caught by @DATA-BROKER and @BROKER-MARKETING 2026-08-06 before it
+      // reached a client. Correct total-cost math lives in /tools/site-of-service,
+      // which is built on the OPPS and ASC schedules. This endpoint does not guess.
+      const siteGap = null;
 
       served.push({
         cpt: svc.cpt,

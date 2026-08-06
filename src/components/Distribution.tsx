@@ -127,6 +127,8 @@ function edgeAlign(pct: number): React.CSSProperties {
 }
 
 export function money(v: number | null | undefined): string {
-  if (v == null) return "—";
+  // En dash, not em. Estate rule 8 bans the em dash in net-new copy and a table
+  // null glyph still counts as copy on the page.
+  if (v == null) return "\u2013";
   return "$" + Math.round(v).toLocaleString("en-US");
 }

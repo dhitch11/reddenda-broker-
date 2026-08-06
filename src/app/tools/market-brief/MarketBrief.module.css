@@ -312,3 +312,18 @@
 @media (prefers-reduced-motion: reduce) {
   .skeleton { animation: none; }
 }
+
+/* Link out to the site-of-service tool. The bare Medicare office/facility ratio was
+   removed from this page on 2026-08-06 because it is not a site-of-service
+   comparison and reading it as one points the wrong way. */
+.siteLink {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--teal-deep);
+  border: 1px solid var(--hair-strong);
+  border-radius: var(--r-xs, 6px);
+  padding: 10px 16px;
+  transition: background 120ms linear, border-color 120ms linear;
+}
+.siteLink:hover { background: var(--teal-wash); border-color: var(--teal-deep); }

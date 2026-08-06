@@ -126,7 +126,10 @@ export function MarketBrief({ initial = "31080" }: { initial?: string }) {
                 label={data.summary.widestService ? `Widest: ${data.summary.widestService.plain}` : "Widest service"}
                 tone="wide"
               />
-              <Stat value={String(data.summary.siteOfServiceCount)} label="With a site of service gap" />
+              <Stat
+                value={money(data.rows.reduce((n, r) => n + r.gapPerCase, 0))}
+                label="Total gap across the basket, per case"
+              />
             </div>
 
             <section className={s.section}>
@@ -174,39 +177,18 @@ export function MarketBrief({ initial = "31080" }: { initial?: string }) {
               </div>
             </section>
 
-            {siteRows.length > 0 && (
-              <section className={s.section}>
-                <h2 className={s.h2}>Site of service</h2>
-                <p className={s.sub}>
-                  Medicare pays a different amount for the same service in an office than in a hospital
-                  outpatient department. These are the widest gaps in this basket, and they are the lever an
-                  employer can pull this plan year.
-                </p>
-                <div className={s.siteGrid}>
-                  {siteRows.map((r) => (
-                    <div key={r.cpt} className={s.siteCard}>
-                      <div className={s.siteName}>{r.plain}</div>
-                      <div className={s.siteRow}>
-                        <div>
-                          <div className={`num ${s.siteVal}`}>{money(r.medicareOffice)}</div>
-                          <div className={s.siteCap}>Office</div>
-                        </div>
-                        <div className={s.siteX}>{r.siteGap}x</div>
-                        <div>
-                          <div className={`num ${s.siteVal}`}>{money(r.medicareFacility)}</div>
-                          <div className={s.siteCap}>Facility</div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <p className={s.footnote}>
-                  Medicare allowed amounts for {data.market.state}. Commercial plans set their own site
-                  differentials, and we do not publish a commercial split until the underlying filings can
-                  be separated by billing class.
-                </p>
-              </section>
-            )}
+            <section className={s.section}>
+              <h2 className={s.h2}>Site of service</h2>
+              <p className={s.sub}>
+                Where a service happens changes what it costs, often by more than which
+                provider does it. That comparison needs the hospital outpatient and
+                ambulatory surgery schedules, not the physician fee alone, so it lives in
+                its own tool rather than being approximated here.
+              </p>
+              <a className={s.siteLink} href="/tools/site-of-service">
+                Open the site of service tool
+              </a>
+            </section>
 
             {data.unavailable.length > 0 && (
               <section className={s.section}>
