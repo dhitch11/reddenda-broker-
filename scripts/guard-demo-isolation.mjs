@@ -65,6 +65,19 @@ if (realLooking.length) fails.push(`demo-data.json: ${realLooking.length} NPIs a
 const badPayer = (fx.payers || []).filter((p) => !p.slug.startsWith('demo_'))
 if (badPayer.length) fails.push(`demo-data.json: ${badPayer.length} payer slugs missing demo_ prefix.`)
 
+// 7. Every facility CCN must carry the DEMO- prefix (a real CCN is 6 digits).
+const badCcn = (fx.facilities || []).filter((f) => !String(f.ccn || '').startsWith('DEMO-'))
+if (badCcn.length) fails.push(`demo-data.json: ${badCcn.length} facility CCNs missing DEMO- prefix — could parse as a real CCN.`)
+
+// 8. No fabricated commercial price may be presented without the honesty layer attached.
+const noQuality = (fx.rates || []).filter((r) => !r.data_quality || typeof r.data_quality.is_scoreable !== 'boolean')
+if (noQuality.length) fails.push(`demo-data.json: ${noQuality.length} rate cells have no data_quality block.`)
+
+// 9. The deliberate imperfections must still be present. A fixture where everything is
+//    clean cannot demonstrate the honesty layer, and perfect data is itself unrealistic.
+const suppressed = (fx.rates || []).filter((r) => r.data_quality && !r.data_quality.is_scoreable).length
+if (suppressed === 0) fails.push('demo-data.json: zero suppressed cells — the honesty layer has nothing to demonstrate.')
+
 if (fails.length) {
   console.error('❌ DEMO ISOLATION VIOLATED — DO NOT SHIP\n')
   for (const f of fails) console.error('  - ' + f)
