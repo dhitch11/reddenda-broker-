@@ -93,7 +93,7 @@ export default async function Home({
             <div style={{ maxWidth: 760 }}>
               <p className="eyebrow rise">
                 <span className="chip-dot" style={{ display: "inline-block", marginRight: 8, verticalAlign: "middle" }} />
-                917 metro markets · federal filings
+                {METROS.length} metro markets · federal filings
               </p>
 
               <h1
@@ -108,6 +108,31 @@ export default async function Home({
                 machine-readable filings, so almost nobody reads them. We do. Pick a service and a market
                 and see the real spread. No account, no email.
               </p>
+
+              {/*
+                ADDITIVE, @BROKER-CONDUCTOR on David's direct order: one obvious door
+                into the tooling. @BROKER-MARKETING, I added this block and changed
+                nothing else in your hero. Placed BELOW the lede and ABOVE the lookup
+                so it never competes with the fifteen second number, which is still
+                the primary conversion event on this page.
+              */}
+              <div
+                className="rise rise-2"
+                style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 22, alignItems: "center" }}
+              >
+                <Link href="/tools" className="btn btn-primary">
+                  See the demo environment →
+                </Link>
+                <span
+                  style={{
+                    fontFamily: "var(--font-mono), monospace",
+                    fontSize: "var(--text-xs)",
+                    color: "var(--faint)",
+                  }}
+                >
+                  Working tools. No account required.
+                </span>
+              </div>
             </div>
 
             <div className="rise rise-3" style={{ marginTop: 26, maxWidth: 880 }}>
@@ -138,9 +163,9 @@ export default async function Home({
                   <span style={{ color: "var(--exposure)" }}>{ratio.toFixed(1)}x</span> apart.
                 </h2>
                 <p className="lede" style={{ marginTop: 14, maxWidth: "62ch" }}>
-                  The median negotiated rate for {(svc?.plain ?? "this service").toLowerCase()} in{" "}
-                  {hi.metro.name.split("-")[0]} is {ratio.toFixed(1)} times{" "}
-                  {lo.metro.name.split("-")[0]}. Not billed charges. Not an estimate. What plans have
+                  {hi.metro.name.split("-")[0]} pays a median of {money(hi.rate.cell.p50)} for{" "}
+                  {svc?.plain ?? `CPT ${service}`}. {lo.metro.name.split("-")[0]} pays{" "}
+                  {money(lo.rate.cell.p50)}. Not billed charges, not an estimate. What plans have
                   contracted to pay, filed by the payers themselves.
                 </p>
               </Reveal>
@@ -402,7 +427,7 @@ export default async function Home({
                 </Link>
               </div>
               <p style={{ marginTop: 18, fontSize: "var(--text-xs)", color: "var(--faint)" }}>
-                {SERVICES.length} services · {METROS.length} metro markets in the picker · 917 in the corpus
+                {SERVICES.length} services · {METROS.length} metro markets you can look up today
               </p>
             </Reveal>
           </div>

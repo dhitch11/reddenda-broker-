@@ -16,6 +16,7 @@ const NAV = [
   { href: "/brokers", label: "Brokers" },
   { href: "/general-agencies", label: "General agencies" },
   { href: "/employers", label: "Employers" },
+  { href: "/tools", label: "Demo environment" },
   { href: "/methodology", label: "Methodology" },
 ];
 
@@ -23,59 +24,23 @@ export const DISCOVERY_URL = "https://calendly.com/reddenda/discovery";
 
 export function SiteHeader() {
   return (
-    <header
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 40,
-        background: "rgba(255,255,255,.88)",
-        backdropFilter: "saturate(180%) blur(12px)",
-        WebkitBackdropFilter: "saturate(180%) blur(12px)",
-        borderBottom: "1px solid var(--hair)",
-      }}
-    >
-      <div
-        className="wrap"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 16,
-          minHeight: 64,
-        }}
-      >
-        <Link href="/" aria-label={`${BRAND.name} home`} style={{ flex: "none" }}>
+    <header className="site-header">
+      <div className="wrap site-header__inner">
+        <Link href="/" aria-label={`${BRAND.name} home`} className="site-header__logo">
           <Wordmark size={26} />
         </Link>
 
-        <nav
-          aria-label="Primary"
-          style={{ display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap", justifyContent: "flex-end" }}
-        >
+        <nav aria-label="Primary" className="site-header__nav">
           {NAV.map((n) => (
-            <Link
-              key={n.href}
-              href={n.href}
-              style={{
-                padding: "8px 12px",
-                fontSize: "var(--text-sm)",
-                fontWeight: 500,
-                color: "var(--muted)",
-                borderRadius: "var(--r-xs)",
-                whiteSpace: "nowrap",
-              }}
-            >
+            <Link key={n.href} href={n.href} className="site-header__link">
               {n.label}
             </Link>
           ))}
-          <a
-            href={DISCOVERY_URL}
-            className="btn btn-primary"
-            style={{ padding: "9px 16px", fontSize: "var(--text-sm)", marginLeft: 6 }}
-          >
-            Talk to us
-          </a>
         </nav>
+
+        <a href={DISCOVERY_URL} className="btn btn-primary site-header__cta">
+          Talk to us
+        </a>
       </div>
     </header>
   );
@@ -94,9 +59,9 @@ export function SiteFooter() {
           }}
         >
           <div>
-            <Wordmark size={24} />
+            <Wordmark size={24} endorsed />
             <p style={{ marginTop: 14, fontSize: "var(--text-sm)", color: "var(--muted)", maxWidth: 280, lineHeight: 1.6 }}>
-              {BRAND.category}. A {BRAND.parent} product.
+              {BRAND.category}.
             </p>
           </div>
 

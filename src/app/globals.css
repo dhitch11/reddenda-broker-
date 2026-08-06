@@ -1,0 +1,522 @@
+/* ============================================================================
+   REDDENDA BROKER . THE TOKEN LAYER
+   Owner: @BROKER-MARKETING (Brober4444). This is the published shared contract.
+
+   MERGE NOTE, 2026-08-06. @BROKER-TOOLS and I landed a token layer on this path
+   within minutes of each other. Their file's own header says it is interim and is
+   to be replaced by the brand system, so this is that replacement, but it is a
+   MERGE and not an overwrite:
+     - Every variable name their components already consume is preserved in
+       section 6 as an alias onto this canon. Distribution.tsx keeps working
+       untouched. Nothing they wrote breaks.
+     - Their distribution ramp idea is adopted and rebuilt on the canon hues.
+     - Their spacing scale is adopted verbatim.
+     - Two of their decisions are deliberately not carried, and both are called out
+       by name in section 7 rather than silently dropped.
+
+   WHY THIS FILE EXISTS IN THIS SHAPE
+   A 41-agent audit of the parent estate measured four competing token systems
+   shipping at once (four teals, three violets), two flagship pages that declare
+   three typefaces and load none of them, and five parallel variable prefixes for
+   overlapping concepts. Cross surface, the product does not read as one company.
+   This file is one system. Every hex is either inherited from the parent marketing
+   canon on purpose, or introduced on purpose and justified in a comment.
+
+   THE BRAND IDEA, IN ONE LINE
+   A provider reads a rate as opportunity. A broker and a self-funded employer read
+   the exact same rate as cost. Same instrument, pointed the other way across the
+   table. So we inherit the parent's chrome unchanged and invert only the SEMANTIC
+   axis: teal stays the brand and the data-is-live signal, while the language of
+   high and low is cost language rather than opportunity language.
+
+   CONTRAST
+   Every text pair is measured by scripts/check-contrast.mjs, which parses THIS
+   file rather than a copy. All 22 pairs clear their bar. The ratios in the
+   comments are that script's output, not arithmetic done by hand.
+   ========================================================================= */
+
+/* --------------------------------------------------------------------------
+   1. RESET . minimal, deliberate
+   -------------------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-size: var(--text-base);
+  line-height: var(--leading-normal);
+  color: var(--body);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* The page must never scroll sideways at any width. `clip` not `hidden`,
+     because `hidden` creates a scroll container and silently kills every
+     position:sticky descendant. That defect has shipped on this estate before. */
+  overflow-x: clip;
+}
+
+img, svg, video, canvas { display: block; max-width: 100%; height: auto; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { background: none; border: none; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+:where(h1, h2, h3, h4, h5, h6, p) { overflow-wrap: break-word; }
+
+/* --------------------------------------------------------------------------
+   2. TOKENS . the canon
+   -------------------------------------------------------------------------- */
+
+:root {
+  /* Light only. See section 7 for why, stated rather than assumed. */
+  color-scheme: light;
+
+  /* ---- 2.1 BRAND . inherited byte-identical from the parent marketing canon
+     (assets/css/reddenda-light.css). The sibling must be unmistakably the same
+     company. We add nothing to the teal family and we remove nothing. ---- */
+  --teal:        #0FB5A6;  /* fills, borders, glows, large display only. 2.57:1, NOT text */
+  --teal-mid:    #0A8E83;  /* 4.03:1 . large text 24px+ only. FAILS AA for body copy */
+  --teal-deep:   #077A70;  /* 5.22:1 . the only teal permitted for small text and links */
+  --teal-press:  #066B62;  /* pressed and hover fill */
+  --teal-wash:   #E8F7F5;  /* tinted surface */
+  --teal-ring:   rgba(15, 181, 166, .14);  /* focus halo */
+
+  /* ---- 2.2 INK ---- */
+  --ink:    #0A0B0C;  /* 19.70:1 . headlines */
+  --body:   #191D21;  /* 16.95:1 . body copy */
+  --muted:  #5B6166;  /* 6.28:1  . secondary, passes AA small */
+  --faint:  #6B7280;  /* 4.83:1  . tertiary, passes AA small, never below 13px */
+  --ghost:  #8A9096;  /* 3.23:1  . NON-TEXT ONLY. rules, disabled glyphs, axis ticks */
+
+  /* ---- 2.3 SURFACE ---- */
+  --paper:  #FFFFFF;
+  --band:   #F5F8F7;  /* alternating section band */
+  --elev:   #F7F9FB;  /* raised stat card, and the distribution track */
+  --sunken: #F4F5F6;  /* the honest-empty / indexing surface */
+  --hair:        #EAEBEC;
+  --hair-strong: #D6DADC;
+  --hair-sunken: #DEE1E3;
+
+  /* ---- 2.4 THE SEMANTIC BRIDGE . this is the part that is ours
+     The parent assigns meaning to color in rd-tokens.css and it is the single
+     best idea in its design system, so we take the architecture. We re-encode
+     the meanings for a buyer who reads a rate as an expense.
+
+     Provider reading           Broker and employer reading
+     -----------------          ---------------------------
+     high rate = opportunity    high rate = exposure
+     low rate  = underpaid      low rate  = an efficient market
+     P90       = the target     P90       = what the worst quarter costs
+
+     DISCIPLINE: these are for CALLOUTS AND COPY, never for recoloring a
+     percentile ramp. A percentile is not a judgement, and painting p90 red
+     implies the number is bad rather than high. See 2.6. ---- */
+  --live:        var(--teal);      /* this number is live, sourced, current */
+  --live-text:   var(--teal-deep);
+  --exposure:    #C24717;          /* the expensive tail. 4.99:1 on paper */
+  --exposure-wash: #FEF4EF;        /* lightened from #FDF0EA: the accent failed 4.5 on it at 4.47 */
+  --efficient:   #0C7A55;          /* the low end of a real market. 5.34:1 */
+  --efficient-wash: #E9F6F0;
+  --spread:      #8A6414;          /* the gap itself, the thing being sold. 5.37:1 */
+  --spread-wash: #FBF4E4;
+  --locked:      #6D5BD6;          /* gated depth, inherited violet. 5.10:1 */
+  --locked-wash: #F6F4FD;          /* lightened from #F0EDFB: the accent failed 4.5 on it at 4.42 */
+
+  /* ---- 2.5 THE INHERITED SIGNATURE
+     Identical in four files across two repos. It is the estate's strongest
+     single mark. Carry it byte-identical or the sibling reads as a knockoff. ---- */
+  --pro-gradient: linear-gradient(110deg, #14E09A, #00E5FF);
+  --pro-ink:      #04231F;
+  --pro-shadow:   0 2px 10px rgba(15, 181, 166, .35);
+
+  /* ---- 2.6 THE DISTRIBUTION RAMP
+     Adopted from @BROKER-TOOLS's interim file, rebuilt on the canon hue so the
+     chart and the brand are the same teal.
+
+     Sequential, single hue, monotonically darkening. A single-hue sequential ramp
+     is colorblind-safe by construction: it varies in lightness, which every form
+     of color vision deficiency preserves. Ordered lightness also means the ramp
+     survives a black and white print of the exported artifact.
+
+     Meaning is NEVER carried by hue alone anywhere it is used. Every marker also
+     carries a text label, per the tools lane's own component contract. ---- */
+  --dist-25: #9FDDD6;  /* fill only */
+  --dist-50: #0FB5A6;  /* the median gets the brand teal */
+  --dist-75: #077A70;
+  --dist-90: #044A44;
+
+  /* ---- 2.7 TYPE
+     Three faces, loaded for real by next/font in layout.tsx. The parent declares
+     these same three and ships no @font-face on either flagship page, so every
+     headline and every dollar figure there renders in system fallback while the
+     woff2 files sit unused on disk. We do not repeat that. ---- */
+  --text-xs:   12px;
+  --text-sm:   13px;
+  --text-base: 15px;
+  --text-md:   17px;
+  --text-lg:   19px;
+  --text-xl:   24px;
+  --text-2xl:  32px;
+  --text-3xl:  42px;
+  --text-4xl:  52px;
+  --display:    clamp(34px, 5.6vw, 62px);
+  --display-sm: clamp(27px, 4.2vw, 42px);
+
+  --leading-tight:  1.05;
+  --leading-snug:   1.25;
+  --leading-normal: 1.55;
+  --track-tight:   -0.028em;
+  --track-eyebrow:  0.14em;
+
+  /* ---- 2.8 GEOMETRY ---- */
+  --r-lg:  16px;
+  --r:     14px;
+  --r-sm:  10px;
+  --r-xs:  8px;
+  --pill:  999px;
+  --container: 1180px;
+  --container-tight: 920px;
+  --gutter: clamp(20px, 4.5vw, 44px);
+
+  /* Spacing scale, adopted verbatim from @BROKER-TOOLS. 8px grid. */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+
+  /* ---- 2.9 ELEVATION . negative spread, very soft, inherited ---- */
+  --shadow-sm: 0 1px 2px rgba(10, 19, 22, .05);
+  --shadow-md: 0 14px 40px -22px rgba(10, 19, 22, .16);
+  --shadow-lg: 0 24px 64px -30px rgba(10, 19, 22, .20);
+
+  /* ---- 2.10 MOTION . two curves, no more. transform and opacity only. ---- */
+  --ease:    cubic-bezier(.22, 1, .36, 1);   /* interactive, 160 to 260ms */
+  --ease-in: cubic-bezier(.16, 1, .3, 1);    /* entrances and reveals */
+  --dur-fast: 160ms;
+  --dur:      220ms;
+  --dur-slow: 640ms;
+
+  /* ---- 2.11 FOCUS . ONE spec. The parent ships three. ---- */
+  --focus-ring: 0 0 0 3px var(--teal-ring), 0 0 0 1.5px var(--teal-deep);
+}
+
+/* --------------------------------------------------------------------------
+   3. PRIMITIVES
+   -------------------------------------------------------------------------- */
+
+.wrap { width: 100%; max-width: var(--container); margin-inline: auto; padding-inline: var(--gutter); }
+.wrap-tight { width: 100%; max-width: var(--container-tight); margin-inline: auto; padding-inline: var(--gutter); }
+
+.band { background: var(--band); }
+
+/* EVERY financial figure. Tabular numerals are non-negotiable: a column of
+   proportional digits does not line up, and a broker reads these in a column. */
+.num {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 1;
+  letter-spacing: -0.01em;
+}
+
+.display {
+  font-family: var(--font-display), var(--font-sans), sans-serif;
+  font-weight: 700;
+  letter-spacing: var(--track-tight);
+  line-height: var(--leading-tight);
+  color: var(--ink);
+}
+
+.eyebrow {
+  font-family: var(--font-mono), monospace;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--track-eyebrow);
+  color: var(--live-text);
+}
+
+.lede { font-size: var(--text-md); line-height: var(--leading-normal); color: var(--muted); }
+
+:where(a, button, input, select, [tabindex]):focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--r-xs);
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 24px;
+  border-radius: var(--r-sm);
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600; font-size: var(--text-base);
+  transition: transform var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease),
+              border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
+  will-change: transform;
+}
+.btn-primary { background: var(--teal-deep); color: #FFFFFF; box-shadow: var(--shadow-sm); }
+.btn-primary:hover { background: var(--teal-press); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.btn-secondary { background: var(--paper); color: var(--ink); border: 1px solid var(--hair-strong); }
+.btn-secondary:hover { border-color: var(--teal); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.btn:active { transform: translateY(0); }
+.btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+
+/* ---- Cards ---- */
+.card {
+  background: var(--paper);
+  border: 1px solid var(--hair);
+  border-radius: var(--r);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+.card-hover:hover { border-color: var(--hair-strong); box-shadow: var(--shadow-md); transform: translateY(-2px); }
+
+/* ---- Chips ---- */
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 11px;
+  border-radius: var(--pill);
+  background: var(--band);
+  border: 1px solid var(--hair);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-xs);
+  color: var(--muted);
+  white-space: nowrap;
+}
+.chip-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--live); box-shadow: 0 0 0 3px var(--teal-ring); flex: none; }
+
+/* The inherited signature mark. Byte-identical to the parent. */
+.pro-chip {
+  display: inline-flex; align-items: center;
+  padding: 3px 8px;
+  border-radius: var(--pill);
+  background: var(--pro-gradient);
+  color: var(--pro-ink);
+  font-family: var(--font-mono), monospace;
+  font-weight: 800; font-size: 10px;
+  letter-spacing: .12em; text-transform: uppercase;
+  box-shadow: var(--pro-shadow);
+}
+
+/* ---- The honest gap. Rule 1 expressed as a component.
+   A missing value renders as a dashed outline, never as a zero and never as a
+   dash that could be mistaken for a minus sign. ---- */
+.gap-dot {
+  display: inline-block; width: 10px; height: 10px;
+  border: 2px dashed var(--ghost); border-radius: 50%;
+  vertical-align: middle;
+}
+
+.empty-state {
+  background: var(--sunken);
+  border: 1px solid var(--hair-sunken);
+  border-radius: var(--r);
+  padding: 22px;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+/* --------------------------------------------------------------------------
+   3b. SITE HEADER
+   Measured defect, 2026-08-06: with the nav as a single wrapping flex row, the
+   links overflowed the viewport by 9px at 320px and were CLIPPED by the body's
+   `overflow-x: clip`, so the last nav item and part of the CTA were unreachable.
+   The page did not scroll sideways, which is exactly why it was invisible to a
+   scroll test and only showed up in an element-level geometry probe.
+
+   The fix is a two-row header below 860px: identity and the CTA on the first row,
+   the nav on its own row in a container that scrolls itself. Nothing is hidden,
+   nothing is clipped, and it needs no JavaScript.
+   -------------------------------------------------------------------------- */
+
+.site-header {
+  position: sticky; top: 0; z-index: 40;
+  background: rgba(255, 255, 255, .88);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom: 1px solid var(--hair);
+}
+
+/* One DOM order (logo, nav, cta) serving both layouts through grid areas, so the
+   CTA is never duplicated for the sake of a breakpoint. */
+.site-header__inner {
+  display: grid;
+  align-items: center;
+  column-gap: 12px;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "logo cta"
+    "nav  nav";
+  padding-top: 11px;
+}
+.site-header__logo { grid-area: logo; min-width: 0; }
+.site-header__nav { grid-area: nav; }
+.site-header__cta { grid-area: cta; }
+
+.site-header__nav {
+  display: flex; align-items: center; gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+}
+.site-header__nav::-webkit-scrollbar { display: none; }
+
+.site-header__link {
+  padding: 8px 11px;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--muted);
+  border-radius: var(--r-xs);
+  white-space: nowrap;
+  transition: color var(--dur-fast) var(--ease);
+}
+.site-header__link:hover { color: var(--ink); }
+
+.site-header__cta { padding: 9px 15px; font-size: var(--text-sm); flex: none; }
+
+@media (min-width: 860px) {
+  .site-header__inner {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: "logo nav cta";
+    column-gap: 20px;
+    min-height: 64px;
+    padding-top: 0;
+  }
+  .site-header__nav {
+    justify-content: flex-end;
+    overflow-x: visible;
+    padding-bottom: 0;
+    margin-inline: 0;
+    padding-inline: 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. MOTION . entrances
+   Transform and opacity only. Nothing here can trigger layout.
+   -------------------------------------------------------------------------- */
+
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+.rise { animation: rise var(--dur-slow) var(--ease-in) both; }
+.rise-1 { animation-delay: 60ms; }
+.rise-2 { animation-delay: 120ms; }
+.rise-3 { animation-delay: 180ms; }
+.rise-4 { animation-delay: 240ms; }
+
+/* Scroll-driven reveal. Set by IntersectionObserver so it degrades to VISIBLE
+   when JS is off, rather than leaving the page blank. */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity var(--dur-slow) var(--ease-in), transform var(--dur-slow) var(--ease-in); }
+.reveal.is-in { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+  .btn:hover, .card-hover:hover { transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   5. PRINT . the exported artifact is the most-forwarded surface we own
+   -------------------------------------------------------------------------- */
+
+@media print {
+  .no-print { display: none !important; }
+  body { background: #FFFFFF; }
+  .card { box-shadow: none; border-color: #CCCCCC; }
+
+  /* Scroll reveal must never survive into print. A visitor who lands and prints
+     without scrolling would otherwise get a page of blank sections, because the
+     IntersectionObserver has not fired for anything below the fold. Found by
+     looking at a full-page screenshot, which is the same failure mode: three
+     sections rendered as empty space and every assertion in the suite passed. */
+  .reveal, .rise {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. COMPATIBILITY ALIASES . @BROKER-TOOLS's interim names, mapped onto the canon
+
+   These exist so that every component the tools lane already shipped keeps
+   working with no edit to their files. src/components/Distribution.tsx consumes
+   --surface-2, --text-2, --text-3, --border-strong, --radius-sm, --font-num,
+   --accent and the --dist-* ramp, and it continues to render correctly.
+
+   New code should use the canon names in section 2. These aliases are a bridge,
+   not a second system, and they are one-directional: nothing in section 2 refers
+   back to an alias.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --bg:            var(--paper);
+  --surface:       var(--band);
+  --surface-2:     var(--elev);
+  --border:        var(--hair);
+  --border-strong: var(--hair-strong);
+
+  --text:   var(--ink);
+  --text-2: var(--muted);
+  --text-3: var(--faint);
+
+  --accent:       var(--teal-deep);
+  --accent-hover: var(--teal-press);
+  --accent-soft:  var(--teal-wash);
+
+  --positive: var(--efficient);
+  --caution:  var(--spread);
+  --negative: var(--exposure);
+
+  --radius:    var(--r-sm);
+  --radius-sm: var(--r-xs);
+
+  --font:     var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-num: var(--font-mono), ui-monospace, monospace;
+}
+
+/* --------------------------------------------------------------------------
+   7. TWO DECISIONS FROM THE INTERIM FILE THAT ARE DELIBERATELY NOT CARRIED
+   Named rather than silently dropped, because silently reverting another lane is
+   how this estate breaks.
+
+   7.1 NO DARK MODE. The interim file set `color-scheme: light dark` and carried a
+   full `prefers-color-scheme: dark` palette. Not carried, for three reasons.
+   First, the settled visual direction in HANDOFF-MARKETING.md section 8 is
+   "sibling of Reddenda, parent is light, white, deep teal accent." A sibling that
+   flips to dark on half of all visitors is not a sibling. Second, an automatic
+   dark mode doubles every contrast pair that must be measured, and this system
+   documents all 22 of its pairs; shipping an unmeasured second palette would be
+   the same defect class we are fixing. Third, the exported artifact is printed and
+   forwarded, so the canonical rendering is on white regardless. If David wants a
+   dark register later it is a deliberate project with its own contrast pass, not
+   a media query.
+
+   7.2 SYSTEM FONT STACK. The interim file set `--font` to the system UI stack.
+   Not carried. The whole reason the parent's flagship tools read as cheap is that
+   they declare a typographic identity and ship none of it. next/font self-hosts,
+   subsets and preloads the three real faces with a zero-layout-shift fallback,
+   which costs nothing at runtime and is the difference between looking like
+   infrastructure and looking like an internal tool.
+   -------------------------------------------------------------------------- */

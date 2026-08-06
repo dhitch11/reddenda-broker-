@@ -44,20 +44,38 @@ export function Reveal({
     // Arm the hidden state only now that we know we can also un-hide it.
     el.classList.add("reveal");
 
+    const timers: number[] = [];
+
     const io = new IntersectionObserver(
       (entries) => {
+        // EVERY entry, not the first one.
+        //
+        // This loop used to `return` after handling the first intersecting entry.
+        // When a fast scroll brought several sections into view inside a single
+        // callback batch, the first revealed and the rest were dropped while
+        // still observed. An IntersectionObserver only fires again when
+        // intersection CHANGES, so those sections were already intersecting and
+        // were never reported again: they stayed at opacity 0 permanently.
+        //
+        // It was invisible to every assertion, survived a slow scripted scroll,
+        // and only appeared in a full-page screenshot taken after a fast one. A
+        // real user who flicks down the page is exactly the fast case.
         for (const e of entries) {
           if (!e.isIntersecting) continue;
-          const t = window.setTimeout(() => e.target.classList.add("is-in"), delay);
-          io.unobserve(e.target);
-          return () => window.clearTimeout(t);
+          const target = e.target;
+          io.unobserve(target);
+          timers.push(window.setTimeout(() => target.classList.add("is-in"), delay));
         }
       },
       { rootMargin: "0px 0px -12% 0px", threshold: 0.06 },
     );
 
     io.observe(el);
-    return () => io.disconnect();
+
+    return () => {
+      io.disconnect();
+      timers.forEach((t) => window.clearTimeout(t));
+    };
   }, [delay]);
 
   return (

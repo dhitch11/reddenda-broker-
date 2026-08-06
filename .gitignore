@@ -6,3 +6,10 @@ out
 *.local
 .DS_Store
 data/coverage.json
+
+# Local Netlify folder
+.netlify
+.netlify
+
+# per-lane build dirs (see next.config.ts distDir note)
+.next-*

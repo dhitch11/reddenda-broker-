@@ -1,9 +1,19 @@
 /**
  * THE MARK AND THE WORDMARK
  *
- * The name is NOT final. David is registering a domain and the working mark is
- * "Reddenda Broker". Every name string on the site resolves through BRAND below,
- * so a rename is one edit in one file and never a search-and-replace across pages.
+ * THE NAME IS CENSENDA. David ruled it 2026-08-06, replacing the working mark
+ * "Reddenda Broker". Latin `censeo`: to assess, to appraise, to rate, to value —
+ * the verb behind `census`, which is the first word in every group quote this
+ * audience writes. Verified before adoption: censenda.com free, ZERO trademark
+ * registrations worldwide, GitHub/X/LinkedIn handles free.
+ *
+ * The site is served from broker.reddenda.com for now, which is deliberate and
+ * not a contradiction: the URL is the parent estate's, the brand is Censenda.
+ * `parent` below carries that relationship so the bridge is stated in the UI
+ * rather than left for a visitor to puzzle out.
+ *
+ * Every name string on the site resolves through BRAND below, so a rename is one
+ * edit in one file and never a search-and-replace across pages.
  *
  * THE MARK
  * No cross, no heartbeat, no stethoscope, no swoosh. Health iconography would put
@@ -21,10 +31,12 @@
  */
 
 export const BRAND = {
-  /** Working mark. Not final. */
-  name: "Reddenda Broker",
+  /** Ruled by David 2026-08-06. */
+  name: "Censenda",
   /** Used where the parent relationship matters. */
   parent: "Reddenda",
+  /** The bridge line. The URL says reddenda, the brand says Censenda; this states why. */
+  endorsement: "Built on the Reddenda rate platform",
   /** One line, under 60 characters, for the header and the document footer. */
   tagline: "Know what the market pays",
   /** The category we are naming, used in metadata and the methodology page. */
@@ -55,22 +67,56 @@ export function Mark({ size = 28, className }: { size?: number; className?: stri
   );
 }
 
-export function Wordmark({ size = 28, muted = false }: { size?: number; muted?: boolean }) {
+/**
+ * The wordmark.
+ *
+ * One word, so it is set as one word. The earlier lockup split a two-part working
+ * mark across two colours; Censenda has no seam to colour and faking one would be
+ * decoration rather than structure.
+ *
+ * `endorsed` prints the parent-platform line beneath. Use it where a visitor first
+ * meets the brand and the reddenda.com URL in the address bar needs explaining,
+ * which today is the footer. The header stays clean.
+ */
+export function Wordmark({
+  size = 28,
+  muted = false,
+  endorsed = false,
+}: {
+  size?: number;
+  muted?: boolean;
+  endorsed?: boolean;
+}) {
   return (
     <span style={{ display: "inline-flex", alignItems: "center", gap: 10 }}>
       <Mark size={size} />
-      <span
-        className="display"
-        style={{
-          fontSize: Math.round(size * 0.62),
-          fontWeight: 700,
-          letterSpacing: "-0.02em",
-          color: muted ? "var(--muted)" : "var(--ink)",
-          whiteSpace: "nowrap",
-        }}
-      >
-        {BRAND.parent}
-        <span style={{ color: "var(--teal-deep)", fontWeight: 600 }}> Broker</span>
+      <span style={{ display: "grid", gap: 1 }}>
+        <span
+          className="display"
+          style={{
+            fontSize: Math.round(size * 0.62),
+            fontWeight: 700,
+            letterSpacing: "-0.022em",
+            color: muted ? "var(--muted)" : "var(--ink)",
+            whiteSpace: "nowrap",
+            lineHeight: 1.1,
+          }}
+        >
+          {BRAND.name}
+        </span>
+        {endorsed && (
+          <span
+            style={{
+              fontFamily: "var(--font-mono), monospace",
+              fontSize: 9.5,
+              letterSpacing: ".05em",
+              color: "var(--faint)",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {BRAND.endorsement}
+          </span>
+        )}
       </span>
     </span>
   );
