@@ -85,15 +85,23 @@ function invalidDemoNpi(i) {
    arrangements sit far below the modal negotiated rate. Modelling one sigma is the single
    biggest tell that a price distribution is fabricated. So each category gets sigLo and
    sigHi, solved from the real measured quartiles. */
+/* ★ THE MULTIPLE IS APPLIED ON TOP OF wage x concentration, so it is NOT the observed
+   "% of Medicare" — it is that figure divided by the geography factor. Getting this wrong
+   double-counts geography: the CMS anchors below are already locality-adjusted, and v1
+   then multiplied by the wage index a second time, landing LA 70553 at $650 against a real
+   measured $498. Multiples are now solved BACKWARDS from real observed levels:
+     70553 LA metro  real p50 $498 on a $361 anchor = 1.38x, / 1.23 geo = 1.12 base
+     29881 CA        real p50 $911 on a $547 anchor = 1.67x, / 1.23 geo = 1.35 base
+     99214 TX        real p50 $115 on a $148 anchor = 0.78x, / 1.02 geo = 0.76 base */
 const CAT_MODEL = {
-  'Primary Care':     { mult:[0.72,1.05], sigLo:0.31, sigHi:0.39, provPer100k:12 },
-  'Cardiology':       { mult:[0.80,1.30], sigLo:0.48, sigHi:0.52, provPer100k:5 },
-  'Imaging':          { mult:[1.35,1.95], sigLo:1.45, sigHi:0.91, provPer100k:6 },
-  'Gastroenterology': { mult:[1.50,2.30], sigLo:1.12, sigHi:0.84, provPer100k:2.5 },
-  'Orthopedics':      { mult:[1.60,2.60], sigLo:1.18, sigHi:0.88, provPer100k:3 },
-  'Ophthalmology':    { mult:[1.50,2.20], sigLo:0.96, sigHi:0.74, provPer100k:2.5 },
-  'Pain Management':  { mult:[1.40,2.20], sigLo:1.05, sigHi:0.80, provPer100k:2 },
-  'Emergency':        { mult:[1.80,3.00], sigLo:1.22, sigHi:0.95, provPer100k:4 },
+  'Primary Care':     { mult:[0.62,0.92], sigLo:0.31, sigHi:0.39, provPer100k:12 },
+  'Cardiology':       { mult:[0.70,1.10], sigLo:0.48, sigHi:0.52, provPer100k:5 },
+  'Imaging':          { mult:[0.95,1.35], sigLo:1.45, sigHi:0.91, provPer100k:6 },
+  'Gastroenterology': { mult:[1.15,1.60], sigLo:1.12, sigHi:0.84, provPer100k:2.5 },
+  'Orthopedics':      { mult:[1.15,1.65], sigLo:1.18, sigHi:0.88, provPer100k:3 },
+  'Ophthalmology':    { mult:[1.10,1.55], sigLo:0.96, sigHi:0.74, provPer100k:2.5 },
+  'Pain Management':  { mult:[1.10,1.55], sigLo:1.05, sigHi:0.80, provPer100k:2 },
+  'Emergency':        { mult:[1.40,2.20], sigLo:1.22, sigHi:0.95, provPer100k:4 },
 }
 
 /* ── REAL public CMS reference values (2026-Q3) ──────────────────────────── */
@@ -144,9 +152,11 @@ const PAYERS = [
 /* ── facilities: steerage is only actionable if you can NAME the cheap site ─ */
 const FAC_KINDS = [
   { kind:'Hospital outpatient', mult:[1.55,2.30], n:3 },
-  { kind:'Ambulatory surgery center', mult:[0.72,1.02], n:3 },
-  { kind:'Independent imaging', mult:[0.48,0.78], n:2 },
-  { kind:'Physician office', mult:[0.55,0.85], n:2 },
+  { kind:'Ambulatory surgery center', mult:[0.78,1.06], n:3 },
+  { kind:'Independent imaging', mult:[0.46,0.72], n:2 },
+  // must stay BELOW the ASC band, or the facility list contradicts the site-of-care panel
+  // on the same screen. Non-overlapping by construction.
+  { kind:'Physician office', mult:[0.44,0.70], n:2 },
 ]
 const FAC_STEMS = ['Harborview','Cedar Ridge','Summit Park','Lakeshore','Ironwood','Northgate','Redstone','Fairmount','Copperfield','Blue Harbor','Pioneer','Vantage','Alder Creek','Stonebridge','Willow Bend']
 let facSeq = 0
