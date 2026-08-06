@@ -372,6 +372,13 @@ a { color: inherit; text-decoration: none; }
   padding-bottom: 8px;
   margin-inline: calc(var(--gutter) * -1);
   padding-inline: var(--gutter);
+  /* The nav scrolls on narrow screens rather than hiding items behind a menu, so
+     the last label is cut at the viewport edge. Without an affordance a cut word
+     reads as a rendering bug rather than as "there is more this way". Fading the
+     trailing edge says scrollable without adding a control. Measured at 390px,
+     where "Demo environment" was being clipped mid-word. */
+  -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 26px), transparent 100%);
+  mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 26px), transparent 100%);
 }
 .site-header__nav::-webkit-scrollbar { display: none; }
 
@@ -402,6 +409,9 @@ a { color: inherit; text-decoration: none; }
     padding-bottom: 0;
     margin-inline: 0;
     padding-inline: 0;
+    /* Nothing is clipped at this width, so the fade would only dim a real link. */
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 }
 
