@@ -600,6 +600,27 @@ a { color: inherit; text-decoration: none; }
 }
 .hero-grid__proof { min-width: 0; }
 
+/* THE GRID BLOWOUT. Fixed 2026-08-07 by @BROKER-CONDUCTOR — my own defect, in the
+   hero I added earlier today.
+
+   Measured on live prod at 390px: the grid TRACK was correctly 350px, but its child
+   rendered at 422px and every line of the hero — eyebrow, lede, CTA row, proof rail —
+   was cut off mid-word. document.scrollWidth 468 against a 390 viewport.
+
+   Cause: a grid item defaults to `min-width: auto`, which refuses to shrink below the
+   intrinsic minimum width of its content. So the column ignored its own track and
+   pushed 78px past the viewport.
+
+   It was WORSE than ordinary overflow because `body { overflow-x: clip }` (correct,
+   and deliberate — `clip` rather than `hidden` so sticky positioning survives) meant
+   the page would not scroll to reveal it. scrollX stayed 0. The text was simply
+   unreachable on a phone: clipped, with no way to get to it.
+
+   `min-width: 0` is the canonical fix and it changes nothing at desktop widths, where
+   the content already fits its track. */
+.hero-grid > * { min-width: 0; }
+
+
 @media (min-width: 1024px) {
   .hero-grid {
     grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
