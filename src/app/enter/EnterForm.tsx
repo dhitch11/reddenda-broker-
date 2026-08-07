@@ -62,8 +62,8 @@ function AmbientField({ state }: { state: "idle" | "checking" | "wrong" | "in" }
             {
               top: `${st.top}%`,
               width: `${st.w}%`,
-              opacity: st.o,
-              "--dur": `${st.dur}s`,
+              "--o": st.o,
+              "--drift-dur": `${st.dur}s`,
               "--delay": `${st.delay}s`,
               "--i": i,
             } as React.CSSProperties
@@ -88,6 +88,25 @@ export default function EnterForm() {
   useEffect(() => {
     refs.current[0]?.focus();
   }, []);
+
+  /**
+   * Refocus AFTER the failed render, not during it.
+   *
+   * The first version called focus() in the same synchronous tick as
+   * setState("wrong"), while the inputs were still disabled from the in-flight
+   * check, so the browser dropped the focus request and the next keystroke went
+   * nowhere. An effect runs after the inputs re-render enabled.
+   *
+   * The digits are kept and selected rather than cleared, so the error colour
+   * stays attached to the characters that actually caused it and the next
+   * keystroke replaces them. Six reddened empty boxes tell you nothing.
+   */
+  useEffect(() => {
+    if (state !== "wrong") return;
+    const el = refs.current[0];
+    el?.focus();
+    el?.select();
+  }, [state]);
 
   const pin = digits.join("");
   const complete = pin.length === CELLS && !digits.includes("");
@@ -133,8 +152,6 @@ export default function EnterForm() {
       /* same failure state either way; never reveal which step failed */
     }
     setState("wrong");
-    setDigits(Array(CELLS).fill(""));
-    refs.current[0]?.focus();
   }
 
   function setAt(i: number, v: string) {
@@ -190,7 +207,8 @@ export default function EnterForm() {
               onKeyDown={(e) => onKeyDown(i, e)}
               inputMode="numeric"
               autoComplete="one-time-code"
-              type="password"
+              type="text"
+              pattern="[0-9]*"
               maxLength={CELLS}
               aria-label={`Access code digit ${i + 1} of ${CELLS}`}
               disabled={locked}

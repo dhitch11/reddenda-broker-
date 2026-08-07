@@ -66,7 +66,12 @@ export const CA_METROS = new Set((caReal as { metros: string[] }).metros || [])
    figure, so a Sacramento broker saw a statewide BAND instead of their own number. In front
    of the CAHIP NorCal room that is the difference between "your market" and "your state."
    Sacramento is locality 63, MAC 0111263, GPCI 1.036 / 1.163 / 0.536. */
-const CA_LOC = caLoc as {
+/* Cast through `unknown`. The JSON literal widens each rate pair to number[],
+ * which TS will not narrow to the [number, number] tuple this shape declares, so
+ * the direct assertion is rejected and the whole build fails type check. Going
+ * through `unknown` is the sanctioned narrowing here: the file is generated with
+ * exactly two elements per pair and `pairAt()` reads [0] and [1] only. */
+const CA_LOC = caLoc as unknown as {
   cbsa_to_locality: Record<string, string>; rest_of_ca: string
   meta: Record<string, { name: string; w: number; pe: number; mp: number }>
   rates: Record<string, Record<string, [number, number]>>

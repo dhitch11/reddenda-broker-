@@ -35,22 +35,30 @@
    * The field is punched out where the card sits and fades toward the edges, so
    * the strips read as depth behind the card instead of debris across it. */
   -webkit-mask-image:
-    radial-gradient(52% 44% at 50% 50%, transparent 0%, transparent 34%, #000 76%),
+    radial-gradient(ellipse 340px 250px at 50% 50%, transparent 0%, transparent 64%, #000 100%),
     linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
   -webkit-mask-composite: source-in;
   mask-image:
-    radial-gradient(52% 44% at 50% 50%, transparent 0%, transparent 34%, #000 76%),
+    radial-gradient(ellipse 340px 250px at 50% 50%, transparent 0%, transparent 64%, #000 100%),
     linear-gradient(to bottom, transparent 0%, #000 16%, #000 84%, transparent 100%);
   mask-composite: intersect;
 }
 
+/* The two animations must own DIFFERENT properties.
+ * The first build ran `drift` and `rise` on the same shorthand, both touching
+ * transform, with `rise` last and filling `both` — so its end frame won the
+ * cascade and pinned every strip still. The field looked static and nobody
+ * would have known why. Centring now uses `translate`, which composes with
+ * `transform` instead of fighting it, so drift owns transform and riseFade
+ * owns opacity alone. */
 .strip {
   position: absolute;
   left: 50%;
   height: 14px;
-  transform: translate3d(-50%, 0, 0);
-  animation: drift var(--dur, 28s) var(--delay, 0s) infinite alternate ease-in-out,
-             rise 900ms calc(var(--i) * 70ms) both var(--ease);
+  translate: -50% 0;
+  opacity: var(--o, .14);
+  animation: drift var(--drift-dur, 28s) var(--delay, 0s) infinite alternate ease-in-out,
+             riseFade 900ms calc(var(--i) * 70ms) both var(--ease);
   will-change: transform;
 }
 
@@ -95,13 +103,13 @@
 }
 
 @keyframes drift {
-  from { transform: translate3d(-50%, -7px, 0); }
-  to   { transform: translate3d(-50%,  7px, 0); }
+  from { transform: translateY(-7px); }
+  to   { transform: translateY(7px); }
 }
 
-@keyframes rise {
-  from { opacity: 0; transform: translate3d(-50%, 14px, 0); }
-  to   { opacity: 1; transform: translate3d(-50%, 0, 0); }
+@keyframes riseFade {
+  from { opacity: 0; }
+  to   { opacity: var(--o, .14); }
 }
 
 /* the payoff: on a correct code the field brightens and settles */
@@ -125,7 +133,7 @@
   text-align: center;
   padding: 34px 26px 26px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, .93);
+  background: rgba(255, 255, 255, .97);
   border: 1px solid var(--hair);
   box-shadow:
     0 1px 2px rgba(10, 11, 12, .04),
@@ -192,6 +200,8 @@
   border: 1px solid var(--hair-strong);
   border-radius: 11px;
   outline-offset: 2px;
+  font-variant-numeric: tabular-nums slashed-zero;
+  caret-color: var(--teal-deep);
   transition:
     border-color var(--dur-fast) var(--ease),
     box-shadow   var(--dur-fast) var(--ease),
@@ -199,14 +209,18 @@
   animation: fadeUp 560ms calc(230ms + var(--i) * 40ms) both var(--ease);
 }
 
+/* Fill and focus must be two different signals. Measured on the first build,
+ * a filled cell and the focused cell both computed border rgb(7,122,112) and
+ * were indistinguishable. Fill now carries the wash, focus carries the stroke,
+ * and the 2px paper spacer keeps the ring legible ON the filled wash. */
 .cell:focus-visible {
   border-color: var(--teal-deep);
-  box-shadow: 0 0 0 4px var(--teal-ring);
+  box-shadow: 0 0 0 2px var(--paper), 0 0 0 4px var(--teal-deep);
   outline: none;
 }
 
 .cellFilled {
-  border-color: var(--teal-deep);
+  border-color: var(--hair-strong);
   background: var(--teal-wash);
 }
 
