@@ -170,18 +170,26 @@ export default async function Home({
                   Working tools. No account required.
                 </span>
               </div>
+              </div>
+
+              {/* RIGHT COLUMN: the live number. This is what was empty white. */}
+              <div className="rise rise-3 hero-grid__proof" id="result">
+                {!configured ? (
+                  <UnavailableState />
+                ) : (
+                  result && <RatePanel result={result} plainName={svc?.plain ?? null} />
+                )}
+              </div>
             </div>
 
-            <div className="rise rise-3" style={{ marginTop: 26, maxWidth: 880 }}>
+            {/*
+              The lookup sits BELOW both columns and stays full width on purpose.
+              `.lookup-grid` goes three-across on a viewport media query, so putting
+              it inside a ~550px hero column at a 1440px viewport would re-crush the
+              selects exactly as before. Full width, it keeps its three-column shape.
+            */}
+            <div className="rise rise-4" style={{ marginTop: 28, maxWidth: 880 }}>
               <LookupForm service={service} market={market} />
-            </div>
-
-            <div style={{ marginTop: 20, maxWidth: 880 }} id="result">
-              {!configured ? (
-                <UnavailableState />
-              ) : (
-                result && <RatePanel result={result} plainName={svc?.plain ?? null} />
-              )}
             </div>
           </div>
         </section>
