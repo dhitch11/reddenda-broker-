@@ -5,6 +5,7 @@ import { findService, SERVICES } from "@/lib/catalog";
 import { isConfigured } from "@/lib/db";
 import { SCALE, nationalRate } from "@/lib/national";
 import { siteComparison } from "@/lib/siteofservice";
+import { PriceField, FIELD_COUNT } from "@/components/marketing/price-field";
 import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
 import { LookupForm } from "@/components/marketing/lookup-form";
 import { RatePanel } from "@/components/marketing/rate-panel";
@@ -110,7 +111,17 @@ export default async function Home({
       <main>
         {/* ================= 1. THE FIFTEEN SECOND NUMBER ================= */}
         <section className="hero-substrate" style={{ paddingTop: "clamp(40px, 7vw, 76px)", paddingBottom: "clamp(32px, 5vw, 56px)" }}>
-          <div className="wrap">
+          {/*
+            THE PRICE FIELD. Every dot is a real metro at its real Census centroid,
+            sized by filings held and coloured by that market's own dispersion.
+            It sits behind the hero at z-index 0 with the content above it, and it
+            is aria-hidden and pointer-events:none, so it is decoration to a screen
+            reader and to the mouse while being literal data to the eye.
+          */}
+          <div className="price-field" aria-hidden="true">
+            <PriceField height={560} />
+          </div>
+          <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
             {/*
               THE TWO COLUMN HERO. @BROKER-CONDUCTOR, on David's direct order, after
               he asked three times why the hero had not been upgraded.
