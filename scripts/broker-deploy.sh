@@ -58,14 +58,51 @@ echo "=== 4. deploy ==="
 #   isolating the build dir publishes ANOTHER lane's directory. That caused an outage.
 netlify deploy --prod --build --skip-functions-cache --site "$SITE" 2>&1 | tail -25
 
+# ── THE BUILD'S EXIT CODE, NOT tail'S. ────────────────────────────────────────
+# `cmd | tail` makes $? belong to tail, which succeeds no matter what the build did,
+# and `set -e` sees a zero-exit pipeline and carries on. So a failed build fell
+# straight through into step 5, which then verified the PREVIOUS deploy and printed
+# "✅ all routes 200" over "build.command failed". Measured 2026-08-07: every app
+# promote between 21:19 and 22:5x UTC failed, and every one of them reported success.
+# A control that reports success on failure is worse than no control.
+BUILD_STATUS=${pipestatus[1]}
+if [ "$BUILD_STATUS" != "0" ]; then
+  echo ""
+  echo "🚨 BUILD FAILED (exit $BUILD_STATUS). NOTHING WAS PUBLISHED."
+  echo "   Not verifying: the live site still serves the PREVIOUS deploy, and checking"
+  echo "   it would report that deploy's health as if it were yours."
+  echo "   Fix the build, then run this again."
+  exit 1
+fi
+
 echo "=== 5. VERIFY THE LIVE SITE. A 'ready' state is not evidence — both outages were 'ready'. ==="
 J=$(mktemp); curl -s -o /dev/null -c "$J" -X POST "$HOST$GATE" \
    -H "content-type: application/json" -d '{"pin":"110124"}' -m 20 || true
+
+# ── PROVE THE HANDSHAKE BEFORE TRUSTING A SINGLE 200. ─────────────────────────
+# If the gate POST fails, every gated route answers 200 with the ENTRY SCREEN, and a
+# status-only loop passes vacuously on a site serving nothing but a PIN prompt. Assert
+# the session is real first, then assert per route that the body is not that screen.
+if ! grep -qi "csnd_entry" "$J" 2>/dev/null; then
+  echo "    ⚠️  gate handshake did not set a session cookie."
+  echo "       Every gated route will answer 200 with the entry screen, so a status"
+  echo "       check here would pass on a site that shipped nothing. Refusing to verify."
+  rm -f "$J"; exit 1
+fi
+
 BAD=0
 for r in $ROUTES; do
-  c=$(curl -s -o /dev/null -b "$J" -w '%{http_code}' -m 25 "$HOST$r")
-  printf "    %-34s %s\n" "$r" "$c"
+  BODY=$(mktemp)
+  c=$(curl -s -o "$BODY" -b "$J" -w '%{http_code}' -m 25 "$HOST$r")
+  NOTE=""
+  # The gate rewrites an unknown path to the entry screen, which is ALSO a 200. A
+  # status code cannot tell a shipped page from a missing one on a gated host.
+  if grep -qi "Enter the code\|Get access" "$BODY" 2>/dev/null; then
+    NOTE="  <- SERVED THE ENTRY SCREEN, NOT THE ROUTE"; c="200/gate"
+  fi
+  printf "    %-34s %s%s\n" "$r" "$c" "$NOTE"
   [ "$c" != "200" ] && BAD=$((BAD+1))
+  rm -f "$BODY"
 done
 rm -f "$J"
 
