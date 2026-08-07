@@ -462,7 +462,7 @@ export default async function Home({
                   <span style={{ color: "var(--exposure)" }}>{ratio.toFixed(1)}x</span> apart.
                 </h2>
                 <p className="lede" style={{ marginTop: 14, maxWidth: "62ch" }}>
-                  {hi.metro.name.split("-")[0]} pays a median of {money(hi.rate.cell.p50)} for{" "}
+                  {hi.metro.name.split("-")[0]} pays a middle price of {money(hi.rate.cell.p50)} for{" "}
                   {svc?.plain ?? `CPT ${service}`}. {lo.metro.name.split("-")[0]} pays{" "}
                   {money(lo.rate.cell.p50)}. Not billed charges, not an estimate. What plans have
                   contracted to pay, filed by the payers themselves.

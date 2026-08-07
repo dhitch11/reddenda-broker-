@@ -255,7 +255,7 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                 {position && found && (
                   <p className="lede" style={{ marginTop: 12, maxWidth: "58ch" }}>
                     Of the {ranked.length} markets compared here, {metroShort(metro)} has the{" "}
-                    {ordinal(position)} highest median.
+                    {ordinal(position)} highest middle price.
                   </p>
                 )}
               </Reveal>
@@ -276,7 +276,7 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                   >
                     <thead>
                       <tr>
-                        {["Market", "25th", "Median", "75th", "Filings"].map((h, i) => (
+                        {["Market", "Low end", "Middle", "High end", "Providers"].map((h, i) => (
                           <th
                             key={h}
                             scope="col"
