@@ -499,7 +499,7 @@ export default async function Home({
                     </caption>
                     <thead>
                       <tr>
-                        {["Market", "25th", "Median", "75th", "90th", "Filings"].map((h, i) => (
+                        {["Market", "Low end", "Middle", "High end", "Priciest", "Providers"].map((h, i) => (
                           <th
                             key={h}
                             scope="col"
