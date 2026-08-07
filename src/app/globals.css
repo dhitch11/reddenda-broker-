@@ -750,10 +750,32 @@ a { color: inherit; text-decoration: none; }
    changes what the number means. */
 @keyframes draw-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
-.draw {
-  transform-origin: left center;
-  animation: draw-x var(--dur-draw) var(--ease) both;
-  animation-delay: calc(var(--i, 0) * 90ms);
+/* SCROLL-LINKED, NOT LOAD-LINKED, AND THAT DISTINCTION IS THE WHOLE POINT.
+   The first build ran this on page load. Measured: by the time a reader scrolls
+   to a bar the 900ms animation has long finished, so the effect existed in the
+   stylesheet and was never once seen by a human. A load-triggered animation on
+   below-fold content is decoration nobody receives.
+
+   `animation-timeline: view()` scrubs the draw against the element's own
+   progress through the viewport, so the bar assembles under the reader's thumb
+   and runs entirely on the compositor: zero main-thread cost, and it cannot
+   delay the numbers.
+
+   The @supports fallback is the finished state, not a degraded one. A browser
+   without view timelines shows a complete bar, which is correct rather than
+   lesser. */
+.draw { transform-origin: left center; }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .draw {
+      animation: draw-x linear both;
+      animation-timeline: view();
+      animation-range: entry 12% cover 34%;
+      /* Firefox applies nothing at all unless a duration is present. */
+      animation-duration: auto;
+    }
+  }
 }
 
 /* ── 2. THE LIVE DOT ────────────────────────────────────────────────────────

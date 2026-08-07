@@ -304,7 +304,10 @@ export default async function Home({
                   return (
                     <div key={r.region} style={{ display: "grid", gridTemplateColumns: "104px 1fr 74px", gap: 12, alignItems: "center" }}>
                       <span style={{ fontSize: "var(--text-sm)", color: "var(--muted)" }}>{r.region}</span>
-                      <div style={{ height: 10, borderRadius: 5, background: "var(--elev)", overflow: "hidden" }}>
+                      {/* NO overflow:hidden. It would make this track a scroll container, which
+                          pins the view() timeline on the fill inside it. The fill carries its
+                          own radius, so the clip was never doing work. */}
+                      <div style={{ height: 10, borderRadius: 5, background: "var(--elev)" }}>
                         <div className="draw" style={{ height: "100%", width: `${(r.median / max) * 100}%`, background: "var(--efficient)", borderRadius: 5, ["--i" as string]: i }} />
                       </div>
                       <span className="num" style={{ fontSize: "var(--text-sm)", color: "var(--ink)", textAlign: "right" }}>
@@ -398,7 +401,7 @@ export default async function Home({
                           {site.total == null ? "unavailable" : `$${Math.round(site.total).toLocaleString("en-US")}`}
                         </span>
                       </div>
-                      <div style={{ height: 34, borderRadius: "var(--r-xs)", background: "var(--elev)", overflow: "hidden" }}>
+                      <div style={{ height: 34, borderRadius: "var(--r-xs)", background: "var(--elev)" }}>
                         <div
                           className="draw"
                           style={{
