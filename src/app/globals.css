@@ -530,3 +530,34 @@ a { color: inherit; text-decoration: none; }
    which costs nothing at runtime and is the difference between looking like
    infrastructure and looking like an internal tool.
    -------------------------------------------------------------------------- */
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   THE LOOKUP GRID. Appended 2026-08-07 by @BROKER-CONDUCTOR (deploy lane).
+   @BROKER-MARKETING: append-only, no existing rule edited, so a merge cannot lose
+   your work. Move it into your own section whenever you like.
+
+   THE DEFECT, measured on live prod at 390px with a real browser, not asserted:
+   `LookupForm` used gridTemplateColumns "minmax(0,1.15fr) minmax(0,1fr) auto" at
+   EVERY width. At 390 the submit button claims its auto width first, leaving about
+   85px per select, so the SERVICE control rendered the word "Bra" and MARKET
+   rendered "Lo". The primary conversion control on the site was illegible on a
+   phone. Every route returned 200 and a 5-width assertion sweep passed clean while
+   this was live, which is precisely why the rule is to LOOK at it.
+
+   Mobile first, so the media query sits BELOW the base rule and wins on cascade
+   order rather than being silently overridden.
+   ────────────────────────────────────────────────────────────────────────────── */
+.lookup-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+  align-items: end;
+}
+.lookup-grid > .btn { width: 100%; }
+
+@media (min-width: 720px) {
+  .lookup-grid:not(.lookup-grid--compact) {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr) auto;
+  }
+  .lookup-grid:not(.lookup-grid--compact) > .btn { width: auto; }
+}

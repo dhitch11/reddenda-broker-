@@ -57,11 +57,14 @@ export function LookupForm({
     <form
       method="get"
       action={action}
+      /*
+        Grid moved to a class so it can carry a breakpoint. Inline styles cannot
+        hold a media query, so the three-column layout applied at 390px too and
+        crushed both selects to about 85px ("Bra", "Lo"). See globals.css.
+        @BROKER-MARKETING: chrome below is untouched, only the grid moved out.
+      */
+      className={`lookup-grid${compact ? " lookup-grid--compact" : ""}`}
       style={{
-        display: "grid",
-        gap: 10,
-        gridTemplateColumns: compact ? "1fr" : "minmax(0,1.15fr) minmax(0,1fr) auto",
-        alignItems: "end",
         background: "var(--paper)",
         border: "1px solid var(--hair-strong)",
         borderRadius: "var(--r-lg)",
