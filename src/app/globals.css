@@ -892,3 +892,27 @@ body.is-scrolled .site-header::after { opacity: 1; }
   .link-draw::after { transform: scaleX(1) !important; }
   .site-header::after { transition: none !important; }
 }
+
+/* ── 10. TOUCH TARGETS ──────────────────────────────────────────────────────
+   Measured on a real 390px iPhone context: footer and nav links rendered 17px
+   tall. That fails WCAG 2.5.8 Target Size (24x24 minimum, AA in WCAG 2.2) and
+   sits far under the 44px both Apple and Google publish, which is why a link
+   like "Privacy" or "Book a call" is genuinely hard to hit on a phone.
+
+   Scoped to COARSE POINTERS so a mouse user's dense footer stays dense. The
+   padding is vertical only and the negative margin cancels it, so the visual
+   rhythm of the footer is unchanged while the hit area grows to 44px. The link
+   gets bigger without looking bigger. */
+@media (pointer: coarse) {
+  .site-footer a,
+  .site-header__nav a,
+  footer a {
+    display: inline-block;
+    padding-block: 13px;
+    margin-block: -13px;
+  }
+  /* Stacked link columns need the row gap back, or the expanded hit areas of
+     two adjacent links would overlap and the top one would swallow taps. */
+  .site-footer li + li,
+  footer li + li { margin-top: 10px; }
+}
