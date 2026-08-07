@@ -252,17 +252,48 @@ for (const m of METROS) {
       facility_id:f.facility_id, name:f.name, kind:f.kind,
       price: money(p50 * f.price_index * between(0.92, 1.09)),
       quality_star:f.quality_star, in_network_pct:f.in_network_pct, __synthetic:true,
-    })).sort((a, z) => a.price - z.price)
+    }))
+    by_facility.forEach((f) => {
+      // value = price normalised against the cell median, tempered by quality and network.
+      // Lets the UI rank on something other than price alone, which its caption claims.
+      const priceScore = Math.max(0, 1 - (f.price / (p50 * 2)))
+      f.value_score = money((priceScore * 0.6 + (f.quality_star / 5) * 0.28 + (f.in_network_pct / 100) * 0.12) * 100)
+    })
+    by_facility.sort((a, z) => z.value_score - a.value_score)
 
     /* the rate ladder — Medicaid floor < Medicare < commercial */
     const medicaid = money(anchor * between(0.52, 0.78))
 
+    /* ★★ SUPPRESSION MUST REMOVE THE BYTES, NOT DRAW A PADLOCK OVER THEM.
+       An adversarial review measured this fixture and found ALL 14 suppressed cells still
+       shipping the withheld number through a different key: NY/66984 withheld p50 $3.06
+       while `rate_ladder.commercial_p50` served $902.16, plus six payer medians and seven
+       facility prices, on every one. That is the estate's cardinal defect in data form -
+       a gate that hides a value the response still carries. If the bytes reach the browser
+       the value is public.
+       So: when a cell is not scoreable, every COMMERCIAL number is absent, and a
+       `withheld[]` array names what was removed and why. The FEDERAL reference values
+       (Medicaid floor, Medicare, and the whole site-of-care rail) stay - they are real
+       public CMS data, they are not the contaminated figure, and removing them would
+       punish the user for our problem. */
+    const withheld = quality.is_scoreable ? [] :
+      ['p10','p25','p50','p75','p90','rate_ladder.commercial_p50','rate_ladder.pct_of_medicare',
+       'rate_ladder.pct_of_medicaid','by_payer','by_facility']
+
     rates.push({
       cbsa:m.cbsa, cbsa_name:m.name, state:m.st,
       cpt:b.cpt, service:b.name, category:b.cat,
-      p10, p25:servedP25, p50:servedP50, p75, p90,
-      rate_ladder: { medicaid_floor:medicaid, medicare:anchor, commercial_p50:p50,
-                     pct_of_medicare: pct(p50, anchor), pct_of_medicaid: pct(p50, medicaid) },
+      p10: quality.is_scoreable ? p10 : null,
+      p25: quality.is_scoreable ? servedP25 : null,
+      p50: quality.is_scoreable ? servedP50 : null,
+      p75: quality.is_scoreable ? p75 : null,
+      p90: quality.is_scoreable ? p90 : null,
+      withheld,
+      withheld_reason: quality.suppression_reason,
+      rate_ladder: { medicaid_floor:medicaid, medicare:anchor,
+                     commercial_p50: quality.is_scoreable ? p50 : null,
+                     pct_of_medicare: quality.is_scoreable ? pct(p50, anchor) : null,
+                     pct_of_medicaid: quality.is_scoreable ? pct(p50, medicaid) : null },
       site_of_care: {
         office_total:  b.office !== b.facProf ? b.office : null,
         office_note:   b.office === b.facProf ? 'no distinct office rate for this service' : null,
@@ -276,7 +307,8 @@ for (const m of METROS) {
         __basis:'REAL public CMS 2026-Q3 (OPPS Addendum B, ASC Addenda, PFS)',
       },
       data_quality: quality,
-      by_payer, by_facility,
+      by_payer:   quality.is_scoreable ? by_payer   : [],
+      by_facility: quality.is_scoreable ? by_facility : [],
       __synthetic:true,
     })
   }

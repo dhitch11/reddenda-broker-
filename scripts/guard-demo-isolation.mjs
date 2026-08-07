@@ -78,6 +78,23 @@ if (noQuality.length) fails.push(`demo-data.json: ${noQuality.length} rate cells
 const suppressed = (fx.rates || []).filter((r) => r.data_quality && !r.data_quality.is_scoreable).length
 if (suppressed === 0) fails.push('demo-data.json: zero suppressed cells — the honesty layer has nothing to demonstrate.')
 
+// 10. SUPPRESSION MUST REMOVE THE BYTES. An adversarial review found all 14 suppressed
+//     cells still shipping the withheld number through rate_ladder, by_payer and
+//     by_facility. A gate that hides a value the response still carries is the estate's
+//     cardinal defect. This asserts the value is ABSENT, not merely flagged.
+const leaking = (fx.rates || []).filter((r) => {
+  if (!r.data_quality || r.data_quality.is_scoreable) return false
+  return r.p50 != null || r.p25 != null || r.p90 != null ||
+         (r.rate_ladder && (r.rate_ladder.commercial_p50 != null || r.rate_ladder.pct_of_medicare != null)) ||
+         (r.by_payer && r.by_payer.length > 0) ||
+         (r.by_facility && r.by_facility.length > 0)
+})
+if (leaking.length) fails.push(`demo-data.json: ${leaking.length} SUPPRESSED cells still carry a commercial value (rate_ladder / by_payer / by_facility). Suppression must remove the bytes.`)
+
+// 11. A suppressed cell must still say WHY, or the refusal reads as breakage.
+const noReason = (fx.rates || []).filter((r) => r.data_quality && !r.data_quality.is_scoreable && !r.withheld_reason)
+if (noReason.length) fails.push(`demo-data.json: ${noReason.length} suppressed cells have no withheld_reason.`)
+
 if (fails.length) {
   console.error('❌ DEMO ISOLATION VIOLATED — DO NOT SHIP\n')
   for (const f of fails) console.error('  - ' + f)
