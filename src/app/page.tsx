@@ -322,7 +322,7 @@ export default async function Home({
                 })}
               </div>
               <p className="num" style={{ marginTop: 10, fontSize: 11, color: "var(--faint)" }}>
-                Median of metro medians · {regions.metrosCounted} metros · {svc?.plain ?? `CPT ${regions.cpt}`}
+                Typical middle price across {regions.metrosCounted} cities · {svc?.plain ?? `procedure ${regions.cpt}`}
               </p>
 
               {/* RUNG 02 — the same corpus, one resolution finer */}
@@ -435,12 +435,12 @@ export default async function Home({
               {/*
                 The line that keeps this honest. A brief on this estate once printed
                 the facility figure alone and concluded the hospital was the cheap
-                site. It is not: the office total is the non-facility rate, while the
+                site. It is not: the office total already includes the practice cost, while the
                 ASC and hospital totals are the physician fee PLUS that site's own
                 facility payment.
               */}
               <p className="num" style={{ marginTop: 14, fontSize: 11.5, lineHeight: 1.6, color: "var(--muted)", maxWidth: "62ch" }}>
-                Office total is the non-facility rate. Surgery center and hospital totals are the
+                The office total already includes the practice cost. Surgery center and hospital totals are the
                 physician fee plus that site&rsquo;s own facility payment.
                 {siteOfCare.vintage ? ` CMS ${siteOfCare.vintage}.` : ""}
               </p>

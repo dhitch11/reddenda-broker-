@@ -117,7 +117,7 @@ export default async function MarketPage({ params }: { params: Promise<{ market:
                             {s.name}
                           </p>
                           <p className="num" style={{ fontSize: "var(--text-xs)", color: "var(--faint)", marginTop: 5 }}>
-                            CPT {s.cpt}
+                            procedure code {s.cpt}
                           </p>
                         </Link>
                       </li>

@@ -161,7 +161,7 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
           <div className="wrap">
             <div style={{ maxWidth: 760 }}>
               <p className="eyebrow">
-                {CATEGORY_LABEL[svc.category]} · CPT {svc.cpt}
+                {CATEGORY_LABEL[svc.category]} · procedure code {svc.cpt}
               </p>
               <h1 className="display" style={{ fontSize: "var(--display-sm)", marginTop: 12, maxWidth: "18ch" }}>
                 {rateTitle(metro, svc)}
@@ -219,7 +219,7 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                     label="Against Medicare"
                     body={
                       vsMedicare != null
-                        ? `The median sits at ${vsMedicare}% of the Medicare rate for the same service in this state. Medicare is a fixed reference line most finance teams already have a feel for, which is why we print it beside every figure. It is not a fair price and not what anything should cost.`
+                        ? `The middle price sits at ${vsMedicare}% of the Medicare rate for the same service in this state. Medicare is a fixed reference line most finance teams already have a feel for, which is why we print it beside every figure. It is not a fair price and not what anything should cost.`
                         : `We do not hold a Medicare rate for this service in this state, so we do not show a comparison. The distribution above stands on its own.`
                     }
                   />
@@ -336,7 +336,7 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                   <Link key={s.cpt} href={ratePath(metro, s)} className="card card-hover" style={{ padding: 15 }}>
                     <p style={{ fontSize: "var(--text-sm)", fontWeight: 600, color: "var(--ink)" }}>{s.plain}</p>
                     <p className="num" style={{ fontSize: "var(--text-xs)", color: "var(--faint)", marginTop: 4 }}>
-                      CPT {s.cpt}
+                      procedure code {s.cpt}
                     </p>
                   </Link>
                 ))}

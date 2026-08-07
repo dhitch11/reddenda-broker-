@@ -49,7 +49,7 @@ const TOOLS: Tool[] = [
     eyebrow: "Start here",
     name: "Rate Check",
     what:
-      "Pick a service and a market and read the real spread: 25th, median, 75th and 90th percentile, with the filing count behind it and the Medicare anchor beside it.",
+      "Pick your city and a procedure and see what every carrier has agreed to pay: the low end, the middle price and the high end, with the Medicare rate beside them.",
     who: "The one every visitor should open first.",
     ready: true,
   },

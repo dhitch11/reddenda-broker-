@@ -160,7 +160,11 @@ const PROVENANCE = [
  */
 const GLOSS_WINDOW = 80;
 const JARGON = [
-  [/\bCPT\b/g, "CPT", ["procedure code", "billing code", "the code for"]],
+  // "You do not need to know what a CPT code is to read this" is exactly the register
+  // the ruling asked for, and an early version of this rule flagged it. A detector that
+  // punishes copy for naming the jargon it is protecting the reader from is worse than
+  // no detector: it pushes lanes to delete the reassurance instead of the term.
+  [/\bCPT\b/g, "CPT", ["procedure code", "billing code", "the code for", "do not need to know", "don't need to know", "never heard of"]],
   [/\bCBSA\b/g, "CBSA", ["metro", "market", "city"]],
   [/\bpercentiles?\b/gi, "percentile", ["low end", "high end", "middle", "cheapest", "most expensive"]],
   [/\bp(?:10|25|50|75|90)\b/gi, "p25/p50/p90 shorthand", ["low end", "high end", "middle price"]],
