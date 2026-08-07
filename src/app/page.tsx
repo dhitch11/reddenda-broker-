@@ -170,6 +170,42 @@ export default async function Home({
                   Working tools. No account required.
                 </span>
               </div>
+
+              {/*
+                THE PROOF RAIL. David's direct order to fill the left column, which
+                ran empty from the CTA down to y=800 while the card beside it kept
+                going.
+
+                Every figure here is COMPUTED FROM THE SAME QUERY that fills the
+                card, never hardcoded: the cross-market multiple is derived from the
+                real high and low metro medians in `usable`, and the scale figures
+                come from COVERAGE. If the comparison cannot produce at least two
+                metro-scope rows, the multiple tile does not render at all rather
+                than showing a 1.0x that would read as a finding.
+
+                Three tiles because three is what a person takes in at a glance
+                while their eye is still travelling to the number on the right.
+              */}
+              <div className="proof-rail rise rise-3">
+                {ratio && hi && lo && (
+                  <div className="proof-tile">
+                    <span className="proof-tile__val num">{ratio.toFixed(1)}x</span>
+                    <span className="proof-tile__lab">
+                      {hi.metro.name.split("-")[0]} vs {lo.metro.name.split("-")[0]}, same procedure
+                    </span>
+                  </div>
+                )}
+                <div className="proof-tile">
+                  <span className="proof-tile__val num">
+                    {(SCALE.cells / 1_000_000).toFixed(1)}M
+                  </span>
+                  <span className="proof-tile__lab">priced cells, every carrier</span>
+                </div>
+                <div className="proof-tile">
+                  <span className="proof-tile__val num">{SCALE.payers.toLocaleString("en-US")}</span>
+                  <span className="proof-tile__lab">payers, all 50 states</span>
+                </div>
+              </div>
               </div>
 
               {/* RIGHT COLUMN: the live number. This is what was empty white. */}
