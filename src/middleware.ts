@@ -78,6 +78,30 @@ export const config = {
      * an allowlist that must be edited to add a route is the only kind that
      * does not quietly develop holes.
      */
-    "/((?!enter|api/gate|_next/static|_next/image|icon.svg|favicon.ico).*)",
+    /*
+     * ADDED 2026-08-07 — robots.txt, sitemap.xml, privacy, terms, opengraph-image.
+     *
+     * WHY, MEASURED: NordVPN/Norton were blocking broker.reddenda.com and
+     * app.reddenda.com as MALWARE and David could not reach either site. Our code
+     * is clean — 0 eval, 0 base64, no third-party scripts, valid cert. The block is
+     * a phishing CLASSIFICATION, and we had built a perfect phishing signature:
+     *
+     *   domain registered 2026-06-13 (weeks old)
+     *   EVERY path — including /robots.txt — rewritten to a 6-digit code entry form
+     *   autocomplete="one-time-code" inputs, 1 character of visible text site-wide
+     *   meta robots: noindex, nofollow, nocache
+     *   page branded "Censenda" on a domain called reddenda.com
+     *
+     * A young domain serving a one-time-code prompt on every URL with no readable
+     * content and a brand that does not match its domain is indistinguishable from
+     * credential harvesting. The gate was so complete it hid the evidence that we
+     * are a real company.
+     *
+     * These five paths carry NO product data, NO rates, NO fabricated figures —
+     * only the legal pages, the crawler directives and the share image. Opening
+     * them gives a classifier something legitimate to read and does not widen what
+     * the fabrication ruling protects by one number.
+     */
+    "/((?!enter|api/gate|_next/static|_next/image|icon.svg|favicon.ico|robots.txt|sitemap.xml|privacy|terms|opengraph-image).*)",
   ],
 };
