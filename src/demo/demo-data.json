@@ -1,4 +1,43 @@
 {
+ "methodology": {
+  "ghost_rates": {
+   "headline": "A large share of published transparency rates are filed for provider and procedure pairs the provider would not perform.",
+   "published_range": "~60% to 96.5% depending on who counts and what is counted (rates vs rows vs provider-service pairs). The most cited single figure is 91.8%.",
+   "primary_source": "Muhlestein DB, Health Affairs Scholar 3(11):qxaf212 (2025), doi:10.1093/haschl/qxaf212. Single-author, commercial affiliation in the category. Directionally corroborated by CRS R48570 and CMS-9882-P, 90 FR 60432.",
+   "what_we_do": "We do not currently apply a ghost-rate filter.",
+   "why_not": "The peer-reviewed method links a rate to a provider who actually billed the procedure, which requires claims data. We hold none and do not intend to.",
+   "what_it_affects": [
+    "the p90, which is the most exposed figure on any rate page",
+    "the meaning of n, which counts filings and not observations",
+    "the shape of a distribution, never the validity of a single cell"
+   ],
+   "__synthetic": false
+  },
+  "metro_attribution": {
+   "statement": "Transparency files carry NPI and TIN only. They carry no provider address.",
+   "consequence": "Every metro figure here is inferred by joining to NPPES. It is a well-founded inference, not something the source file states. A provider who has moved is counted in the market they left.",
+   "__synthetic": false
+  },
+  "n_meaning": {
+   "statement": "n is the number of contributing filings, not a measure of market coverage.",
+   "__synthetic": false
+  },
+  "__note": "These disclosures are TRUE OF THE REAL PRODUCT and must ship with the demo. They are the only part of this fixture that is not fabricated."
+ },
+ "ghost_rate_example": {
+  "npi": "1900009001",
+  "provider": "Demo Provider — Podiatry",
+  "taxonomy": "Podiatrist (213E00000X)",
+  "cpt": "33533",
+  "service": "Coronary artery bypass, single arterial graft",
+  "filed_rate": 41280,
+  "looks_valid": true,
+  "passes_plausibility_floor": true,
+  "passes_monotonicity": true,
+  "why_it_is_wrong": "A podiatrist does not perform coronary bypass. The number is plausible; the ROW should not exist. No read-time honesty check can detect this, because nothing about the value is anomalous.",
+  "effect_if_served": "It joins the local peer distribution and pulls the p90 upward, which is the number a broker negotiates against.",
+  "__synthetic": true
+ },
  "__MANIFEST": {
   "BANNER": "SYNTHETIC DEMO DATA — NOT REAL CONTRACTED RATES — DO NOT PUBLISH OR LOAD INTO ANY DATABASE",
   "generated_by": "scripts/gen-demo-fixture.mjs",
@@ -2654,6 +2693,7 @@
    },
    "data_quality": {
     "n_npi": 148,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 20.44,
@@ -2844,6 +2884,7 @@
    },
    "data_quality": {
     "n_npi": 124,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 29.87,
@@ -3034,6 +3075,7 @@
    },
    "data_quality": {
     "n_npi": 159,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 6.38,
@@ -3224,6 +3266,7 @@
    },
    "data_quality": {
     "n_npi": 228,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 20.79,
@@ -3414,6 +3457,7 @@
    },
    "data_quality": {
     "n_npi": 221,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 6.37,
@@ -3604,6 +3648,7 @@
    },
    "data_quality": {
     "n_npi": 158,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 33.6,
@@ -3794,6 +3839,7 @@
    },
    "data_quality": {
     "n_npi": 161,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 29.51,
@@ -3984,6 +4030,7 @@
    },
    "data_quality": {
     "n_npi": 559,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 24.51,
@@ -4165,6 +4212,7 @@
    },
    "data_quality": {
     "n_npi": 586,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 22.89,
@@ -4346,6 +4394,7 @@
    },
    "data_quality": {
     "n_npi": 440,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 7.78,
@@ -4527,6 +4576,7 @@
    },
    "data_quality": {
     "n_npi": 608,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 19.93,
@@ -4708,6 +4758,7 @@
    },
    "data_quality": {
     "n_npi": 318,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 33.28,
@@ -4898,6 +4949,7 @@
    },
    "data_quality": {
     "n_npi": 268,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": false,
     "modal_pct": 95.42,
@@ -5090,6 +5142,7 @@
    },
    "data_quality": {
     "n_npi": 1151,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": false,
     "modal_pct": 98.2,
@@ -5282,6 +5335,7 @@
    },
    "data_quality": {
     "n_npi": 240,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 29.38,
@@ -5472,6 +5526,7 @@
    },
    "data_quality": {
     "n_npi": 175,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 29.91,
@@ -5662,6 +5717,7 @@
    },
    "data_quality": {
     "n_npi": 333,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 12.3,
@@ -5852,6 +5908,7 @@
    },
    "data_quality": {
     "n_npi": 202,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 9.01,
@@ -6042,6 +6099,7 @@
    },
    "data_quality": {
     "n_npi": 207,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 9.96,
@@ -6232,6 +6290,7 @@
    },
    "data_quality": {
     "n_npi": 254,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 27.75,
@@ -6422,6 +6481,7 @@
    },
    "data_quality": {
     "n_npi": 208,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": false,
     "modal_pct": 10.29,
@@ -6614,6 +6674,7 @@
    },
    "data_quality": {
     "n_npi": 233,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 30.79,
@@ -6804,6 +6865,7 @@
    },
    "data_quality": {
     "n_npi": 780,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 13.73,
@@ -6985,6 +7047,7 @@
    },
    "data_quality": {
     "n_npi": 692,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 8.11,
@@ -7166,6 +7229,7 @@
    },
    "data_quality": {
     "n_npi": 519,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 9.17,
@@ -7347,6 +7411,7 @@
    },
    "data_quality": {
     "n_npi": 533,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 15.49,
@@ -7528,6 +7593,7 @@
    },
    "data_quality": {
     "n_npi": 582,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 15.91,
@@ -7718,6 +7784,7 @@
    },
    "data_quality": {
     "n_npi": 210,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 26.64,
@@ -7908,6 +7975,7 @@
    },
    "data_quality": {
     "n_npi": 1618,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 22.58,
@@ -8098,6 +8166,7 @@
    },
    "data_quality": {
     "n_npi": 449,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 21.84,
@@ -8288,6 +8357,7 @@
    },
    "data_quality": {
     "n_npi": 131,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 11.56,
@@ -8478,6 +8548,7 @@
    },
    "data_quality": {
     "n_npi": 89,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 9.86,
@@ -8668,6 +8739,7 @@
    },
    "data_quality": {
     "n_npi": 139,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 7.93,
@@ -8858,6 +8930,7 @@
    },
    "data_quality": {
     "n_npi": 168,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 14.06,
@@ -9048,6 +9121,7 @@
    },
    "data_quality": {
     "n_npi": 188,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 13.08,
@@ -9238,6 +9312,7 @@
    },
    "data_quality": {
     "n_npi": 149,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 27.56,
@@ -9428,6 +9503,7 @@
    },
    "data_quality": {
     "n_npi": 126,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 25.13,
@@ -9618,6 +9694,7 @@
    },
    "data_quality": {
     "n_npi": 300,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 21.8,
@@ -9799,6 +9876,7 @@
    },
    "data_quality": {
     "n_npi": 301,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 31.56,
@@ -9980,6 +10058,7 @@
    },
    "data_quality": {
     "n_npi": 253,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 13.66,
@@ -10161,6 +10240,7 @@
    },
    "data_quality": {
     "n_npi": 233,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": false,
     "modal_pct": 27.14,
@@ -10344,6 +10424,7 @@
    },
    "data_quality": {
     "n_npi": 190,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 28.34,
@@ -10534,6 +10615,7 @@
    },
    "data_quality": {
     "n_npi": 100,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 10.18,
@@ -10724,6 +10806,7 @@
    },
    "data_quality": {
     "n_npi": 673,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 24.35,
@@ -10914,6 +10997,7 @@
    },
    "data_quality": {
     "n_npi": 243,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 26.04,
@@ -11104,6 +11188,7 @@
    },
    "data_quality": {
     "n_npi": 115,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 10.74,
@@ -11294,6 +11379,7 @@
    },
    "data_quality": {
     "n_npi": 105,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 28.55,
@@ -11484,6 +11570,7 @@
    },
    "data_quality": {
     "n_npi": 79,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 28.06,
@@ -11674,6 +11761,7 @@
    },
    "data_quality": {
     "n_npi": 155,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 10.52,
@@ -11864,6 +11952,7 @@
    },
    "data_quality": {
     "n_npi": 149,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": false,
     "modal_pct": 15.63,
@@ -12056,6 +12145,7 @@
    },
    "data_quality": {
     "n_npi": 111,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 23.73,
@@ -12246,6 +12336,7 @@
    },
    "data_quality": {
     "n_npi": 58,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 24.59,
@@ -12436,6 +12527,7 @@
    },
    "data_quality": {
     "n_npi": 225,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 30.12,
@@ -12617,6 +12709,7 @@
    },
    "data_quality": {
     "n_npi": 172,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 15.39,
@@ -12798,6 +12891,7 @@
    },
    "data_quality": {
     "n_npi": 243,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": false,
     "modal_pct": 33.44,
@@ -12981,6 +13075,7 @@
    },
    "data_quality": {
     "n_npi": 200,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 25.7,
@@ -13162,6 +13257,7 @@
    },
    "data_quality": {
     "n_npi": 253,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 12.83,
@@ -13352,6 +13448,7 @@
    },
    "data_quality": {
     "n_npi": 65,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 8.95,
@@ -13542,6 +13639,7 @@
    },
    "data_quality": {
     "n_npi": 593,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 24.19,
@@ -13732,6 +13830,7 @@
    },
    "data_quality": {
     "n_npi": 85,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": false,
     "modal_pct": 15.56,
@@ -13924,6 +14023,7 @@
    },
    "data_quality": {
     "n_npi": 48,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 20.1,
@@ -14114,6 +14214,7 @@
    },
    "data_quality": {
     "n_npi": 79,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 25.82,
@@ -14304,6 +14405,7 @@
    },
    "data_quality": {
     "n_npi": 109,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 16.85,
@@ -14494,6 +14596,7 @@
    },
    "data_quality": {
     "n_npi": 106,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 26.78,
@@ -14684,6 +14787,7 @@
    },
    "data_quality": {
     "n_npi": 116,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 19.27,
@@ -14874,6 +14978,7 @@
    },
    "data_quality": {
     "n_npi": 78,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 19.06,
@@ -15064,6 +15169,7 @@
    },
    "data_quality": {
     "n_npi": 37,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 22.64,
@@ -15254,6 +15360,7 @@
    },
    "data_quality": {
     "n_npi": 212,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 13.67,
@@ -15435,6 +15542,7 @@
    },
    "data_quality": {
     "n_npi": 246,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 18.46,
@@ -15616,6 +15724,7 @@
    },
    "data_quality": {
     "n_npi": 191,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 31.44,
@@ -15797,6 +15906,7 @@
    },
    "data_quality": {
     "n_npi": 141,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": false,
     "modal_pct": 21.55,
@@ -15980,6 +16090,7 @@
    },
    "data_quality": {
     "n_npi": 170,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 8.39,
@@ -16170,6 +16281,7 @@
    },
    "data_quality": {
     "n_npi": 60,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 16.13,
@@ -16360,6 +16472,7 @@
    },
    "data_quality": {
     "n_npi": 371,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": false,
     "modal_pct": 93.23,
@@ -16552,6 +16665,7 @@
    },
    "data_quality": {
     "n_npi": 127,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 28.67,
@@ -16742,6 +16856,7 @@
    },
    "data_quality": {
     "n_npi": 106,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 10.05,
@@ -16932,6 +17047,7 @@
    },
    "data_quality": {
     "n_npi": 73,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 14.28,
@@ -17122,6 +17238,7 @@
    },
    "data_quality": {
     "n_npi": 75,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 10.15,
@@ -17312,6 +17429,7 @@
    },
    "data_quality": {
     "n_npi": 151,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 27.91,
@@ -17502,6 +17620,7 @@
    },
    "data_quality": {
     "n_npi": 65,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 12.69,
@@ -17692,6 +17811,7 @@
    },
    "data_quality": {
     "n_npi": 56,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 11.72,
@@ -17882,6 +18002,7 @@
    },
    "data_quality": {
     "n_npi": 82,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 30.14,
@@ -18072,6 +18193,7 @@
    },
    "data_quality": {
     "n_npi": 177,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 12.42,
@@ -18253,6 +18375,7 @@
    },
    "data_quality": {
     "n_npi": 259,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 17.91,
@@ -18434,6 +18557,7 @@
    },
    "data_quality": {
     "n_npi": 211,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 11.47,
@@ -18615,6 +18739,7 @@
    },
    "data_quality": {
     "n_npi": 141,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 15.08,
@@ -18796,6 +18921,7 @@
    },
    "data_quality": {
     "n_npi": 252,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": false,
     "modal_pct": 19.79,
@@ -18988,6 +19114,7 @@
    },
    "data_quality": {
     "n_npi": 107,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 31.51,
@@ -19178,6 +19305,7 @@
    },
    "data_quality": {
     "n_npi": 478,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 29.21,
@@ -19368,6 +19496,7 @@
    },
    "data_quality": {
     "n_npi": 147,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 10.9,
@@ -19558,6 +19687,7 @@
    },
    "data_quality": {
     "n_npi": 45,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 9.97,
@@ -19748,6 +19878,7 @@
    },
    "data_quality": {
     "n_npi": 58,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": false,
     "modal_pct": 96.51,
@@ -19940,6 +20071,7 @@
    },
    "data_quality": {
     "n_npi": 52,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 12.76,
@@ -20130,6 +20262,7 @@
    },
    "data_quality": {
     "n_npi": 90,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 21.29,
@@ -20320,6 +20453,7 @@
    },
    "data_quality": {
     "n_npi": 69,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 29.66,
@@ -20510,6 +20644,7 @@
    },
    "data_quality": {
     "n_npi": 77,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 12.61,
@@ -20700,6 +20835,7 @@
    },
    "data_quality": {
     "n_npi": 36,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 26.79,
@@ -20890,6 +21026,7 @@
    },
    "data_quality": {
     "n_npi": 170,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 29.5,
@@ -21071,6 +21208,7 @@
    },
    "data_quality": {
     "n_npi": 216,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 16.16,
@@ -21252,6 +21390,7 @@
    },
    "data_quality": {
     "n_npi": 202,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 11.73,
@@ -21433,6 +21572,7 @@
    },
    "data_quality": {
     "n_npi": 149,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 11.18,
@@ -21614,6 +21754,7 @@
    },
    "data_quality": {
     "n_npi": 110,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 25.99,
@@ -21804,6 +21945,7 @@
    },
    "data_quality": {
     "n_npi": 100,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 24.57,
@@ -21994,6 +22136,7 @@
    },
    "data_quality": {
     "n_npi": 370,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": false,
     "modal_pct": 20.41,
@@ -22186,6 +22329,7 @@
    },
    "data_quality": {
     "n_npi": 90,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": false,
     "modal_pct": 94.06,
@@ -22378,6 +22522,7 @@
    },
    "data_quality": {
     "n_npi": 75,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 22.12,
@@ -22568,6 +22713,7 @@
    },
    "data_quality": {
     "n_npi": 41,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 26.08,
@@ -22758,6 +22904,7 @@
    },
    "data_quality": {
     "n_npi": 79,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 24.57,
@@ -22948,6 +23095,7 @@
    },
    "data_quality": {
     "n_npi": 95,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 31.1,
@@ -23138,6 +23286,7 @@
    },
    "data_quality": {
     "n_npi": 56,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 21.69,
@@ -23328,6 +23477,7 @@
    },
    "data_quality": {
     "n_npi": 47,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 23.8,
@@ -23518,6 +23668,7 @@
    },
    "data_quality": {
     "n_npi": 47,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 10.31,
@@ -23708,6 +23859,7 @@
    },
    "data_quality": {
     "n_npi": 122,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 18.39,
@@ -23889,6 +24041,7 @@
    },
    "data_quality": {
     "n_npi": 167,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 24.43,
@@ -24070,6 +24223,7 @@
    },
    "data_quality": {
     "n_npi": 191,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": false,
     "modal_pct": 95.83,
@@ -24253,6 +24407,7 @@
    },
    "data_quality": {
     "n_npi": 135,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 17,
@@ -24434,6 +24589,7 @@
    },
    "data_quality": {
     "n_npi": 156,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 9.27,
@@ -24624,6 +24780,7 @@
    },
    "data_quality": {
     "n_npi": 66,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "low",
     "is_scoreable": true,
     "modal_pct": 21.43,
@@ -24814,6 +24971,7 @@
    },
    "data_quality": {
     "n_npi": 459,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "high",
     "is_scoreable": true,
     "modal_pct": 7.11,
@@ -25004,6 +25162,7 @@
    },
    "data_quality": {
     "n_npi": 118,
+    "n_meaning": "contributing filings, not observed market coverage",
     "confidence": "medium",
     "is_scoreable": true,
     "modal_pct": 12.63,

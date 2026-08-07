@@ -210,6 +210,7 @@ for (const m of METROS) {
 
     const quality = {
       n_npi: nNpi,
+      n_meaning: 'contributing filings, not observed market coverage',
       confidence: nNpi >= 300 ? 'high' : nNpi >= 90 ? 'medium' : nNpi >= 30 ? 'low' : 'insufficient',
       is_scoreable: !isThin && !contaminated && !flatStamped,
       modal_pct: modalPct,
@@ -401,7 +402,72 @@ const trend = METROS.slice(0, 5).flatMap((m) =>
       ], __synthetic:true }
   }))
 
+/* ══ GHOST RATES — THE DOMINANT DEFECT, AND NOTHING WE HAVE CATCHES IT ══════
+   Muhlestein DB, "High prevalence of ghost rates in transparency in coverage data",
+   Health Affairs Scholar 3(11):qxaf212 (2025): 3.15 of 3.43 BILLION rates across 61
+   insurers are filed for a provider/code pair that provider would never furnish.
+   Restricted to the 100 commonest codes it is still 70.3%. CMS-9882-P's own example is
+   "rates for podiatrists to perform heart surgery."
+
+   ★ WHY IT MATTERS MORE THAN THE BUG WE ALREADY FIXED: a percentage-as-dollars row is a
+   WRONG NUMBER and a plausibility floor catches it. A ghost rate is a CORRECT number on an
+   IRRELEVANT ROW. It is plausible, monotone with its neighbours, and has depth, so it
+   passes every validity check ever written — INCLUDING judge() in src/lib/honesty.ts.
+   Its damage is to the SHAPE of the distribution and to the meaning of n.
+
+   Consequences this fixture must state rather than hide:
+     - the p90 is the most exposed figure we publish, and it is the negotiation target
+     - n counts what was FILED, never what was observed. It is not depth.
+     - MRFs carry NO provider address (NPI and TIN only), so EVERY metro figure in this
+       estate is an inference joined through NPPES. A provider who moved is counted in the
+       market they left.
+   The peer-reviewed fix links rates to billed CLAIMS. We hold no claims and never will.
+   So the honest posture is DISCLOSURE, not a filter we do not have. With a licensed,
+   skeptical GA audience the admission converts better than silence — and silence is how a
+   sophisticated buyer discovers it first, from the study, mid-meeting. */
+const methodology = {
+  ghost_rates: {
+    headline: 'A large share of published transparency rates are filed for provider and procedure pairs the provider would not perform.',
+    published_range: '~60% to 96.5% depending on who counts and what is counted (rates vs rows vs provider-service pairs). The most cited single figure is 91.8%.',
+    primary_source: 'Muhlestein DB, Health Affairs Scholar 3(11):qxaf212 (2025), doi:10.1093/haschl/qxaf212. Single-author, commercial affiliation in the category. Directionally corroborated by CRS R48570 and CMS-9882-P, 90 FR 60432.',
+    what_we_do: 'We do not currently apply a ghost-rate filter.',
+    why_not: 'The peer-reviewed method links a rate to a provider who actually billed the procedure, which requires claims data. We hold none and do not intend to.',
+    what_it_affects: ['the p90, which is the most exposed figure on any rate page',
+                      'the meaning of n, which counts filings and not observations',
+                      'the shape of a distribution, never the validity of a single cell'],
+    __synthetic: false,   // this disclosure is TRUE of the real product, not fabricated
+  },
+  metro_attribution: {
+    statement: 'Transparency files carry NPI and TIN only. They carry no provider address.',
+    consequence: 'Every metro figure here is inferred by joining to NPPES. It is a well-founded inference, not something the source file states. A provider who has moved is counted in the market they left.',
+    __synthetic: false,
+  },
+  n_meaning: {
+    statement: 'n is the number of contributing filings, not a measure of market coverage.',
+    __synthetic: false,
+  },
+  __note: 'These disclosures are TRUE OF THE REAL PRODUCT and must ship with the demo. They are the only part of this fixture that is not fabricated.',
+}
+
+/* One worked example so the demo can SHOW the limitation instead of describing it. A
+   plausible dollar amount on a pair that should not exist — exactly what no filter catches. */
+const ghost_rate_example = {
+  npi: invalidDemoNpi(900),
+  provider: 'Demo Provider — Podiatry',
+  taxonomy: 'Podiatrist (213E00000X)',
+  cpt: '33533',
+  service: 'Coronary artery bypass, single arterial graft',
+  filed_rate: 41280.00,
+  looks_valid: true,
+  passes_plausibility_floor: true,
+  passes_monotonicity: true,
+  why_it_is_wrong: 'A podiatrist does not perform coronary bypass. The number is plausible; the ROW should not exist. No read-time honesty check can detect this, because nothing about the value is anomalous.',
+  effect_if_served: 'It joins the local peer distribution and pulls the p90 upward, which is the number a broker negotiates against.',
+  __synthetic: true,
+}
+
 const fixture = {
+  methodology, ghost_rate_example,
   __MANIFEST: {
     BANNER:'SYNTHETIC DEMO DATA — NOT REAL CONTRACTED RATES — DO NOT PUBLISH OR LOAD INTO ANY DATABASE',
     generated_by:'scripts/gen-demo-fixture.mjs',
