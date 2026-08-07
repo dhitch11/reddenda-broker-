@@ -73,14 +73,16 @@ export function RateCheck({
   return (
     <div style={{ maxWidth: 880, margin: "0 auto", padding: "var(--sp-5) var(--sp-4) var(--sp-8)" }}>
       <header style={{ marginBottom: "var(--sp-6)" }}>
-        <ToolExplainer
+
+        <h1 style={{ fontSize: "clamp(26px, 5vw, 38px)", lineHeight: 1.1, letterSpacing: "-0.02em", margin: "0 0 var(--sp-2)" }}>
+          What plans have agreed to pay
+        
+          <ToolExplainer
           title="Rate Check"
           whatItIs="Shows what health plans pay for one service in one city."
           whatYouGet="The low, middle and high price, so you know whether a quote is fair."
           steps={["Pick your city.", "Pick the procedure.", "Read the three prices."]}
         />
-        <h1 style={{ fontSize: "clamp(26px, 5vw, 38px)", lineHeight: 1.1, letterSpacing: "-0.02em", margin: "0 0 var(--sp-2)" }}>
-          What plans have agreed to pay
         </h1>
         <p style={{ color: "var(--text-2)", margin: 0, fontSize: 16 }}>
           Pick your city and a procedure. See the low, middle and high price.

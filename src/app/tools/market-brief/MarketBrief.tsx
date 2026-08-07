@@ -58,13 +58,15 @@ export function MarketBrief({ initial = "31080" }: { initial?: string }) {
     <div className={s.page}>
       <header className={s.head}>
         <p className={s.eyebrow}>Market brief</p>
-        <ToolExplainer
+
+        <h1 className={s.title}>Where the money leaks in one market.
+          <ToolExplainer
           title="Market Brief"
           whatItIs="Every service we hold for one city, ranked by price gap."
           whatYouGet="The widest gaps first, so you see where a plan change is worth making."
           steps={["Pick your city.", "Read the ranked list.", "Start at the top."]}
         />
-        <h1 className={s.title}>Where the money leaks in one market.</h1>
+        </h1>
         <p className={s.lede}>
           Every service we hold for this metro, ranked by how far apart the cheap and expensive options
           are. Not by price. A service where the ends are twenty dollars apart is not worth a plan

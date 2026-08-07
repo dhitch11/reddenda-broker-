@@ -155,14 +155,16 @@ export function SiteOfService({
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "space-between", alignItems: "baseline" }}>
               <div>
                 <span className="eyebrow">Total cost of care · {STATES[data.state] ?? data.state}</span>
-                <ToolExplainer
+
+                <h2 className="display" style={{ fontSize: "clamp(24px, 3.4vw, 34px)", marginTop: 6 }}>
+                  {data.plain}
+                
+                  <ToolExplainer
                   title="Site of Service"
                   whatItIs="Prices the same procedure in an office, a hospital, and a surgery center."
                   whatYouGet="The gap between the three, which is where plan design saves real money."
                   steps={["Pick the procedure.", "Pick your state.", "Compare the three places."]}
                 />
-                <h2 className="display" style={{ fontSize: "clamp(24px, 3.4vw, 34px)", marginTop: 6 }}>
-                  {data.plain}
                 </h2>
                 <p style={{ color: "var(--muted)", fontSize: 14, marginTop: 4 }}>
                   {data.name} · CPT {data.cpt}
