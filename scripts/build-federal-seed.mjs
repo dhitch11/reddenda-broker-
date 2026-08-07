@@ -63,10 +63,22 @@ const pfs = await pull(
 const pfsDesc = await pull('medicare_pfs_codes?description=not.is.null&select=cpt,description&order=cpt', 'PFS descriptions')
 const oppsDesc = await pull('opps_hcpcs_apc_crosswalk?short_desc=not.is.null&select=hcpcs,short_desc&order=hcpcs', 'OPPS descriptions')
 const ascDesc = await pull('asc_payment_rates?short_desc=not.is.null&select=hcpcs,short_desc&order=hcpcs', 'ASC descriptions')
+/* ★ PREFER THE LONGEST DESCRIPTOR, NOT THE LAST SOURCE WRITTEN.
+   CMS short_desc is truncated to a fixed width, so distinct procedures collapse onto the
+   same string: typing "colon" returned "Partial removal of colon" FIVE times (44140/44141/
+   44143/44144/44145), and 1,198 of 7,647 codes shared a description with another code -
+   "Cystoscopy and treatment" covered 17 different procedures. A broker cannot pick from a
+   list where five rows read identically. The longer descriptor is the more specific one, so
+   take it whichever source it came from. */
 const DESC = new Map()
-for (const d of ascDesc) if (d.short_desc) DESC.set(d.hcpcs, d.short_desc)
-for (const d of oppsDesc) if (d.short_desc) DESC.set(d.hcpcs, d.short_desc)
-for (const d of pfsDesc) if (d.description) DESC.set(d.cpt, d.description)
+const consider = (code, text) => {
+  if (!code || !text) return
+  const cur = DESC.get(code)
+  if (!cur || String(text).length > cur.length) DESC.set(code, String(text).trim())
+}
+for (const d of ascDesc) consider(d.hcpcs, d.short_desc)
+for (const d of oppsDesc) consider(d.hcpcs, d.short_desc)
+for (const d of pfsDesc) consider(d.cpt, d.description)
 
 // OPPS: hospital outpatient facility payment + status indicator. Payable AND non-payable,
 // because the four-way empty state depends on knowing WHY a code has no facility payment.
@@ -100,7 +112,9 @@ const ascMap = new Map(asc.map((a) => [a.hcpcs, a.payment_rate]))
 let noDesc = 0
 const catalog = pfs.map((p) => {
   const o = oppsMap.get(p.cpt) || {}
-  const desc = p.description || DESC.get(p.cpt) || null
+  const alt = DESC.get(p.cpt)
+  const desc = (p.description && alt) ? (alt.length > p.description.length ? alt : p.description)
+             : (p.description || alt || null)
   if (!desc) noDesc++
   return {
     cpt: p.cpt,
@@ -118,6 +132,17 @@ const catalog = pfs.map((p) => {
 const SIZE = new Map(readFileSync(join(OUT, 'metro-size.txt'), 'utf8').trim().split(';')
   .filter(Boolean).map((p) => { const [c, n] = p.split(':'); return [c, Number(n)] }))
 const stateOf = (name) => { const m = name.match(/,\s*([A-Z]{2})(?:-|$)/); return m ? m[1] : '' }
+/* Anything still colliding after that gets the CPT appended. Real, unambiguous, and never
+   an invented clinical name - a broker seeing "Partial removal of colon (44143)" can pick. */
+const seen = new Map()
+for (const c of catalog) { if (!c.desc) continue; const k = c.desc.trim().toLowerCase(); seen.set(k, (seen.get(k) || 0) + 1) }
+let disambiguated = 0
+for (const c of catalog) {
+  if (!c.desc) continue
+  if (seen.get(c.desc.trim().toLowerCase()) > 1) { c.desc = `${c.desc} (${c.cpt})`; disambiguated++ }
+}
+console.log(`  disambiguated ${disambiguated} codes whose description was shared with another code`)
+
 const labelled = catalog.filter((c) => c.desc)
 console.log(`\n  codes with rates: ${catalog.length} | with a real description: ${labelled.length} | dropped unlabelled: ${noDesc}`)
 
