@@ -16,7 +16,7 @@ const NAV = [
   { href: "/brokers", label: "Brokers" },
   { href: "/general-agencies", label: "General agencies" },
   { href: "/employers", label: "Employers" },
-  { href: "/tools", label: "Demo environment" },
+  { href: "/tools", label: "Platform" },
   { href: "/methodology", label: "Methodology" },
 ];
 
