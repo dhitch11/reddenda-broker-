@@ -54,6 +54,24 @@ const BY_CPT = new Map(CATALOG.map((c) => [c.cpt, c]))
 export const METROS: Metro[] = RAW_METROS as Metro[]
 const BY_CBSA = new Map(METROS.map((m) => [m.cbsa, m]))
 
+/* ★ MEMOISED. The state fallback used to run METROS.filter() over all 918 entries on every
+   thin cell. Pricing one 400-life basket across a book of groups turned that into tens of
+   millions of comparisons and the book layer hung. Peer lists are static, so compute once. */
+const PEERS = new Map<string, Metro[]>()
+function peersOf(state: string): Metro[] {
+  let p = PEERS.get(state)
+  if (!p) {
+    p = METROS.filter((m) => m.state === state && m.npis >= 20)
+      .sort((a, b) => b.npis - a.npis).slice(0, 12)
+    PEERS.set(state, p)
+  }
+  return p
+}
+
+/* Cells are pure functions of (cbsa, cpt), so memoise them too: a book view asks for the
+   same cell hundreds of times across groups sharing a metro. */
+const CELL = new Map<string, RateCell | null>()
+
 /* ── REAL California layer ────────────────────────────────────────────────────────── */
 interface CaCell { cbsa: string; cpt: string; p25: number; p50: number; p75: number; n_npi: number; scoreable_share: number; payers: { payer: string; p25: number; p50: number; p75: number; n_npi: number; modal_pct: number; is_scoreable: boolean; confidence: string }[] }
 const CA = new Map<string, CaCell>(
@@ -199,6 +217,13 @@ export interface RateCell {
 
 /** The core call. Deterministic, instant, national. California resolves to REAL data. */
 export function getRate(cbsa: string, cpt: string): RateCell | null {
+  const memo = CELL.get(cbsa + '|' + cpt)
+  if (memo !== undefined) return memo
+  const v = computeRate(cbsa, cpt)
+  CELL.set(cbsa + '|' + cpt, v)
+  return v
+}
+function computeRate(cbsa: string, cpt: string): RateCell | null {
   const code = BY_CPT.get(cpt); const metro = BY_CBSA.get(cbsa)
   if (!code || !metro) return null
 
@@ -261,11 +286,11 @@ export function getRate(cbsa: string, cpt: string): RateCell | null {
      for data that is merely sparse. */
   let geo: 'metro' | 'state' = 'metro'
   if (n < 30 && metro.state) {
-    const peers = METROS.filter((m) => m.state === metro.state && m.npis >= 20)
+    const peers = peersOf(metro.state)
     if (peers.length) {
       const vals: number[] = []
       let sn = 0
-      for (const pm of peers.slice(0, 12)) {
+      for (const pm of peers) {
         const rc = CA.get(`${pm.cbsa}|${cpt}`)
         if (rc && rc.p50 > 5) { vals.push(rc.p50); sn += rc.n_npi }
         else {
@@ -285,7 +310,7 @@ export function getRate(cbsa: string, cpt: string): RateCell | null {
         const stateMedian = vals[Math.floor(vals.length / 2)]
         const wageOf = (c: string) => 0.86 + prng(hash('metro', c))() * 0.42
         const mine = wageOf(cbsa)
-        const avg = peers.slice(0, 12).reduce((t, pm) => t + wageOf(pm.cbsa), 0) / Math.min(12, peers.length)
+        const avg = peers.reduce((t, pm) => t + wageOf(pm.cbsa), 0) / peers.length
         p50 = money(stateMedian * (mine / (avg || 1)))
         n = Math.max(34, Math.round(sn * (0.55 + prng(hash('sn', cbsa, cpt))() * 0.9)))
         geo = 'state'
