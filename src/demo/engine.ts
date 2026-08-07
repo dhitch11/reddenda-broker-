@@ -36,6 +36,7 @@
  */
 import federal from './seed/federal-catalog.json'
 import caReal from './seed/california-real.json'
+import caLoc from './seed/ca-locality.json'
 
 export type Src = 'real' | 'synthetic'
 
@@ -59,6 +60,32 @@ const CA = new Map<string, CaCell>(
   ((caReal as { cells: CaCell[] }).cells || []).map((c) => [`${c.cbsa}|${c.cpt}`, c])
 )
 export const CA_METROS = new Set((caReal as { metros: string[] }).metros || [])
+
+/* ── REAL California Medicare LOCALITY layer ──────────────────────────────────────
+   `medicare_locality_cpt_rate` collapses California's 29 localities into one statewide
+   figure, so a Sacramento broker saw a statewide BAND instead of their own number. In front
+   of the CAHIP NorCal room that is the difference between "your market" and "your state."
+   Sacramento is locality 63, MAC 0111263, GPCI 1.036 / 1.163 / 0.536. */
+const CA_LOC = caLoc as {
+  cbsa_to_locality: Record<string, string>; rest_of_ca: string
+  meta: Record<string, { name: string; w: number; pe: number; mp: number }>
+  rates: Record<string, Record<string, [number, number]>>
+}
+/** The real Medicare locality for a CA metro: its own, or Rest of California. */
+export function localityFor(cbsa: string) {
+  const m = BY_CBSA.get(cbsa)
+  if (!m || m.state !== 'CA') return null
+  const code = CA_LOC.cbsa_to_locality[cbsa] || CA_LOC.rest_of_ca
+  const meta = CA_LOC.meta[code]
+  return meta ? { code, name: meta.name, gpci: { work: meta.w, pe: meta.pe, mp: meta.mp } } : null
+}
+/** Locality-specific Medicare [non-facility, facility], or null outside California. */
+function localityRate(cbsa: string, cpt: string): [number, number] | null {
+  const m = BY_CBSA.get(cbsa)
+  if (!m || m.state !== 'CA') return null
+  const code = CA_LOC.cbsa_to_locality[cbsa] || CA_LOC.rest_of_ca
+  return CA_LOC.rates[code]?.[cpt] ?? null
+}
 
 /* ── deterministic hash → PRNG ────────────────────────────────────────────────────── */
 function hash(...parts: (string | number)[]): number {
@@ -158,6 +185,7 @@ export interface RateCell {
     opps_status: string | null; opps_caveat: string | null; absence_reason: string | null
     asc_eligible: boolean; inpatient_only: boolean
   }
+  medicare_locality: { code: string; name: string; gpci: { work: number; pe: number; mp: number } } | null
   geo_grain: 'metro' | 'state'; geo_note: string | null
   data_quality: { n: number; confidence: string; is_scoreable: boolean; modal_pct: number; flags: string[]; suppression_reason: string | null }
   _src: Src
@@ -172,7 +200,13 @@ export function getRate(cbsa: string, cpt: string): RateCell | null {
   const spec = categoryOf(cpt)
   const cm = CAT[spec] || CAT.Other
   const r = prng(hash('rate', cbsa, cpt))
-  const anchor = Math.max(code.office, code.facProf)
+  /* ★ California uses its OWN Medicare locality rate, not the statewide collapse. Every
+     percent-of-Medicare figure in CA is therefore against the number that market is
+     actually paid. Outside CA the statewide figure stands. */
+  const loc = localityRate(cbsa, cpt)
+  const officeRate = loc ? loc[0] : code.office
+  const facProfRate = loc ? loc[1] : code.facProf
+  const anchor = Math.max(officeRate, facProfRate)
 
   const real = CA.get(`${cbsa}|${cpt}`)
   let p50: number, sLo: number, sHi: number, n: number, modal: number, src: Src
@@ -283,15 +317,16 @@ export function getRate(cbsa: string, cpt: string): RateCell | null {
       pct_of_medicare: scoreable ? pctOf(p50, anchor) : null,
     },
     site_of_care: {                                     // ALL REAL CMS, free by design
-      office_total: code.office !== code.facProf ? code.office : null,
-      office_note: code.office === code.facProf ? 'no distinct office rate for this service' : null,
-      asc_total: code.asc != null ? money(code.facProf + code.asc) : null,
-      hopd_total: code.opps != null ? money(code.facProf + code.opps) : null,
+      office_total: officeRate !== facProfRate ? money(officeRate) : null,
+      office_note: officeRate === facProfRate ? 'no distinct office rate for this service' : null,
+      asc_total: code.asc != null ? money(facProfRate + code.asc) : null,
+      hopd_total: code.opps != null ? money(facProfRate + code.opps) : null,
       opps_status: code.si,
       opps_caveat: code.si && ['Q1', 'Q2', 'Q3'].includes(code.si) ? 'paid separately when billed alone' : null,
       absence_reason: code.opps == null ? (SI_REASON[code.si || ''] || 'not separately payable in this setting') : null,
       asc_eligible: code.asc != null, inpatient_only: code.si === 'C',
     },
+    medicare_locality: localityFor(cbsa),
     geo_grain: geo,
     geo_note: geo === 'state' ? `${metro.state} statewide, this metro has too few contributing providers to stand alone` : null,
     data_quality: { n, confidence: n >= 300 ? 'high' : n >= 90 ? 'medium' : n >= 30 ? 'low' : 'insufficient', is_scoreable: scoreable, modal_pct: modal, flags, suppression_reason: reason },
