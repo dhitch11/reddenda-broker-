@@ -65,7 +65,7 @@ export default async function MarketPage({ params }: { params: Promise<{ market:
                 fontSize: "var(--text-xs)", color: "var(--faint)", fontFamily: "var(--font-mono), monospace",
               }}
             >
-              <li><Link href="/rates">Markets</Link></li>
+              <li><a href="https://app.reddenda.com/broker/console">Markets</a></li>
               <li aria-hidden="true">/</li>
               <li aria-current="page" style={{ color: "var(--muted)" }}>{metroShort(metro)}</li>
             </ol>

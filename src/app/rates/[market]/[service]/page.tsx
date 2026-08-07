@@ -147,7 +147,7 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                 fontFamily: "var(--font-mono), monospace",
               }}
             >
-              <li><Link href="/rates">Markets</Link></li>
+              <li><a href="https://app.reddenda.com/broker/console">Markets</a></li>
               <li aria-hidden="true">/</li>
               <li><Link href={marketPath(metro)}>{metroShort(metro)}</Link></li>
               <li aria-hidden="true">/</li>

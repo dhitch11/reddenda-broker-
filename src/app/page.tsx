@@ -7,6 +7,7 @@ import { SCALE, nationalRate } from "@/lib/national";
 import { siteComparison } from "@/lib/siteofservice";
 import { regionSpread } from "@/lib/regions";
 import { PriceField, FIELD_COUNT } from "@/components/marketing/price-field";
+import { ScrollState } from "@/components/marketing/scroll-state";
 import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
 import { LookupForm } from "@/components/marketing/lookup-form";
 import { RatePanel } from "@/components/marketing/rate-panel";
@@ -110,6 +111,7 @@ export default async function Home({
 
   return (
     <>
+      <ScrollState />
       <SiteHeader />
 
       <main>
@@ -178,9 +180,9 @@ export default async function Home({
                 className="rise rise-2"
                 style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 22, alignItems: "center" }}
               >
-                <Link href="/tools" className="btn btn-primary">
+                <a href="https://app.reddenda.com/broker/console" className="btn btn-primary">
                   Open the platform →
-                </Link>
+                </a>
                 <span
                   style={{
                     fontFamily: "var(--font-mono), monospace",
@@ -209,14 +211,14 @@ export default async function Home({
               */}
               <div className="proof-rail rise rise-3">
                 {ratio && hi && lo && (
-                  <div className="proof-tile">
+                  <div className="proof-tile lift">
                     <span className="proof-tile__val num">{ratio.toFixed(1)}x</span>
                     <span className="proof-tile__lab">
                       {hi.metro.name.split("-")[0]} vs {lo.metro.name.split("-")[0]}, same procedure
                     </span>
                   </div>
                 )}
-                <div className="proof-tile">
+                <div className="proof-tile lift">
                   <span className="proof-tile__val num">
                     {(SCALE.cells / 1_000_000).toFixed(1)}M
                   </span>
@@ -231,7 +233,7 @@ export default async function Home({
                   defend. It is read off the same result the card is rendering.
                 */}
                 {result?.found && result.cell.n > 0 && (
-                  <div className="proof-tile">
+                  <div className="proof-tile lift">
                     <span className="proof-tile__val num">
                       {result.cell.n.toLocaleString("en-US")}
                     </span>
@@ -289,7 +291,7 @@ export default async function Home({
                 <span className="num" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)" }}>
                   Four regions
                 </span>
-                <span className="num" style={{ marginLeft: "auto", fontSize: "clamp(21px, 2.4vw, 27px)", fontWeight: 600, color: "var(--efficient)" }}>
+                <span className="num fig-glow" style={{ marginLeft: "auto", fontSize: "clamp(21px, 2.4vw, 27px)", fontWeight: 600, color: "var(--efficient)" }}>
                   {regions.ratio.toFixed(2)}x
                 </span>
               </div>
@@ -297,13 +299,13 @@ export default async function Home({
                 Pick a region. The medians barely move.
               </p>
               <div style={{ marginTop: 16, display: "grid", gap: 8, maxWidth: 560 }}>
-                {regions.rows.map((r) => {
+                {regions.rows.map((r, i) => {
                   const max = regions!.rows[0].median;
                   return (
                     <div key={r.region} style={{ display: "grid", gridTemplateColumns: "104px 1fr 74px", gap: 12, alignItems: "center" }}>
                       <span style={{ fontSize: "var(--text-sm)", color: "var(--muted)" }}>{r.region}</span>
                       <div style={{ height: 10, borderRadius: 5, background: "var(--elev)", overflow: "hidden" }}>
-                        <div style={{ height: "100%", width: `${(r.median / max) * 100}%`, background: "var(--efficient)", borderRadius: 5 }} />
+                        <div className="draw" style={{ height: "100%", width: `${(r.median / max) * 100}%`, background: "var(--efficient)", borderRadius: 5, ["--i" as string]: i }} />
                       </div>
                       <span className="num" style={{ fontSize: "var(--text-sm)", color: "var(--ink)", textAlign: "right" }}>
                         ${r.median.toLocaleString("en-US")}
@@ -324,7 +326,7 @@ export default async function Home({
                     <span className="num" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)" }}>
                       One market
                     </span>
-                    <span className="num" style={{ marginLeft: "auto", fontSize: "clamp(21px, 2.4vw, 27px)", fontWeight: 600, color: "var(--exposure)" }}>
+                    <span className="num fig-glow" style={{ marginLeft: "auto", fontSize: "clamp(21px, 2.4vw, 27px)", fontWeight: 600, color: "var(--exposure)" }}>
                       {(result.cell.p75 / result.cell.p25).toFixed(1)}x
                     </span>
                   </div>
@@ -381,7 +383,7 @@ export default async function Home({
                   { k: "office", label: "In an office", site: siteOfCare.office, color: "var(--efficient)" },
                   { k: "asc", label: "At a surgery center", site: siteOfCare.asc, color: "var(--spread)" },
                   { k: "hopd", label: "At a hospital", site: siteOfCare.hopd, color: "var(--exposure)" },
-                ] as const).map(({ k, label, site, color }) => {
+                ] as const).map(({ k, label, site, color }, i) => {
                   const max = Math.max(
                     siteOfCare!.office.total ?? 0,
                     siteOfCare!.asc.total ?? 0,
@@ -398,11 +400,13 @@ export default async function Home({
                       </div>
                       <div style={{ height: 34, borderRadius: "var(--r-xs)", background: "var(--elev)", overflow: "hidden" }}>
                         <div
+                          className="draw"
                           style={{
                             height: "100%",
                             width: `min(${pct}%, calc(100% - 14px))`,
                             background: color,
                             borderRadius: "var(--r-xs)",
+                            ["--i" as string]: i,
                           }}
                         />
                       </div>

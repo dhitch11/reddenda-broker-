@@ -716,3 +716,157 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 900px) {
   .price-field { display: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THE CRAFT LAYER — @BRAND-DOMAIN
+   Append-only. No rule above this line is edited, so a merge with another lane
+   cannot lose their work.
+
+   Everything here is transform/opacity only and every one of it is disabled
+   under prefers-reduced-motion at the end of the block. Nothing in here may
+   ever delay a figure: the payload is final at first paint and only chrome
+   moves. That split is the whole discipline.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* A SAMPLED SPRING. linear() lets CSS run a real spring curve with no JS and
+     no library. This is the single strongest signal of native-grade UI, because
+     a spring settles the way a physical object does and a cubic-bezier does not.
+     The overshoot past 1 is what the eye reads as "weight". */
+  --ease-settle: linear(0, .062 5%, .2012 10%, .3669 15%, .5283 20%, .6692 25%, .7831 30%, .8695 35%, .9312 40%, .9725 45%, .9981 50%, 1.0122 55%, 1.0185 60%, 1.0199 65%, 1.0184 70%, 1.0155 75%, 1.0122 80%, 1.009 85%, 1.0063 90%, 1.0041 95%, 1);
+  --ease-snap:   linear(0, .0874 7.14%, .2635 14.29%, .4499 21.43%, .6121 28.57%, .7394 35.71%, .8326 42.86%, .8973 50%, .9401 57.14%, .9672 64.29%, .9836 71.43%, .9929 78.57%, .998 85.71%, 1.0004 92.86%, 1);
+  --ease-exit:   cubic-bezier(.4, 0, 1, 1);
+
+  --dur-instant: 90ms;    /* press. faster than thought */
+  --dur-exit:   120ms;    /* every dismissal. exits are ALWAYS faster than entrances */
+  --dur-settle: 520ms;
+  --dur-draw:   900ms;
+}
+
+/* ── 1. THE DRAW ────────────────────────────────────────────────────────────
+   A bar assembles from its origin instead of appearing. Width is layout and
+   would reflow, so this scales on the X axis, which is composited and free.
+   The bar's real width is already set inline from the data, so the scale never
+   changes what the number means. */
+@keyframes draw-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+.draw {
+  transform-origin: left center;
+  animation: draw-x var(--dur-draw) var(--ease) both;
+  animation-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* ── 2. THE LIVE DOT ────────────────────────────────────────────────────────
+   The one sanctioned loop on the site. It says the corpus is current, which is
+   the single thing this audience most wants to know at a glance. Slow enough
+   (2.6s) to read as a heartbeat rather than a notification badge. */
+@keyframes live-pulse {
+  0%, 100% { transform: scale(1);    opacity: 1; }
+  50%      { transform: scale(1.32); opacity: .55; }
+}
+.chip-dot, .heroDot {
+  animation: live-pulse 2.6s var(--ease-inout, ease-in-out) infinite;
+}
+
+/* ── 3. LIFT ────────────────────────────────────────────────────────────────
+   Interactive surfaces rise toward the cursor on a spring. Transform and
+   shadow only, so nothing around them moves. */
+.lift {
+  transition:
+    transform var(--dur) var(--ease-settle),
+    box-shadow var(--dur) var(--ease),
+    border-color var(--dur-fast) var(--ease);
+  will-change: transform;
+}
+.lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 2px 4px rgba(10,11,12,.03), 0 14px 34px -14px rgba(10,11,12,.16);
+  border-color: var(--hair-strong);
+}
+.lift:active { transform: translateY(-1px); transition-duration: var(--dur-instant); }
+
+/* ── 4. THE FIGURE GLOW ─────────────────────────────────────────────────────
+   A single-hue tint behind a large number so it sits in light rather than on a
+   flat field. Never a two-colour gradient: one hue at low alpha reads as
+   atmosphere, two hues read as a 2019 SaaS template. */
+.fig-glow { position: relative; isolation: isolate; }
+.fig-glow::before {
+  content: "";
+  position: absolute;
+  inset: -18px -8%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(52% 60% at 50% 50%, rgba(15,181,166,.09), transparent 72%);
+}
+
+/* ── 5. THE SECTION RULE IS THE MARK ────────────────────────────────────────
+   The divider between sections is the distribution itself, drawn in gradient
+   stops off the logo's own geometry: viewBox 3..29 is the range, so the caps
+   sit at 0% and 100%, the IQR spans 15.4% to 61.5%, and the median tick lands
+   at 32.7% — left of centre, because the distribution is right-skewed.
+   One element, no SVG, no extra DOM. */
+.rule-mark {
+  height: 11px;
+  border: 0;
+  margin: 0;
+  background:
+    linear-gradient(to right, transparent 32.0%, var(--teal-deep) 32.0%, var(--teal-deep) 33.4%, transparent 33.4%),
+    linear-gradient(to right, transparent 15.4%, var(--teal) 15.4%, var(--teal) 61.5%, transparent 61.5%),
+    linear-gradient(to right, var(--ghost) 0 .5%, transparent .5% 99.5%, var(--ghost) 99.5% 100%),
+    linear-gradient(to bottom, transparent calc(50% - .75px), var(--hair-strong) calc(50% - .75px), var(--hair-strong) calc(50% + .75px), transparent calc(50% + .75px));
+  background-repeat: no-repeat;
+  background-size: 100% 11px, 100% 8px, 100% 11px, 100% 100%;
+  background-position: center, center, center, center;
+}
+
+/* ── 6. THE LINK ────────────────────────────────────────────────────────────
+   An underline that draws from the left on the mark's own hairline, rather
+   than a colour change. It is the smallest place the brand geometry appears. */
+.link-draw { position: relative; text-decoration: none; }
+.link-draw::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -3px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: var(--teal-deep);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur) var(--ease);
+}
+.link-draw:hover::after,
+.link-draw:focus-visible::after { transform: scaleX(1); }
+
+/* ── 7. PRESS ───────────────────────────────────────────────────────────────
+   Pointer feedback on the primary control. Faster than the hover that precedes
+   it, because a press must feel like contact, not like a transition. */
+.btn { transition: transform var(--dur-fast) var(--ease-settle), box-shadow var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease); }
+.btn:active { transform: translateY(1px) scale(.985); transition-duration: var(--dur-instant); }
+
+/* ── 8. THE STICKY HEADER SEPARATES ON SCROLL ───────────────────────────────
+   A hairline that fades in under the header once the page has moved, so the
+   header stops floating over content with no edge. Opacity only. */
+.site-header::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 100%;
+  height: 1px;
+  background: var(--hair);
+  opacity: 0;
+  transition: opacity var(--dur) var(--ease);
+  pointer-events: none;
+}
+body.is-scrolled .site-header::after { opacity: 1; }
+
+/* ── 9. REDUCED MOTION ──────────────────────────────────────────────────────
+   Everything above is decoration over a working surface, so all of it goes.
+   The draw resolves to its final state rather than to nothing, because a bar
+   at scaleX(0) would be a missing bar rather than a still one. */
+@media (prefers-reduced-motion: reduce) {
+  .draw { animation: none !important; transform: none !important; }
+  .chip-dot, .heroDot { animation: none !important; }
+  .lift, .btn, .link-draw::after { transition: none !important; }
+  .lift:hover { transform: none !important; }
+  .link-draw::after { transform: scaleX(1) !important; }
+  .site-header::after { transition: none !important; }
+}

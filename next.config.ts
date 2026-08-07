@@ -1,6 +1,27 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  /**
+   * DAVID RULING 2026-08-07: tools live on the console, never on marketing.
+   * "All CTAs should not be separate marketing pages for the tools."
+   *
+   * REDIRECT, DO NOT DELETE. These URLs are already in the wild: they were linked
+   * from the homepage, they are in browser histories, and this estate practises
+   * alias-redirect-with-a-rationale in five other places. A 404 on a URL we
+   * advertised is a worse failure than a redirect nobody notices.
+   *
+   * Permanent, because the move is permanent. The duplicate implementations under
+   * src/app/tools/* stay on disk until @BROKER-MARKETING's Tools Explainer lands,
+   * so nothing 404s mid-flight, and are deleted with that commit.
+   */
+  async redirects() {
+    const CONSOLE = "https://app.reddenda.com/broker/console";
+    return [
+      { source: "/tools/rate-check", destination: `${CONSOLE}/rates`, permanent: true },
+      { source: "/tools/site-of-service", destination: `${CONSOLE}/site-of-care`, permanent: true },
+      { source: "/tools/market-brief", destination: `${CONSOLE}/brief`, permanent: true },
+    ];
+  },
   reactStrictMode: true,
   poweredByHeader: false,
 

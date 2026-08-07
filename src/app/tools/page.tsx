@@ -265,9 +265,9 @@ export default async function ToolsIndex() {
                 in full.
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 22 }}>
-                <Link href="/tools/rate-check" className="btn btn-primary">
+                <a href="https://app.reddenda.com/broker/console" className="btn btn-primary">
                   Open Rate Check
-                </Link>
+                </a>
                 <a href={DISCOVERY_URL} className="btn btn-secondary">
                   Talk to us
                 </a>

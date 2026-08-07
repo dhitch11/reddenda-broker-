@@ -194,7 +194,7 @@ export function MarketBrief({ initial = "31080" }: { initial?: string }) {
                 ambulatory surgery schedules, not the physician fee alone, so it lives in
                 its own tool rather than being approximated here.
               </p>
-              <a className={s.siteLink} href="/tools/site-of-service">
+              <a className={s.siteLink} href="https://app.reddenda.com/broker/console/site-of-care">
                 Open the site of service tool
               </a>
             </section>
