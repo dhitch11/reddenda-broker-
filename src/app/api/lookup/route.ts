@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { marketRate, payerBreakdown, freshness } from "@/lib/rates";
 import { findMetro } from "@/lib/metros";
 import { findService } from "@/lib/catalog";
+import { nationalRate } from "@/lib/national";
 import { isConfigured } from "@/lib/db";
 
 export const runtime = "nodejs";
@@ -47,11 +48,31 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const rate = await marketRate(service, {
+    // 1. THE REAL CORPUS FIRST, ALWAYS. Where we hold a defensible measured number
+    //    it wins unconditionally. California, LA and Sacramento resolve here, and
+    //    Sacramento is the room we are pitching.
+    let rate = await marketRate(service, {
       cbsa: metro?.cbsa,
       state,
       metroName: metro?.name,
     });
+
+    // 2. THE NATIONAL ENGINE SECOND, for the markets and procedures the corpus does
+    //    not reach — 928 metros x 670 procedures, instant and deterministic. This is
+    //    what stops the site rendering a dead end anywhere in the country.
+    //
+    //    It is a FALLBACK, never a blend: this line only runs when the real path
+    //    already returned nothing, so one cell always resolves from exactly one
+    //    source. If the engine withholds too, `found: false` survives and the honest
+    //    empty state renders, which is deliberate and must not be "fixed".
+    if (!rate.found) {
+      const national = nationalRate(service, {
+        cbsa: metro?.cbsa,
+        state,
+        metroName: metro?.name,
+      });
+      if (national.found) rate = national;
+    }
 
     const catalog = findService(service);
 

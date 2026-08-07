@@ -2,6 +2,7 @@ import Link from "next/link";
 import { marketRate } from "@/lib/rates";
 import { METROS, findMetro } from "@/lib/metros";
 import { SERVICES } from "@/lib/catalog";
+import { SCALE } from "@/lib/national";
 import { isConfigured } from "@/lib/db";
 import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
 
@@ -131,8 +132,9 @@ export default async function ToolsIndex() {
 
               <p className="lede rise rise-2" style={{ marginTop: 18, maxWidth: "58ch" }}>
                 Every carrier&rsquo;s negotiated price, in all {METROS.length} U.S. metro markets,
-                instantly. {SERVICES.length} services, searchable in seconds. And where a market is
-                too thin to describe honestly, the tool tells you so instead of showing you a number.
+                instantly. {SCALE.procedures.toLocaleString("en-US")} procedures, searchable in
+                seconds. And where a market is too thin to describe honestly, the tool tells you so
+                instead of showing you a number.
               </p>
 
               {spread && (

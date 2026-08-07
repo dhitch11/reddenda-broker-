@@ -1,5 +1,6 @@
 import { METROS } from "@/lib/metros";
-import { SERVICES, CATEGORY_LABEL, type Category } from "@/lib/catalog";
+import { SERVICES } from "@/lib/catalog";
+import { ServicePicker } from "@/components/ServicePicker";
 
 /**
  * The lookup.
@@ -22,20 +23,6 @@ import { SERVICES, CATEGORY_LABEL, type Category } from "@/lib/catalog";
  * the plain name, never instead of it.
  */
 
-const ORDER: Category[] = [
-  "imaging",
-  "surgery",
-  "office",
-  "diagnostic",
-  "lab",
-  "therapy",
-  "maternity",
-  "behavioral",
-  "cardiac",
-  "pain",
-  "emergency",
-];
-
 export function LookupForm({
   action = "/",
   service,
@@ -47,12 +34,6 @@ export function LookupForm({
   market?: string;
   compact?: boolean;
 }) {
-  const grouped = ORDER.map((c) => ({
-    category: c,
-    label: CATEGORY_LABEL[c],
-    items: SERVICES.filter((s) => s.category === c),
-  })).filter((g) => g.items.length > 0);
-
   return (
     <form
       method="get"
@@ -72,19 +53,25 @@ export function LookupForm({
         boxShadow: "var(--shadow-md)",
       }}
     >
-      <Field label="Service" htmlFor="service">
-        <select id="service" name="service" defaultValue={service ?? "70553"} style={selectStyle}>
-          {grouped.map((g) => (
-            <optgroup key={g.category} label={g.label}>
-              {g.items.map((s) => (
-                <option key={s.cpt} value={s.cpt}>
-                  {s.plain} ({s.cpt})
-                </option>
-              ))}
-            </optgroup>
-          ))}
-        </select>
-      </Field>
+      {/*
+        SERVICE is a searchable combobox rather than a native <select>, because the
+        catalog is the whole national one (7,647 procedures) and not the 39-item
+        basket. A native select cannot hold that, and the copy claims the full number,
+        so the control has to actually reach it. This is the same "917 markets in the
+        copy, 124 in the picker" defect this site already fixed once, prevented rather
+        than disclaimed.
+
+        It still degrades to a real form field: the CPT lives in a hidden input, so an
+        unhydrated submit sends the default exactly as the old select did. The curated
+        basket is the default view, so the first thing a broker sees is still the plain
+        phrase they would say out loud, with the whole country behind it on a keystroke.
+      */}
+      <ServicePicker
+        name="service"
+        label="Service"
+        featured={SERVICES}
+        defaultCpt={service ?? "70553"}
+      />
 
       <Field label="Market" htmlFor="market">
         <select id="market" name="market" defaultValue={market ?? "31080"} style={selectStyle}>

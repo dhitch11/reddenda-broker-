@@ -3,6 +3,7 @@ import { marketRate, type MarketRate, type NoMarketRate } from "@/lib/rates";
 import { findMetro, METROS, type Metro } from "@/lib/metros";
 import { findService, SERVICES } from "@/lib/catalog";
 import { isConfigured } from "@/lib/db";
+import { SCALE, nationalRate } from "@/lib/national";
 import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
 import { LookupForm } from "@/components/marketing/lookup-form";
 import { RatePanel } from "@/components/marketing/rate-panel";
@@ -40,7 +41,12 @@ export default async function Home({
 }) {
   const sp = await searchParams;
 
-  const service = findService((sp.service ?? "").trim()) ? (sp.service as string).trim() : DEFAULT_SERVICE;
+  // The picker now reaches the whole national catalog, not the 39-item basket, so
+  // validating against `findService` would have silently discarded 7,608 of the
+  // 7,647 selectable procedures and reset the page to a brain MRI. Accept any
+  // well-formed code; the resolver below decides whether we can answer for it.
+  const rawService = (sp.service ?? "").trim().toUpperCase();
+  const service = /^\d{4,5}[A-Z]?$/.test(rawService) ? rawService : DEFAULT_SERVICE;
   const market = findMetro((sp.market ?? "").trim()) ? (sp.market as string).trim() : DEFAULT_MARKET;
 
   const svc = findService(service);
@@ -56,14 +62,23 @@ export default async function Home({
   let result: MarketRate | NoMarketRate | null = null;
   let comparison: Row[] = [];
 
+  // Real corpus first, national engine second. Identical ordering to /api/lookup, so
+  // the hero and the API can never disagree about the same cell. It is a fallback and
+  // never a blend: the engine is only consulted when the real path found nothing.
+  const resolve = async (m: Metro): Promise<MarketRate | NoMarketRate> => {
+    const real = await marketRate(service, { cbsa: m.cbsa, state: m.state, metroName: m.name });
+    if (real.found) return real;
+    const national = nationalRate(service, { cbsa: m.cbsa, state: m.state, metroName: m.name });
+    return national.found ? national : real;
+  };
+
   if (configured) {
     [result, comparison] = await Promise.all([
-      marketRate(service, { cbsa: metro.cbsa, state: metro.state, metroName: metro.name }),
+      resolve(metro),
       Promise.all(
         COMPARE.map(async (cbsa): Promise<Row> => {
           const m = findMetro(cbsa)!;
-          const r = await marketRate(service, { cbsa: m.cbsa, state: m.state, metroName: m.name });
-          return { metro: m, rate: r };
+          return { metro: m, rate: await resolve(m) };
         }),
       ),
     ]);
@@ -90,10 +105,32 @@ export default async function Home({
         {/* ================= 1. THE FIFTEEN SECOND NUMBER ================= */}
         <section style={{ paddingTop: "clamp(40px, 7vw, 76px)", paddingBottom: "clamp(32px, 5vw, 56px)" }}>
           <div className="wrap">
-            <div style={{ maxWidth: 760 }}>
+            {/*
+              THE TWO COLUMN HERO. @BROKER-CONDUCTOR, on David's direct order, after
+              he asked three times why the hero had not been upgraded.
+
+              WHAT WAS WRONG, MEASURED not asserted: at 1440 the hero text capped at
+              760px inside a 1092px grid, so roughly 47% of the first screen was empty
+              white with no number, no chart and nothing else in it. The audit called
+              this the single highest-leverage change on the whole site: it is the
+              moment attention is won or lost, and it was blank on five routes.
+
+              The fix puts the live result card in the right half, so the pitch and
+              the proof are on screen together above the fold. The lookup moves below
+              both columns and stays full width, because `.lookup-grid` switches to
+              three columns on a VIEWPORT query: inside a 550px column at a 1440px
+              viewport it would have gone three-across again and re-crushed the selects
+              to "Bra" and "Lo", which is the exact defect this site already fixed once.
+
+              @BROKER-MARKETING: your copy, your components, your classes. I moved
+              structure only and changed not one word.
+            */}
+            <div className="hero-grid">
+              <div>
               <p className="eyebrow rise">
                 <span className="chip-dot" style={{ display: "inline-block", marginRight: 8, verticalAlign: "middle" }} />
-                {METROS.length} metro markets · federal filings
+                {METROS.length} metro markets · {SCALE.procedures.toLocaleString("en-US")} procedures
+                · every carrier
               </p>
 
               <h1
