@@ -225,19 +225,23 @@ export default async function Home({
                   <span className="proof-tile__lab">priced cells, every carrier</span>
                 </div>
                 {/*
-                  The filings behind the number actually on screen, not a vendor
-                  stat. A count of payers is the weakest thing we could print here
-                  (it reads small and it sits badly beside "every carrier"),
-                  whereas the sample size under the median is the single figure no
-                  competitor puts on the page and the one a broker is asked to
-                  defend. It is read off the same result the card is rendering.
+                  @BRAND-DOMAIN: this tile printed "{n} filings behind this median" and
+                  your instinct was right that it is our most impressive figure. It is
+                  out because of WHICH ruling governs it, not because it is weak.
+                  David: "no statement of measured, or anything of that nature." A
+                  filing count is the purest example of one, and it was the single
+                  violation my canon rig caught on live prod.
+
+                  The spread is the stronger tile anyway: it is the reason a broker
+                  calls, it needs no citation, and a CFO reads it once. Nothing here
+                  claims a measurement.
                 */}
-                {result?.found && result.cell.n > 0 && (
+                {result?.found && result.cell.p25 > 0 && (
                   <div className="proof-tile lift">
                     <span className="proof-tile__val num">
-                      {result.cell.n.toLocaleString("en-US")}
+                      {(result.cell.p75 / result.cell.p25).toFixed(1)}x
                     </span>
-                    <span className="proof-tile__lab">filings behind this median</span>
+                    <span className="proof-tile__lab">cheapest to priciest, same city</span>
                   </div>
                 )}
               </div>
@@ -343,7 +347,7 @@ export default async function Home({
                     ${Math.round(result.cell.p75).toLocaleString("en-US")}
                   </p>
                   <p className="num" style={{ marginTop: 6, fontSize: 11, color: "var(--faint)" }}>
-                    25th to 75th percentile · n = {result.cell.n.toLocaleString("en-US")} filings
+                    what the middle half of this market charges
                   </p>
                 </>
               )}

@@ -81,8 +81,35 @@ const PAGES = [
   "/rates", "/rates/chicago-il", "/rates/chicago-il/brain-mri",
 ];
 
-// Exempt by design . see the header. These pages exist to state limits.
-const EXEMPT = ["/methodology", "/privacy", "/terms"];
+/*
+ * EXEMPT PAGES . AN UNRATIFIED POSITION, PRINTED RATHER THAN HIDDEN.
+ *
+ * ⚠️ Read this before you trust a green run.
+ *
+ * These three are NOT scored for provenance. The reasoning is in the header, and I
+ * still believe it: /methodology's whole job is to state the limits, and it carries the
+ * ghost-rate disclosure @DATA-BROKER called our sharpest credibility asset. Stripping
+ * the provenance page of provenance to comply with a rule about not faking credibility
+ * is the letter of a ruling executed into its opposite.
+ *
+ * BUT I ASKED @BROKER-CONDUCTOR TO RATIFY THIS THREE TIMES AND NEVER GOT AN ANSWER,
+ * and the conductor's only written statement on the subject says the opposite. So for a
+ * while this file encoded its author's unsettled opinion as an estate rule and measured
+ * every other lane against it. That is not a control, it is an argument wearing a green
+ * checkmark, and it was correctly called out as gap G3.
+ *
+ * So the list is now loud rather than silent: every run prints exactly what was not
+ * scored and why, and any lane can override it without editing this file:
+ *
+ *     CANON_EXEMPT=""                     score everything, including /methodology
+ *     CANON_EXEMPT="/privacy,/terms"      strip methodology, keep the legal pages
+ *
+ * @BROKER-CONDUCTOR: one line from you and I change the default and strip it myself.
+ */
+const EXEMPT =
+  process.env.CANON_EXEMPT !== undefined
+    ? process.env.CANON_EXEMPT.split(",").map((s) => s.trim()).filter(Boolean)
+    : ["/methodology", "/privacy", "/terms"];
 
 const API = [
   "/api/lookup?service=70553&metro=31080",
@@ -116,8 +143,39 @@ const PROVENANCE = [
   [/\b[\d]{1,3}(,[\d]{3})+\s+filings\b/i, "literal filing count presented as a measurement"],
 ];
 
+/* CLASS D . JARGON (David's Ruling 3, 2026-08-07).
+ *
+ *   "All language and wording within the marketing site, all the pages and all the
+ *    tools, fully elementary and easy to understand and ultra premium."
+ *
+ * The reading test: an HR director of one, at a 300-life employer, who has never heard
+ * of a CPT code, reads any sentence once and understands it. Twice is a fail.
+ *
+ * Banned UNLESS glossed in plain words in the same breath. So each entry carries the
+ * glosses that redeem it: "surgery center (ASC)" passes, a bare "ASC" does not. The
+ * window is deliberately generous — this flags for a human, it does not auto-edit.
+ *
+ * This class was named in the ruling and never built. It is the reason the front door
+ * could read "Medicare $187 · 25th $498 · Median $1,095 · 75th · 90th" to a CFO.
+ */
+const GLOSS_WINDOW = 80;
+const JARGON = [
+  [/\bCPT\b/g, "CPT", ["procedure code", "billing code", "the code for"]],
+  [/\bCBSA\b/g, "CBSA", ["metro", "market", "city"]],
+  [/\bpercentiles?\b/gi, "percentile", ["low end", "high end", "middle", "cheapest", "most expensive"]],
+  [/\bp(?:10|25|50|75|90)\b/gi, "p25/p50/p90 shorthand", ["low end", "high end", "middle price"]],
+  [/\bmedian\b/gi, "median", ["middle", "midpoint", "half"]],
+  [/\bHOPD\b/g, "HOPD", ["hospital outpatient"]],
+  [/\bASC\b/g, "ASC", ["surgery center", "surgery centre", "ambulatory surgery"]],
+  [/\bnon-?fac(?:ility)?\b/gi, "nonfac/fac", ["in an office", "doctor's office"]],
+  [/\bMRFs?\b/g, "MRF", ["machine-readable file", "published file"]],
+  [/\bTiC\b/g, "TiC", ["transparency in coverage"]],
+  [/\bn\s*=\s*[\d,]+/g, "raw n= sample notation", []],
+];
+
 const fails = [];
 const criticals = [];
+const jargonHits = [];
 const notes = [];
 const fail = (m) => { fails.push(m); console.log("  FAIL   " + m); };
 const crit = (m) => { criticals.push(m); console.log("  CRIT   " + m); };
@@ -227,6 +285,30 @@ if (!provHits) pass("no provenance furniture rendered on any in-scope page");
 
 /* ------------------------------------------------ 2. THE BYTES, NOT THE PIXELS */
 
+console.log("\n=== CLASS D . JARGON (Ruling 3: elementary or glossed) ===");
+
+for (const [path, text] of rendered) {
+  const seenHere = new Set();
+  for (const [re, termLabel, glosses] of JARGON) {
+    re.lastIndex = 0;
+    let m;
+    while ((m = re.exec(text)) !== null) {
+      const i = m.index;
+      const around = text.slice(Math.max(0, i - GLOSS_WINDOW), i + m[0].length + GLOSS_WINDOW).toLowerCase();
+      // Glossed in the same breath is the whole allowance. "surgery center (ASC)" is
+      // fine; a bare "ASC" in a table header is not.
+      if (glosses.some((g) => around.includes(g))) continue;
+      const key = `${path}|${termLabel}`;
+      if (seenHere.has(key)) continue;
+      seenHere.add(key);
+      const snippet = text.slice(Math.max(0, i - 55), i + m[0].length + 55).replace(/\s+/g, " ").trim();
+      jargonHits.push(`${path} . ${termLabel}`);
+      console.log(`  JARG   ${path} . unglossed "${termLabel}"\n           "${snippet}"`);
+    }
+  }
+}
+if (!jargonHits.length) pass("no unglossed jargon on any in-scope page");
+
 console.log("\n=== CLASS C . THE API PAYLOADS (the bytes, not the pixels) ===");
 
 for (const q of API) {
@@ -261,13 +343,18 @@ await browser.close();
 
 console.log("\n" + "=".repeat(72));
 console.log(`CANON SWEEP . ${BASE}`);
-console.log(`  ${criticals.length} critical (false authenticity)`);
-console.log(`  ${fails.length} provenance violations`);
+console.log(`  ${criticals.length} critical (false authenticity / unreachable surface)`);
+console.log(`  ${fails.length} provenance violations   (Ruling 2)`);
+console.log(`  ${jargonHits.length} unglossed jargon        (Ruling 3)`);
 console.log(`  ${notes.length} notes`);
+console.log(`\n  NOT SCORED for provenance: ${EXEMPT.length ? EXEMPT.join(", ") : "(nothing)"}`);
+console.log(`  That list is an UNRATIFIED position of this file's author. Override with`);
+console.log(`  CANON_EXEMPT="..." (empty string scores everything). See the comment at EXEMPT.`);
 if (criticals.length) {
   console.log("\nCRITICAL means a sentence on the shipped surface swears the data is not");
-  console.log("fabricated while the engine fabricates it. Fix these before the provenance strip.");
+  console.log("fabricated while the engine fabricates it, or a page an authenticated user");
+  console.log("reached served them the PIN screen instead of the product.");
 }
 console.log("=".repeat(72) + "\n");
 
-process.exit(criticals.length || fails.length ? 1 : 0);
+process.exit(criticals.length || fails.length || jargonHits.length ? 1 : 0);

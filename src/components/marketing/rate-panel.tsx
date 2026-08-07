@@ -60,7 +60,7 @@ export function RatePanel({
           </h2>
           <p style={{ fontSize: "var(--text-sm)", color: "var(--muted)", marginTop: 4 }}>
             {result.geoName} <span style={{ color: "var(--ghost)" }}>·</span>{" "}
-            <span className="num">CPT {result.cpt}</span>
+            <span className="num">procedure code {result.cpt}</span>
           </p>
         </div>
 
@@ -110,7 +110,7 @@ export function RatePanel({
           marginTop: 4,
         }}
       >
-        <Stat label="Median negotiated" value={money(cell.p50)} tone="ink" />
+        <Stat label="Middle price" value={money(cell.p50)} tone="ink" sub="Half of this market is above it, half below" />
         <Stat
           label="Middle half spans"
           value={`${money(cell.p25)} to ${money(cell.p75)}`}
@@ -118,14 +118,14 @@ export function RatePanel({
           sub={spreadX ? `${spreadX.toFixed(1)}x from low to high` : undefined}
         />
         {cell.p90 != null ? (
-          <Stat label="90th percentile" value={money(cell.p90)} tone="exposure" sub="What the expensive end costs" />
+          <Stat label="The expensive end" value={money(cell.p90)} tone="exposure" sub="What the priciest providers charge" />
         ) : (
-          <Stat label="90th percentile" value="gap" tone="gap" sub="Not published for this cell" />
+          <Stat label="The expensive end" value="gap" tone="gap" sub="Not published for this market" />
         )}
         {pctOfMedicare != null ? (
-          <Stat label="Median vs Medicare" value={`${pctOfMedicare}%`} tone="spread" sub="Derived from the two figures shown" />
+          <Stat label="Middle price vs Medicare" value={`${pctOfMedicare}%`} tone="spread" sub="Derived from the two figures shown" />
         ) : (
-          <Stat label="Median vs Medicare" value="gap" tone="gap" sub="No Medicare rate for this market" />
+          <Stat label="Middle price vs Medicare" value="gap" tone="gap" sub="No Medicare rate for this market" />
         )}
       </div>
 
@@ -133,7 +133,7 @@ export function RatePanel({
 
       <SourceLine
         updatedAt={result.updatedAt}
-        scope={result.scope === "metro" ? "Metro level, CBSA " + result.geoId : "State level"}
+        scope={result.scope === "metro" ? "For your city, not a statewide average" : "Statewide, because this city is too small to report on its own"}
       />
     </section>
   );

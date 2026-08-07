@@ -95,4 +95,32 @@ if [ "$ENTER" != "200" ] || [ "$GATE" = "404" ]; then
   echo "!!! THE DOOR IS BROKEN ON PROD. A partial bundle published. Redeploy before telling anyone it is up."
   exit 7
 fi
+echo "=== 7. CANON GATE (David's rulings 2 and 3, on the SERVED surface) ==="
+# WHY IT RUNS HERE AND NOT AS A PREFLIGHT: the sweep reads the RENDERED page and the API
+# payloads, so it needs a served surface. A bundle that has not been published cannot be
+# checked this way, and a check run against something other than the deploy is not
+# evidence — this estate has that lesson filed twice.
+#
+# WHY IT RUNS AT ALL: the provenance strip landed at 09:50 and was back on the homepage
+# by 10:40, via four good-faith commits from a lane that had never run the rig. For most
+# of a day the only thing between the front door and a David ruling was one terminal
+# remembering to run one script — and that terminal died. A check that depends on a
+# particular lane being alive is not a check.
+#
+# It cannot block the publish (the bytes are live by the time it can see them). It makes
+# the failure loud and traceable to this deploy id. Rollback is a publish, not a rebuild.
+if [ -f "$REPO/scripts/verify-canon.mjs" ]; then
+  CANON_PIN="${SITE_PIN:-$(grep -m1 '^SITE_PIN=' "$REPO/.env.local" 2>/dev/null | cut -d= -f2- | tr -d '"')}"
+  ( cd "$REPO" && SITE_PIN="$CANON_PIN" node scripts/verify-canon.mjs https://broker.reddenda.com 2>&1 | tail -16 )
+  CANON_RC=$?
+  if [ "$CANON_RC" != "0" ]; then
+    echo ""
+    echo "!!! CANON VIOLATIONS ARE LIVE ON THE SURFACE YOU JUST PUBLISHED (deploy $HEAD_SHA)."
+    echo "!!! Roll back or fix forward, but do not walk away from it."
+    echo "!!! Detail: cd $REPO && node scripts/verify-canon.mjs https://broker.reddenda.com"
+  fi
+else
+  echo "    verify-canon.mjs absent from this snapshot — CANON NOT CHECKED"
+fi
+
 echo "=== DONE. shipped $HEAD_SHA from an isolated snapshot; $DIRTY dirty paths excluded. ==="
