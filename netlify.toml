@@ -1,0 +1,18 @@
+[build]
+  command = "next build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# ADDITIVE 2026-08-06 by @BROKER-CONDUCTOR. Belt and braces with next.config.ts.
+# The Netlify Durable cache stored /api/lookup with a key that did not include
+# `service` or `state`, so every query returned the first cached market.
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "no-store, max-age=0, must-revalidate"
+    Netlify-CDN-Cache-Control = "no-store"

@@ -14,6 +14,11 @@ import { BRAND } from "./brand";
 
 export type LegalSection = { h: string; body: string[] };
 
+/** Stable anchor for a section heading, so a clause can be linked and cited. */
+function slug(h: string) {
+  return h.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60);
+}
+
 export function LegalPage({
   title,
   intro,
@@ -32,20 +37,30 @@ export function LegalPage({
       <main>
         <div className="wrap-tight" style={{ paddingTop: "clamp(38px, 6vw, 66px)", paddingBottom: 60 }}>
           <p className="eyebrow">{BRAND.name}</p>
-          <h1 className="display" style={{ fontSize: "var(--display-sm)", marginTop: 12, maxWidth: "20ch" }}>
+          <h1 className="display" style={{ fontSize: "var(--display-sm)", marginTop: 12, maxWidth: "20ch", textWrap: "balance" }}>
             {title}
           </h1>
-          <p className="lede" style={{ marginTop: 16, maxWidth: "62ch" }}>
+          <p className="lede" style={{ marginTop: 16, maxWidth: "46ch", textWrap: "pretty" }}>
             {intro}
           </p>
-          <p className="num" style={{ marginTop: 14, fontSize: "var(--text-xs)", color: "var(--faint)" }}>
+          <p
+            className="num"
+            style={{
+              marginTop: 20,
+              paddingTop: 14,
+              borderTop: "1px solid var(--hair)",
+              maxWidth: "52ch",
+              fontSize: "var(--text-sm)",
+              color: "var(--muted)",
+            }}
+          >
             Last updated {updated}
           </p>
 
           <div style={{ marginTop: 8 }}>
             {sections.map((s) => (
-              <section key={s.h} style={{ marginTop: 34 }}>
-                <h2 className="display" style={{ fontSize: "var(--text-lg)", maxWidth: "30ch" }}>
+              <section key={s.h} id={slug(s.h)} style={{ marginTop: 34 }}>
+                <h2 className="display" style={{ fontSize: "var(--text-lg)", lineHeight: 1.25, maxWidth: "39ch", textWrap: "balance" }}>
                   {s.h}
                 </h2>
                 {s.body.map((p, i) => (
@@ -56,7 +71,8 @@ export function LegalPage({
                       fontSize: "var(--text-base)",
                       lineHeight: 1.75,
                       color: "var(--body)",
-                      maxWidth: "68ch",
+                      maxWidth: "52ch",
+                      textWrap: "pretty",
                     }}
                   >
                     {p}

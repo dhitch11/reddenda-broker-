@@ -114,6 +114,83 @@ So filtering `payment_rate > 0` excludes every packaged service automatically. *
 
 **One label you should carry:** `Q1` (739 codes) and `Q3` (183 codes, which includes **both MRIs above**) are **conditionally packaged** — separately payable unless billed with a related service on the same claim. For a single-procedure comparison that is the right number, but the metro/imaging rows should be labelled *"paid separately when billed alone."* Everything at `J1`/`T`/`S` is unconditional.
 
+### DROP-IN SQL — verified, guards baked in, ready to wire
+
+`medicare_locality_cpt_rate` is **exactly one row per (state, cpt)** (405,291 = 53 x 7,647, and I confirmed CA/45378 returns 1 row), so no aggregation and no dedupe is needed.
+
+```sql
+-- Three-site total cost of care, federal basis, current 2026-Q3.
+-- Returns NULL (not a number) for any site whose facility fee does not exist.
+select
+  m.state,
+  m.cpt,
+  m.description,
+  round(m.nonfac_rate::numeric, 2)                        as office_total,
+  case when a.payment_rate > 0
+       then round((m.fac_rate + a.payment_rate)::numeric, 2) end as asc_total,
+  case when o.payment_rate > 0
+       then round((m.fac_rate + o.payment_rate)::numeric, 2) end as hopd_total,
+  o.status_indicator                                       as opps_status,
+  -- label conditionally-packaged codes; NULL means unconditional
+  case when o.status_indicator in ('Q1','Q3')
+       then 'paid separately when billed alone' end        as opps_caveat,
+  case when o.payment_rate > 0 and m.nonfac_rate > 0
+       then round((((m.fac_rate + o.payment_rate) - m.nonfac_rate)
+                   / m.nonfac_rate * 100)::numeric, 0) end as hopd_vs_office_pct
+from medicare_locality_cpt_rate m
+left join opps_hcpcs_apc_crosswalk o
+       on o.hcpcs = m.cpt and o.payment_rate > 0
+left join asc_payment_rates a
+       on a.hcpcs = m.cpt and a.payment_rate > 0
+where m.state = $1
+  and m.cpt   = any($2)
+  and m.nonfac_rate is not null
+  and m.fac_rate    is not null;
+```
+
+**The three guards, and why each exists:**
+1. `payment_rate > 0` in the JOIN, not the WHERE. In the WHERE it would drop the whole row and you would lose the office price too. In the JOIN it nulls only the site you cannot price.
+2. `case when ... end` around each total. **Never coalesce a missing facility fee to 0** — that is precisely what produced "hospital is 41% cheaper" for an office visit.
+3. Render `asc_total` / `hopd_total` as an explicit empty state when null. Do not hide the row; the absence is itself informative.
+
+### ⛔ CORRECTION 22:0x UTC — THE QUERY ABOVE IS RIGHT, MY GUARDS WERE INCOMPLETE. TWO MORE ARE MANDATORY.
+
+An adversarial audit re-measured all of this and found two defects in what I gave you. **The arithmetic is correct — `fac_rate + facility fee` is the right total, independently reproduced to the cent (45378 HOPD $950.10 facility + professional).** But:
+
+**(A) "Not separately priced" is FALSE for 3,540 codes. A single empty state is wrong — NULL has four different meanings.** Verified live:
+
+| SI | meaning | codes | honest empty state |
+|---|---|---|---|
+| `N` | packaged into the primary procedure | 2,086 | "Bundled into the primary procedure." |
+| **`A`** | **paid under a DIFFERENT fee schedule** | **2,046** | **"Paid under a separate fee schedule."** |
+| **`M`** | **not paid under OPPS, paid elsewhere** | **1,494** | **"Paid under a separate fee schedule."** |
+| `C` | inpatient only | 1,441 | "Inpatient setting only." |
+| `B` | not paid under OPPS | 1,008 | "Not payable in this setting." |
+
+**Confirmed by me directly: screening mammography `77067` is `SI=A`, EKG `93000` is `SI=M`, both with a NULL fee.** Telling a broker "screening mammography is not priced at a hospital outpatient department" is flatly false and would end the conversation. **Do not ship my earlier one-size copy.**
+
+**(B) For most codes there is NO OFFICE OPTION, and ranking by office-vs-HOPD spread produces nonsense.** Measured in CA: **5,517 of 7,647 codes (72.1%) have `nonfac_rate` EXACTLY equal to `fac_rate`.** That equality means the service has no distinct office rate at all, not that the office is cheap. Ranking on that spread surfaces things like "steer a distal ulna arthroplasty to an office and save $17,182" from arithmetically correct inputs.
+
+**Add both to the query:**
+```sql
+  -- office is a REAL site only when it prices differently from the facility setting
+  case when m.nonfac_rate <> m.fac_rate then round(m.nonfac_rate::numeric,2) end as office_total,
+  case when m.nonfac_rate  = m.fac_rate then 'no distinct office rate' end        as office_note,
+  -- four-way empty-state reason, never one generic string
+  case o.status_indicator
+       when 'N' then 'bundled into the primary procedure'
+       when 'A' then 'paid under a separate fee schedule'
+       when 'M' then 'paid under a separate fee schedule'
+       when 'C' then 'inpatient setting only'
+       when 'B' then 'not payable in this setting' end                            as hopd_absence_reason
+...
+  -- and EXCLUDE non-procedures from any site comparison
+  and coalesce(o.status_indicator,'') not in ('K','G')   -- drugs/biologicals: max row is $4,505,000
+```
+**Rank on HOPD-vs-ASC** (two real facility settings) rather than office-vs-HOPD, and only treat office as a third site where `nonfac_rate <> fac_rate` — that is **1,415 codes**, which is the honest size of this feature.
+
+**Two smaller corrections to my earlier note:** conditionally-packaged is **`Q1` 739 + `Q2` 179 + `Q3` 183 = 1,101 codes** (I previously listed only Q1 and Q3). And `medicare_locality_cpt_rate` is **per locality** — 45378's office rate ranges **$335.05 to $441.84 across 53 localities**, so never average them into "the office price"; always render the member's own state.
+
 ### What this means for the COMMERCIAL side, plainly
 
 The **commercial** side is a real project, not a filter flip: it needs its own institutional peer build, and at 0.36% of the corpus it will be **sparse at metro level** — almost certainly below your own `n ≥ 100` bar in most CBSAs. If you build a commercial site-of-service view off this, most cells will honestly empty out. That is a product decision, and it is yours; I am giving you the measurement, not the verdict. If you want it, say so and I will scope an institutional-specific build and measure real per-metro `n` before either of us promises a screen.
@@ -197,3 +274,56 @@ Posted to `.terminal-claims.md` for the owning lane. Flagging severity honestly:
 **You are not blocked by any of this**, and nothing above changes what you should build today. Build against your guard, use the Medicare `nonfac`/`fac` split for site-of-service, and do not put employer-name search on a slide.
 
 — @DATA-BROKER (TERMINAL 262626, Opus 5), 2026-08-06
+
+---
+
+## 7. FULL DATASET AUDIT — what else we hold, measured (12-agent adversarial pass, 2026-08-06)
+
+I audited every held-but-underused dataset against broker/GA/self-funded fit, with an independent refuter attacking every HIGH verdict. **Two of my own hypotheses died in this pass. Both are recorded below rather than quietly dropped.**
+
+### The one-line verdict
+**The product has a metro price distribution and nothing to express it against** — no payer axis, no site-of-care rail, no reference floor, no provider identity. It can render a spread but never "N% of what," "cheaper where," or "whose price."
+
+### ★ THE PAYER AXIS ALREADY EXISTS AS A PROVEN SHAPE — `peer_rate_dist`
+A matview nobody flagged, **1,194,087 rows**, and its schema is exactly what the product is missing:
+`cpt · payer · cbsa · cbsa_name · n_npi · n_rows · p10 p25 p50 p75 p90 · rate_min rate_max · modal_rate modal_n modal_pct · is_scoreable · confidence`
+
+CPT 70553 alone returns **2,770 rows across 18 payers and 364 metros**. It even carries its own quality flags, including `modal_pct`, which is the precise discriminator for the flat-stamp problem you raised.
+
+**But do not wire it as-is. Measured:**
+
+| check | result |
+|---|---|
+| `is_scoreable` | **104,349 of 1,194,087 = 8.7%** |
+| `confidence = high` | **21,959 = 1.8%** |
+| `modal_pct >= 90` (one value repeated) | **801,446 = 67.1%** |
+| `p25 < $5` (percentage contamination) | 40,600 = 3.4% *(vs 12.85% in `cpt_peer_stats`)* |
+| freshness | last autoanalyze **2026-07-14**; the two `refresh-peer-target-*` crons are **`active=false`** |
+| cross-state | LA CBSA 31080 returns `anthembcbsco`, `anthembcbsct`, `anthembcbsga`, `anthembcbsin`, `anthembcbsky`, `anthembcbsme`… — **the same BlueCard problem `src/lib/payers.ts` exists to solve** |
+
+**So: the payer axis needs a REBUILD, not a design.** The shape is already correct and proven. Rebuild it from the clean lake after the swap, apply your home-state rule at build time rather than read time, and keep `is_scoreable`/`confidence`/`modal_pct` as the serving gate. **That is the single highest-leverage data build for this product.**
+
+### Ranked, with the measured reason
+
+| # | dataset | unlocks | verdict | the number that decides it |
+|---|---|---|---|---|
+| 1 | `peer_rate_dist` (rebuilt) | **payer axis at metro grain** | **BUILD** | shape proven; only 8.7% scoreable today, 67% flat-stamped, stale 07-14 |
+| 2 | OPPS + ASC | site-of-care rail, ASC-eligibility taxonomy, "% of Medicare" | **MEDIUM** *(I called it HIGH; refuter overturned me)* | 2026-Q3, freshest in the estate; but **only 1,415 codes** are clean at both facility sites AND have a real office differential |
+| 3 | `idr_qpa_dollar_stats` + `idr_npi_payer_cpt` | OON arbitration exposure in dollars; carrier defense scorecard | MEDIUM | 365,663 rows / 17,507 NPIs / 53 states; 10 payer families = **95.7%** of dispute line items; NPI→CBSA **95.8%**; vintage 2023-Q1..2025-Q2 |
+| 4 | `medicaid_ffs_rates_by_state` | third rail of a rate ladder | MEDIUM | **13 states only**, and **59.2% of (state,CPT) cells have >1 row**, 26.7% swinging >2x — needs a normalization ruling first |
+| 5 | `mips_quality` | negative-screen guardrail on a steerage list | MEDIUM | 477,587 rows, 1 per NPI, NPI→CBSA 93.9% — **but blocked: `cpt_peer_stats_cbsa` has no NPI column** |
+| 6 | `cms_medicare_puf` (parent only) | office-vs-facility utilization split | LOW | 19.4M rows, 2024+2023; suppression floor exactly 11 beneficiaries |
+
+### DO NOT BUILD — measured reasons, so nobody re-derives the hope
+
+- **`hpt_rates`** — I proposed this as the commercial facility unlock. **It is not.** 7.6M rows come from **51 hospitals** (48 with rates) in 24 states, 20 of them a single facility. **`plan_name` is 100% NULL across all 7.6M rows**, so there is no named-employer plan search. **No CBSA join exists** — `hpt_hospitals` carries only `state`, and `type_2_npi` is empty on all 51 rows. The densest cluster (13 PA hospitals) is MRF-dated **2022-01-01 to 2023-12-29**. Outside Pittsburgh a broker gets one hospital or zero.
+- **`comparable_quotes`** — 9.7M rows, state grain, `cpt` only. No cbsa, no payer, no npi.
+- **`renewal_radar_signals`** — 3.1M rows, **85.1% `no_data`**, and sign-inverted for a buy-side user.
+- **`provider_density` / `specialty_county_supply`** — contain **no concentration measure of any kind**.
+- **`npi_rate_change_window` / `peer_rate_dist_delta`** — **no rate-change column anywhere**; the delta table has no date column. The "your rates moved X%" story is not buildable from these.
+- **`npi_cpt_volume`** — retire; its parent has everything it does and it drops a row per dual-setting provider.
+
+### Open questions, ranked
+1. **Do you want the `peer_rate_dist` rebuild?** It is my next major build if so, and it is the thing that turns a spread into an argument. Say the word and I will scope it against the clean lake.
+2. **Medicaid normalization ruling** — 59.2% of cells are multi-row. Which row wins: max, modal, or a labelled range?
+3. **`mips_quality` needs an NPI-grain price table** to be joinable. Worth it only if you want a quality guardrail on steerage.
