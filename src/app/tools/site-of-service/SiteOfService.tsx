@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { SERVICES, type Service } from "@/lib/catalog";
 import { STATES } from "@/lib/metros";
+import { ToolExplainer } from "@/components/ToolExplainer";
 
 /**
  * SITE OF SERVICE. The tool.
@@ -154,6 +155,12 @@ export function SiteOfService({
             <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "space-between", alignItems: "baseline" }}>
               <div>
                 <span className="eyebrow">Total cost of care · {STATES[data.state] ?? data.state}</span>
+                <ToolExplainer
+                  title="Site of Service"
+                  whatItIs="Prices the same procedure in an office, a hospital, and a surgery center."
+                  whatYouGet="The gap between the three, which is where plan design saves real money."
+                  steps={["Pick the procedure.", "Pick your state.", "Compare the three places."]}
+                />
                 <h2 className="display" style={{ fontSize: "clamp(24px, 3.4vw, 34px)", marginTop: 6 }}>
                   {data.plain}
                 </h2>

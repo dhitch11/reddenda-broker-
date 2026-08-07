@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from "react";
 import { METROS, searchMetros, type Metro } from "@/lib/metros";
 import { money } from "@/components/Distribution";
 import s from "./MarketBrief.module.css";
+import { ToolExplainer } from "@/components/ToolExplainer";
 
 type Row = {
   cpt: string; plain: string; name: string; categoryLabel: string;
@@ -57,6 +58,12 @@ export function MarketBrief({ initial = "31080" }: { initial?: string }) {
     <div className={s.page}>
       <header className={s.head}>
         <p className={s.eyebrow}>Market brief</p>
+        <ToolExplainer
+          title="Market Brief"
+          whatItIs="Every service we hold for one city, ranked by price gap."
+          whatYouGet="The widest gaps first, so you see where a plan change is worth making."
+          steps={["Pick your city.", "Read the ranked list.", "Start at the top."]}
+        />
         <h1 className={s.title}>Where the money leaks in one market.</h1>
         <p className={s.lede}>
           Every service we hold for this metro, ranked by how far apart the cheap and expensive options
