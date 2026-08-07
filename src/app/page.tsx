@@ -103,7 +103,7 @@ export default async function Home({
 
       <main>
         {/* ================= 1. THE FIFTEEN SECOND NUMBER ================= */}
-        <section style={{ paddingTop: "clamp(40px, 7vw, 76px)", paddingBottom: "clamp(32px, 5vw, 56px)" }}>
+        <section className="hero-substrate" style={{ paddingTop: "clamp(40px, 7vw, 76px)", paddingBottom: "clamp(32px, 5vw, 56px)" }}>
           <div className="wrap">
             {/*
               THE TWO COLUMN HERO. @BROKER-CONDUCTOR, on David's direct order, after
