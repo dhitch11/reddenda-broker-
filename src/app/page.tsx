@@ -139,7 +139,7 @@ export default async function Home({
               <LookupForm service={service} market={market} />
             </div>
 
-            <div className="rise rise-4" style={{ marginTop: 20, maxWidth: 880 }} id="result">
+            <div style={{ marginTop: 20, maxWidth: 880 }} id="result">
               {!configured ? (
                 <UnavailableState />
               ) : (

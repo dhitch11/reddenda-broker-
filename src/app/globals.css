@@ -246,7 +246,11 @@ a { color: inherit; text-decoration: none; }
 
 .lede { font-size: var(--text-md); line-height: var(--leading-normal); color: var(--muted); }
 
-:where(a, button, input, select, [tabindex]):focus-visible {
+/* :is() not :where(). :where() is zero-specificity, so .btn-primary won and the
+   PRIMARY CTA had no keyboard focus ring on any page — WCAG 2.4.7 (AA) on the main
+   conversion control. :is() takes its most specific argument, so [tabindex] makes
+   this (0,1,0) and with :focus-visible it beats .btn-primary with no !important. */
+:is(a, button, input, select, [tabindex]):focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
   border-radius: var(--r-xs);
@@ -440,7 +444,19 @@ a { color: inherit; text-decoration: none; }
     animation-duration: .001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: .001ms !important;
+    /* Duration alone is not enough. With `animation-fill-mode: both` an unreset
+       DELAY still holds the from-state, so a reduced-motion reader stared at an
+       INVISIBLE payload for the full stagger before it appeared. Reset both, or
+       the accommodation becomes the defect it was meant to remove. */
+    animation-delay: 0s !important;
+    transition-delay: 0s !important;
     scroll-behavior: auto !important;
+  }
+  /* Belt and braces: fill-mode cannot hold a from-state if there is no animation. */
+  .rise, .rise-1, .rise-2, .rise-3, .rise-4 {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
   .reveal { opacity: 1; transform: none; }
   .btn:hover, .card-hover:hover { transform: none; }
