@@ -40,6 +40,17 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
+  /*
+    WITHOUT THIS, EVERY SOCIAL CARD POINTS AT LOCALHOST.
+
+    Measured on live prod: the served HTML carried
+        og:image content="http://localhost:3000/opengraph-image?7f91931d1c613794"
+    Next resolves image metadata against `metadataBase`, and with it unset it falls
+    back to localhost:3000 — so every link anyone shared advertised an image on the
+    sharer's own machine. It is one line, it was silent, and it made the whole
+    open-graph surface inert no matter what was drawn on it.
+  */
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_ORIGIN || "https://broker.reddenda.com"),
   title: {
     default: `${BRAND.name} . ${BRAND.tagline}`,
     template: `%s . ${BRAND.name}`,
