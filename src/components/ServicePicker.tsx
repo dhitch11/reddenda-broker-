@@ -300,7 +300,7 @@ export function ServicePicker({
   //
   // Position is measured from the input on open, on scroll and on resize, so it tracks
   // rather than drifting.
-  const [rect, setRect] = useState<{ top: number; left: number; width: number } | null>(null);
+  const [rect, setRect] = useState<{ top: number; left: number; width: number; maxH: number } | null>(null);
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -308,7 +308,29 @@ export function ServicePicker({
     if (!open) return;
     const place = () => {
       const r = inputRef.current?.getBoundingClientRect();
-      if (r) setRect({ top: r.bottom + 6, left: r.left, width: r.width });
+      if (!r) return;
+      /*
+        FLIP UP WHEN THERE IS NO ROOM BELOW.
+
+        Measured on live prod at 1440x900: the lookup form sits at the bottom of the
+        fold, so a listbox anchored to `r.bottom` opened at y=892 with 332 of its
+        340px BELOW the viewport. You typed "colon", got 12 correct answers, and saw
+        an 8px sliver of them. Every assertion passed: the options existed, the
+        request succeeded, there was no horizontal scroll. Only looking caught it.
+      */
+      const GAP = 6;
+      const EDGE = 8;
+      const DESIRED = 340;
+      const MIN = 160;
+      const below = window.innerHeight - r.bottom - GAP - EDGE;
+      const above = r.top - GAP - EDGE;
+
+      if (below < MIN && above > below) {
+        const maxH = Math.min(DESIRED, above);
+        setRect({ top: r.top - GAP - maxH, left: r.left, width: r.width, maxH });
+      } else {
+        setRect({ top: r.bottom + GAP, left: r.left, width: r.width, maxH: Math.min(DESIRED, Math.max(below, MIN)) });
+      }
     };
     place();
     window.addEventListener("scroll", place, true);
@@ -421,7 +443,7 @@ export function ServicePicker({
             top: rect.top, left: rect.left, width: rect.width,
             margin: 0, padding: 4, listStyle: "none",
             background: "var(--paper)", border: "1px solid var(--hair-strong)",
-            borderRadius: 12, boxShadow: "var(--shadow-md)", maxHeight: 340, overflowY: "auto",
+            borderRadius: 12, boxShadow: "var(--shadow-md)", maxHeight: rect.maxH, overflowY: "auto",
             // Opacity only, from the keyframe globals.css already ships. The global
             // prefers-reduced-motion block neutralises it with !important, so reduced
             // motion is honoured without a second rule living here.
