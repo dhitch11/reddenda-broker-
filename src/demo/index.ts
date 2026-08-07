@@ -86,4 +86,34 @@ export interface DemoFixture {
   basket: { cpt: string; name: string; cat: string }[]
   providers: { npi: string; name: string; specialty: string; cbsa: string; __synthetic: true }[]
   rates: DemoRateRow[]
+  /* Added by @BROKER-TOOLS 2026-08-06. The fixture already carried these; the
+     interface did not declare them, so the surfaces that need them could not be
+     typed. Declaring what the JSON actually holds, nothing invented. */
+  brokerages: { id: string; name: string }[]
+  facilities: unknown[]
+  employer_groups: DemoEmployerGroup[]
+  ga_book: DemoGaBook
+  idr_exposure: unknown[]
+  payer_notices: unknown[]
+  trend: unknown[]
+  data_quality_summary: Record<string, unknown>
+}
+
+export interface DemoDriver {
+  cpt: string; service: string; cases: number; per_case: number; annual: number; __synthetic: true
+}
+export interface DemoEmployerGroup {
+  group_id: string; name: string; lives: number; funding: string
+  cbsa: string; cbsa_name: string; state: string; renewal_month: string
+  current_payer: string; current_payer_label: string
+  brokerage_id: string; brokerage_name: string
+  annual_medical_spend: number; pmpm: number; trend_pct: number
+  modeled_site_of_care_opportunity: number; opportunity_pct_of_spend: number
+  top_drivers: DemoDriver[]
+}
+export interface DemoGaBook {
+  ga_id: string; ga_name: string
+  brokerages: { id: string; name: string; groups: number; lives: number; modeled_opportunity: number; avg_trend: number; __synthetic: true }[]
+  total_groups: number; total_lives: number; total_spend: number; total_modeled_opportunity: number
+  renewal_calendar: { month: string; groups: number; lives: number }[]
 }
