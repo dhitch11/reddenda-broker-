@@ -234,10 +234,8 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                     }
                   />
                   <Insight
-                    label="How deep the data runs"
-                    body={`${found.cell.n.toLocaleString(
-                      "en-US",
-                    )} filings underpin this figure${found.confidence === "reported" ? ", which is a limited sample and is labelled as one" : ""}. Depth varies by market because it reflects how much was filed there, not how much care was delivered.`}
+                    label="How wide the data runs"
+                    body={`Every carrier writing this procedure in this market${found.confidence === "reported" ? ", though this is a smaller market and we mark it as one" : ""}. What each plan has agreed to pay, side by side. These are prices, not bills, so they do not show how often anyone needs it.`}
                   />
                 </div>
               </Reveal>
