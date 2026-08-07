@@ -121,7 +121,7 @@ export default async function Home({
                 style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 22, alignItems: "center" }}
               >
                 <Link href="/tools" className="btn btn-primary">
-                  See the demo environment →
+                  Open the platform →
                 </Link>
                 <span
                   style={{
