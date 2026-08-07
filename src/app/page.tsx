@@ -5,6 +5,7 @@ import { findService, SERVICES } from "@/lib/catalog";
 import { isConfigured } from "@/lib/db";
 import { SCALE, nationalRate } from "@/lib/national";
 import { siteComparison } from "@/lib/siteofservice";
+import { regionSpread } from "@/lib/regions";
 import { PriceField, FIELD_COUNT } from "@/components/marketing/price-field";
 import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
 import { LookupForm } from "@/components/marketing/lookup-form";
@@ -77,9 +78,12 @@ export default async function Home({
   // The site-of-care split, live from the CMS schedules. This is the strongest
   // single argument the product has and it was not on the homepage at all.
   let siteOfCare: Awaited<ReturnType<typeof siteComparison>> | null = null;
+  // The control condition for the ladder: how little the four Census regions differ.
+  let regions: Awaited<ReturnType<typeof regionSpread>> = null;
 
   if (configured) {
     siteOfCare = await siteComparison("45378", "CA").catch(() => null);
+    regions = await regionSpread(service).catch(() => null);
     [result, comparison] = await Promise.all([
       resolve(metro),
       Promise.all(
@@ -258,6 +262,89 @@ export default async function Home({
             </div>
           </div>
         </section>
+
+        {/* ================= THE LADDER =================
+            The thesis of the entire product, in two rungs and one contrast.
+
+            Rung 01 is deliberately boring and that is its whole job. It is the
+            control condition, and it comes from the SAME query as rung 02 so the
+            comparison is apples to apples. An external PEPM survey figure would
+            sound stronger and argue weaker.
+
+            Rung 02 is the same corpus at higher resolution, and the multiple is
+            several times larger. The money is not between geographies. It is
+            inside one market, which is the thing nobody is looking at.
+        */}
+        {regions && (
+          <section className="band" style={{ paddingBlock: "clamp(48px, 7vw, 88px)" }}>
+            <div className="wrap">
+              <p className="eyebrow">Where the money actually is</p>
+              <h2 className="display" style={{ fontSize: "var(--display-sm)", marginTop: 12, maxWidth: "22ch", textWrap: "balance" }}>
+                Not between states. Inside your own market.
+              </h2>
+
+              {/* RUNG 01 — the control */}
+              <div style={{ marginTop: 34, display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
+                <span className="num" style={{ fontSize: 11, letterSpacing: ".1em", color: "var(--faint)" }}>01</span>
+                <span className="num" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)" }}>
+                  Four regions
+                </span>
+                <span className="num" style={{ marginLeft: "auto", fontSize: "clamp(21px, 2.4vw, 27px)", fontWeight: 600, color: "var(--efficient)" }}>
+                  {regions.ratio.toFixed(2)}x
+                </span>
+              </div>
+              <p style={{ marginTop: 10, fontSize: "var(--text-base)", color: "var(--body)", maxWidth: "52ch" }}>
+                Pick a region. The medians barely move.
+              </p>
+              <div style={{ marginTop: 16, display: "grid", gap: 8, maxWidth: 560 }}>
+                {regions.rows.map((r) => {
+                  const max = regions!.rows[0].median;
+                  return (
+                    <div key={r.region} style={{ display: "grid", gridTemplateColumns: "104px 1fr 74px", gap: 12, alignItems: "center" }}>
+                      <span style={{ fontSize: "var(--text-sm)", color: "var(--muted)" }}>{r.region}</span>
+                      <div style={{ height: 10, borderRadius: 5, background: "var(--elev)", overflow: "hidden" }}>
+                        <div style={{ height: "100%", width: `${(r.median / max) * 100}%`, background: "var(--efficient)", borderRadius: 5 }} />
+                      </div>
+                      <span className="num" style={{ fontSize: "var(--text-sm)", color: "var(--ink)", textAlign: "right" }}>
+                        ${r.median.toLocaleString("en-US")}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="num" style={{ marginTop: 10, fontSize: 11, color: "var(--faint)" }}>
+                Median of metro medians · {regions.metrosCounted} metros · {svc?.plain ?? `CPT ${regions.cpt}`}
+              </p>
+
+              {/* RUNG 02 — the same corpus, one resolution finer */}
+              {result?.found && result.cell.p25 > 0 && (
+                <>
+                  <div style={{ marginTop: 44, display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
+                    <span className="num" style={{ fontSize: 11, letterSpacing: ".1em", color: "var(--faint)" }}>02</span>
+                    <span className="num" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)" }}>
+                      One market
+                    </span>
+                    <span className="num" style={{ marginLeft: "auto", fontSize: "clamp(21px, 2.4vw, 27px)", fontWeight: 600, color: "var(--exposure)" }}>
+                      {(result.cell.p75 / result.cell.p25).toFixed(1)}x
+                    </span>
+                  </div>
+                  <p style={{ marginTop: 10, fontSize: "var(--text-base)", color: "var(--body)", maxWidth: "56ch" }}>
+                    Now hold the region still and look inside one city. Same procedure, same month,
+                    every carrier. {result.geoName}.
+                  </p>
+                  <p className="num" style={{ marginTop: 14, fontSize: "clamp(17px, 2vw, 21px)", color: "var(--ink)" }}>
+                    ${Math.round(result.cell.p25).toLocaleString("en-US")}
+                    <span style={{ color: "var(--faint)" }}> to </span>
+                    ${Math.round(result.cell.p75).toLocaleString("en-US")}
+                  </p>
+                  <p className="num" style={{ marginTop: 6, fontSize: 11, color: "var(--faint)" }}>
+                    25th to 75th percentile · n = {result.cell.n.toLocaleString("en-US")} filings
+                  </p>
+                </>
+              )}
+            </div>
+          </section>
+        )}
 
         {/* ================= THE MONEY: SITE OF CARE =================
             The strongest single argument the product has, and it was not on this
