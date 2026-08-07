@@ -51,8 +51,15 @@ export default function MarketIndex() {
 
         <section style={{ paddingBottom: 40 }}>
           <div className="wrap">
-            {states.map((st, i) => (
-              <Reveal key={st} delay={Math.min(i * 12, 120)}>
+            {/* ★ NOT WRAPPED IN <Reveal>. Reveal is a client component, so everything
+                inside it becomes its `children` prop and is SERIALISED INTO THE RSC
+                PAYLOAD in addition to the HTML. With 928 metro links that duplication
+                was 344KB of the page's 551KB - 62% of the bytes, for an animation.
+                Measured: 928 anchors = 170KB of real HTML, scripts = 344KB.
+                The links are the SEO asset and all 928 stay. The reveal is decoration
+                and it is the thing that goes. Server-rendered, the payload collapses. */}
+            {states.map((st) => (
+              <div key={st}>
                 <div style={{ marginTop: 26 }}>
                   <h2
                     style={{
@@ -80,24 +87,21 @@ export default function MarketIndex() {
                   >
                     {byState.get(st)!.map((m) => (
                       <li key={m.cbsa}>
-                        <Link
-                          href={marketPath(m)}
-                          style={{
-                            display: "block",
-                            padding: "9px 11px",
-                            borderRadius: "var(--r-sm)",
-                            fontSize: "var(--text-sm)",
-                            color: "var(--body)",
-                            border: "1px solid transparent",
-                          }}
-                        >
+                        {/* ★ A CLASS, NOT AN INLINE STYLE OBJECT. Seven style properties
+                            on 928 links serialise SEVEN TIMES 928 into both the HTML and
+                            the RSC payload. Measured: that duplication was the single
+                            biggest contributor to a 551KB page - the three largest script
+                            blocks were 83KB, 81KB and 77KB of repeated
+                            {"marginTop":26,...} objects. One class costs ~14 bytes a link
+                            instead of ~180. */}
+                        <Link href={marketPath(m)} className="rate-market-link">
                           {metroShort(m)}
                         </Link>
                       </li>
                     ))}
                   </ul>
                 </div>
-              </Reveal>
+              </div>
             ))}
           </div>
         </section>

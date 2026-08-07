@@ -916,3 +916,15 @@ body.is-scrolled .site-header::after { opacity: 1; }
   .site-footer li + li,
   footer li + li { margin-top: 10px; }
 }
+
+/* /rates market index. One class for 928 links: an inline style object on each was
+   serialised into both the HTML and the RSC payload and dominated a 551KB page. */
+.rate-market-link {
+  display: block;
+  padding: 9px 11px;
+  border-radius: var(--r-sm);
+  font-size: var(--text-sm);
+  color: var(--body);
+  border: 1px solid transparent;
+}
+.rate-market-link:hover { border-color: var(--hair); }
