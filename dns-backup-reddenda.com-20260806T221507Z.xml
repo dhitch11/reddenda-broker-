@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ApiResponse Status="OK" xmlns="http://api.namecheap.com/xml.response">
+  <Errors />
+  <Warnings />
+  <RequestedCommand>namecheap.domains.dns.gethosts</RequestedCommand>
+  <CommandResponse Type="namecheap.domains.dns.getHosts">
+    <DomainDNSGetHostsResult Domain="reddenda.com" EmailType="MX" IsUsingOurDNS="true">
+      <host HostId="516464938" Name="@" Type="ALIAS" Address="apex-loadbalancer.netlify.com." MXPref="10" TTL="300" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524295614" Name="74y3l4vijqgu4dplnib4id22gvpizrph._domainkey.send" Type="CNAME" Address="74y3l4vijqgu4dplnib4id22gvpizrph.dkim.amazonses.com." MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="517014626" Name="app" Type="CNAME" Address="reimburseiq.netlify.app." MXPref="10" TTL="1799" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="523562741" Name="desk" Type="CNAME" Address="reddenda-desk.netlify.app." MXPref="10" TTL="1799" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524295621" Name="email.mg" Type="CNAME" Address="mailgun.org." MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524295616" Name="o7os2oaj4fcd4qcalwyjawvnx7x5fgvd._domainkey.send" Type="CNAME" Address="o7os2oaj4fcd4qcalwyjawvnx7x5fgvd.dkim.amazonses.com." MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524254950" Name="partner" Type="CNAME" Address="reimburseos-launch.netlify.app." MXPref="10" TTL="1799" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="518862546" Name="sales" Type="CNAME" Address="reddenda-sales-metrics.netlify.app." MXPref="10" TTL="1799" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="518162850" Name="track" Type="CNAME" Address="bright-hyena.aplonet.com." MXPref="10" TTL="1799" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="516336631" Name="www" Type="CNAME" Address="reimburseos-launch.netlify.app." MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="CNAME Record" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524295615" Name="yioutlbyzt7xeuvcmvlnpjf536a5sivw._domainkey.send" Type="CNAME" Address="yioutlbyzt7xeuvcmvlnpjf536a5sivw.dkim.amazonses.com." MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524479037" Name="@" Type="MX" Address="aspmx.l.google.com." MXPref="1" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524479038" Name="@" Type="MX" Address="alt1.aspmx.l.google.com." MXPref="5" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524479039" Name="@" Type="MX" Address="alt2.aspmx.l.google.com." MXPref="5" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524479040" Name="@" Type="MX" Address="aspmx2.googlemail.com." MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524479041" Name="@" Type="MX" Address="aspmx3.googlemail.com." MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524479042" Name="mail.send" Type="MX" Address="feedback-smtp.us-east-2.amazonses.com." MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524479043" Name="mg" Type="MX" Address="mxa.mailgun.org." MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524479044" Name="mg" Type="MX" Address="mxb.mailgun.org." MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="516541709" Name="@" Type="TXT" Address="google-site-verification=mPcb3FonGSS4dpqV63chWiS65hjIQEZSKYbz6jSQr1w" MXPref="10" TTL="1799" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="516542027" Name="@" Type="TXT" Address="v=spf1 include:_spf.google.com ~all" MXPref="10" TTL="1799" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="516715946" Name="_dmarc" Type="TXT" Address="v=DMARC1; p=none; rua=mailto:david@reddenda.com" MXPref="10" TTL="1799" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524295618" Name="_dmarc.send" Type="TXT" Address="v=DMARC1; p=none;" MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="526780260" Name="google._domainkey" Type="TXT" Address="v=DKIM1; k=rsa; p=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA3OQc7oK3LMz7jsH7Juh2Rs2lR8cdee4p+UZ6tyCUJoByBNwWOKodDQLhNP5DY1OYwiDsHmIYfaHXoY6qTonBJHFXzk0ccmCSBrduUXIgYsM5QHxYpiYypj+/a+22/1dQmjKPgOfmCPLekedVFP3P5tUwLwqnDzp77PS5V2/NwOn4nupfH9lC3QXg0qQT/XDcJ1oJu8lzXCqYy5oPqHmC/guCD7MWndeKDl/TMftRLZ9rLiYZUsOeJBt/i0w/ybVTzKH3j+FGIX5nV7dW7FZmuHQJzJ/QbsLTu9fIw4Q5qrnrWAEbATkNjsKqRklM2+GeCxDnvPutKhdyJzfefrOK0QIDAQAB" MXPref="10" TTL="1799" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524295617" Name="mail.send" Type="TXT" Address="v=spf1 include:amazonses.com ~all" MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524295619" Name="mg" Type="TXT" Address="v=spf1 include:mailgun.org ~all" MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="524295620" Name="pic._domainkey.mg" Type="TXT" Address="k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC6SP3UJcP4iYhnm91PunBLDNUzZWouvs4LuQemDVbMbmRaOFBICX4CTw/KQh0sin/ikcvT+pqgE4Ea9YTVm2KhSoSrvLfBMK7Uimg3PvYDCGXbS8C/Ag92wHcWlDpUwVh4lUR/03HXzk1eXrgoSkBqRNFxqtkGbO7CFmT93I/6qwIDAQAB" MXPref="10" TTL="1800" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="517030217" Name="resend._domainkey" Type="TXT" Address="p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC7+3Q9B89erd5nKfXtkmR4HlhZUw54cUCmSjzaofEH30iGtrp6PHGbn1b4tSIU/I35a9RyaHXC+ilXM2EZH9R2+Y7b7NxaSZervLldsOJYu6SEG6RKoEfO60PQK5aL+vx0R+3LKLeryU2f+R6JPpTObVT1/9Nk9DTQFJSYxysTJwIDAQAB" MXPref="10" TTL="1799" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+      <host HostId="517030704" Name="send" Type="TXT" Address="v=spf1 include:amazonses.com ~all" MXPref="10" TTL="1799" AssociatedAppTitle="" FriendlyName="" IsActive="true" IsDDNSEnabled="false" />
+    </DomainDNSGetHostsResult>
+  </CommandResponse>
+  <Server>Server 1360233664</Server>
+  <GMTTimeDifference>--4:00</GMTTimeDifference>
+  <ExecutionTime>0.234</ExecutionTime>
+</ApiResponse>
