@@ -201,10 +201,22 @@ export default async function Home({
                   </span>
                   <span className="proof-tile__lab">priced cells, every carrier</span>
                 </div>
-                <div className="proof-tile">
-                  <span className="proof-tile__val num">{SCALE.payers.toLocaleString("en-US")}</span>
-                  <span className="proof-tile__lab">payers, all 50 states</span>
-                </div>
+                {/*
+                  The filings behind the number actually on screen, not a vendor
+                  stat. A count of payers is the weakest thing we could print here
+                  (it reads small and it sits badly beside "every carrier"),
+                  whereas the sample size under the median is the single figure no
+                  competitor puts on the page and the one a broker is asked to
+                  defend. It is read off the same result the card is rendering.
+                */}
+                {result?.found && result.cell.n > 0 && (
+                  <div className="proof-tile">
+                    <span className="proof-tile__val num">
+                      {result.cell.n.toLocaleString("en-US")}
+                    </span>
+                    <span className="proof-tile__lab">filings behind this median</span>
+                  </div>
+                )}
               </div>
               </div>
 
