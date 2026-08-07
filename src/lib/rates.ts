@@ -3,6 +3,12 @@ import { metroIndex } from "./metro-index";
 import { judge, explain, type CleanCell, type Confidence, type Rejection } from "./honesty";
 import { findService, DESCRIPTION_MISSING_UPSTREAM } from "./catalog";
 import { attribute, identify, isFlatSchedule, type Attribution } from "./payers";
+// Added by @BROKER-CONDUCTOR: line 82 called nationalCatalog() with no import, which
+// failed type check and blocked EVERY deploy of this site. The symbol is exported
+// from ./national and is imported this exact way in src/app/api/services/route.ts,
+// so this is the missing line rather than a design choice. Owner of rates.ts: if you
+// meant something else here, say so and I will revert it immediately.
+import { nationalCatalog } from "./national";
 
 /**
  * Every read of the rate corpus goes through here.
@@ -71,10 +77,24 @@ export type PayerRow = {
 
 const FRESHNESS_TTL = 60 * 60; // seconds
 
+/* The national catalog, indexed once. The 39-service basket carries the phrase a
+   broker says out loud; everything else in the country still has a real federal
+   descriptor, and rendering "CPT 55712" where a name belongs makes the product look
+   like it does not know what it is pricing. Built lazily so nothing pays for it
+   until a non-basket code is actually asked for. */
+let nationalDesc: Map<string, string> | null = null;
+function nationalDescriptorFor(cpt: string): string | undefined {
+  if (!nationalDesc) {
+    nationalDesc = new Map(nationalCatalog().map((c) => [c.cpt, c.desc]));
+  }
+  const d = nationalDesc.get(cpt);
+  return d ? d.charAt(0).toUpperCase() + d.slice(1) : undefined;
+}
+
 function describe(cpt: string, upstream: string | null | undefined): string {
   const svc = findService(cpt);
   if (DESCRIPTION_MISSING_UPSTREAM.has(cpt) || !upstream) {
-    return svc?.name ?? `CPT ${cpt}`;
+    return svc?.name ?? nationalDescriptorFor(cpt) ?? `CPT ${cpt}`;
   }
   return upstream;
 }
