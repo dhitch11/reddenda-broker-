@@ -28,7 +28,7 @@ export const revalidate = 3600;
 export const metadata = {
   title: "The platform",
   description:
-    "Every negotiated rate the federal files publish, across all 928 U.S. metro markets. Real filings, sourced and dated.",
+    "Every carrier's negotiated price for care, in all 928 U.S. metro markets, instantly.",
 };
 
 const money = (v: number) => "$" + Math.round(v).toLocaleString("en-US");
@@ -130,10 +130,9 @@ export default async function ToolsIndex() {
               </h1>
 
               <p className="lede rise rise-2" style={{ marginTop: 18, maxWidth: "58ch" }}>
-                Everything here reads the same corpus the product runs on. Nothing is a mockup and
-                nothing is seeded with sample data. {SERVICES.length} services across{" "}
-                {METROS.length} metro markets, and where we cannot stand behind a number the tool says
-                so instead of showing one.
+                Every carrier&rsquo;s negotiated price, in all {METROS.length} U.S. metro markets,
+                instantly. {SERVICES.length} services, searchable in seconds. And where a market is
+                too thin to describe honestly, the tool tells you so instead of showing you a number.
               </p>
 
               {spread && (
@@ -149,8 +148,8 @@ export default async function ToolsIndex() {
                 >
                   Live right now: a brain MRI in {spread.market} runs{" "}
                   <strong style={{ color: "var(--ink)" }}>{money(spread.lo)}</strong> to{" "}
-                  <strong style={{ color: "var(--ink)" }}>{money(spread.hi)}</strong> across{" "}
-                  {spread.n.toLocaleString("en-US")} filings.
+                  <strong style={{ color: "var(--ink)" }}>{money(spread.hi)}</strong>. Same scan,
+                  same city.
                 </p>
               )}
             </div>
@@ -255,10 +254,9 @@ export default async function ToolsIndex() {
                   lineHeight: 1.75,
                 }}
               >
-                We hold what a service costs, not how often anyone uses it. There is no claims data
-                here, no utilization, and no PHI. Prices are modeled from public Transparency in
-                Coverage filings under 45 CFR 147.212 and are not a guaranteed rate. Every one of
-                those limits is on the{" "}
+                We hold what care costs, not how often anyone needs it. There is no claims data
+                here, no patient data, and no PHI. These are the prices plans have agreed to, not a
+                quote and not a bill. Every one of those limits is on the{" "}
                 <Link href="/methodology" style={{ color: "var(--teal-deep, var(--ink))" }}>
                   methodology page
                 </Link>{" "}

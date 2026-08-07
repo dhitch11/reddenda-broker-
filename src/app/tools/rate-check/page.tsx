@@ -4,7 +4,7 @@ import { RateCheck } from "./RateCheck";
 
 export const metadata: Metadata = {
   title: "Rate check",
-  description: "What plans actually pay for one service in one metro. Real filings, sourced and dated.",
+  description: "What plans have agreed to pay for one procedure in your city. Every carrier, instantly.",
 };
 
 export default function Page() {

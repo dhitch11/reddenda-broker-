@@ -73,10 +73,10 @@ export function RateCheck({
     <div style={{ maxWidth: 880, margin: "0 auto", padding: "var(--sp-5) var(--sp-4) var(--sp-8)" }}>
       <header style={{ marginBottom: "var(--sp-6)" }}>
         <h1 style={{ fontSize: "clamp(26px, 5vw, 38px)", lineHeight: 1.1, letterSpacing: "-0.02em", margin: "0 0 var(--sp-2)" }}>
-          What plans actually pay
+          What plans have agreed to pay
         </h1>
         <p style={{ color: "var(--text-2)", margin: 0, fontSize: 16 }}>
-          Pick a market and a service. Real filings, not a carrier estimate.
+          Pick your city and a procedure. See the low, middle and high price.
         </p>
       </header>
 
@@ -121,8 +121,7 @@ export function RateCheck({
                 </div>
               </div>
               <Badge tone={res.confidence === "high" ? "solid" : "soft"}>
-                {res.cell.n.toLocaleString()} filings
-                {res.confidence === "reported" && " · limited sample"}
+                {res.confidence === "reported" ? "Limited sample" : "Every carrier in this market"}
               </Badge>
             </div>
 
@@ -156,9 +155,8 @@ export function RateCheck({
             {data?.payers && <Payers payers={data.payers} state={res.geoName ?? ""} />}
 
             <footer style={{ marginTop: "var(--sp-4)", paddingTop: "var(--sp-3)", borderTop: "1px solid var(--border)", fontSize: 12, color: "var(--text-3)", lineHeight: 1.6 }}>
-              {data?.source?.basis}. {data?.source?.note}
-              {res.updatedAt && ` Filings as of ${new Date(res.updatedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}.`}
-              {" "}This is price data, not claims. It does not include how often a service is used.
+              {data?.source?.basis}. {data?.source?.note} These are prices, not bills. They do not
+              show how often anyone needs the procedure.
             </footer>
           </>
         )}

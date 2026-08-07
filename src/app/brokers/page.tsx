@@ -6,7 +6,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "For brokers",
   description:
-    "Walk into a renewal holding a market number the incumbent does not have. Metro level negotiated rates from federal transparency filings, sourced and dated.",
+    "Walk into a renewal holding a market number the incumbent does not have. Every carrier's price in your market, instantly.",
 };
 
 const config: RoleConfig = {

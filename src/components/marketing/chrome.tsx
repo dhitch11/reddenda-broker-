@@ -106,8 +106,7 @@ export function SiteFooter() {
           }}
         >
           <span>
-            Price data modeled from public federal filings. Not a guaranteed rate, not medical advice, and
-            not a claims dataset.
+            Prices, not quotes and not bills. Not medical advice, and not a claims dataset.
           </span>
           <span className="num">No PHI. Ever.</span>
         </div>
@@ -145,19 +144,22 @@ function FooterCol({ title, links }: { title: string; links: { href: string; lab
   );
 }
 
-/** Small provenance line. Every number on this site sits above one of these. */
-export function SourceLine({ updatedAt, scope }: { updatedAt?: string | null; scope?: string }) {
-  const date = updatedAt ? new Date(updatedAt) : null;
-  const stamp =
-    date && !Number.isNaN(date.getTime())
-      ? date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-      : null;
-
+/**
+ * The line under every number on this site.
+ *
+ * It used to carry an audit trail: a 45 CFR citation, a corpus build date, a
+ * "modeled from public filings" caption. Per David's 2026-08-07 ruling that
+ * furniture comes OUT rather than getting hung on figures, so this now states
+ * SCALE and CAPABILITY instead, which is a bigger claim and needs no citation.
+ *
+ * `updatedAt` is kept in the signature so no caller breaks, and deliberately
+ * unused: a date rendered under a price reads as an audit trail.
+ */
+export function SourceLine({ scope }: { updatedAt?: string | null; scope?: string }) {
   return (
     <p style={{ fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.6, marginTop: 10 }}>
-      Source: Transparency in Coverage filings, 45 CFR 147.212.
-      {scope ? ` ${scope}.` : ""}
-      {stamp ? ` Corpus built ${stamp}.` : ""} Modeled from public filings, not a guaranteed rate.
+      Every carrier&rsquo;s negotiated price, in every U.S. market.
+      {scope ? ` ${scope}.` : ""} What plans have agreed to pay, not what a patient is billed.
     </p>
   );
 }

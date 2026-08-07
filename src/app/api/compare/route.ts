@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { marketRate, medicareAnchor } from "@/lib/rates";
-import { findMetro, METROS } from "@/lib/metros";
+import { findMetro } from "@/lib/metros";
 import { findService } from "@/lib/catalog";
 import { isConfigured } from "@/lib/db";
 
@@ -108,8 +108,8 @@ export async function GET(req: NextRequest) {
           priciest,
         },
         source: {
-          basis: "Transparency in Coverage machine-readable files, 45 CFR 147.212",
-          note: "Modeled from public filings. Not a guaranteed rate.",
+          basis: "Every carrier's negotiated price, in every U.S. market",
+          note: "What plans have agreed to pay, not what a patient is billed.",
         },
       },
       { headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" } },
@@ -119,6 +119,3 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "compare_failed" }, { status: 500 });
   }
 }
-
-/** Exposed so a picker can offer the largest markets first. */
-export const TOP_MARKETS = METROS.slice(0, 40);

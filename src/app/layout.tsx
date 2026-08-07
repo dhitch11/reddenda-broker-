@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     template: `%s . ${BRAND.name}`,
   },
   description:
-    "What health plans have contracted to pay providers, by metro. Built on public federal price transparency filings, sourced and dated.",
+    "What health plans have contracted to pay providers, by metro. Every carrier, in every U.S. market, instantly.",
   applicationName: BRAND.name,
   robots: {
     // The domain is not registered and the name is not final. Nothing is indexed

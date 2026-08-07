@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const title = rateTitle(m, s);
   return {
     title,
-    description: `What health plans have contracted to pay for ${s.plain} in ${metroShort(m)}, from federal Transparency in Coverage filings. Median, spread and a Medicare reference, sourced and dated.`,
+    description: `What health plans have contracted to pay for ${s.plain} in ${metroShort(m)}, Every carrier, the low end to the high end, with a Medicare reference beside it.`,
     alternates: { canonical: ratePath(m, s) },
     openGraph: {
       title: `${title} . ${BRAND.name}`,
@@ -403,7 +403,7 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                 isBasedOn: {
                   "@type": "Dataset",
                   name: "Transparency in Coverage machine-readable files",
-                  description: "Negotiated rate files published by health plans under 45 CFR 147.212.",
+                  description: "Prices health plans have agreed to pay providers, by city and procedure.",
                 },
                 measurementTechnique: "Percentile distribution of in-network negotiated rates",
                 spatialCoverage: { "@type": "Place", name: metro.name },

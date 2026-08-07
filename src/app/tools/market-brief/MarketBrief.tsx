@@ -202,10 +202,8 @@ export function MarketBrief({ initial = "31080" }: { initial?: string }) {
             )}
 
             <footer className={s.source}>
-              {data.source.basis}. {data.source.note}
-              {data.updatedAt &&
-                ` Filings as of ${new Date(data.updatedAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}.`}{" "}
-              This is price data, not claims. It does not include how often a service is used.
+              {data.source.basis}. {data.source.note} These are prices, not bills. They do not show
+              how often anyone needs the procedure.
             </footer>
           </>
         )}

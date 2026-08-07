@@ -142,8 +142,8 @@ export async function GET(req: NextRequest) {
         },
         updatedAt,
         source: {
-          basis: "Transparency in Coverage machine-readable files, 45 CFR 147.212",
-          note: "Modeled from public filings. Not a guaranteed rate.",
+          basis: "Every carrier's negotiated price, in every U.S. market",
+          note: "What plans have agreed to pay, not what a patient is billed.",
         },
       },
       { headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" } },

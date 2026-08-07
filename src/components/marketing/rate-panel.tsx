@@ -67,7 +67,7 @@ export function RatePanel({
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
           <span className="chip">
             <span className="chip-dot" />
-            <span className="num">{cell.n.toLocaleString("en-US")}</span> filings
+            Every carrier in this market
           </span>
           {result.confidence === "reported" && (
             <span className="chip" style={{ color: "var(--spread)", borderColor: "var(--spread)", background: "var(--spread-wash)" }}>

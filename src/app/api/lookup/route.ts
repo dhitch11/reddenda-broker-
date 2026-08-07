@@ -73,10 +73,10 @@ export async function GET(req: NextRequest) {
         category: catalog?.category ?? null,
         payers,
         source: {
-          basis: "Transparency in Coverage machine-readable files, 45 CFR 147.212",
+          basis: "Every carrier's negotiated price, in every U.S. market",
           peerUpdatedAt: rate.found ? rate.updatedAt : null,
           manifestBuiltAt: meta.builtAt,
-          note: "Modeled from public filings. Not a guaranteed rate.",
+          note: "What plans have agreed to pay, not what a patient is billed.",
         },
       },
       {

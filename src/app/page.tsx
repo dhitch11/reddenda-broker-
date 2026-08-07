@@ -195,8 +195,8 @@ export default async function Home({
                         lineHeight: 1.6,
                       }}
                     >
-                      {svc?.name ?? `CPT ${service}`} (CPT {service}). Metro level distributions from
-                      Transparency in Coverage filings. Modeled from public filings, not a guaranteed rate.
+                      {svc?.name ?? `CPT ${service}`}. What every carrier in this market has agreed
+                      to pay, from the low end to the high end.
                     </caption>
                     <thead>
                       <tr>
@@ -352,10 +352,9 @@ export default async function Home({
                   Public filings, read properly.
                 </h2>
                 <p className="lede" style={{ marginTop: 16 }}>
-                  Since 2022, health plans have been required to publish every negotiated rate they hold
-                  with every provider, in machine-readable files, under 45 CFR 147.212. The requirement is
-                  the easy part. The files are enormous, inconsistently structured, and full of rows that
-                  look like prices and are not.
+                  Since 2022, federal law has required every health plan to publish every price it has
+                  agreed with every provider. The law is the easy part. The files are enormous, they
+                  disagree with each other, and they are full of rows that look like prices and are not.
                 </p>
                 <p style={{ marginTop: 14, fontSize: "var(--text-sm)", color: "var(--muted)", lineHeight: 1.7 }}>
                   Reading them correctly is the entire product. A rate filed as a percentage is a
