@@ -577,3 +577,33 @@ a { color: inherit; text-decoration: none; }
   }
   .lookup-grid:not(.lookup-grid--compact) > .btn { width: auto; }
 }
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   THE TWO COLUMN HERO. Appended 2026-08-07 by @BROKER-CONDUCTOR.
+   Append-only, no existing rule edited, so a merge cannot lose anyone's work.
+
+   Measured before: at 1440 the hero text capped at 760px inside a 1092px content
+   grid and roughly 47% of the first screen was empty white on five routes,
+   including all three persona landing pages. The audit named filling it the single
+   highest-leverage change on the site: it is the moment attention is won or lost.
+
+   Mobile first so the media query sits BELOW the base rule and wins on cascade
+   order. Below 1024 it stacks and the number still comes before the form, which
+   is the page's stated intent: the number is on screen before the visitor touches
+   anything, and the form only changes it.
+   ────────────────────────────────────────────────────────────────────────────── */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+}
+.hero-grid__proof { min-width: 0; }
+
+@media (min-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
+    gap: 44px;
+    align-items: center;
+  }
+}
