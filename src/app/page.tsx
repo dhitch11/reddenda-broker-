@@ -4,6 +4,7 @@ import { findMetro, METROS, type Metro } from "@/lib/metros";
 import { findService, SERVICES } from "@/lib/catalog";
 import { isConfigured } from "@/lib/db";
 import { SCALE, nationalRate } from "@/lib/national";
+import { siteComparison } from "@/lib/siteofservice";
 import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
 import { LookupForm } from "@/components/marketing/lookup-form";
 import { RatePanel } from "@/components/marketing/rate-panel";
@@ -72,7 +73,12 @@ export default async function Home({
     return national.found ? national : real;
   };
 
+  // The site-of-care split, live from the CMS schedules. This is the strongest
+  // single argument the product has and it was not on the homepage at all.
+  let siteOfCare: Awaited<ReturnType<typeof siteComparison>> | null = null;
+
   if (configured) {
+    siteOfCare = await siteComparison("45378", "CA").catch(() => null);
     [result, comparison] = await Promise.all([
       resolve(metro),
       Promise.all(
@@ -241,6 +247,97 @@ export default async function Home({
             </div>
           </div>
         </section>
+
+        {/* ================= THE MONEY: SITE OF CARE =================
+            The strongest single argument the product has, and it was not on this
+            page at all. Live from the CMS 2026-Q3 schedules via siteComparison(),
+            never typed into copy.
+
+            Plain English first and the code second, because two of the three
+            buyers are a CFO and an HR director of one and neither knows what
+            45378 means. A code set above a price also reads as a price.
+
+            The bar fill caps at calc(100% - 14px) so a bar can never strike
+            through its own value, which is a defect this estate has already
+            shipped once on the market brief's top row.
+        */}
+        {siteOfCare?.found && siteOfCare.officeIsDistinct && siteOfCare.hopd.total != null && (
+          <section style={{ paddingBlock: "clamp(48px, 7vw, 88px)" }}>
+            <div className="wrap">
+              <p className="eyebrow">The same procedure, three places</p>
+              <h2 className="display" style={{ fontSize: "var(--display-sm)", marginTop: 12, maxWidth: "20ch", textWrap: "balance" }}>
+                Where it happens costs more than what it is.
+              </h2>
+
+              <div style={{ marginTop: 26, display: "flex", alignItems: "baseline", gap: 10 }}>
+                <span style={{ fontSize: "var(--text-xl)", fontWeight: 600, color: "var(--ink)" }}>
+                  {siteOfCare.plain}
+                </span>
+                <span className="num" style={{ fontSize: 11, color: "var(--faint)", fontVariantNumeric: "slashed-zero" }}>
+                  {siteOfCare.cpt}
+                </span>
+              </div>
+
+              <div style={{ marginTop: 18, display: "grid", gap: 12, maxWidth: 720 }}>
+                {([
+                  { k: "office", label: "In an office", site: siteOfCare.office, color: "var(--efficient)" },
+                  { k: "asc", label: "At a surgery center", site: siteOfCare.asc, color: "var(--spread)" },
+                  { k: "hopd", label: "At a hospital", site: siteOfCare.hopd, color: "var(--exposure)" },
+                ] as const).map(({ k, label, site, color }) => {
+                  const max = Math.max(
+                    siteOfCare!.office.total ?? 0,
+                    siteOfCare!.asc.total ?? 0,
+                    siteOfCare!.hopd.total ?? 0,
+                  );
+                  const pct = site.total && max ? (site.total / max) * 100 : 0;
+                  return (
+                    <div key={k}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
+                        <span style={{ fontSize: "var(--text-sm)", color: "var(--body)" }}>{label}</span>
+                        <span className="num" style={{ fontSize: "var(--text-lg)", fontWeight: 600, color: "var(--ink)" }}>
+                          {site.total == null ? "unavailable" : `$${Math.round(site.total).toLocaleString("en-US")}`}
+                        </span>
+                      </div>
+                      <div style={{ height: 34, borderRadius: "var(--r-xs)", background: "var(--elev)", overflow: "hidden" }}>
+                        <div
+                          style={{
+                            height: "100%",
+                            width: `min(${pct}%, calc(100% - 14px))`,
+                            background: color,
+                            borderRadius: "var(--r-xs)",
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {siteOfCare.hopdVsOfficePct != null && (
+                <p style={{ marginTop: 20, fontSize: "var(--text-base)", color: "var(--body)", maxWidth: "54ch" }}>
+                  The hospital is{" "}
+                  <strong className="num" style={{ color: "var(--exposure)" }}>
+                    +{siteOfCare.hopdVsOfficePct}%
+                  </strong>{" "}
+                  over the office for the same procedure. Nothing about the care changed.
+                </p>
+              )}
+
+              {/*
+                The line that keeps this honest. A brief on this estate once printed
+                the facility figure alone and concluded the hospital was the cheap
+                site. It is not: the office total is the non-facility rate, while the
+                ASC and hospital totals are the physician fee PLUS that site's own
+                facility payment.
+              */}
+              <p className="num" style={{ marginTop: 14, fontSize: 11.5, lineHeight: 1.6, color: "var(--muted)", maxWidth: "62ch" }}>
+                Office total is the non-facility rate. Surgery center and hospital totals are the
+                physician fee plus that site&rsquo;s own facility payment.
+                {siteOfCare.vintage ? ` CMS ${siteOfCare.vintage}.` : ""}
+              </p>
+            </div>
+          </section>
+        )}
 
         {/* ================= 2. THE FLINCH ================= */}
         {ratio && hi && lo && (
