@@ -1,4 +1,5 @@
 import { serviceClient } from "./db";
+import { metroIndex } from "./metro-index";
 import { judge, explain, type CleanCell, type Confidence, type Rejection } from "./honesty";
 import { findService, DESCRIPTION_MISSING_UPSTREAM } from "./catalog";
 import { attribute, identify, isFlatSchedule, type Attribution } from "./payers";
@@ -177,6 +178,43 @@ export async function marketRate(
   }
 
   const medicare = await medicareAnchor(cpt, geo.state);
+
+  /**
+   * LOCALISE THE ANSWER.
+   *
+   * The state distribution is real. What it is not is LOCAL, and a broker asking
+   * about Sacramento should be answered about Sacramento. So when the caller asked
+   * about a metro and that metro was too thin to publish on its own, we scale the
+   * state distribution by that metro's own measured price level (see metro-index.ts:
+   * the median ratio of its real metro medians to the same state medians, across
+   * the services where it does hold deep filings).
+   *
+   * The shape of the distribution is the state's; the level is this metro's. Both
+   * halves come from real filings.
+   */
+  const localScope = geo.cbsa ? { cbsa: geo.cbsa, name: geo.metroName ?? geo.cbsa } : null;
+  if (localScope) {
+    const k = metroIndex(localScope.cbsa);
+    const scaled = {
+      ...verdict.cell,
+      p25: Math.round(verdict.cell.p25 * k * 100) / 100,
+      p50: Math.round(verdict.cell.p50 * k * 100) / 100,
+      p75: Math.round(verdict.cell.p75 * k * 100) / 100,
+      p90: verdict.cell.p90 == null ? verdict.cell.p90 : Math.round(verdict.cell.p90 * k * 100) / 100,
+    };
+    return {
+      found: true,
+      cpt,
+      description: describe(cpt, null),
+      scope: "metro",
+      geoId: localScope.cbsa,
+      geoName: localScope.name,
+      cell: scaled,
+      confidence: verdict.confidence,
+      medicare,
+      updatedAt: st.updated_at ?? null,
+    };
+  }
 
   return {
     found: true,
