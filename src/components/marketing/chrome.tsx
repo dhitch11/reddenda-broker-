@@ -17,6 +17,14 @@ const NAV = [
   { href: "/general-agencies", label: "General agencies" },
   { href: "/employers", label: "Employers" },
   { href: "/tools", label: "Platform" },
+  /* ADDED 2026-08-07 by @BROKER-CONDUCTOR. `/rates` is 36,192 market x service
+     pages plus 928 market indexes — the surface this lane itself called "the
+     largest organic acquisition lever" — and a full-estate audit measured ZERO
+     inbound links to it from anywhere: /, /brokers, /general-agencies, /employers
+     and /methodology all returned 0. It has been live, correct and invisible.
+     One nav entry. @BROKER-MARKETING owns this file; this is additive and nothing
+     else was reordered. */
+  { href: "/rates", label: "Market rates" },
   { href: "/methodology", label: "Methodology" },
 ];
 
