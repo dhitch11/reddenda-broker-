@@ -102,6 +102,23 @@ export const config = {
      * them gives a classifier something legitimate to read and does not widen what
      * the fabrication ruling protects by one number.
      */
-    "/((?!enter|api/gate|_next/static|_next/image|icon.svg|favicon.ico|robots.txt|sitemap.xml|privacy|terms|opengraph-image).*)",
+    /*
+     * `.*opengraph-image` added 2026-08-07. My own defect: I excluded
+     * `opengraph-image` when I opened the crawler paths, but a negative lookahead
+     * only anchors at the START of the path. The per-market cards live at
+     * /rates/<market>/<service>/opengraph-image, which does not start with it, so
+     * they stayed gated. Measured on live prod:
+     *
+     *   /opengraph-image                                200  image/png   ok
+     *   /rates/los-angeles-ca/brain-mri/opengraph-image 200  text/html   the GATE
+     *
+     * A route that must return a PNG was returning the entry screen. Route files
+     * for these exist and are correct; only the matcher was wrong.
+     *
+     * These leak nothing: an OG card renders a market name, a service name and a
+     * price range that is fabricated demo data by David's ruling, and it is the
+     * image a share preview needs in order to exist at all.
+     */
+    "/((?!enter|api/gate|_next/static|_next/image|icon.svg|favicon.ico|robots.txt|sitemap.xml|privacy|terms|opengraph-image|.*opengraph-image).*)",
   ],
 };
