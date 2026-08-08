@@ -38,6 +38,20 @@ export async function POST(req: Request) {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
+    // ── ONE PIN, BOTH HOSTS. ────────────────────────────────────────────────
+    // Added 2026-08-07 by @BROKER-CONDUCTOR. Without a Domain the cookie is
+    // host-only, so a PIN entered on broker.reddenda.com does not carry to
+    // app.reddenda.com and the visitor is challenged a second time on the same
+    // product. Measured on live prod:
+    //   set-cookie: csnd_entry=…; Path=/; Secure; HttpOnly; SameSite=lax
+    // I told David the double prompt was inherent to two hosts. It was not — it
+    // was this missing attribute, and I was wrong.
+    //
+    // Scoped to .reddenda.com deliberately: both gated hosts are subdomains of it,
+    // the token is HMAC-signed against GATE_SECRET and verified server side, and it
+    // still fails CLOSED when the secret is absent. This widens WHERE a valid
+    // session is presented, never WHO can mint one.
+    domain: ".reddenda.com",
     path: "/",
     maxAge: GATE_TTL_SECONDS,
   });
