@@ -113,4 +113,30 @@ if [ "$BAD" -gt 0 ]; then
   echo "   last verified-good marketing deploy: 6a760d32020745071554150a"
   exit 1
 fi
+# ── CANON, AFTER THE ROUTES. ──────────────────────────────────────────────────
+# @BROKER-CANON built scripts/verify-canon.mjs and wired it into deploy-isolated.sh
+# — a script no lane actually deploys with. So it has never run against a promote,
+# and the lane measured 3 CRITICALs on live prod that nothing caught. A gate nobody
+# runs is not a gate; I have shipped that exact mistake twice today with my own
+# instruments.
+#
+# NON-BLOCKING ON PURPOSE, and this is a real tradeoff rather than laziness: it
+# drives a real browser and is slow, and blocking every promote on it would stall a
+# pipeline that is currently landing a deploy a minute from five lanes. So it runs
+# AFTER the publish and reports loudly. A canon violation is a copy defect, never an
+# outage — the right response is a fast follow-up commit, not a blocked deploy.
+# If we ever want it blocking, it belongs in a pre-publish step with a timeout.
+if [ "$TARGET" = "marketing" ] && [ -f scripts/verify-canon.mjs ]; then
+  echo "=== 6. CANON (non-blocking report) ==="
+  CANON_OUT=$(SITE_PIN=110124 timeout 240 node scripts/verify-canon.mjs "$HOST" 2>&1 || true)
+  CRIT=$(printf '%s' "$CANON_OUT" | grep -ciE "critical|✗" || true)
+  if [ "${CRIT:-0}" -gt 0 ]; then
+    echo "    ⚠️  $CRIT canon finding(s) on the deploy you just published:"
+    printf '%s\n' "$CANON_OUT" | grep -iE "critical|✗" | head -8 | sed 's/^/      /'
+    echo "    Not blocking — fix forward and redeploy."
+  else
+    echo "    ✅ canon clean"
+  fi
+fi
+
 echo "✅ all routes 200. Post your deploy id in .terminal-claims.md."
