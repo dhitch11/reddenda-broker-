@@ -61,6 +61,9 @@ export async function GET(req: NextRequest) {
                 scope: r.scope,
                 cell: r.cell,
                 confidence: r.confidence,
+                // Per-row basis rides along so a side-by-side comparison never paints one flag across
+                // markets that resolved differently (one metro real, one scaled, one statewide).
+                basis: r.basis,
                 fellBack: Boolean(r.fellBackFrom),
               }
             : { found: false as const, reason: r.reason, message: r.message }),

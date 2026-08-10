@@ -1,6 +1,10 @@
 import { serviceClient } from "./db";
-import { metroIndex } from "./metro-index";
+import { METRO_INDEX, metroIndex } from "./metro-index";
 import { judge, explain, type CleanCell, type Confidence, type Rejection } from "./honesty";
+// THE UNIFIED RATE-BASIS STANDARD (David ruling 2026-08-10). Every returned cell carries a per-row
+// `basis` derived from the code path that resolved it, never a constant label. `confidenceFor` is the
+// ONE confidence formula shared with the app (n>=50 high, >=20 moderate, <20 thin).
+import { type CellBasis, confidenceFor } from "./basis";
 import { findService, DESCRIPTION_MISSING_UPSTREAM } from "./catalog";
 import { attribute, identify, isFlatSchedule, type Attribution } from "./payers";
 // Added by @BROKER-CONDUCTOR: line 82 called nationalCatalog() with no import, which
@@ -41,6 +45,15 @@ export type MarketRate = {
   fellBackFrom?: { metro: string; reason: Rejection };
   cell: CleanCell;
   confidence: Exclude<Confidence, "insufficient">;
+  /**
+   * THE PER-ROW RATE BASIS (David ruling 2026-08-10). Derived from which code path resolved this cell,
+   * NEVER a constant. PATH#1 (real cbsa cell) => local_metro; PATH#2 (metro-index-scaled state) =>
+   * localized_estimate when `cbsa in METRO_INDEX` (key presence) else statewide, carrying scaleFactor;
+   * PATH#3 (plain state) => statewide. national.ts maps its own _src/geo_grain. Carries `n` (the peer
+   * sample of the rung that produced the number) and the shared `confidence` bucket. The UI renders the
+   * <BasisChip> from this and only this, so a scaled or statewide number can never wear a "local" label.
+   */
+  basis: CellBasis;
   medicare: MedicareAnchor | null;
   updatedAt: string | null;
   /**
@@ -159,6 +172,7 @@ export async function marketRate(
 
       if (verdict.ok) {
         const medicare = await medicareAnchor(cpt, geo.state);
+        // PATH#1 — a real metro cell survived the honesty filter. This IS this metro's own filings.
         return {
           found: true,
           cpt,
@@ -168,6 +182,7 @@ export async function marketRate(
           geoName: geo.metroName ?? geo.cbsa,
           cell: verdict.cell,
           confidence: verdict.confidence,
+          basis: { basis: "local_metro", n: verdict.cell.n, confidence: confidenceFor(verdict.cell.n) },
           medicare,
           updatedAt: data.updated_at ?? null,
         };
@@ -230,6 +245,20 @@ export async function marketRate(
       p75: Math.round(verdict.cell.p75 * k * 100) / 100,
       p90: verdict.cell.p90 == null ? verdict.cell.p90 : Math.round(verdict.cell.p90 * k * 100) / 100,
     };
+    // PATH#2 — the metro was too thin to publish, so this is the STATE distribution scaled to the
+    // metro's own measured price level. It must NEVER read as a measured metro cell (deliverable 5).
+    //
+    // HARD TRAP (David ruling 2026-08-10): decide localized_estimate vs statewide by KEY PRESENCE in
+    // METRO_INDEX, NEVER by `k === 1`. metroIndex() returns 1 for BOTH a real earned index of exactly
+    // 1.000 (73 of the 668 entries) AND an unearned/missing metro, so a value check would mislabel 73
+    // real localizations as statewide and let every default-1 miss pass as a "localized estimate".
+    const hasEarnedIndex = Object.prototype.hasOwnProperty.call(METRO_INDEX, localScope.cbsa);
+    // The peer sample is the STATE cell's, not the metro's. The chip carries this n under the honest
+    // basis label so the count and the geography can never disagree.
+    const stateN = verdict.cell.n;
+    const basis: CellBasis = hasEarnedIndex
+      ? { basis: "localized_estimate", n: stateN, confidence: confidenceFor(stateN), scaleFactor: k }
+      : { basis: "statewide", n: stateN, confidence: confidenceFor(stateN) };
     return {
       found: true,
       cpt,
@@ -239,11 +268,14 @@ export async function marketRate(
       geoName: localScope.name,
       cell: scaled,
       confidence: verdict.confidence,
+      basis,
       medicare,
       updatedAt: st.updated_at ?? null,
     };
   }
 
+  // PATH#3 — a plain state answer (the caller asked about a state, or geo.cbsa was absent). Statewide,
+  // and it says so. n is the state cell's peer sample.
   return {
     found: true,
     cpt,
@@ -254,6 +286,7 @@ export async function marketRate(
     fellBackFrom,
     cell: verdict.cell,
     confidence: verdict.confidence,
+    basis: { basis: "statewide", n: verdict.cell.n, confidence: confidenceFor(verdict.cell.n) },
     medicare,
     updatedAt: st.updated_at ?? null,
   };

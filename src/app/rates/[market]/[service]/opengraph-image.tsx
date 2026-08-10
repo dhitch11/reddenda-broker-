@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { marketRate } from "@/lib/rates";
 import { nationalRate } from "@/lib/national";
+import { type Basis } from "@/lib/basis";
 import { findMetroBySlug, findServiceBySlug, metroShort } from "@/components/marketing/slugs";
 
 /**
@@ -93,10 +94,11 @@ export default async function Image({
   // Same resolution order as /api/lookup and the homepage. A card that disagreed with
   // the page it links to would be worse than no card.
   let cell: { p25: number; p50: number; p75: number; p90: number | null } | null = null;
-  // DEMO SIMULATION FLAG (David ruling 2026-08-10). The share card is the ONE surface that escapes the
-  // /enter gate, so an unlabeled synthetic card is exactly the screenshot to avoid. Carry the flag onto
-  // the card so a modeled market is marked "Demo simulation" the same as on the page it links to.
-  let synthetic = false;
+  // THE PER-ROW BASIS ON THE MOST-FORWARDED SURFACE (David ruling 2026-08-10, upgrading the old
+  // synthetic-only tag). The share card is the ONE surface that escapes the /enter gate and gets
+  // screenshotted, so it must disclose the REAL basis: a scaled, statewide or modeled number can never
+  // unfurl as a measured metro cell. Same resolution order as the page it points at.
+  let basis: Basis | null = null;
   if (metro && svc) {
     try {
       let r = await marketRate(svc.cpt, {
@@ -108,12 +110,23 @@ export default async function Image({
         const n = nationalRate(svc.cpt, { cbsa: metro.cbsa, state: metro.state, metroName: metro.name });
         if (n.found) r = n;
       }
-      if (r.found) { cell = r.cell; synthetic = r.synthetic === true; }
+      if (r.found) { cell = r.cell; basis = r.basis.basis; }
     } catch {
       // A corpus hiccup renders the honest card, never a guessed one.
       cell = null;
     }
   }
+
+  // Tag copy + colors mirror the <BasisChip> tones (satori cannot read CSS vars, so the hex is inlined;
+  // demo stays the more explicit "Demo simulation" wording because a card outlives every correction).
+  // A clean local_metro cell needs no tag: it IS this metro's own measured filings.
+  const OG_TAG: Partial<Record<Basis, { label: string; color: string; dashed?: boolean }>> = {
+    demo: { label: "Demo simulation", color: "#6D5BD6", dashed: true },
+    localized_estimate: { label: "Localized estimate", color: "#077A70" },
+    statewide: { label: "Statewide", color: "#5B6166" },
+    national: { label: "National", color: "#8A6414" },
+  };
+  const tag = basis ? OG_TAG[basis] : undefined;
 
   const title = svc ? svc.plain : "This procedure";
   const where = metro ? metroShort(metro) : "";
@@ -143,14 +156,15 @@ export default async function Image({
           <div style={{ fontFamily: "Display", fontSize: 30, color: INK, marginLeft: 14 }}>
             Censenda
           </div>
-          {synthetic && (
+          {tag && (
             <div
               style={{
                 marginLeft: 16, padding: "6px 14px", borderRadius: 8, fontSize: 20,
-                color: "#8A6414", border: "1px solid #8A6414", display: "flex", alignItems: "center",
+                color: tag.color, border: `1px ${tag.dashed ? "dashed" : "solid"} ${tag.color}`,
+                display: "flex", alignItems: "center",
               }}
             >
-              Demo simulation
+              {tag.label}
             </div>
           )}
         </div>
@@ -210,7 +224,10 @@ export default async function Image({
               <Figure label="Low end" value={money(cell.p25)} />
               <Figure label="Middle price" value={money(cell.p50)} strong />
               <Figure label="High end" value={money(cell.p75)} />
-              {cell.p90 != null && <Figure label="Priciest" value={money(cell.p90)} tone={TEAL_DEEP} />}
+              {/* A national basis cannot claim a local P90 target, so suppress the priciest figure. The
+                  broker never emits `national` today (see rates.ts / national.ts); this keeps the
+                  standard true on the most-forwarded surface the moment a national source is added. */}
+              {cell.p90 != null && basis !== "national" && <Figure label="Priciest" value={money(cell.p90)} tone={TEAL_DEEP} />}
             </div>
           </div>
         ) : (

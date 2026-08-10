@@ -44,6 +44,10 @@
 
 import { getRate, getPayerAxis, METROS, catalog, COVERAGE, searchCodes } from "@/demo/engine";
 import type { MarketRate, NoMarketRate } from "@/lib/rates";
+// THE UNIFIED RATE-BASIS STANDARD (David ruling 2026-08-10). The demo engine labels its own cells by
+// provenance: a REAL California cell resolving through here is local_metro/statewide by its geo grain, a
+// modeled cell is `demo`. Same shared confidence formula as the real corpus and the app.
+import { type Basis, confidenceFor } from "@/lib/basis";
 
 /** Every procedure the platform can answer for. 670, not the 39-item basket. */
 export function nationalCatalog() {
@@ -116,6 +120,13 @@ export function nationalRate(
 
   const medicare = cell.rate_ladder?.medicare ?? null;
 
+  // PER-ROW BASIS from the engine's own provenance (never a constant). A modeled cell is `demo`; a REAL
+  // cell is local_metro or statewide by its geo grain. n is this cell's peer sample; confidence is the
+  // shared formula, not the engine's collapsed reported|high adjective.
+  const basisN = cell.data_quality?.n ?? 0;
+  const cellBasis: Basis =
+    cell._src === "synthetic" ? "demo" : cell.geo_grain === "state" ? "statewide" : "local_metro";
+
   return {
     found: true,
     cpt: code,
@@ -131,6 +142,7 @@ export function nationalRate(
       n: cell.data_quality?.n ?? 0,
     },
     confidence: (cell.data_quality?.confidence === "reported" ? "reported" : "high") as MarketRate["confidence"],
+    basis: { basis: cellBasis, n: basisN, confidence: confidenceFor(basisN) },
     medicare: medicare
       ? {
           nonFacility: cell.site_of_care?.office_total ?? medicare,

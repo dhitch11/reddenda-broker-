@@ -1,5 +1,7 @@
 import { Distribution } from "@/components/Distribution";
 import type { MarketRate, NoMarketRate } from "@/lib/rates";
+import { BasisChip } from "@/components/BasisChip";
+import { BASIS_META } from "@/lib/basis";
 import { SourceLine } from "./chrome";
 
 /**
@@ -44,6 +46,12 @@ export function RatePanel({
 
   const spreadX = cell.p25 > 0 ? cell.p75 / cell.p25 : null;
 
+  // The unified basis standard: a national basis cannot claim a local position, so it suppresses the P90
+  // target. The broker's data layer does not currently emit `national` (marketRate -> local_metro /
+  // localized_estimate / statewide; national.ts -> demo / local_metro / statewide), so this is the
+  // standard's defensive guard, and it keeps the rule true the moment any national source is added.
+  const showsPct = BASIS_META[result.basis.basis].showsPercentile;
+
   return (
     <section
       className="card"
@@ -80,21 +88,23 @@ export function RatePanel({
           </p>
         </div>
 
-        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-          {result.synthetic && (
-            <span className="chip" style={{ color: "var(--spread)", borderColor: "var(--spread)", background: "var(--spread-wash)" }}>
-              Demo simulation
-            </span>
-          )}
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+          {/*
+            THE ONE basis chip (David ruling 2026-08-10). It carries the real per-row basis, the peer
+            sample n and the shared confidence bucket, so it supersedes both the old standalone "Demo
+            simulation" chip (demo is now a basis tone) and the honesty-based "Limited sample" chip (the
+            thin cue now uses the one confidence formula, n<20). The explanatory demo banner above stays.
+          */}
+          <BasisChip
+            basis={result.basis.basis}
+            n={result.basis.n}
+            confidence={result.basis.confidence}
+            scaleFactor={result.basis.scaleFactor}
+          />
           <span className="chip">
             <span className="chip-dot" />
             Every carrier in this market
           </span>
-          {result.confidence === "reported" && (
-            <span className="chip" style={{ color: "var(--spread)", borderColor: "var(--spread)", background: "var(--spread-wash)" }}>
-              Limited sample
-            </span>
-          )}
         </div>
       </header>
 
@@ -138,7 +148,10 @@ export function RatePanel({
           tone="ink"
           sub={spreadX ? `${spreadX.toFixed(1)}x from low to high` : undefined}
         />
-        {cell.p90 != null ? (
+        {!showsPct ? (
+          // A national basis cannot claim a local P90 target. Suppress it and say the peers are indexing.
+          <Stat label="The expensive end" value="gap" tone="gap" sub="National schedule only; local peers still indexing" />
+        ) : cell.p90 != null ? (
           <Stat label="The expensive end" value={money(cell.p90)} tone="exposure" sub="What the priciest providers charge" />
         ) : (
           <Stat label="The expensive end" value="gap" tone="gap" sub="Not published for this market" />

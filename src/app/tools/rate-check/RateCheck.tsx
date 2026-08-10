@@ -5,6 +5,8 @@ import { Distribution, money } from "@/components/Distribution";
 import { SERVICES, searchServices, type Service } from "@/lib/catalog";
 import { METROS, searchMetros, type Metro } from "@/lib/metros";
 import { ToolExplainer } from "@/components/ToolExplainer";
+import { BasisChip } from "@/components/BasisChip";
+import { type CellBasis } from "@/lib/basis";
 
 type LookupResponse = {
   ok: boolean;
@@ -22,6 +24,12 @@ type LookupResponse = {
     message?: string;
     /** Demo simulation flag (David ruling 2026-08-10): true when this market is modeled, not measured. */
     synthetic?: boolean;
+    /**
+     * THE PER-ROW RATE BASIS (David ruling 2026-08-10), computed server-side in rates.ts / national.ts
+     * from the real geography this cell resolved from. The chip renders only what this says, so a scaled
+     * or statewide number can never wear a "local" label. Optional only for old cached payloads.
+     */
+    basis?: CellBasis;
   };
   plainName?: string | null;
   payers?: {
@@ -131,20 +139,24 @@ export function RateCheck({
                   {res.scope === "state" && " · statewide"}
                 </div>
               </div>
-              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                {res.synthetic && <Badge tone="soft">Demo simulation</Badge>}
-                <Badge tone={res.confidence === "high" ? "solid" : "soft"}>
-                  {res.confidence === "reported" ? "Limited sample" : "Every carrier in this market"}
-                </Badge>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+                {/*
+                  THE ONE basis chip (David ruling 2026-08-10), upgrading the old "Demo simulation" note.
+                  It carries the real per-row basis + peer sample n + the shared confidence bucket, so it
+                  supersedes the ad-hoc synthetic badge (demo is now a basis tone) and the honesty-based
+                  "Limited sample" badge (the thin cue now uses the one formula, n<20).
+                */}
+                {res.basis && (
+                  <BasisChip
+                    basis={res.basis.basis}
+                    n={res.basis.n}
+                    confidence={res.basis.confidence}
+                    scaleFactor={res.basis.scaleFactor}
+                  />
+                )}
+                <Badge tone="soft">Every carrier in this market</Badge>
               </div>
             </div>
-
-            {res.synthetic && (
-              <Note>
-                Demo simulation. This market is modeled for demonstration. We show real measured rates
-                where we hold them.
-              </Note>
-            )}
 
             {res.scope === "state" && res.fellBackFrom && (
               <Note>
