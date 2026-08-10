@@ -93,6 +93,10 @@ export default async function Image({
   // Same resolution order as /api/lookup and the homepage. A card that disagreed with
   // the page it links to would be worse than no card.
   let cell: { p25: number; p50: number; p75: number; p90: number | null } | null = null;
+  // DEMO SIMULATION FLAG (David ruling 2026-08-10). The share card is the ONE surface that escapes the
+  // /enter gate, so an unlabeled synthetic card is exactly the screenshot to avoid. Carry the flag onto
+  // the card so a modeled market is marked "Demo simulation" the same as on the page it links to.
+  let synthetic = false;
   if (metro && svc) {
     try {
       let r = await marketRate(svc.cpt, {
@@ -104,7 +108,7 @@ export default async function Image({
         const n = nationalRate(svc.cpt, { cbsa: metro.cbsa, state: metro.state, metroName: metro.name });
         if (n.found) r = n;
       }
-      if (r.found) cell = r.cell;
+      if (r.found) { cell = r.cell; synthetic = r.synthetic === true; }
     } catch {
       // A corpus hiccup renders the honest card, never a guessed one.
       cell = null;
@@ -139,6 +143,16 @@ export default async function Image({
           <div style={{ fontFamily: "Display", fontSize: 30, color: INK, marginLeft: 14 }}>
             Censenda
           </div>
+          {synthetic && (
+            <div
+              style={{
+                marginLeft: 16, padding: "6px 14px", borderRadius: 8, fontSize: 20,
+                color: "#8A6414", border: "1px solid #8A6414", display: "flex", alignItems: "center",
+              }}
+            >
+              Demo simulation
+            </div>
+          )}
         </div>
 
         {/* the question this card answers, in the words a client would use */}

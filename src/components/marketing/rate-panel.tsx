@@ -50,6 +50,22 @@ export function RatePanel({
       style={{ padding: "clamp(18px, 3vw, 30px)", borderColor: "var(--hair-strong)" }}
       aria-live="polite"
     >
+      {result.synthetic && (
+        <div
+          role="note"
+          style={{
+            display: "flex", alignItems: "center", gap: 8, marginBottom: 16, padding: "10px 14px",
+            borderRadius: 10, fontSize: "var(--text-sm)", lineHeight: 1.4,
+            color: "var(--spread)", borderColor: "var(--spread)", border: "1px solid var(--spread)",
+            background: "var(--spread-wash)",
+          }}
+        >
+          <strong>Demo simulation</strong>
+          <span style={{ color: "var(--muted)" }}>
+            This market is modeled for demonstration. We show real measured rates where we hold them.
+          </span>
+        </div>
+      )}
       <header style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "baseline", justifyContent: "space-between" }}>
         <div style={{ minWidth: 0 }}>
           <p className="eyebrow" style={{ marginBottom: 6 }}>
@@ -65,6 +81,11 @@ export function RatePanel({
         </div>
 
         <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {result.synthetic && (
+            <span className="chip" style={{ color: "var(--spread)", borderColor: "var(--spread)", background: "var(--spread-wash)" }}>
+              Demo simulation
+            </span>
+          )}
           <span className="chip">
             <span className="chip-dot" />
             Every carrier in this market

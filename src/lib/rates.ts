@@ -43,6 +43,14 @@ export type MarketRate = {
   confidence: Exclude<Confidence, "insufficient">;
   medicare: MedicareAnchor | null;
   updatedAt: string | null;
+  /**
+   * DEMO SIMULATION FLAG (David ruling 2026-08-10, reverses the conductor's "never render _src").
+   * True when this cell is modeled/simulated for demonstration rather than measured from the real
+   * corpus. The UI MUST render a visible "Demo simulation" marker when this is true, on every surface
+   * including OG cards. The real corpus (marketRate) leaves it falsy. Never say "we don't have the
+   * data" — it is a simulation for a demo. Real coverage from the AWS dataset shrinks this over time.
+   */
+  synthetic?: boolean;
 };
 
 export type NoMarketRate = {

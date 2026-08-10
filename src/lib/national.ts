@@ -139,6 +139,11 @@ export function nationalRate(
         }
       : null,
     updatedAt: null,
+    // DEMO SIMULATION FLAG (David ruling 2026-08-10). Label per-cell by the engine's own provenance:
+    // the engine holds REAL California cells (_src 'real') alongside modeled ones. A real cell that
+    // resolves through this path is not labeled; a modeled one is. The render layer turns this into a
+    // visible "Demo simulation" marker. This reverses the old "_src is never rendered" ruling.
+    synthetic: cell._src === "synthetic",
   };
 }
 
