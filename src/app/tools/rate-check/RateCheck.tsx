@@ -5,8 +5,8 @@ import { Distribution, money } from "@/components/Distribution";
 import { SERVICES, searchServices, type Service } from "@/lib/catalog";
 import { METROS, searchMetros, type Metro } from "@/lib/metros";
 import { ToolExplainer } from "@/components/ToolExplainer";
-import { BasisChip } from "@/components/BasisChip";
-import { type CellBasis } from "@/lib/basis";
+import { BasisChip, HeaderBasisChip } from "@/components/BasisChip";
+import { BASIS_META, type CellBasis } from "@/lib/basis";
 
 type LookupResponse = {
   ok: boolean;
@@ -37,6 +37,12 @@ type LookupResponse = {
       payer: string; label: string; brand: string; n: number;
       cell: { p25: number; p50: number; p75: number; p90: number | null; n: number };
       flatSchedule: boolean;
+      /**
+       * Per-row basis (David ruling 2026-08-10), set server-side in payerBreakdown. payer_cpt_state_stats
+       * is state-keyed, so every per-payer row is `statewide` by construction, never a metro cell. Optional
+       * only for old cached payloads; the chip is skipped when absent rather than guessing a label.
+       */
+      basis?: CellBasis;
     }[];
     suppressedContaminated: number;
     excludedOutOfState: number;
@@ -79,6 +85,11 @@ export function RateCheck({
   useEffect(() => { run(metro, service); }, [metro, service, run]);
 
   const res = data?.result;
+  // National suppression (David ruling 2026-08-10): a national basis cannot claim a local percentile or a
+  // P90 target, so the distribution and the percentile-derived stats are suppressed. The broker's data
+  // layer emits no national cell today (marketRate -> local_metro / localized_estimate / statewide;
+  // national.ts -> demo / local_metro / statewide), so this is the standard's defensive guard.
+  const showsPct = !res?.basis || BASIS_META[res.basis.basis].showsPercentile;
 
   return (
     <div style={{ maxWidth: 880, margin: "0 auto", padding: "var(--sp-5) var(--sp-4) var(--sp-8)" }}>
@@ -165,15 +176,24 @@ export function RateCheck({
               </Note>
             )}
 
-            <Distribution
-              cell={res.cell}
-              medicare={res.medicare?.nonFacility ?? null}
-              label={`${res.description} in ${res.geoName}`}
-            />
+            {showsPct ? (
+              <Distribution
+                cell={res.cell}
+                medicare={res.medicare?.nonFacility ?? null}
+                label={`${res.description} in ${res.geoName}`}
+              />
+            ) : (
+              <Note>
+                National schedule only. Local peers are still indexing, so we are not showing a local
+                percentile position or a P90 target for this market yet.
+              </Note>
+            )}
 
             <div style={{ display: "flex", gap: "var(--sp-6)", flexWrap: "wrap", paddingTop: "var(--sp-4)", marginTop: "var(--sp-2)", borderTop: "1px solid var(--border)" }}>
-              <Stat label="Spread, 25th to 75th" value={`${(res.cell.p75 / res.cell.p25).toFixed(1)}x`} />
-              {res.medicare?.nonFacility != null && (
+              {showsPct && (
+                <Stat label="Spread, 25th to 75th" value={`${(res.cell.p75 / res.cell.p25).toFixed(1)}x`} />
+              )}
+              {showsPct && res.medicare?.nonFacility != null && (
                 <Stat label="Median vs Medicare" value={`${Math.round((res.cell.p50 / res.medicare.nonFacility) * 100)}%`} />
               )}
               {res.medicare?.facility != null && res.medicare.nonFacility != null &&
@@ -212,16 +232,27 @@ function Payers({ payers, state }: { payers: NonNullable<LookupResponse["payers"
     );
   }
 
+  // Per-payer basis rows for the header chip. Every payer row is statewide by construction (the query is
+  // .eq("state", state)), so summarize() reads Statewide; the per-row chips still carry each payer's own
+  // thin/moderate/high cue, which does vary by that payer's filing count.
+  const basisRows = payers.rows
+    .filter((p) => p.basis)
+    .map((p) => ({ basis: p.basis!.basis, confidence: p.basis!.confidence }));
+
   return (
     <div style={{ marginTop: "var(--sp-4)", paddingTop: "var(--sp-3)", borderTop: "1px solid var(--border)" }}>
-      <SectionLabel>By plan</SectionLabel>
+      <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center", justifyContent: "space-between" }}>
+        <SectionLabel>By plan</SectionLabel>
+        {basisRows.length > 0 && <HeaderBasisChip rows={basisRows} />}
+      </div>
       <div style={{ overflowX: "auto", marginTop: "var(--sp-2)" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14, minWidth: 420 }}>
+        <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14, minWidth: 460 }}>
           <thead>
             <tr style={{ color: "var(--text-3)", fontSize: 11, letterSpacing: "0.06em", textTransform: "uppercase" }}>
               <th align="left" style={{ padding: "6px 8px 6px 0", fontWeight: 600 }}>Plan</th>
               <th align="right" style={{ padding: "6px 8px", fontWeight: 600 }}>Median</th>
-              <th align="right" style={{ padding: "6px 0 6px 8px", fontWeight: 600 }}>Filings</th>
+              <th align="right" style={{ padding: "6px 8px", fontWeight: 600 }}>Filings</th>
+              <th align="left" style={{ padding: "6px 0 6px 8px", fontWeight: 600 }}>Basis</th>
             </tr>
           </thead>
           <tbody>
@@ -236,7 +267,12 @@ function Payers({ payers, state }: { payers: NonNullable<LookupResponse["payers"
                   )}
                 </td>
                 <td align="right" className="num" style={{ padding: "9px 8px", fontWeight: 600 }}>{money(p.cell.p50)}</td>
-                <td align="right" className="num" style={{ padding: "9px 0 9px 8px", color: "var(--text-3)" }}>{p.n.toLocaleString()}</td>
+                <td align="right" className="num" style={{ padding: "9px 8px", color: "var(--text-3)" }}>{p.n.toLocaleString()}</td>
+                {/* Per-row basis chip: the count is in the Filings column beside it, so the chip omits n
+                    and just carries the honest "Statewide" grain plus this payer's own thin-sample cue. */}
+                <td style={{ padding: "9px 0 9px 8px", whiteSpace: "nowrap" }}>
+                  {p.basis && <BasisChip basis={p.basis.basis} confidence={p.basis.confidence} />}
+                </td>
               </tr>
             ))}
           </tbody>

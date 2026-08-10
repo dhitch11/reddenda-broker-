@@ -9,6 +9,8 @@ import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/ch
 import { RatePanel } from "@/components/marketing/rate-panel";
 import { Reveal } from "@/components/marketing/reveal";
 import { BRAND } from "@/components/marketing/brand";
+import { BasisChip, HeaderBasisChip } from "@/components/BasisChip";
+import { BASIS_META } from "@/lib/basis";
 import {
   findMetroBySlug,
   findServiceBySlug,
@@ -258,6 +260,17 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                     {ordinal(position)} highest middle price.
                   </p>
                 )}
+                {/* Header chip: the dominant basis across this metro + its peers, from summarize() over
+                    the real per-row bases. `scope === "metro"` includes metro-index-scaled state rows
+                    (localized_estimate), so the per-row chips below disclose which markets are measured. */}
+                <div style={{ marginTop: 12 }}>
+                  <HeaderBasisChip
+                    rows={[
+                      ...(found ? [{ basis: found.basis.basis, confidence: found.basis.confidence }] : []),
+                      ...usablePeers.map((p) => ({ basis: p.rate.basis.basis, confidence: p.rate.basis.confidence })),
+                    ]}
+                  />
+                </div>
               </Reveal>
 
               <Reveal delay={70}>
@@ -276,12 +289,12 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                   >
                     <thead>
                       <tr>
-                        {["Market", "Low end", "Middle", "High end", "Providers"].map((h, i) => (
+                        {["Market", "Low end", "Middle", "High end", "Providers", "Basis"].map((h, i) => (
                           <th
                             key={h}
                             scope="col"
                             style={{
-                              textAlign: i === 0 ? "left" : "right",
+                              textAlign: i === 0 || h === "Basis" ? "left" : "right",
                               padding: "12px 15px",
                               fontFamily: "var(--font-mono), monospace",
                               fontSize: 10.5,
@@ -454,10 +467,41 @@ function PeerRow({
           </Link>
         )}
       </th>
-      <Td v={money(rate.cell.p25)} />
-      <Td v={money(rate.cell.p50)} strong />
-      <Td v={money(rate.cell.p75)} />
-      <Td v={rate.cell.n.toLocaleString("en-US")} faint />
+      {BASIS_META[rate.basis.basis].showsPercentile ? (
+        <>
+          <Td v={money(rate.cell.p25)} />
+          <Td v={money(rate.cell.p50)} strong />
+          <Td v={money(rate.cell.p75)} />
+          <Td v={rate.cell.n.toLocaleString("en-US")} faint />
+        </>
+      ) : (
+        // Defensive: a national basis cannot claim a local distribution. marketRate emits no national
+        // cell today, so this path keeps the rule true if one is ever added upstream.
+        <td
+          colSpan={4}
+          style={{
+            padding: "13px 15px",
+            textAlign: "right",
+            fontSize: "var(--text-sm)",
+            color: "var(--muted)",
+            borderBottom: "1px solid var(--hair)",
+          }}
+        >
+          National schedule only; local peers still indexing
+        </td>
+      )}
+      {/* Per-row basis chip: the count stays in the Providers column beside it, so a scaled row's STATE
+          peer count sits under an honest "Localized estimate" label rather than passing as a metro count. */}
+      <td
+        style={{
+          padding: "10px 15px",
+          borderBottom: "1px solid var(--hair)",
+          textAlign: "left",
+          whiteSpace: "nowrap",
+        }}
+      >
+        <BasisChip basis={rate.basis.basis} confidence={rate.basis.confidence} scaleFactor={rate.basis.scaleFactor} />
+      </td>
     </tr>
   );
 }

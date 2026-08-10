@@ -94,6 +94,13 @@ export type PayerRow = {
   modalShare: number | null;
   flatSchedule: boolean;
   confidence: Exclude<Confidence, "insufficient">;
+  /**
+   * THE PER-ROW RATE BASIS (David ruling 2026-08-10). payer_cpt_state_stats is keyed BY STATE, so a
+   * per-payer distribution is genuinely statewide (never a metro cell). The basis is DERIVED from that
+   * resolved query grain, never a constant string in the render layer, so a per-payer median can never
+   * wear a "local" label. n is this payer's own filing count; confidence is the shared n-based formula.
+   */
+  basis: CellBasis;
 };
 
 const FRESHNESS_TTL = 60 * 60; // seconds
@@ -172,7 +179,7 @@ export async function marketRate(
 
       if (verdict.ok) {
         const medicare = await medicareAnchor(cpt, geo.state);
-        // PATH#1 — a real metro cell survived the honesty filter. This IS this metro's own filings.
+        // PATH#1: a real metro cell survived the honesty filter. This IS this metro's own filings.
         return {
           found: true,
           cpt,
@@ -245,7 +252,7 @@ export async function marketRate(
       p75: Math.round(verdict.cell.p75 * k * 100) / 100,
       p90: verdict.cell.p90 == null ? verdict.cell.p90 : Math.round(verdict.cell.p90 * k * 100) / 100,
     };
-    // PATH#2 — the metro was too thin to publish, so this is the STATE distribution scaled to the
+    // PATH#2: the metro was too thin to publish, so this is the STATE distribution scaled to the
     // metro's own measured price level. It must NEVER read as a measured metro cell (deliverable 5).
     //
     // HARD TRAP (David ruling 2026-08-10): decide localized_estimate vs statewide by KEY PRESENCE in
@@ -274,7 +281,7 @@ export async function marketRate(
     };
   }
 
-  // PATH#3 — a plain state answer (the caller asked about a state, or geo.cbsa was absent). Statewide,
+  // PATH#3: a plain state answer (the caller asked about a state, or geo.cbsa was absent). Statewide,
   // and it says so. n is the state cell's peer sample.
   return {
     found: true,
@@ -341,16 +348,20 @@ export async function payerBreakdown(
     const id = identify(r.payer);
     const modalShare = num(r.modal_share);
 
+    const payerN = r.n ?? 0;
     rows.push({
       payer: r.payer,
       label: id.label,
       brand: id.brand,
       attribution,
-      n: r.n ?? 0,
+      n: payerN,
       cell: verdict.cell,
       modalShare,
       flatSchedule: isFlatSchedule(modalShare),
       confidence: verdict.confidence,
+      // Statewide by construction: this list is queried .eq("state", state). The chip reads this, so
+      // the basis is derived from the resolved grain and can never be mislabeled as a metro number.
+      basis: { basis: "statewide", n: payerN, confidence: confidenceFor(payerN) },
     });
     if (rows.length >= limit) break;
   }

@@ -1,4 +1,4 @@
-// ── BasisChip — THE ONE rate-basis affordance (David ruling 2026-08-10) ───────────────────────────
+// BasisChip - THE ONE rate-basis affordance (David ruling 2026-08-10).
 // Every displayed percentile / contracted rate carries a plain-language basis chip + sample size, driven
 // by the REAL per-row basis (never a constant). The LOGIC is byte-identical to the app's src/lib/basis.ts
 // (shared confidenceFor + BASIS_META + summarize); only the skin differs, because the broker is its own
@@ -12,7 +12,7 @@
 // marketing surfaces (rate-panel) and the client tools (RateCheck) alike.
 
 import { type CSSProperties } from "react";
-import { BASIS_META, type Basis, type BasisMeta, type Confidence } from "@/lib/basis";
+import { BASIS_META, summarize, type Basis, type BasisMeta, type BasisSummary, type Confidence } from "@/lib/basis";
 
 export type BasisChipProps = {
   basis: Basis;
@@ -83,6 +83,51 @@ export function BasisChip({ basis, n, confidence, scaleFactor, className, style 
       <span style={{ minWidth: 0, overflow: "hidden", textOverflow: "ellipsis" }}>{meta.label}</span>
       {nStr && <span style={{ flex: "none", opacity: 0.72 }}>· n={nStr}</span>}
       {thin && <span style={{ flex: "none", opacity: 0.85 }}>· limited sample</span>}
+    </span>
+  );
+}
+
+// The weakest (most conservative) confidence in a set, so a header chip never reads stronger than the
+// thinnest row it summarizes. thin beats moderate beats high.
+function weakestConfidence(cs: Confidence[]): Confidence {
+  if (cs.some((c) => c === "thin")) return "thin";
+  if (cs.some((c) => c === "moderate")) return "moderate";
+  return "high";
+}
+
+/**
+ * HeaderBasisChip - the aggregate chip for a table whose rows can differ in basis (the FLINCH table, the
+ * peer-market table, the per-payer table). It renders summarize()'s DOMINANT basis (the most common one,
+ * never the single strongest row, so 19 national + 1 local never headlines "Local"), plus the local mix
+ * when it is genuinely mixed. Per-row n stays on the per-row chips, so this one omits n. Its confidence is
+ * the weakest among the dominant-basis rows, so the header never overstates certainty. Pass the FOUND rows
+ * only: each row is { basis, confidence } read from that row's real CellBasis, never a constant.
+ */
+export function HeaderBasisChip({
+  rows,
+  className,
+  style,
+}: {
+  rows: { basis: Basis; confidence: Confidence }[];
+  className?: string;
+  style?: CSSProperties;
+}) {
+  if (!rows.length) return null;
+  const summary: BasisSummary = summarize(rows);
+  const dominantRows = rows.filter((r) => r.basis === summary.dominantBasis);
+  const confidence = weakestConfidence(dominantRows.map((r) => r.confidence));
+  const mixed = summary.localCells > 0 && summary.localCells < summary.totalCells;
+  return (
+    <span
+      className={className}
+      style={{ display: "inline-flex", alignItems: "center", gap: 8, flexWrap: "wrap", ...style }}
+    >
+      <BasisChip basis={summary.dominantBasis} confidence={confidence} />
+      {mixed && (
+        <span style={{ fontFamily: "var(--font-mono), ui-monospace, monospace", fontSize: 11, color: "var(--faint)" }}>
+          {summary.localCells} of {summary.totalCells} measured locally
+        </span>
+      )}
     </span>
   );
 }

@@ -12,6 +12,8 @@ import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/ch
 import { LookupForm } from "@/components/marketing/lookup-form";
 import { RatePanel } from "@/components/marketing/rate-panel";
 import { Reveal } from "@/components/marketing/reveal";
+import { BasisChip, HeaderBasisChip } from "@/components/BasisChip";
+import { BASIS_META, type CellBasis } from "@/lib/basis";
 
 /**
  * HOME. One full scroll.
@@ -96,12 +98,15 @@ export default async function Home({
     ]);
   }
 
-  // Only metro-scope rows belong in a metro comparison. A row that quietly fell
-  // back to its state would make the table compare a city against a state and the
-  // headline multiple would be measuring the wrong thing.
-  const usable: FoundRow[] = comparison.filter(
-    (c): c is FoundRow => c.rate.found && c.rate.scope === "metro",
-  );
+  // Every row that resolved to a real number, whatever its basis. The header chip and the per-row
+  // chips read from these, so the table can be honest about a mix of measured, scaled and statewide rows.
+  const foundRows: FoundRow[] = comparison.filter((c): c is FoundRow => c.rate.found);
+
+  // Only MEASURED metro cells belong in the headline multiple. `scope === "metro"` is true for BOTH a
+  // real metro cell (local_metro) AND a metro-index-scaled state distribution (localized_estimate, PATH#2
+  // in rates.ts), so filtering on scope would compare a measured city against a scaled one and misstate
+  // the flinch. Filter on the REAL per-row basis instead: local_metro only, no localized_estimate, no demo.
+  const usable: FoundRow[] = foundRows.filter((c) => c.rate.basis.basis === "local_metro");
 
   const hi = usable.length ? usable.reduce((a, b) => (b.rate.cell.p50 > a.rate.cell.p50 ? b : a)) : null;
   const lo = usable.length ? usable.reduce((a, b) => (b.rate.cell.p50 < a.rate.cell.p50 ? b : a)) : null;
@@ -467,6 +472,14 @@ export default async function Home({
                   {money(lo.rate.cell.p50)}. Not billed charges, not an estimate. What plans have
                   contracted to pay, filed by the payers themselves.
                 </p>
+                {/* Header chip: the dominant basis across the markets shown, driven by summarize() over
+                    the real per-row bases, plus the local mix. The headline multiple above is computed on
+                    local_metro rows only, so this tells the reader how many of the table's rows are that. */}
+                <div style={{ marginTop: 16 }}>
+                  <HeaderBasisChip
+                    rows={foundRows.map((c) => ({ basis: c.rate.basis.basis, confidence: c.rate.basis.confidence }))}
+                  />
+                </div>
               </Reveal>
 
               <Reveal delay={80}>
@@ -499,12 +512,12 @@ export default async function Home({
                     </caption>
                     <thead>
                       <tr>
-                        {["Market", "Low end", "Middle", "High end", "Priciest", "Providers"].map((h, i) => (
+                        {["Market", "Low end", "Middle", "High end", "Priciest", "Providers", "Basis"].map((h, i) => (
                           <th
                             key={h}
                             scope="col"
                             style={{
-                              textAlign: i === 0 ? "left" : "right",
+                              textAlign: i === 0 || h === "Basis" ? "left" : "right",
                               padding: "13px 16px",
                               fontFamily: "var(--font-mono), monospace",
                               fontSize: 10.5,
@@ -540,16 +553,38 @@ export default async function Home({
                             <span style={{ color: "var(--faint)", fontWeight: 400 }}>, {m.state}</span>
                           </th>
                           {rate.found ? (
-                            <>
-                              <Cell v={money(rate.cell.p25)} />
-                              <Cell v={money(rate.cell.p50)} strong />
-                              <Cell v={money(rate.cell.p75)} />
-                              <Cell v={rate.cell.p90 != null ? money(rate.cell.p90) : null} tone="exposure" />
-                              <Cell v={rate.cell.n.toLocaleString("en-US")} tone="faint" />
-                            </>
+                            BASIS_META[rate.basis.basis].showsPercentile ? (
+                              <>
+                                <Cell v={money(rate.cell.p25)} />
+                                <Cell v={money(rate.cell.p50)} strong />
+                                <Cell v={money(rate.cell.p75)} />
+                                <Cell v={rate.cell.p90 != null ? money(rate.cell.p90) : null} tone="exposure" />
+                                <Cell v={rate.cell.n.toLocaleString("en-US")} tone="faint" />
+                                <BasisCell basis={rate.basis} />
+                              </>
+                            ) : (
+                              // Defensive: a national basis cannot claim a local distribution, so suppress the
+                              // percentile columns and say the peers are indexing. The broker's data layer emits
+                              // no national cell today; this keeps the rule true the moment one is added.
+                              <>
+                                <td
+                                  colSpan={5}
+                                  style={{
+                                    padding: "14px 16px",
+                                    textAlign: "right",
+                                    fontSize: "var(--text-sm)",
+                                    color: "var(--muted)",
+                                    borderBottom: "1px solid var(--hair)",
+                                  }}
+                                >
+                                  National schedule only; local peers still indexing
+                                </td>
+                                <BasisCell basis={rate.basis} />
+                              </>
+                            )
                           ) : (
                             <td
-                              colSpan={5}
+                              colSpan={6}
                               style={{
                                 padding: "14px 16px",
                                 textAlign: "right",
@@ -761,6 +796,24 @@ function Cell({
       }}
     >
       {v ?? <span className="gap-dot" aria-label="not published" />}
+    </td>
+  );
+}
+
+// The per-row basis chip cell. n stays in the Providers column beside it, so the count and its basis sit
+// together: a scaled or statewide row shows its STATE peer count under an honest "Localized estimate" /
+// "Statewide" label, never passing as a measured metro count. Driven by the real per-row CellBasis only.
+function BasisCell({ basis }: { basis: CellBasis }) {
+  return (
+    <td
+      style={{
+        padding: "10px 16px",
+        borderBottom: "1px solid var(--hair)",
+        textAlign: "left",
+        whiteSpace: "nowrap",
+      }}
+    >
+      <BasisChip basis={basis.basis} confidence={basis.confidence} scaleFactor={basis.scaleFactor} />
     </td>
   );
 }

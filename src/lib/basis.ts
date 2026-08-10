@@ -1,5 +1,5 @@
 /**
- * src/lib/basis.ts — THE ONE RATE-BASIS STANDARD. @ESTATE-FULL-AUDIT (David ruling 2026-08-10)
+ * src/lib/basis.ts - THE ONE RATE-BASIS STANDARD. @ESTATE-FULL-AUDIT (David ruling 2026-08-10)
  *
  * Every Reddenda tool that shows rate percentiles (P25/P50/P75/P90) or a contracted rate must display,
  * per data line, a plain-language BASIS chip + the sample size (n), computed from the REAL per-row basis
@@ -10,10 +10,11 @@
  * shipped a bug where "local peer median" was a regex over hardcoded prose that read geo_scope zero times
  * and told an Idaho provider "local" when every cell was national. Do not stand a string in for the basis.
  *
- * BROKER NOTE: this file is byte-identical to the app's src/lib/basis.ts on purpose. The broker DOES emit
- * `localized_estimate` (the app has no scaling path and never does). The broker's per-row derivation lives
- * where the geography is actually resolved — src/lib/rates.ts (the three marketRate code paths + the
- * METRO_INDEX key-presence trap) and src/lib/national.ts (_src / geo_grain) — never in a constant here.
+ * BROKER NOTE: the two shared functions here (rungToBasis, summarize) are kept in sync with the app's
+ * src/lib/basis.ts. The broker DOES emit `localized_estimate` (the app has no scaling path and never does).
+ * The broker's per-row derivation lives where the geography is actually resolved: src/lib/rates.ts (the
+ * three marketRate code paths plus the METRO_INDEX key-presence trap) and src/lib/national.ts (_src /
+ * geo_grain). It is never a constant here.
  */
 
 export type Basis = "local_metro" | "localized_estimate" | "statewide" | "national" | "demo";
@@ -55,7 +56,16 @@ export function confidenceFor(n: number | null | undefined, targetBasis?: CellBa
  */
 export function rungToBasis(cohortRung: string | null | undefined, isDemo = false): Basis {
   if (isDemo) return "demo";
-  switch ((cohortRung ?? "").toLowerCase()) {
+  const s = (cohortRung ?? "").toLowerCase();
+  // ANY non-local national scope maps to national and suppresses the local claim. Catching the
+  // substring (not an enum whitelist) covers national, national_reference, commercial_national, and
+  // national_cpt_stats_cache (the whole estate NON_LOCAL_SCOPES family), and any future *national*
+  // variant, so a national number can never leak through the default as "statewide". None of the real
+  // local rungs (cbsa | specialty | state) contains the token, so this is safe. David 2026-08-10: the
+  // real statewide data for these is being ACQUIRED; until it lands they are honestly national, and the
+  // chip upgrades itself to statewide/metro automatically once the resolved scope changes.
+  if (s.includes("national")) return "national";
+  switch (s) {
     case "cbsa":
       return "local_metro";
     case "specialty":
@@ -63,10 +73,8 @@ export function rungToBasis(cohortRung: string | null | undefined, isDemo = fals
     case "state":
     case "state_broad":
       return "statewide";
-    case "national":
-    case "national_reference":
-      return "national";
     default:
+      // Unknown non-national rung: show the number, never claim local. Statewide is the honest floor.
       return "statewide";
   }
 }
@@ -118,7 +126,8 @@ export const BASIS_META: Record<Basis, BasisMeta> = {
   },
 };
 
-/** Pick the dominant basis across mixed rows for a header chip. Worst-basis-wins is the honest summary. */
+// Lower rank = weaker/more-conservative basis. Used only as the tie-break for the dominant summary, so
+// a tie never resolves toward the STRONGER claim (never overstate on a header).
 const BASIS_RANK: Record<Basis, number> = {
   local_metro: 5,
   localized_estimate: 4,
@@ -126,16 +135,24 @@ const BASIS_RANK: Record<Basis, number> = {
   national: 2,
   demo: 1,
 };
+/**
+ * The dominant basis for a header/aggregate chip over mixed rows: the MOST COMMON basis present, NOT the
+ * strongest. A book of 19 national + 1 local must not headline "Local" off the single strongest row (that
+ * was the bug). Ties resolve toward the weaker basis (lower rank) so the header never overstates. Each row
+ * still carries its own chip for the exceptions, and localCells/totalCells gives the header its nuance
+ * (e.g. "3 of 20 local").
+ */
 export function summarize(rows: { basis: Basis }[]): BasisSummary {
   const total = rows.length;
   const local = rows.filter((r) => r.basis === "local_metro").length;
-  // Header reflects the STRONGEST basis present so it never overstates, but a single dominant read.
+  const counts = new Map<Basis, number>();
+  for (const r of rows) counts.set(r.basis, (counts.get(r.basis) ?? 0) + 1);
   let dominant: Basis = "national";
-  let best = -1;
-  for (const r of rows) {
-    if (BASIS_RANK[r.basis] > best) {
-      best = BASIS_RANK[r.basis];
-      dominant = r.basis;
+  let bestCount = -1;
+  for (const [basis, c] of counts) {
+    if (c > bestCount || (c === bestCount && BASIS_RANK[basis] < BASIS_RANK[dominant])) {
+      bestCount = c;
+      dominant = basis;
     }
   }
   return { dominantBasis: dominant, localCells: local, totalCells: total };
