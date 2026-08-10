@@ -1,7 +1,7 @@
 import { Distribution } from "@/components/Distribution";
 import type { MarketRate, NoMarketRate } from "@/lib/rates";
 import { BasisChip } from "@/components/BasisChip";
-import { BASIS_META } from "@/lib/basis";
+import { BASIS_META, type Basis } from "@/lib/basis";
 import { SourceLine } from "./chrome";
 
 /**
@@ -28,6 +28,27 @@ import { SourceLine } from "./chrome";
  */
 
 const money = (v: number) => "$" + Math.round(v).toLocaleString("en-US");
+
+// D8/D9 (David 2026-08-10): the eyebrow and the SourceLine geo copy are driven by the REAL resolved basis
+// (result.basis.basis), never by result.scope. A localized_estimate carries scope:"metro" (rates.ts) yet is
+// state rates adjusted to the metro, so a scope-driven eyebrow wrongly read "Metro market" and the source
+// line wrongly claimed "for your city". Keyed by basis, the same key BASIS_META uses, so the chip and these
+// two labels can never disagree.
+const EYEBROW_BY_BASIS: Record<Basis, string> = {
+  local_metro: "Metro market",
+  localized_estimate: "Localized estimate",
+  statewide: "State market",
+  national: "National",
+  demo: "Demo",
+};
+
+const SOURCE_GEO_BY_BASIS: Record<Basis, string> = {
+  local_metro: "For your city, not a statewide average",
+  localized_estimate: "Adjusted to your metro's price level from statewide filings",
+  statewide: "Statewide peer distribution, not a single-city sample",
+  national: "National schedule only, local peers still indexing",
+  demo: "Modeled demo market, not live filings",
+};
 
 export function RatePanel({
   result,
@@ -77,7 +98,7 @@ export function RatePanel({
       <header style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "baseline", justifyContent: "space-between" }}>
         <div style={{ minWidth: 0 }}>
           <p className="eyebrow" style={{ marginBottom: 6 }}>
-            {result.scope === "metro" ? "Metro market" : "State market"}
+            {EYEBROW_BY_BASIS[result.basis.basis]}
           </p>
           <h2 className="display" style={{ fontSize: "var(--text-xl)", lineHeight: 1.15 }}>
             {plainName ?? result.description}
@@ -167,7 +188,7 @@ export function RatePanel({
 
       <SourceLine
         updatedAt={result.updatedAt}
-        scope={result.scope === "metro" ? "For your city, not a statewide average" : "Statewide, because this city is too small to report on its own"}
+        scope={SOURCE_GEO_BY_BASIS[result.basis.basis]}
       />
     </section>
   );
