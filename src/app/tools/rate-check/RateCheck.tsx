@@ -20,6 +20,8 @@ type LookupResponse = {
     medicare?: { nonFacility: number | null; facility: number | null; year: number | null } | null;
     updatedAt?: string | null;
     message?: string;
+    /** Demo simulation flag (David ruling 2026-08-10): true when this market is modeled, not measured. */
+    synthetic?: boolean;
   };
   plainName?: string | null;
   payers?: {
@@ -129,10 +131,20 @@ export function RateCheck({
                   {res.scope === "state" && " · statewide"}
                 </div>
               </div>
-              <Badge tone={res.confidence === "high" ? "solid" : "soft"}>
-                {res.confidence === "reported" ? "Limited sample" : "Every carrier in this market"}
-              </Badge>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {res.synthetic && <Badge tone="soft">Demo simulation</Badge>}
+                <Badge tone={res.confidence === "high" ? "solid" : "soft"}>
+                  {res.confidence === "reported" ? "Limited sample" : "Every carrier in this market"}
+                </Badge>
+              </div>
             </div>
+
+            {res.synthetic && (
+              <Note>
+                Demo simulation. This market is modeled for demonstration. We show real measured rates
+                where we hold them.
+              </Note>
+            )}
 
             {res.scope === "state" && res.fellBackFrom && (
               <Note>
