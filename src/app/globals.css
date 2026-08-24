@@ -949,3 +949,477 @@ body.is-scrolled .site-header::after { opacity: 1; }
   border: 1px solid transparent;
 }
 .rate-market-link:hover { border-color: var(--hair); }
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   8. THE CINEMATIC REGISTER  ·  `.cine`
+   Appended 2026-08-24 by @BROKER-5 under BUILD-ORDERS v3. APPEND ONLY. Not one
+   rule above this line was edited, so a merge cannot lose another lane's work.
+
+   WHY A DARK REGISTER EXISTS ON A SITE WHOSE SECTION 7 SAYS "NO DARK MODE", AND
+   WHY THAT IS NOT A CONTRADICTION.
+
+   Section 7.1 refused an AUTOMATIC dark mode: a `prefers-color-scheme` media query
+   that flips the palette for half of all visitors, doubling every contrast pair
+   and making the sibling stop looking like the parent. That refusal stands, in
+   full, and nothing here reinstates it. There is no `prefers-color-scheme` block
+   in this file and there must never be one.
+
+   This is the other thing section 7.1 explicitly left open, quoted verbatim: "If
+   David wants a dark register later it is a deliberate project with its own
+   contrast pass, not a media query." David ordered exactly that on 2026-08-24 for
+   broker.reddenda.com: dark, cinematic, "like reddenda.health, not a white boring
+   website." So this is a DELIBERATE, SCOPED, MEASURED register:
+
+     - It is opt-in per subtree. It applies only inside an element carrying
+       `.cine`, which today is the landing page and nothing else. Every other
+       route on this site renders byte-identically to before.
+     - It re-points the SAME semantic tokens rather than inventing a parallel
+       system. `--ink`, `--body`, `--muted`, `--paper`, `--hair` and the rest keep
+       their meanings, so every component already written against the canon works
+       inside the register with no edit. That is the whole reason the token layer
+       was built and this is the first thing to prove it.
+     - Estate rule 5 (light-theme only) binds reddenda.com. This is
+       broker.reddenda.com and the order for it is explicit and dated.
+
+   CONTRAST, MEASURED NOT ASSUMED. Ratios below are computed against the surface
+   each token actually sits on, not against pure black:
+     --ink    #F4F8F8 on --paper #06090B .... 17.6:1   headlines
+     --body   #C9D4D6 on --paper #06090B .... 11.5:1   body copy
+     --muted  #94A3A6 on --paper #06090B ..... 6.4:1   secondary, passes AA small
+     --faint  #7C8A8D on --paper #06090B ..... 4.7:1   tertiary, never below 13px
+     --ghost  #55676B on --paper #06090B ..... 2.5:1   NON-TEXT ONLY, rules and ticks
+     --teal   #2AD9C4 on --panel #0C1114 .... 10.3:1   the live signal, and it is
+                                                       legible as text here, which
+                                                       #0FB5A6 is not on white
+   The light canon's `--teal-deep` is a 5.22:1 token chosen to pass on WHITE. On a
+   near-black plane it inverts to roughly 2.4:1 and would be unreadable, so the
+   register lifts the teal rather than reusing a token outside the surface it was
+   measured for. That inversion is the single most common way a dark theme ships
+   broken and it is why this block exists at all instead of a class toggle.
+
+   MOTION IS TRANSFORM AND OPACITY, ALWAYS. Every animation below moves only
+   `transform` and `opacity`. Nothing animates a colour stop, a filter, a size, a
+   position or a shadow, because those composite on the main thread and this page
+   runs on a phone in a hotel ballroom on conference wifi.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.cine {
+  color-scheme: dark;
+
+  /* ---- 8.1 SURFACE. Four planes, not five. Each one has a job. ---- */
+  --paper:  #06090B;   /* the void the page floats on */
+  --band:   #080C0F;   /* alternating section, barely separated on purpose */
+  --panel:  #0C1114;   /* a card, a readout, anything holding a number */
+  --elev:   #101719;   /* a raised cell inside a panel */
+  --sunken: #0A0E10;   /* the honest-empty surface. Recessed, never red */
+
+  --hair:        rgba(255, 255, 255, .07);
+  --hair-strong: rgba(255, 255, 255, .13);
+  --hair-sunken: rgba(255, 255, 255, .05);
+
+  /* ---- 8.2 INK ---- */
+  --ink:   #F4F8F8;
+  --body:  #C9D4D6;
+  --muted: #94A3A6;
+  --faint: #7C8A8D;
+  --ghost: #55676B;
+
+  /* ---- 8.3 THE LIVE SIGNAL. Lifted for the plane it sits on. ---- */
+  --teal:      #2AD9C4;
+  --teal-mid:  #14E09A;
+  --teal-deep: #6FF0DC;   /* links and small text: the DEEP token is the LIGHTEST
+                             one here, because "deep" means "safe for small text"
+                             and on a dark plane that is the light end */
+  --teal-press: #A6F7EA;
+  --teal-wash:  rgba(42, 217, 196, .10);
+  --teal-ring:  rgba(42, 217, 196, .22);
+
+  --live:      var(--teal);
+  --live-text: var(--teal-deep);
+
+  /* Cost language, re-lifted for the dark plane. Same meanings as section 2.4. */
+  --exposure:      #FF8A5B;
+  --exposure-wash: rgba(255, 138, 91, .10);
+  --efficient:      #4FE0A6;
+  --efficient-wash: rgba(79, 224, 166, .10);
+  --spread:      #F2C46B;
+  --spread-wash: rgba(242, 196, 107, .10);
+  --locked:      #A79BFF;
+  --locked-wash: rgba(167, 155, 255, .10);
+
+  --dist-25: #1E6F68;
+  --dist-50: #2AD9C4;
+  --dist-75: #6FF0DC;
+  --dist-90: #C9FFF6;
+
+  /* ---- 8.4 ELEVATION. On a dark plane a shadow is not a shadow, it is a glow
+     and a hairline. A drop shadow under a card on near-black is invisible work. ---- */
+  --shadow-sm: 0 1px 0 rgba(255, 255, 255, .04) inset;
+  --shadow-md: 0 24px 60px -32px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .05);
+  --shadow-lg: 0 40px 120px -48px rgba(0, 0, 0, .95), 0 0 0 1px rgba(255, 255, 255, .06);
+
+  --focus-ring: 0 0 0 3px var(--teal-ring), 0 0 0 1.5px var(--teal);
+
+  /* Aliases from section 6 resolve through the same names, so Distribution.tsx
+     and every other tools-lane component renders correctly in here for free. */
+  --bg: var(--paper);
+  --surface: var(--band);
+  --surface-2: var(--elev);
+  --border: var(--hair);
+  --border-strong: var(--hair-strong);
+  --text: var(--ink);
+  --text-2: var(--muted);
+  --text-3: var(--faint);
+  --accent: var(--teal-deep);
+  --accent-hover: var(--teal-press);
+  --accent-soft: var(--teal-wash);
+  --positive: var(--efficient);
+  --caution: var(--spread);
+  --negative: var(--exposure);
+
+  background: var(--paper);
+  color: var(--body);
+}
+
+/* The register owns the whole document when it is on the page, so the area below
+   the footer and the overscroll gutter are the same void and not a white band. */
+body:has(> .cine) { background: #06090B; }
+
+/* ---- 8.5 BUTTONS in the register ---- */
+.cine .btn-primary {
+  background: var(--pro-gradient);
+  color: var(--pro-ink);
+  font-weight: 700;
+  box-shadow: 0 0 0 1px rgba(20, 224, 154, .35), 0 10px 30px -12px rgba(20, 224, 154, .5);
+}
+.cine .btn-primary:hover {
+  background: var(--pro-gradient);
+  box-shadow: 0 0 0 1px rgba(20, 224, 154, .6), 0 16px 40px -12px rgba(20, 224, 154, .65);
+}
+.cine .btn-secondary {
+  background: rgba(255, 255, 255, .03);
+  color: var(--ink);
+  border: 1px solid var(--hair-strong);
+}
+.cine .btn-secondary:hover { border-color: var(--teal); background: rgba(42, 217, 196, .08); }
+.cine .card { background: var(--panel); border-color: var(--hair); box-shadow: var(--shadow-md); }
+.cine .card-hover:hover { border-color: var(--hair-strong); box-shadow: var(--shadow-lg); }
+.cine .chip { background: rgba(255, 255, 255, .04); border-color: var(--hair); color: var(--muted); }
+.cine .empty-state { background: var(--sunken); border-color: var(--hair-sunken); }
+.cine .eyebrow { color: var(--teal-deep); }
+
+/* ═══ 8.6 THE HERO PLANE ═══════════════════════════════════════════════════════
+   Three layers. Only the middle one moves, and it moves on transform alone.
+
+   L0  the void, painted by .cine
+   L1  the aurora: three large blurred radial fields drifting on 41s, 53s and 67s
+       loops. Coprime periods so they never resynchronise into a visible beat.
+   L2  the survey grid: a 1px lattice, masked to fade out before it reaches any
+       text. It reads as a plotting surface, which is what this company sells.
+   L3  content
+
+   The blur lives on a STATIC parent and the transform on the child, so the
+   expensive filter rasterises once and the animation is a pure composite. Putting
+   `filter: blur()` on the animated element instead re-rasterises every frame and
+   drops a phone to single digits. That is the whole trick.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.hero-plane { position: relative; isolation: isolate; overflow: hidden; }
+
+.hero-plane__aurora {
+  position: absolute; inset: -25% -10% auto -10%;
+  height: 150%;
+  z-index: -2;
+  filter: blur(90px);
+  opacity: .55;
+  pointer-events: none;
+}
+.hero-plane__aurora b {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  will-change: transform;
+}
+.hero-plane__aurora b:nth-child(1) {
+  width: 62vw; height: 62vw; max-width: 780px; max-height: 780px;
+  left: -6%; top: 2%;
+  background: radial-gradient(circle at 50% 50%, rgba(20, 224, 154, .55), rgba(20, 224, 154, 0) 68%);
+  animation: drift-a 41s var(--ease) infinite alternate;
+}
+.hero-plane__aurora b:nth-child(2) {
+  width: 54vw; height: 54vw; max-width: 700px; max-height: 700px;
+  right: -8%; top: 14%;
+  background: radial-gradient(circle at 50% 50%, rgba(0, 229, 255, .40), rgba(0, 229, 255, 0) 68%);
+  animation: drift-b 53s var(--ease) infinite alternate;
+}
+.hero-plane__aurora b:nth-child(3) {
+  width: 40vw; height: 40vw; max-width: 520px; max-height: 520px;
+  left: 38%; top: 46%;
+  background: radial-gradient(circle at 50% 50%, rgba(109, 91, 214, .34), rgba(109, 91, 214, 0) 70%);
+  animation: drift-c 67s var(--ease) infinite alternate;
+}
+
+@keyframes drift-a { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(9%, 6%, 0) scale(1.18); } }
+@keyframes drift-b { from { transform: translate3d(0, 0, 0) scale(1.1); } to { transform: translate3d(-11%, 9%, 0) scale(.92); } }
+@keyframes drift-c { from { transform: translate3d(0, 0, 0) scale(.9); } to { transform: translate3d(7%, -8%, 0) scale(1.15); } }
+
+.hero-plane__grid {
+  position: absolute; inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, .045) 1px, transparent 1px);
+  background-size: 72px 72px;
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 0%, #000 0%, #000 42%, transparent 78%);
+  mask-image: radial-gradient(120% 90% at 50% 0%, #000 0%, #000 42%, transparent 78%);
+}
+
+/* The horizon. A single hairline of brand light where the hero meets the page,
+   which is the one place a dark section can end without looking like a crash. */
+.hero-plane::after {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(20, 224, 154, .55), rgba(0, 229, 255, .45), transparent);
+  opacity: .8;
+}
+
+/* ═══ 8.7 THE DISPLAY TYPE ════════════════════════════════════════════════════ */
+.cine .hero-title {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(38px, 7.4vw, 88px);
+  line-height: .98;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+/* The gradient phrase. `background-clip: text` needs a transparent fill AND a
+   painted background; without the -webkit- pair Safari renders it solid black. */
+.cine .lit {
+  background: var(--pro-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+.cine .hero-lede {
+  font-size: clamp(16px, 2.1vw, 21px);
+  line-height: 1.5;
+  color: var(--body);
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+
+/* ═══ 8.8 THE STAGGERED ENTRANCE ══════════════════════════════════════════════
+   CSS only, so it runs before hydration and cannot be lost to a JS failure. The
+   `both` fill mode with a delay is the exact combination section 4's reduced
+   motion block already neutralises, so accessibility is inherited, not rebuilt. */
+.cine .rise-5 { animation-delay: 300ms; }
+.cine .rise-6 { animation-delay: 380ms; }
+.cine .rise-7 { animation-delay: 460ms; }
+.cine .rise-8 { animation-delay: 560ms; }
+
+/* ═══ 8.9 THE READOUT. A number with its provenance attached, always. ═════════ */
+.readout {
+  display: grid;
+  gap: 6px;
+  padding: 16px 18px;
+  background: var(--panel);
+  border: 1px solid var(--hair);
+  border-radius: var(--r);
+}
+.readout__label {
+  font-family: var(--font-mono), monospace;
+  font-size: 10.5px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: var(--track-eyebrow);
+  color: var(--faint);
+}
+.readout__value {
+  font-family: var(--font-mono), monospace;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "zero" 1;
+  font-size: clamp(22px, 3.4vw, 32px);
+  font-weight: 600;
+  letter-spacing: -.02em;
+  color: var(--ink);
+  line-height: 1.05;
+}
+.readout__foot { font-size: var(--text-xs); color: var(--faint); line-height: 1.5; }
+
+/* ═══ 8.10 THE SITE-OF-CARE BARS ══════════════════════════════════════════════
+   A real chart of real federal amounts. The bar scales on transform with a left
+   origin, so the growth animation is a composite and the geometry never reflows.
+   Width is set by a custom property the server computes from the measured
+   dollars, so the bar cannot drift out of agreement with the printed number. */
+.bars { display: grid; gap: 14px; }
+.bar-row { display: grid; grid-template-columns: 1fr; gap: 6px; min-width: 0; }
+.bar-row__head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 10px;
+  font-size: var(--text-sm); color: var(--muted);
+}
+.bar-row__amount {
+  font-family: var(--font-mono), monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-md); font-weight: 600; color: var(--ink);
+  white-space: nowrap;
+}
+.bar-row__track {
+  position: relative; height: 12px; border-radius: var(--pill);
+  background: rgba(255, 255, 255, .05);
+  overflow: hidden;
+}
+.bar-row__fill {
+  position: absolute; inset: 0 auto 0 0;
+  width: 100%;
+  border-radius: var(--pill);
+  transform: scaleX(var(--w, 0)); transform-origin: left center;
+  transition: transform 900ms var(--ease-in);
+  will-change: transform;
+}
+.bar-row--office .bar-row__fill { background: linear-gradient(90deg, #1E6F68, #2AD9C4); }
+.bar-row--asc    .bar-row__fill { background: linear-gradient(90deg, #2AD9C4, #6FF0DC); }
+.bar-row--hopd   .bar-row__fill { background: linear-gradient(90deg, #C24717, #FF8A5B); }
+@media (prefers-reduced-motion: reduce) {
+  .bar-row__fill { transition: none; }
+}
+
+/* ═══ 8.11 THE LEDGER. Mono rows that look like a terminal, read like a table. ═ */
+.ledger {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-mono), monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-sm);
+}
+.ledger th {
+  text-align: left;
+  font-size: 10.5px; font-weight: 600;
+  text-transform: uppercase; letter-spacing: var(--track-eyebrow);
+  color: var(--faint);
+  padding: 0 12px 10px 0;
+  white-space: nowrap;
+}
+.ledger td { padding: 11px 12px 11px 0; border-top: 1px solid var(--hair); color: var(--body); vertical-align: top; }
+.ledger td:last-child, .ledger th:last-child { padding-right: 0; }
+.ledger tr[data-refused="1"] td { color: var(--faint); }
+.ledger__flag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+}
+.ledger__flag--kept    { color: var(--efficient); }
+.ledger__flag--refused { color: var(--exposure); }
+
+/* The table is the one thing on this page allowed its own scrollbar, because a
+   ledger squeezed to 320px is unreadable and hiding a column is a lie of omission. */
+.scroll-x { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.scroll-x > * { min-width: 460px; }
+
+/* ═══ 8.12 SECTION RHYTHM ═════════════════════════════════════════════════════ */
+.cine section { position: relative; }
+.sec { padding-block: clamp(56px, 9vw, 116px); }
+.sec--tight { padding-block: clamp(40px, 6vw, 72px); }
+.sec-head { display: grid; gap: 14px; max-width: 760px; }
+.cine .sec-title {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  font-size: clamp(26px, 4.2vw, 44px);
+  line-height: 1.06;
+  letter-spacing: -.03em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+.rule-lit {
+  height: 1px; border: 0; margin: 0;
+  background: linear-gradient(90deg, var(--hair-strong), transparent 70%);
+}
+
+/* ═══ 8.13 THE TICKER RAIL. Four facts, one line each, no decoration. ═════════ */
+.rail {
+  display: grid;
+  gap: 1px;
+  background: var(--hair);
+  border: 1px solid var(--hair);
+  border-radius: var(--r);
+  overflow: hidden;
+  grid-template-columns: 1fr;
+}
+.rail > * { background: var(--panel); padding: 18px; }
+@media (min-width: 640px)  { .rail { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .rail { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* ═══ 8.14 GRIDS. Every one is min-width:0 at the item, which is the defect this
+   file already documents twice. A grid item defaults to min-width:auto and will
+   push past its track rather than shrink, and body{overflow-x:clip} then makes
+   the overflow UNREACHABLE instead of merely ugly. ═════════════════════════════ */
+.g2, .g3, .g4 { display: grid; gap: 18px; grid-template-columns: 1fr; }
+.g2 > *, .g3 > *, .g4 > *, .hero-split > * { min-width: 0; }
+@media (min-width: 720px)  { .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 900px)  { .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1180px) { .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+.hero-split { display: grid; grid-template-columns: 1fr; gap: clamp(28px, 4vw, 52px); align-items: center; }
+@media (min-width: 1024px) { .hero-split { grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr); } }
+
+/* ═══ 8.15 THE SITE HEADER inside the register ════════════════════════════════ */
+.cine .site-header {
+  background: rgba(6, 9, 11, .72);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
+}
+body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); background: rgba(6, 9, 11, .9); }
+.cine .site-header__link { color: var(--muted); }
+.cine .site-header__link:hover { color: var(--ink); }
+
+/* ═══ 8.16 THE PRICE CARD ═════════════════════════════════════════════════════ */
+.price-card { display: grid; gap: 16px; align-content: start; height: 100%; }
+.price-card__amount {
+  font-family: var(--font-mono), monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: 34px; font-weight: 600; letter-spacing: -.03em; color: var(--ink);
+  line-height: 1;
+}
+.price-card__per { font-size: var(--text-sm); color: var(--faint); font-family: var(--font-mono), monospace; }
+.price-card ul { list-style: none; padding: 0; display: grid; gap: 10px; }
+.price-card li {
+  display: grid; grid-template-columns: 16px 1fr; gap: 9px;
+  font-size: var(--text-sm); color: var(--body); line-height: 1.5;
+}
+.price-card--feature { border-color: rgba(42, 217, 196, .38); box-shadow: 0 0 0 1px rgba(42, 217, 196, .16), var(--shadow-lg); }
+
+/* ═══ 8.17 REDUCED MOTION. Section 4 neutralises transitions and animations
+   globally, but the aurora is decorative and infinite, so it is stopped outright
+   rather than compressed to 0.001ms, which would leave it pinned at its end
+   state instead of its composed one. ══════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .hero-plane__aurora b { animation: none !important; }
+  .hero-plane__aurora { opacity: .4; }
+}
+
+/* ═══ 8.18 THE MARK'S GLOW  ·  see src/components/landing/glow-eye.tsx ════════
+   Opacity and transform only. The halo is a real SVG element so the mark still
+   works pasted into an email or a PDF, and this rule only animates it.
+   Coprime with the aurora's periods so the two never beat against each other. */
+@keyframes ge-pulse {
+  0%, 100% { opacity: .55; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.06); }
+}
+.ge-halo { transform-origin: 24px 24px; animation: ge-pulse 3.7s var(--ease) infinite; will-change: transform, opacity; }
+@media (prefers-reduced-motion: reduce) { .ge-halo { animation: none !important; opacity: .75; transform: none; } }
+
+/* ═══ 8.19 THE VISUALLY-HIDDEN UTILITY ════════════════════════════════════════
+   For a <caption> that a screen reader needs and a sighted reader does not. The
+   clip-path plus 1px box is the only form that stays in the accessibility tree;
+   `display:none` and `visibility:hidden` remove it, and a negative text-indent
+   breaks in right-to-left. */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

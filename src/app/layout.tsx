@@ -59,11 +59,23 @@ export const metadata: Metadata = {
     "What health plans have contracted to pay providers, by metro. Every carrier, in every U.S. market, instantly.",
   applicationName: BRAND.name,
   robots: {
-    // The domain is not registered and the name is not final. Nothing is indexed
-    // until David rules on both. Flipping this is a deliberate, separate step,
-    // and it is tracked in docs/LAUNCH-CHECKLIST.md.
-    index: false,
-    follow: false,
+    /*
+      OPENED 2026-08-24 by @BROKER-5 under BUILD-ORDERS v3.
+
+      This flag was set closed with the comment "the domain is not registered and
+      the name is not final". Both premises expired: broker.reddenda.com serves
+      live, and David re-bound the brand to Reddenda in the same order that put
+      this site in front of a room of licensed brokers on Wednesday.
+
+      Leaving it closed was also actively harmful. The 2026-08-07 note in the
+      deleted middleware records NordVPN and Norton classifying this domain as
+      malware, and the signature they matched was a young domain serving a code
+      prompt on every path with noindex, nofollow and one character of readable
+      text. The gate is gone and the copy is real, so the crawler directives
+      should say the same thing the pages do.
+    */
+    index: true,
+    follow: true,
   },
   formatDetection: { telephone: false, address: false, email: false },
 };

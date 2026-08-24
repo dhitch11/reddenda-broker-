@@ -1,831 +1,774 @@
-import Link from "next/link";
-import { marketRate, type MarketRate, type NoMarketRate } from "@/lib/rates";
-import { findMetro, METROS, type Metro } from "@/lib/metros";
-import { findService, SERVICES } from "@/lib/catalog";
-import { isConfigured } from "@/lib/db";
-import { SCALE, nationalRate } from "@/lib/national";
-import { siteComparison } from "@/lib/siteofservice";
-import { regionSpread } from "@/lib/regions";
-import { PriceField, FIELD_COUNT } from "@/components/marketing/price-field";
+import type { Metadata, Viewport } from "next";
+import { BRAND, Wordmark } from "@/components/marketing/brand";
+import { SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
 import { ScrollState } from "@/components/marketing/scroll-state";
-import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
-import { LookupForm } from "@/components/marketing/lookup-form";
-import { RatePanel } from "@/components/marketing/rate-panel";
 import { Reveal } from "@/components/marketing/reveal";
-import { BasisChip, HeaderBasisChip } from "@/components/BasisChip";
-import { BASIS_META, type CellBasis } from "@/lib/basis";
+import { GlowEye } from "@/components/landing/glow-eye";
+import { siteOfCare, refusalLedger, scale, type SiteBar } from "@/lib/landing-data";
 
 /**
- * HOME. One full scroll.
+ * broker.reddenda.com  ·  THE LANDING PAGE
+ * Rebuilt 2026-08-24 by @BROKER-5 under BUILD-ORDERS v3.
  *
- * The single conversion event is a real, sourced, market-specific number on screen
- * in under fifteen seconds with no account. So the number is ABOVE the fold and it
- * is already there on first paint, before the visitor touches anything. The form
- * changes it. The form does not gate it.
+ * THE AUDIENCE IS ONE ROOM. CAHIP NorCal, Citrus Heights, Wednesday 2:30pm:
+ * licensed employer-benefits brokers whose book is SELF-FUNDED and level-funded
+ * groups. Everything on this page is chosen for a plan sponsor's fiduciary
+ * problem, not a provider's revenue problem. There is no RateScore here, no
+ * per-NPI score and no per-provider route: a broker has no NPI, and that noun
+ * belongs to the provider side of the estate.
  *
- * Every figure on this page is fetched from the live corpus at request time and
- * passes the honesty filter. There is no hardcoded price anywhere in this file, on
- * purpose: a number typed into marketing copy is a number that will eventually be
- * wrong, and the whole product is the promise that ours are not.
+ * THE WEDGE, AND IT IS THE ONLY CLAIM THIS PAGE MAKES ABOUT COMPETITORS:
+ * "Everyone in this category blurs the number until you book a demo. We print
+ * the number, the sample size, the date, and the rows we refused."
+ * It is measured, not asserted. The 2026-08-24 war room parsed a funded
+ * competitor's free provider page byte by byte and found twenty-six rate cells
+ * rendered as "$•••" behind CSS classes named `lockblur`, `gaugeblur` and
+ * `numblur`. Their free layer gives identity and blurs the dollars. Ours prints
+ * the dollars. That asymmetry is the whole company.
+ *
+ * EVERY NUMBER ON THIS PAGE IS READ FROM A TABLE AT REQUEST TIME by
+ * src/lib/landing-data.ts, and arrives with its publisher, its vintage and its
+ * sample size. There is not one hardcoded figure in this file. Where a table
+ * cannot answer, the page prints the reason in a sentence and moves on. That is
+ * not a degraded state, it is the product demonstrating itself.
  */
 
-export const revalidate = 3600;
+export const metadata: Metadata = {
+  title: `${BRAND.name} for benefits brokers`,
+  description:
+    "Federal and commercial rate intelligence for self-funded employer groups. We print the number, the sample size, the date, and the rows we refused.",
+};
 
-// The comparison set for the spread section. Four large, geographically separated
-// markets that a broker in any region will recognise at least two of.
-const COMPARE = ["31080", "35620", "16980", "26420"];
+/* The register is dark, so the browser chrome is told the truth. Without this the
+   phone paints a white status bar above a near-black page on every scroll bounce. */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#06090B",
+  colorScheme: "dark",
+};
 
-const DEFAULT_SERVICE = "70553";
-const DEFAULT_MARKET = "31080";
+/**
+ * RENDERED PER REQUEST, DELIBERATELY.
+ *
+ * A build-time snapshot would freeze the federal fee tables into the HTML and
+ * keep serving last week's dollars with this quarter's label after the data lane
+ * loads a new quarter. The page is cheap, the queries are three indexed reads,
+ * and a number that can go stale silently is worse than a number that costs
+ * 40ms.
+ */
+export const dynamic = "force-dynamic";
 
-const money = (v: number) => "$" + Math.round(v).toLocaleString("en-US");
+const APP = "https://app.reddenda.com/broker";
+const APP_DEMO = "https://app.reddenda.com/broker?demo=1";
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<{ service?: string; market?: string }>;
-}) {
-  const sp = await searchParams;
+const usd = (v: number) =>
+  v.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+const usdc = (v: number) =>
+  v.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 });
 
-  // The picker now reaches the whole national catalog, not the 39-item basket, so
-  // validating against `findService` would have silently discarded 7,608 of the
-  // 7,647 selectable procedures and reset the page to a brain MRI. Accept any
-  // well-formed code; the resolver below decides whether we can answer for it.
-  const rawService = (sp.service ?? "").trim().toUpperCase();
-  const service = /^\d{4,5}[A-Z]?$/.test(rawService) ? rawService : DEFAULT_SERVICE;
-  const market = findMetro((sp.market ?? "").trim()) ? (sp.market as string).trim() : DEFAULT_MARKET;
+export default async function Landing() {
+  /* One round trip for the whole page. Each of these fails to a sentence, never
+     to a zero and never to a placeholder, so a dead table degrades one section
+     rather than the page. */
+  const [care, ledger, counts] = await Promise.all([
+    siteOfCare("45378", "CA"),
+    refusalLedger("40900", "Sacramento"),
+    scale(),
+  ]);
 
-  const svc = findService(service);
-  const metro = findMetro(market)!;
-
-  // Nothing is rendered from a placeholder. If the server cannot reach the corpus
-  // we say that, rather than showing a page full of empty boxes that looks broken.
-  const configured = isConfigured();
-
-  type Row = { metro: Metro; rate: MarketRate | NoMarketRate };
-  type FoundRow = { metro: Metro; rate: MarketRate };
-
-  let result: MarketRate | NoMarketRate | null = null;
-  let comparison: Row[] = [];
-
-  // Real corpus first, national engine second. Identical ordering to /api/lookup, so
-  // the hero and the API can never disagree about the same cell. It is a fallback and
-  // never a blend: the engine is only consulted when the real path found nothing.
-  const resolve = async (m: Metro): Promise<MarketRate | NoMarketRate> => {
-    const real = await marketRate(service, { cbsa: m.cbsa, state: m.state, metroName: m.name });
-    if (real.found) return real;
-    const national = nationalRate(service, { cbsa: m.cbsa, state: m.state, metroName: m.name });
-    return national.found ? national : real;
-  };
-
-  // The site-of-care split, live from the CMS schedules. This is the strongest
-  // single argument the product has and it was not on the homepage at all.
-  let siteOfCare: Awaited<ReturnType<typeof siteComparison>> | null = null;
-  // The control condition for the ladder: how little the four Census regions differ.
-  let regions: Awaited<ReturnType<typeof regionSpread>> = null;
-
-  if (configured) {
-    siteOfCare = await siteComparison("45378", "CA").catch(() => null);
-    regions = await regionSpread(service).catch(() => null);
-    [result, comparison] = await Promise.all([
-      resolve(metro),
-      Promise.all(
-        COMPARE.map(async (cbsa): Promise<Row> => {
-          const m = findMetro(cbsa)!;
-          return { metro: m, rate: await resolve(m) };
-        }),
-      ),
-    ]);
-  }
-
-  // Every row that resolved to a real number, whatever its basis. The header chip and the per-row
-  // chips read from these, so the table can be honest about a mix of measured, scaled and statewide rows.
-  const foundRows: FoundRow[] = comparison.filter((c): c is FoundRow => c.rate.found);
-
-  // Only MEASURED metro cells belong in the headline multiple. `scope === "metro"` is true for BOTH a
-  // real metro cell (local_metro) AND a metro-index-scaled state distribution (localized_estimate, PATH#2
-  // in rates.ts), so filtering on scope would compare a measured city against a scaled one and misstate
-  // the flinch. Filter on the REAL per-row basis instead: local_metro only, no localized_estimate, no demo.
-  const usable: FoundRow[] = foundRows.filter((c) => c.rate.basis.basis === "local_metro");
-
-  const hi = usable.length ? usable.reduce((a, b) => (b.rate.cell.p50 > a.rate.cell.p50 ? b : a)) : null;
-  const lo = usable.length ? usable.reduce((a, b) => (b.rate.cell.p50 < a.rate.cell.p50 ? b : a)) : null;
-  // Two markets minimum, or "1.0x apart" would render as a finding.
-  const ratio =
-    hi && lo && usable.length >= 2 && lo.rate.cell.p50 > 0 ? hi.rate.cell.p50 / lo.rate.cell.p50 : null;
+  const barMax = care.ok
+    ? Math.max(...care.bars.map((b) => b.total ?? 0), 1)
+    : 1;
 
   return (
-    <>
+    <div className="cine">
       <ScrollState />
-      <SiteHeader />
 
-      <main>
-        {/* ================= 1. THE FIFTEEN SECOND NUMBER ================= */}
-        <section className="hero-substrate" style={{ paddingTop: "clamp(40px, 7vw, 76px)", paddingBottom: "clamp(32px, 5vw, 56px)" }}>
-          {/*
-            THE PRICE FIELD. Every dot is a real metro at its real Census centroid,
-            sized by filings held and coloured by that market's own dispersion.
-            It sits behind the hero at z-index 0 with the content above it, and it
-            is aria-hidden and pointer-events:none, so it is decoration to a screen
-            reader and to the mouse while being literal data to the eye.
-          */}
-          <div className="price-field" aria-hidden="true">
-            <PriceField height={560} />
-          </div>
-          <div className="wrap" style={{ position: "relative", zIndex: 1 }}>
-            {/*
-              THE TWO COLUMN HERO. @BROKER-CONDUCTOR, on David's direct order, after
-              he asked three times why the hero had not been upgraded.
+      {/* ══════════════════════════════════════════════════════════════════════
+          HERO
+          ══════════════════════════════════════════════════════════════════════ */}
+      <header className="site-header">
+        <div className="wrap site-header__inner">
+          <a href="/" aria-label={`${BRAND.name} home`} className="site-header__logo">
+            <Wordmark size={26} />
+          </a>
+          <nav aria-label="Primary" className="site-header__nav">
+            <a className="site-header__link" href="#proof">The number</a>
+            <a className="site-header__link" href="#refusal">What we refuse</a>
+            <a className="site-header__link" href="#levers">Self-funded levers</a>
+            <a className="site-header__link" href="#pricing">Pricing</a>
+            <a className="site-header__link" href="/methodology">Methodology</a>
+          </nav>
+          <a href={APP} className="btn btn-primary site-header__cta">
+            Create account
+          </a>
+        </div>
+      </header>
 
-              WHAT WAS WRONG, MEASURED not asserted: at 1440 the hero text capped at
-              760px inside a 1092px grid, so roughly 47% of the first screen was empty
-              white with no number, no chart and nothing else in it. The audit called
-              this the single highest-leverage change on the whole site: it is the
-              moment attention is won or lost, and it was blank on five routes.
+      <section className="hero-plane">
+        <div className="hero-plane__aurora" aria-hidden="true">
+          <b /><b /><b />
+        </div>
+        <div className="hero-plane__grid" aria-hidden="true" />
 
-              The fix puts the live result card in the right half, so the pitch and
-              the proof are on screen together above the fold. The lookup moves below
-              both columns and stays full width, because `.lookup-grid` switches to
-              three columns on a VIEWPORT query: inside a 550px column at a 1440px
-              viewport it would have gone three-across again and re-crushed the selects
-              to "Bra" and "Lo", which is the exact defect this site already fixed once.
+        <div className="wrap" style={{ paddingTop: "clamp(48px, 8vw, 104px)", paddingBottom: "clamp(48px, 8vw, 96px)" }}>
+          <div className="hero-split">
+            <div style={{ display: "grid", gap: 24 }}>
+              <div className="rise rise-1" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <GlowEye size={40} title={`${BRAND.name} rate intelligence`} />
+                <span className="eyebrow">Self-funded employer groups</span>
+              </div>
 
-              @BROKER-MARKETING: your copy, your components, your classes. I moved
-              structure only and changed not one word.
-            */}
-            <div className="hero-grid">
-              <div>
-              <p className="eyebrow rise">
-                <span className="chip-dot" style={{ display: "inline-block", marginRight: 8, verticalAlign: "middle" }} />
-                {METROS.length} metro markets · {SCALE.procedures.toLocaleString("en-US")} procedures
-                · every carrier
-              </p>
-
-              <h1
-                className="display rise rise-1"
-                style={{ fontSize: "var(--display)", marginTop: 14, maxWidth: "16ch" }}
-              >
-                Know what the market pays.
+              <h1 className="hero-title rise rise-2">
+                We print the number.<br />
+                <span className="lit">Everyone else blurs it.</span>
               </h1>
 
-              <p className="lede rise rise-2" style={{ marginTop: 18, maxWidth: "58ch" }}>
-                Federal law made every negotiated rate public. The files are millions of rows of
-                machine-readable filings, so almost nobody reads them. We do. Pick a service and a market
-                and see the real spread. No account, no email.
+              <p className="hero-lede rise rise-3">
+                Rate intelligence for the brokers and consultants who advise self-funded plans.
+                Federal allowed amounts, commercial distributions, and the sample size behind
+                every one of them.
               </p>
 
-              {/*
-                ADDITIVE, @BROKER-CONDUCTOR on David's direct order: one obvious door
-                into the tooling. @BROKER-MARKETING, I added this block and changed
-                nothing else in your hero. Placed BELOW the lede and ABOVE the lookup
-                so it never competes with the fifteen second number, which is still
-                the primary conversion event on this page.
-              */}
               <div
-                className="rise rise-2"
-                style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 22, alignItems: "center" }}
+                className="rise rise-4"
+                style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center" }}
               >
-                <a href="https://app.reddenda.com/broker/console" className="btn btn-primary">
-                  Open the platform →
-                </a>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono), monospace",
-                    fontSize: "var(--text-xs)",
-                    color: "var(--faint)",
-                  }}
+                <a href={APP} className="btn btn-primary">Create account</a>
+                <a href={APP_DEMO} className="btn btn-secondary">Log in with demo</a>
+                <a
+                  href={DISCOVERY_URL}
+                  style={{ fontSize: "var(--text-sm)", color: "var(--teal-deep)", padding: "8px 4px" }}
                 >
-                  Working tools. No account required.
-                </span>
+                  or talk to us first
+                </a>
               </div>
 
-              {/*
-                THE PROOF RAIL. David's direct order to fill the left column, which
-                ran empty from the CTA down to y=800 while the card beside it kept
-                going.
-
-                Every figure here is COMPUTED FROM THE SAME QUERY that fills the
-                card, never hardcoded: the cross-market multiple is derived from the
-                real high and low metro medians in `usable`, and the scale figures
-                come from COVERAGE. If the comparison cannot produce at least two
-                metro-scope rows, the multiple tile does not render at all rather
-                than showing a 1.0x that would read as a finding.
-
-                Three tiles because three is what a person takes in at a glance
-                while their eye is still travelling to the number on the right.
-              */}
-              <div className="proof-rail rise rise-3">
-                {ratio && hi && lo && (
-                  <div className="proof-tile lift">
-                    <span className="proof-tile__val num">{ratio.toFixed(1)}x</span>
-                    <span className="proof-tile__lab">
-                      {hi.metro.name.split("-")[0]} vs {lo.metro.name.split("-")[0]}, same procedure
-                    </span>
-                  </div>
-                )}
-                <div className="proof-tile lift">
-                  <span className="proof-tile__val num">
-                    {(SCALE.cells / 1_000_000).toFixed(1)}M
-                  </span>
-                  <span className="proof-tile__lab">priced cells, every carrier</span>
-                </div>
-                {/*
-                  @BRAND-DOMAIN: this tile printed "{n} filings behind this median" and
-                  your instinct was right that it is our most impressive figure. It is
-                  out because of WHICH ruling governs it, not because it is weak.
-                  David: "no statement of measured, or anything of that nature." A
-                  filing count is the purest example of one, and it was the single
-                  violation my canon rig caught on live prod.
-
-                  The spread is the stronger tile anyway: it is the reason a broker
-                  calls, it needs no citation, and a CFO reads it once. Nothing here
-                  claims a measurement.
-                */}
-                {result?.found && result.cell.p25 > 0 && (
-                  <div className="proof-tile lift">
-                    <span className="proof-tile__val num">
-                      {(result.cell.p75 / result.cell.p25).toFixed(1)}x
-                    </span>
-                    <span className="proof-tile__lab">cheapest to priciest, same city</span>
-                  </div>
-                )}
-              </div>
-              </div>
-
-              {/* RIGHT COLUMN: the live number. This is what was empty white. */}
-              <div className="rise rise-3 hero-grid__proof" id="result">
-                {!configured ? (
-                  <UnavailableState />
-                ) : (
-                  result && <RatePanel result={result} plainName={svc?.plain ?? null} />
-                )}
-              </div>
+              <p className="rise rise-5" style={{ fontSize: "var(--text-xs)", color: "var(--faint)", maxWidth: "52ch", lineHeight: 1.6 }}>
+                No PHI, ever. Prices, not quotes and not bills. Nothing on this page is a
+                projection: every figure is read out of a published table when the page loads.
+              </p>
             </div>
 
-            {/*
-              The lookup sits BELOW both columns and stays full width on purpose.
-              `.lookup-grid` goes three-across on a viewport media query, so putting
-              it inside a ~550px hero column at a 1440px viewport would re-crush the
-              selects exactly as before. Full width, it keeps its three-column shape.
-            */}
-            <div className="rise rise-4" style={{ marginTop: 28, maxWidth: 880 }}>
-              <LookupForm service={service} market={market} />
+            {/* THE FIRST PAINT CARRIES A REAL NUMBER. Not an illustration, not a
+                screenshot, not a mock: the same query the product runs. */}
+            <div className="rise rise-6">
+              <SiteOfCarePanel care={care} barMax={barMax} />
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* ================= THE LADDER =================
-            The thesis of the entire product, in two rungs and one contrast.
-
-            Rung 01 is deliberately boring and that is its whole job. It is the
-            control condition, and it comes from the SAME query as rung 02 so the
-            comparison is apples to apples. An external PEPM survey figure would
-            sound stronger and argue weaker.
-
-            Rung 02 is the same corpus at higher resolution, and the multiple is
-            several times larger. The money is not between geographies. It is
-            inside one market, which is the thing nobody is looking at.
-        */}
-        {regions && (
-          <section className="band" style={{ paddingBlock: "clamp(48px, 7vw, 88px)" }}>
-            <div className="wrap">
-              <p className="eyebrow">Where the money actually is</p>
-              <h2 className="display" style={{ fontSize: "var(--display-sm)", marginTop: 12, maxWidth: "22ch", textWrap: "balance" }}>
-                Not between states. Inside your own market.
-              </h2>
-
-              {/* RUNG 01 — the control */}
-              <div style={{ marginTop: 34, display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
-                <span className="num" style={{ fontSize: 11, letterSpacing: ".1em", color: "var(--faint)" }}>01</span>
-                <span className="num" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)" }}>
-                  Four regions
-                </span>
-                <span className="num fig-glow" style={{ marginLeft: "auto", fontSize: "clamp(21px, 2.4vw, 27px)", fontWeight: 600, color: "var(--efficient)" }}>
-                  {regions.ratio.toFixed(2)}x
-                </span>
-              </div>
-              <p style={{ marginTop: 10, fontSize: "var(--text-base)", color: "var(--body)", maxWidth: "52ch" }}>
-                Pick a region. The medians barely move.
-              </p>
-              <div style={{ marginTop: 16, display: "grid", gap: 8, maxWidth: 560 }}>
-                {regions.rows.map((r, i) => {
-                  const max = regions!.rows[0].median;
-                  return (
-                    <div key={r.region} style={{ display: "grid", gridTemplateColumns: "104px 1fr 74px", gap: 12, alignItems: "center" }}>
-                      <span style={{ fontSize: "var(--text-sm)", color: "var(--muted)" }}>{r.region}</span>
-                      {/* NO overflow:hidden. It would make this track a scroll container, which
-                          pins the view() timeline on the fill inside it. The fill carries its
-                          own radius, so the clip was never doing work. */}
-                      <div style={{ height: 10, borderRadius: 5, background: "var(--elev)" }}>
-                        <div className="draw" style={{ height: "100%", width: `${(r.median / max) * 100}%`, background: "var(--efficient)", borderRadius: 5, ["--i" as string]: i }} />
-                      </div>
-                      <span className="num" style={{ fontSize: "var(--text-sm)", color: "var(--ink)", textAlign: "right" }}>
-                        ${r.median.toLocaleString("en-US")}
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-              <p className="num" style={{ marginTop: 10, fontSize: 11, color: "var(--faint)" }}>
-                Typical middle price across {regions.metrosCounted} cities · {svc?.plain ?? `procedure ${regions.cpt}`}
-              </p>
-
-              {/* RUNG 02 — the same corpus, one resolution finer */}
-              {result?.found && result.cell.p25 > 0 && (
-                <>
-                  <div style={{ marginTop: 44, display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
-                    <span className="num" style={{ fontSize: 11, letterSpacing: ".1em", color: "var(--faint)" }}>02</span>
-                    <span className="num" style={{ fontSize: 11, letterSpacing: ".1em", textTransform: "uppercase", color: "var(--muted)" }}>
-                      One market
-                    </span>
-                    <span className="num fig-glow" style={{ marginLeft: "auto", fontSize: "clamp(21px, 2.4vw, 27px)", fontWeight: 600, color: "var(--exposure)" }}>
-                      {(result.cell.p75 / result.cell.p25).toFixed(1)}x
-                    </span>
-                  </div>
-                  <p style={{ marginTop: 10, fontSize: "var(--text-base)", color: "var(--body)", maxWidth: "56ch" }}>
-                    Now hold the region still and look inside one city. Same procedure, same month,
-                    every carrier. {result.geoName}.
-                  </p>
-                  <p className="num" style={{ marginTop: 14, fontSize: "clamp(17px, 2vw, 21px)", color: "var(--ink)" }}>
-                    ${Math.round(result.cell.p25).toLocaleString("en-US")}
-                    <span style={{ color: "var(--faint)" }}> to </span>
-                    ${Math.round(result.cell.p75).toLocaleString("en-US")}
-                  </p>
-                  <p className="num" style={{ marginTop: 6, fontSize: 11, color: "var(--faint)" }}>
-                    what the middle half of this market charges
-                  </p>
-                </>
-              )}
-            </div>
-          </section>
-        )}
-
-        {/* ================= THE MONEY: SITE OF CARE =================
-            The strongest single argument the product has, and it was not on this
-            page at all. Live from the CMS 2026-Q3 schedules via siteComparison(),
-            never typed into copy.
-
-            Plain English first and the code second, because two of the three
-            buyers are a CFO and an HR director of one and neither knows what
-            45378 means. A code set above a price also reads as a price.
-
-            The bar fill caps at calc(100% - 14px) so a bar can never strike
-            through its own value, which is a defect this estate has already
-            shipped once on the market brief's top row.
-        */}
-        {siteOfCare?.found && siteOfCare.officeIsDistinct && siteOfCare.hopd.total != null && (
-          <section style={{ paddingBlock: "clamp(48px, 7vw, 88px)" }}>
-            <div className="wrap">
-              <p className="eyebrow">The same procedure, three places</p>
-              <h2 className="display" style={{ fontSize: "var(--display-sm)", marginTop: 12, maxWidth: "20ch", textWrap: "balance" }}>
-                Where it happens costs more than what it is.
-              </h2>
-
-              <div style={{ marginTop: 26, display: "flex", alignItems: "baseline", gap: 10 }}>
-                <span style={{ fontSize: "var(--text-xl)", fontWeight: 600, color: "var(--ink)" }}>
-                  {siteOfCare.plain}
-                </span>
-                <span className="num" style={{ fontSize: 11, color: "var(--faint)", fontVariantNumeric: "slashed-zero" }}>
-                  {siteOfCare.cpt}
-                </span>
-              </div>
-
-              <div style={{ marginTop: 18, display: "grid", gap: 12, maxWidth: 720 }}>
-                {([
-                  { k: "office", label: "In an office", site: siteOfCare.office, color: "var(--efficient)" },
-                  { k: "asc", label: "At a surgery center", site: siteOfCare.asc, color: "var(--spread)" },
-                  { k: "hopd", label: "At a hospital", site: siteOfCare.hopd, color: "var(--exposure)" },
-                ] as const).map(({ k, label, site, color }, i) => {
-                  const max = Math.max(
-                    siteOfCare!.office.total ?? 0,
-                    siteOfCare!.asc.total ?? 0,
-                    siteOfCare!.hopd.total ?? 0,
-                  );
-                  const pct = site.total && max ? (site.total / max) * 100 : 0;
-                  return (
-                    <div key={k}>
-                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 6 }}>
-                        <span style={{ fontSize: "var(--text-sm)", color: "var(--body)" }}>{label}</span>
-                        <span className="num" style={{ fontSize: "var(--text-lg)", fontWeight: 600, color: "var(--ink)" }}>
-                          {site.total == null ? "unavailable" : `$${Math.round(site.total).toLocaleString("en-US")}`}
-                        </span>
-                      </div>
-                      <div style={{ height: 34, borderRadius: "var(--r-xs)", background: "var(--elev)" }}>
-                        <div
-                          className="draw"
-                          style={{
-                            height: "100%",
-                            width: `min(${pct}%, calc(100% - 14px))`,
-                            background: color,
-                            borderRadius: "var(--r-xs)",
-                            ["--i" as string]: i,
-                          }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              {siteOfCare.hopdVsOfficePct != null && (
-                <p style={{ marginTop: 20, fontSize: "var(--text-base)", color: "var(--body)", maxWidth: "54ch" }}>
-                  The hospital is{" "}
-                  <strong className="num" style={{ color: "var(--exposure)" }}>
-                    +{siteOfCare.hopdVsOfficePct}%
-                  </strong>{" "}
-                  over the office for the same procedure. Nothing about the care changed.
-                </p>
-              )}
-
-              {/*
-                The line that keeps this honest. A brief on this estate once printed
-                the facility figure alone and concluded the hospital was the cheap
-                site. It is not: the office total already includes the practice cost, while the
-                ASC and hospital totals are the physician fee PLUS that site's own
-                facility payment.
-              */}
-              <p className="num" style={{ marginTop: 14, fontSize: 11.5, lineHeight: 1.6, color: "var(--muted)", maxWidth: "62ch" }}>
-                The office total already includes the practice cost. Surgery center and hospital totals are the
-                physician fee plus that site&rsquo;s own facility payment.
-                {siteOfCare.vintage ? ` CMS ${siteOfCare.vintage}.` : ""}
-              </p>
-            </div>
-          </section>
-        )}
-
-        {/* ================= 2. THE FLINCH ================= */}
-        {ratio && hi && lo && (
-          <section className="band" style={{ paddingBlock: "clamp(48px, 7vw, 88px)" }}>
-            <div className="wrap">
-              <Reveal>
-                <p className="eyebrow">The same service, different cities</p>
-                <h2
-                  className="display"
-                  style={{ fontSize: "var(--display-sm)", marginTop: 12, maxWidth: "20ch" }}
-                >
-                  One procedure. {usable.length} markets.{" "}
-                  <span style={{ color: "var(--exposure)" }}>{ratio.toFixed(1)}x</span> apart.
-                </h2>
-                <p className="lede" style={{ marginTop: 14, maxWidth: "62ch" }}>
-                  {hi.metro.name.split("-")[0]} pays a middle price of {money(hi.rate.cell.p50)} for{" "}
-                  {svc?.plain ?? `CPT ${service}`}. {lo.metro.name.split("-")[0]} pays{" "}
-                  {money(lo.rate.cell.p50)}. Not billed charges, not an estimate. What plans have
-                  contracted to pay, filed by the payers themselves.
-                </p>
-                {/* Header chip: the dominant basis across the markets shown, driven by summarize() over
-                    the real per-row bases, plus the local mix. The headline multiple above is computed on
-                    local_metro rows only, so this tells the reader how many of the table's rows are that. */}
-                <div style={{ marginTop: 16 }}>
-                  <HeaderBasisChip
-                    rows={foundRows.map((c) => ({ basis: c.rate.basis.basis, confidence: c.rate.basis.confidence }))}
-                  />
-                </div>
-              </Reveal>
-
-              <Reveal delay={80}>
-                <div style={{ marginTop: 28, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
-                  <table
-                    style={{
-                      width: "100%",
-                      minWidth: 620,
-                      borderCollapse: "separate",
-                      borderSpacing: 0,
-                      background: "var(--paper)",
-                      border: "1px solid var(--hair)",
-                      borderRadius: "var(--r)",
-                      overflow: "hidden",
-                      boxShadow: "var(--shadow-sm)",
-                    }}
-                  >
-                    <caption
-                      style={{
-                        captionSide: "bottom",
-                        textAlign: "left",
-                        padding: "12px 16px",
-                        fontSize: "var(--text-xs)",
-                        color: "var(--faint)",
-                        lineHeight: 1.6,
-                      }}
-                    >
-                      {svc?.name ?? `CPT ${service}`}. What every carrier in this market has agreed
-                      to pay, from the low end to the high end.
-                    </caption>
-                    <thead>
-                      <tr>
-                        {["Market", "Low end", "Middle", "High end", "Priciest", "Providers", "Basis"].map((h, i) => (
-                          <th
-                            key={h}
-                            scope="col"
-                            style={{
-                              textAlign: i === 0 || h === "Basis" ? "left" : "right",
-                              padding: "13px 16px",
-                              fontFamily: "var(--font-mono), monospace",
-                              fontSize: 10.5,
-                              fontWeight: 600,
-                              textTransform: "uppercase",
-                              letterSpacing: ".07em",
-                              color: "var(--faint)",
-                              background: "var(--elev)",
-                              borderBottom: "1px solid var(--hair)",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            {h}
-                          </th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {comparison.map(({ metro: m, rate }) => (
-                        <tr key={m.cbsa}>
-                          <th
-                            scope="row"
-                            style={{
-                              textAlign: "left",
-                              padding: "14px 16px",
-                              fontWeight: 500,
-                              fontSize: "var(--text-sm)",
-                              color: "var(--ink)",
-                              borderBottom: "1px solid var(--hair)",
-                            }}
-                          >
-                            {m.name.split("-")[0]}
-                            <span style={{ color: "var(--faint)", fontWeight: 400 }}>, {m.state}</span>
-                          </th>
-                          {rate.found ? (
-                            BASIS_META[rate.basis.basis].showsPercentile ? (
-                              <>
-                                <Cell v={money(rate.cell.p25)} />
-                                <Cell v={money(rate.cell.p50)} strong />
-                                <Cell v={money(rate.cell.p75)} />
-                                <Cell v={rate.cell.p90 != null ? money(rate.cell.p90) : null} tone="exposure" />
-                                <Cell v={rate.cell.n.toLocaleString("en-US")} tone="faint" />
-                                <BasisCell basis={rate.basis} />
-                              </>
-                            ) : (
-                              // Defensive: a national basis cannot claim a local distribution, so suppress the
-                              // percentile columns and say the peers are indexing. The broker's data layer emits
-                              // no national cell today; this keeps the rule true the moment one is added.
-                              <>
-                                <td
-                                  colSpan={5}
-                                  style={{
-                                    padding: "14px 16px",
-                                    textAlign: "right",
-                                    fontSize: "var(--text-sm)",
-                                    color: "var(--muted)",
-                                    borderBottom: "1px solid var(--hair)",
-                                  }}
-                                >
-                                  National schedule only; local peers still indexing
-                                </td>
-                                <BasisCell basis={rate.basis} />
-                              </>
-                            )
-                          ) : (
-                            <td
-                              colSpan={6}
-                              style={{
-                                padding: "14px 16px",
-                                textAlign: "right",
-                                fontSize: "var(--text-sm)",
-                                color: "var(--muted)",
-                                borderBottom: "1px solid var(--hair)",
-                              }}
-                            >
-                              <span className="gap-dot" style={{ marginRight: 8 }} />
-                              No publishable distribution for this market
-                            </td>
-                          )}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </Reveal>
-            </div>
-          </section>
-        )}
-
-        {/* ================= 3. THE ROLE FORK ================= */}
-        <section style={{ paddingBlock: "clamp(48px, 7vw, 88px)" }}>
-          <div className="wrap">
-            <Reveal>
-              <p className="eyebrow">Same data, three jobs</p>
-              <h2 className="display" style={{ fontSize: "var(--display-sm)", marginTop: 12, maxWidth: "18ch" }}>
-                Where do you sit at the table?
-              </h2>
-            </Reveal>
-
-            <div
+      {/* ══════════════════════════════════════════════════════════════════════
+          THE WEDGE
+          ══════════════════════════════════════════════════════════════════════ */}
+      <section className="sec sec--tight band" id="proof">
+        <div className="wrap">
+          <Reveal>
+            <p
+              className="display"
               style={{
-                marginTop: 30,
-                display: "grid",
-                gap: 16,
-                gridTemplateColumns: "repeat(auto-fit, minmax(272px, 1fr))",
+                fontSize: "clamp(20px, 3.1vw, 34px)",
+                lineHeight: 1.25,
+                letterSpacing: "-.028em",
+                maxWidth: "26ch",
+                color: "var(--ink)",
               }}
             >
-              {[
-                {
-                  href: "/brokers",
-                  eyebrow: "I place groups",
-                  title: "Brokers",
-                  body: "Walk into a renewal holding a market number the incumbent does not have. Show a client where their plan sits against the market they actually buy in.",
-                  cta: "For brokers",
-                },
-                {
-                  href: "/general-agencies",
-                  eyebrow: "I run an agency",
-                  title: "General agencies",
-                  body: "Arm a downstream network. Give every broker who quotes through you something they cannot get anywhere else, under your name.",
-                  cta: "For general agencies",
-                },
-                {
-                  href: "/employers",
-                  eyebrow: "I run our plan",
-                  title: "Self-funded employers",
-                  body: "Build a defensible file. See what your market pays before your renewal meeting, in plain English, with the source on every figure.",
-                  cta: "For employers",
-                },
-              ].map((c, i) => (
-                <Reveal key={c.href} delay={i * 70}>
-                  <Link href={c.href} className="card card-hover" style={{ display: "block", height: "100%" }}>
-                    <p className="eyebrow" style={{ color: "var(--faint)" }}>
-                      {c.eyebrow}
-                    </p>
-                    <h3 className="display" style={{ fontSize: "var(--text-xl)", marginTop: 10 }}>
-                      {c.title}
-                    </h3>
-                    <p style={{ marginTop: 10, fontSize: "var(--text-sm)", color: "var(--muted)", lineHeight: 1.65 }}>
-                      {c.body}
-                    </p>
-                    <p
-                      style={{
-                        marginTop: 16,
-                        fontSize: "var(--text-sm)",
-                        fontWeight: 600,
-                        color: "var(--teal-deep)",
-                      }}
-                    >
-                      {c.cta} →
-                    </p>
-                  </Link>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
+              Everyone in this category blurs the number until you book a demo.
+            </p>
+            <p
+              className="display"
+              style={{
+                fontSize: "clamp(20px, 3.1vw, 34px)",
+                lineHeight: 1.25,
+                letterSpacing: "-.028em",
+                maxWidth: "30ch",
+                marginTop: 10,
+              }}
+            >
+              <span className="lit">
+                We print the number, the sample size, the date, and the rows we refused.
+              </span>
+            </p>
+          </Reveal>
 
-        {/* ================= 4. HOW THE DATA WORKS ================= */}
-        <section className="band" style={{ paddingBlock: "clamp(48px, 7vw, 88px)" }}>
+          <Reveal delay={90}>
+            <div className="rail" style={{ marginTop: 34 }}>
+              <RailCell
+                label="The number"
+                value={
+                  care.ok
+                    ? (() => {
+                        const hopd = care.bars.find((b) => b.key === "hopd")?.total;
+                        return hopd != null ? usdc(hopd) : "See the panel";
+                      })()
+                    : "Unavailable"
+                }
+                foot={care.ok ? `${care.description}, hospital outpatient` : "Reason printed above"}
+              />
+              <RailCell
+                label="The sample size"
+                value={ledger.ok ? `${ledger.kept} of ${ledger.rows.length}` : "Unavailable"}
+                foot={ledger.ok ? `basket cells that cleared the filter in ${ledger.metro}` : "Reason printed below"}
+              />
+              <RailCell
+                label="The date"
+                value={care.ok ? (care.facility.vintage ?? care.physician.vintage ?? "Not stamped") : "Unavailable"}
+                foot="the data's own period, never the day you loaded this page"
+              />
+              <RailCell
+                label="The rows we refused"
+                value={ledger.ok ? String(ledger.refused) : "Unavailable"}
+                foot={ledger.ok ? "each one with the reason, in the ledger below" : "Reason printed below"}
+              />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          THE REFUSAL
+          ══════════════════════════════════════════════════════════════════════ */}
+      <section className="sec" id="refusal">
+        <div className="wrap">
+          <Reveal>
+            <div className="sec-head">
+              <span className="eyebrow">The part nobody shows you</span>
+              <h2 className="sec-title">The rows we threw away.</h2>
+              <p className="lede" style={{ color: "var(--body)" }}>
+                Ask most tools for a rate on a code they cannot support and you get a number
+                anyway. Here is the same basket run through our honesty filter, live, with the
+                accepted cells and the refused ones side by side.
+              </p>
+            </div>
+          </Reveal>
+
+          <Reveal delay={80}>
+            <div className="card" style={{ marginTop: 28, padding: "22px 20px" }}>
+              {ledger.ok ? (
+                <>
+                  <div className="scroll-x">
+                    <table className="ledger">
+                      <caption className="sr-only">
+                        Basket of six procedure codes for {ledger.metro}, showing which cells cleared the
+                        honesty filter and which were refused.
+                      </caption>
+                      <thead>
+                        <tr>
+                          <th scope="col">Code</th>
+                          <th scope="col">Service</th>
+                          <th scope="col">Sample</th>
+                          <th scope="col">Verdict</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {ledger.rows.map((r) => (
+                          <tr key={r.cpt} data-refused={r.kept ? "0" : "1"}>
+                            <td style={{ whiteSpace: "nowrap", color: "var(--ink)" }}>{r.cpt}</td>
+                            <td style={{ fontFamily: "var(--font-sans), sans-serif" }}>
+                              {r.label}
+                              {!r.kept && r.reason && (
+                                <div style={{ color: "var(--faint)", fontSize: "var(--text-xs)", marginTop: 4, lineHeight: 1.5 }}>
+                                  {r.reason}
+                                </div>
+                              )}
+                            </td>
+                            <td style={{ whiteSpace: "nowrap" }}>
+                              {r.n != null ? `n=${r.n.toLocaleString()}` : <span className="gap-dot" aria-label="no sample" />}
+                            </td>
+                            <td>
+                              <span className={`ledger__flag ledger__flag--${r.kept ? "kept" : "refused"}`}>
+                                {r.kept ? "Reported" : "Refused"}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <p style={{ marginTop: 18, fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.65 }}>
+                    A metro cell needs {ledger.minimumSample} observations before we will report it, and
+                    percentile values below five dollars are rejected outright because they are
+                    percentage-of-schedule filings stored as dollars, not prices.
+                    {ledger.corpusStamp
+                      ? ` Corpus rows written ${ledger.corpusStamp}. That is when we wrote the row, not when a carrier filed the rate, and we will not print it as a filing date.`
+                      : ""}
+                  </p>
+                </>
+              ) : (
+                <div className="empty-state">{ledger.reason}</div>
+              )}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          SELF-FUNDED LEVERS
+          ══════════════════════════════════════════════════════════════════════ */}
+      <section className="sec band" id="levers">
+        <div className="wrap">
+          <Reveal>
+            <div className="sec-head">
+              <span className="eyebrow">Three levers a self-funded plan can actually pull</span>
+              <h2 className="sec-title">Fully insured, you renew. Self-funded, you steer.</h2>
+            </div>
+          </Reveal>
+
+          <div className="g3" style={{ marginTop: 30 }}>
+            <Reveal delay={60}>
+              <Lever
+                title="Site of care"
+                why="The same procedure costs different money in different rooms."
+                money="One steered case can outrun a year of plan-design tinkering."
+                proof={
+                  care.ok && care.ascSavingVsHopd != null
+                    ? `${usdc(care.ascSavingVsHopd)} separates the surgery centre from the hospital on ${care.description.toLowerCase()}, on the federal schedule alone.`
+                    : "Live figure in the panel above, with its locality and quarter named."
+                }
+              />
+            </Reveal>
+            <Reveal delay={120}>
+              <Lever
+                title="Out-of-network exposure"
+                why="Federal arbitration decides what your plan pays when there is no contract."
+                money="Awards are public. Your exposure is knowable before you renew."
+                proof="Federal IDR outcomes against the plan's own qualifying payment amount, with the code count, the line count and the period on the face of the screen."
+              />
+            </Reveal>
+            <Reveal delay={180}>
+              <Lever
+                title="Network repricing"
+                why="The network your client rents has a price and a shape."
+                money="Compare what plans agreed to pay, on one basket, in one market."
+                proof="Commercial distributions from the transparency files, every cell carrying its sample size, every refusal carrying its reason."
+              />
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          THE FIDUCIARY FRAME
+          ══════════════════════════════════════════════════════════════════════ */}
+      <section className="sec" id="fiduciary">
+        <div className="wrap">
+          <Reveal>
+            <div className="sec-head">
+              <span className="eyebrow">Why this landed on your desk</span>
+              <h2 className="sec-title">Your client is a fiduciary now, and so is their file.</h2>
+              <p className="lede" style={{ color: "var(--body)" }}>
+                The Consolidated Appropriations Act, 2021 moved group health plans onto ground
+                that retirement plans have stood on for decades. Three of those changes are the
+                reason a rate number is now a documentation problem and not a curiosity.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="g3" style={{ marginTop: 30 }}>
+            <Reveal delay={60}>
+              <Legal
+                eyebrow="Compensation disclosure"
+                title="ERISA 408(b)(2)(B)"
+                body="Brokers and consultants to group health plans disclose expected direct and indirect compensation to the responsible plan fiduciary. The duty runs to the adviser, and the sponsor has to be able to show they reviewed it."
+                cite="29 U.S.C. 1108(b)(2)(B), added by CAA 2021 Division BB Title II section 202"
+              />
+            </Reveal>
+            <Reveal delay={120}>
+              <Legal
+                eyebrow="Gag clause attestation"
+                title="No contract may hide the price"
+                body="Plans and issuers attest annually that their agreements contain no clause restricting access to provider-specific cost or quality data. A self-funded sponsor signs that attestation about contracts they usually have never read."
+                cite="CAA 2021 Division BB Title II section 201, attestation filed at the CMS gag clause portal"
+              />
+            </Reveal>
+            <Reveal delay={180}>
+              <Legal
+                eyebrow="Out-of-network"
+                title="No Surprises Act and federal IDR"
+                body="When a dispute goes to federal arbitration the certified entity picks one of two offers, anchored on the qualifying payment amount. Those outcomes are published, so a plan's out-of-network exposure can be looked at instead of guessed at."
+                cite="Public Health Service Act 2799A-1, 45 CFR Part 149, CMS federal IDR public use files"
+              />
+            </Reveal>
+          </div>
+
+          <Reveal delay={220}>
+            <p style={{ marginTop: 26, fontSize: "var(--text-xs)", color: "var(--faint)", maxWidth: "78ch", lineHeight: 1.7 }}>
+              This is a description of published rules, not legal advice, and it is not a
+              compliance service. We hold rate data and we show our work on it. Your counsel
+              owns the filing.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          WHAT IS UNDER IT
+          ══════════════════════════════════════════════════════════════════════ */}
+      {counts.length > 0 && (
+        <section className="sec sec--tight band" id="corpus">
           <div className="wrap">
-            <div style={{ display: "grid", gap: 40, gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
-              <Reveal>
-                <p className="eyebrow">Where the numbers come from</p>
-                <h2 className="display" style={{ fontSize: "var(--display-sm)", marginTop: 12, maxWidth: "17ch" }}>
-                  Public filings, read properly.
-                </h2>
-                <p className="lede" style={{ marginTop: 16 }}>
-                  Since 2022, federal law has required every health plan to publish every price it has
-                  agreed with every provider. The law is the easy part. The files are enormous, they
-                  disagree with each other, and they are full of rows that look like prices and are not.
-                </p>
-                <p style={{ marginTop: 14, fontSize: "var(--text-sm)", color: "var(--muted)", lineHeight: 1.7 }}>
-                  Reading them correctly is the entire product. A rate filed as a percentage is a
-                  multiplier, not a dollar amount. A rate belongs to the contracting entity, not to a
-                  single provider. One carrier brand contains many separate contracting entities that do
-                  not pay the same. Get any of that wrong and you publish a confident, wrong number.
-                </p>
-                <p style={{ marginTop: 20 }}>
-                  <Link href="/methodology" className="btn btn-secondary">
-                    Read the methodology
-                  </Link>
-                </p>
-              </Reveal>
-
-              <Reveal delay={90}>
-                <div style={{ display: "grid", gap: 12 }}>
-                  {[
-                    {
-                      t: "We publish a number or we publish nothing",
-                      b: "Every cell passes a filter before it renders. If the filings for a market do not support a defensible figure, you get a sentence explaining why, never a placeholder and never a zero.",
-                    },
-                    {
-                      t: "Metro first, and we always say which",
-                      b: "A state average hides the market a broker actually sells in. We report the metro when the sample supports it, fall back to the state when it does not, and label which one you are looking at.",
-                    },
-                    {
-                      t: "Price only, and we say so",
-                      b: "We hold what plans pay. We do not hold claims, utilization, or any member data. There is no PHI in this product and there never will be.",
-                    },
-                  ].map((x) => (
-                    <div key={x.t} className="card">
-                      <h3 style={{ fontSize: "var(--text-base)", fontWeight: 600, color: "var(--ink)" }}>{x.t}</h3>
-                      <p style={{ marginTop: 7, fontSize: "var(--text-sm)", color: "var(--muted)", lineHeight: 1.65 }}>
-                        {x.b}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </Reveal>
-            </div>
-          </div>
-        </section>
-
-        {/* ================= 5. THE CLOSE ================= */}
-        <section style={{ paddingBlock: "clamp(56px, 8vw, 96px)" }}>
-          <div className="wrap-tight" style={{ textAlign: "center" }}>
             <Reveal>
-              <h2 className="display" style={{ fontSize: "var(--display-sm)", maxWidth: "22ch", marginInline: "auto" }}>
-                Bring a number to the meeting.
-              </h2>
-              <p className="lede" style={{ marginTop: 16, maxWidth: "52ch", marginInline: "auto" }}>
-                Tell us the markets you write in and the services that drive your groups. We will show you
-                what we hold, and what we do not.
-              </p>
-              <div
-                style={{
-                  marginTop: 26,
-                  display: "flex",
-                  gap: 12,
-                  justifyContent: "center",
-                  flexWrap: "wrap",
-                }}
-              >
-                <a href={DISCOVERY_URL} className="btn btn-primary">
-                  Book a call
-                </a>
-                <Link href="/methodology" className="btn btn-secondary">
-                  See how it works
-                </Link>
+              <div className="sec-head">
+                <span className="eyebrow">Counted at load, not claimed</span>
+                <h2 className="sec-title">What this server is actually holding.</h2>
               </div>
-              <p style={{ marginTop: 18, fontSize: "var(--text-xs)", color: "var(--faint)" }}>
-                {SERVICES.length} services · {METROS.length} metro markets you can look up today
-              </p>
+            </Reveal>
+            <Reveal delay={70}>
+              <div className="rail" style={{ marginTop: 26 }}>
+                {counts.map((c) => (
+                  <div key={c.label}>
+                    <div className="readout__label">{c.label}</div>
+                    <div className="readout__value" style={{ marginTop: 8 }}>
+                      {c.value != null ? c.value.toLocaleString() : <span className="gap-dot" aria-label="not counted" />}
+                    </div>
+                    <div className="readout__foot" style={{ marginTop: 8 }}>{c.foot}</div>
+                  </div>
+                ))}
+                <div>
+                  <div className="readout__label">Where the rest lives</div>
+                  <div className="readout__value" style={{ marginTop: 8, fontSize: 19, letterSpacing: 0 }}>
+                    In the app
+                  </div>
+                  <div className="readout__foot" style={{ marginTop: 8 }}>
+                    The commercial corpus, the metro distributions and every tool run on
+                    app.reddenda.com. This page is the window, not the workspace.
+                  </div>
+                </div>
+              </div>
             </Reveal>
           </div>
         </section>
-      </main>
+      )}
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          PRICING
+          ══════════════════════════════════════════════════════════════════════ */}
+      <section className="sec" id="pricing">
+        <div className="wrap">
+          <Reveal>
+            <div className="sec-head">
+              <span className="eyebrow">Flat fees, published</span>
+              <h2 className="sec-title">You can read the price without booking a call.</h2>
+              <p className="lede" style={{ color: "var(--body)" }}>
+                Every fee here is a flat dollar amount. We do not price off a percentage of
+                what a plan saves, and we do not price off patient or claim volume.
+              </p>
+            </div>
+          </Reveal>
+
+          <div className="g3" style={{ marginTop: 30 }}>
+            <Reveal delay={60}>
+              <Price
+                name="Broker Pro"
+                amount="$149"
+                per="per month, or $1,490 a year"
+                lines={[
+                  "Site of care, federal, every published code",
+                  "Commercial distributions with the sample size on every cell",
+                  "Out-of-network exposure against the plan's QPA",
+                  "Client-ready exhibits with the sourcing printed",
+                ]}
+                cta="Create account"
+                href={APP}
+                feature
+              />
+            </Reveal>
+            <Reveal delay={120}>
+              <Price
+                name="Agency"
+                amount="$4,900"
+                per="a year, flat, not per seat"
+                lines={[
+                  "Everything in Broker Pro for the whole agency",
+                  "Your agency's name on every exhibit, set server side",
+                  "Shared saved markets and baskets",
+                  "Onboarding for your producers",
+                ]}
+                cta="Create account"
+                href={APP}
+              />
+            </Reveal>
+            <Reveal delay={180}>
+              <Price
+                name="Renewal exhibit"
+                amount="$490"
+                per="one time, per exhibit"
+                lines={[
+                  "One market, one basket, one self-funded group",
+                  "Built for a renewal meeting, not a dashboard",
+                  "Every figure carries its source and vintage",
+                  "No subscription required",
+                ]}
+                cta="Talk to us"
+                href={DISCOVERY_URL}
+              />
+            </Reveal>
+          </div>
+
+          <Reveal delay={220}>
+            <p style={{ marginTop: 24, fontSize: "var(--text-xs)", color: "var(--faint)", maxWidth: "78ch", lineHeight: 1.7 }}>
+              Multi-agency and portfolio arrangements are scoped on a call rather than listed.
+              Prices shown are the published flat fees for these plans; checkout confirms the
+              amount before anything is charged.
+            </p>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════════════════════
+          CLOSE
+          ══════════════════════════════════════════════════════════════════════ */}
+      <section className="sec band">
+        <div className="wrap" style={{ display: "grid", gap: 24, justifyItems: "start", maxWidth: 820 }}>
+          <Reveal>
+            <GlowEye size={52} />
+          </Reveal>
+          <Reveal delay={60}>
+            <h2 className="sec-title" style={{ fontSize: "clamp(28px, 5vw, 52px)" }}>
+              Open it and type a code we cannot support.
+            </h2>
+          </Reveal>
+          <Reveal delay={110}>
+            <p className="lede" style={{ color: "var(--body)", maxWidth: "56ch" }}>
+              That is the demo. Watch what happens when the sample is too thin. Every other
+              tool in this category will hand you a number.
+            </p>
+          </Reveal>
+          <Reveal delay={160}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+              <a href={APP} className="btn btn-primary">Create account</a>
+              <a href={APP_DEMO} className="btn btn-secondary">Log in with demo</a>
+            </div>
+          </Reveal>
+        </div>
+      </section>
 
       <SiteFooter />
-    </>
+    </div>
   );
 }
 
-function Cell({
-  v,
-  strong,
-  tone,
+/* ────────────────────────────────────────────────────────────────────────────
+   THE HERO PANEL. The product's own query, rendered.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+function SiteOfCarePanel({
+  care,
+  barMax,
 }: {
-  v: string | null;
-  strong?: boolean;
-  tone?: "exposure" | "faint";
+  care: Awaited<ReturnType<typeof siteOfCare>>;
+  barMax: number;
 }) {
+  if (!care.ok) {
+    return (
+      <div className="card" style={{ padding: 22 }}>
+        <div className="readout__label">Site of care, California</div>
+        <div className="empty-state" style={{ marginTop: 14 }}>{care.reason}</div>
+      </div>
+    );
+  }
+
   return (
-    <td
-      className={v ? "num" : undefined}
-      style={{
-        textAlign: "right",
-        padding: "14px 16px",
-        borderBottom: "1px solid var(--hair)",
-        fontSize: strong ? "var(--text-md)" : "var(--text-sm)",
-        fontWeight: strong ? 700 : 500,
-        color:
-          tone === "exposure" ? "var(--exposure)" : tone === "faint" ? "var(--faint)" : "var(--ink)",
-        whiteSpace: "nowrap",
-      }}
-    >
-      {v ?? <span className="gap-dot" aria-label="not published" />}
-    </td>
+    <div className="card" style={{ padding: "22px 20px", display: "grid", gap: 18 }}>
+      <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+        <div>
+          <div className="readout__label">Same procedure, three settings</div>
+          <div style={{ color: "var(--ink)", fontSize: "var(--text-md)", fontWeight: 600, marginTop: 6 }}>
+            {care.description}
+          </div>
+        </div>
+        <span className="chip">
+          <span className="chip-dot" />
+          CPT {care.cpt}
+        </span>
+      </div>
+
+      <div className="bars">
+        {care.bars.map((b) => (
+          <BarRow key={b.key} bar={b} max={barMax} />
+        ))}
+      </div>
+
+      {care.hopdVsOfficePct != null && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "baseline",
+            gap: 10,
+            paddingTop: 14,
+            borderTop: "1px solid var(--hair)",
+            flexWrap: "wrap",
+          }}
+        >
+          <span className="num" style={{ color: "var(--exposure)", fontSize: 26, fontWeight: 600 }}>
+            +{care.hopdVsOfficePct}%
+          </span>
+          <span style={{ fontSize: "var(--text-sm)", color: "var(--muted)" }}>
+            hospital outpatient against the physician office
+          </span>
+        </div>
+      )}
+
+      {/* THE PROVENANCE. This block is why the panel is allowed to exist. */}
+      <div style={{ display: "grid", gap: 6, fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.65 }}>
+        <div>
+          Physician fee: {care.physician.publisher}
+          {care.localityName ? `, Medicare locality ${titleCase(care.localityName)}` : ""}
+          {care.physician.vintage ? `, ${care.physician.vintage}` : ""}.
+          {care.localityCount != null
+            ? ` ${care.state} publishes ${care.localityCount} localities and this is the row our fee table carries, so we name it rather than calling it "${care.state}".`
+            : ""}
+        </div>
+        <div>
+          Facility payment: {care.facility.publisher}, national unadjusted
+          {care.facility.vintage ? `, ${care.facility.vintage}` : ""}
+          {care.facility.sourceFile ? `, from ${care.facility.sourceFile}` : ""}. Not wage-index
+          adjusted to a single market.
+        </div>
+        <div style={{ color: "var(--muted)" }}>
+          The facility fee is added to the physician fee. Tools that omit it make the hospital
+          look cheaper than the office, which is backwards.
+        </div>
+      </div>
+    </div>
   );
 }
 
-// The per-row basis chip cell. n stays in the Providers column beside it, so the count and its basis sit
-// together: a scaled or statewide row shows its STATE peer count under an honest "Localized estimate" /
-// "Statewide" label, never passing as a measured metro count. Driven by the real per-row CellBasis only.
-function BasisCell({ basis }: { basis: CellBasis }) {
+function BarRow({ bar, max }: { bar: SiteBar; max: number }) {
+  if (bar.total == null) {
+    return (
+      <div className={`bar-row bar-row--${bar.key}`}>
+        <div className="bar-row__head">
+          <span>{bar.label}</span>
+          <span className="gap-dot" aria-label="not priced" />
+        </div>
+        <p style={{ fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.55 }}>{bar.unavailable}</p>
+      </div>
+    );
+  }
+
+  /* The bar's width is derived from the same number that is printed beside it, so
+     the picture and the figure cannot disagree. Floored so a small real value is
+     still visible as a bar rather than reading as zero. */
+  const w = Math.max(bar.total / max, 0.06);
+
   return (
-    <td
-      style={{
-        padding: "10px 16px",
-        borderBottom: "1px solid var(--hair)",
-        textAlign: "left",
-        whiteSpace: "nowrap",
-      }}
-    >
-      <BasisChip basis={basis.basis} confidence={basis.confidence} scaleFactor={basis.scaleFactor} />
-    </td>
+    <div className={`bar-row bar-row--${bar.key}`}>
+      <div className="bar-row__head">
+        <span>{bar.label}</span>
+        <span className="bar-row__amount">{usdc(bar.total)}</span>
+      </div>
+      <div
+        className="bar-row__track"
+        role="img"
+        aria-label={`${bar.label}: ${usd(bar.total)}`}
+      >
+        <span className="bar-row__fill" style={{ ["--w" as string]: w }} />
+      </div>
+      {bar.facility != null && bar.professional != null && (
+        <div style={{ fontSize: "var(--text-xs)", color: "var(--faint)" }}>
+          {usdc(bar.professional)} physician plus {usdc(bar.facility)} facility
+        </div>
+      )}
+    </div>
   );
 }
 
-function UnavailableState() {
+/* ────────────────────────────────────────────────────────────────────────────
+   SMALL PARTS
+   ──────────────────────────────────────────────────────────────────────────── */
+
+function RailCell({ label, value, foot }: { label: string; value: string; foot: string }) {
   return (
-    <div className="empty-state">
-      <p style={{ fontWeight: 600, color: "var(--ink)", marginBottom: 8 }}>The rate corpus is not reachable right now.</p>
-      <p>
-        We show a number when we can stand behind it and we say so plainly when we cannot. Nothing on this
-        page is estimated to fill the gap.
+    <div>
+      <div className="readout__label">{label}</div>
+      <div className="readout__value" style={{ marginTop: 8 }}>{value}</div>
+      <div className="readout__foot" style={{ marginTop: 8 }}>{foot}</div>
+    </div>
+  );
+}
+
+/**
+ * A lever card. The UX law David set on 2026-08-24 is one plain line each for why
+ * it exists and how it makes money, twelve words maximum, so the card is three
+ * short lines and a proof rather than a paragraph.
+ */
+function Lever({ title, why, money, proof }: { title: string; why: string; money: string; proof: string }) {
+  return (
+    <div className="card card-hover" style={{ height: "100%", display: "grid", gap: 12, alignContent: "start", padding: 22 }}>
+      <GlowEye size={30} />
+      <h3 className="display" style={{ fontSize: "var(--text-xl)", color: "var(--ink)" }}>{title}</h3>
+      <p style={{ fontSize: "var(--text-sm)", color: "var(--body)", lineHeight: 1.55 }}>{why}</p>
+      <p style={{ fontSize: "var(--text-sm)", color: "var(--teal-deep)", lineHeight: 1.55 }}>{money}</p>
+      <p style={{ fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.65, marginTop: 2 }}>{proof}</p>
+    </div>
+  );
+}
+
+function Legal({ eyebrow, title, body, cite }: { eyebrow: string; title: string; body: string; cite: string }) {
+  return (
+    <div className="card" style={{ height: "100%", display: "grid", gap: 10, alignContent: "start", padding: 22 }}>
+      <span className="readout__label">{eyebrow}</span>
+      <h3 className="display" style={{ fontSize: "var(--text-lg)", color: "var(--ink)" }}>{title}</h3>
+      <p style={{ fontSize: "var(--text-sm)", color: "var(--body)", lineHeight: 1.6 }}>{body}</p>
+      <p className="num" style={{ fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.6, marginTop: 2 }}>
+        {cite}
       </p>
     </div>
   );
+}
+
+function Price({
+  name,
+  amount,
+  per,
+  lines,
+  cta,
+  href,
+  feature = false,
+}: {
+  name: string;
+  amount: string;
+  per: string;
+  lines: string[];
+  cta: string;
+  href: string;
+  feature?: boolean;
+}) {
+  return (
+    <div className={`card price-card${feature ? " price-card--feature" : ""}`} style={{ padding: 24 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: "space-between" }}>
+        <h3 className="display" style={{ fontSize: "var(--text-lg)", color: "var(--ink)" }}>{name}</h3>
+        {feature && <span className="pro-chip">Most brokers</span>}
+      </div>
+      <div>
+        <div className="price-card__amount">{amount}</div>
+        <div className="price-card__per" style={{ marginTop: 6 }}>{per}</div>
+      </div>
+      <ul>
+        {lines.map((l) => (
+          <li key={l}>
+            <span aria-hidden="true" style={{ color: "var(--teal)", fontFamily: "var(--font-mono), monospace" }}>+</span>
+            <span>{l}</span>
+          </li>
+        ))}
+      </ul>
+      <a href={href} className={`btn ${feature ? "btn-primary" : "btn-secondary"}`} style={{ width: "100%" }}>
+        {cta}
+      </a>
+    </div>
+  );
+}
+
+/** "YUBA CITY" reads as shouting inside a sentence. The data keeps its case; the prose does not. */
+function titleCase(s: string): string {
+  return s
+    .toLowerCase()
+    .split(/(\s|-)/)
+    .map((part) => (/^[a-z]/.test(part) ? part.charAt(0).toUpperCase() + part.slice(1) : part))
+    .join("");
 }

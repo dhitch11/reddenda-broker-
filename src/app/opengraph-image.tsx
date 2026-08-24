@@ -22,7 +22,7 @@ import { METROS } from "@/lib/metros";
  */
 
 export const runtime = "nodejs";
-export const alt = "Censenda — what health plans have agreed to pay, in every U.S. city";
+export const alt = "Reddenda. What health plans have agreed to pay, in every U.S. city";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -79,7 +79,7 @@ export default async function Image() {
             <rect x="17" y="3" width="2.6" height="14" fill={INK} />
           </svg>
           <div style={{ fontFamily: "Display", fontSize: 30, color: INK, marginLeft: 14 }}>
-            Censenda
+            Reddenda
           </div>
         </div>
 

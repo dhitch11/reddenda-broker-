@@ -39,7 +39,7 @@ import { findMetroBySlug, findServiceBySlug, metroShort } from "@/components/mar
  *  4. THE VISUAL IS THE BRAND'S OWN IDEA, NOT DECORATION. The distribution strip -
  *     hairline range, end caps, a thick bar across the middle half, a median tick sitting
  *     LEFT of centre because real healthcare price distributions are right-skewed - is
- *     the Censenda mark at scale. The same figure the card is about IS the card's image.
+ *     the Reddenda mark at scale. The same figure the card is about IS the card's image.
  *
  * FONT NOTE: ImageResponse cannot use next/font variables, so the real brand faces are
  * committed as TTF under `_og-fonts` and read from disk. Satori does not support woff2,
@@ -95,7 +95,7 @@ export default async function Image({
   // the page it links to would be worse than no card.
   let cell: { p25: number; p50: number; p75: number; p90: number | null } | null = null;
   // THE PER-ROW BASIS ON THE MOST-FORWARDED SURFACE (David ruling 2026-08-10, upgrading the old
-  // synthetic-only tag). The share card is the ONE surface that escapes the /enter gate and gets
+  // synthetic-only tag). The share card is the surface a link preview renders and gets
   // screenshotted, so it must disclose the REAL basis: a scaled, statewide or modeled number can never
   // unfurl as a measured metro cell. Same resolution order as the page it points at.
   let basis: Basis | null = null;
@@ -154,7 +154,7 @@ export default async function Image({
             <rect x="17" y="3" width="2.6" height="14" fill={INK} />
           </svg>
           <div style={{ fontFamily: "Display", fontSize: 30, color: INK, marginLeft: 14 }}>
-            Censenda
+            Reddenda
           </div>
           {tag && (
             <div

@@ -1,16 +1,12 @@
 /**
  * THE MARK AND THE WORDMARK
  *
- * THE NAME IS CENSENDA. David ruled it 2026-08-06, replacing the working mark
- * "Reddenda Broker". Latin `censeo`: to assess, to appraise, to rate, to value —
- * the verb behind `census`, which is the first word in every group quote this
- * audience writes. Verified before adoption: censenda.com free, ZERO trademark
- * registrations worldwide, GitHub/X/LinkedIn handles free.
- *
- * The site is served from broker.reddenda.com for now, which is deliberate and
- * not a contradiction: the URL is the parent estate's, the brand is Censenda.
- * `parent` below carries that relationship so the bridge is stated in the UI
- * rather than left for a visitor to puzzle out.
+ * THE NAME IS REDDENDA. Ruled by David and re-bound by BUILD-ORDERS v3
+ * (2026-08-24): "Brand is Reddenda." This replaces the 2026-08-06 working mark
+ * "Censenda", which was a separate name on a reddenda.com domain and required a
+ * bridge line to explain itself. One estate, one name. The broker product is
+ * Reddenda for benefits professionals, served at broker.reddenda.com and
+ * continuing into the operator console at app.reddenda.com/broker.
  *
  * Every name string on the site resolves through BRAND below, so a rename is one
  * edit in one file and never a search-and-replace across pages.
@@ -35,16 +31,16 @@
  */
 
 export const BRAND = {
-  /** Ruled by David 2026-08-06. */
-  name: "Censenda",
-  /** Used where the parent relationship matters. */
+  /** Ruled by David; re-bound by BUILD-ORDERS v3, 2026-08-24. */
+  name: "Reddenda",
+  /** The product line inside the estate. Used where the surface matters. */
   parent: "Reddenda",
-  /** The bridge line. The URL says reddenda, the brand says Censenda; this states why. */
-  endorsement: "Built on the Reddenda rate platform",
+  /** The line under the wordmark. States what the data actually is. */
+  endorsement: "Healthcare Intelligence Infrastructure",
   /** One line, under 60 characters, for the header and the document footer. */
-  tagline: "Know what the market pays",
+  tagline: "We print the number",
   /** The category we are naming, used in metadata and the methodology page. */
-  category: "Healthcare price intelligence for benefits professionals",
+  category: "Rate intelligence for self-funded employer groups and the brokers who advise them",
 } as const;
 
 export function Mark({ size = 28, className }: { size?: number; className?: string }) {
@@ -74,13 +70,11 @@ export function Mark({ size = 28, className }: { size?: number; className?: stri
 /**
  * The wordmark.
  *
- * One word, so it is set as one word. The earlier lockup split a two-part working
- * mark across two colours; Censenda has no seam to colour and faking one would be
- * decoration rather than structure.
+ * One word, so it is set as one word. A two-part lockup coloured across a seam
+ * would be decoration rather than structure, and Reddenda has no seam.
  *
- * `endorsed` prints the parent-platform line beneath. Use it where a visitor first
- * meets the brand and the reddenda.com URL in the address bar needs explaining,
- * which today is the footer. The header stays clean.
+ * `endorsed` prints the platform line beneath. Use it where a visitor first meets
+ * the brand, which today is the footer. The header stays clean.
  */
 export function Wordmark({
   size = 28,

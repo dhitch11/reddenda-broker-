@@ -1,15 +1,11 @@
 # broker.reddenda.com
-# Censenda is a rate-benchmarking service for benefits brokers, general agents and
-# self-funded employers, operated by TwinFlame Group.
+# Reddenda is rate intelligence for self-funded employer groups and the benefits
+# brokers and consultants who advise them. Operated by TwinFlame Group.
 #
-# This site is in a private preview and most paths ask for an access code. That is a
-# preview gate, not a login, and it collects no credentials. Crawling is welcome.
+# The marketing pages are public and crawling is welcome. The working tools live
+# on app.reddenda.com behind an account. Rate tables are enforced server side.
 
 User-agent: *
 Allow: /
-Allow: /robots.txt
-Allow: /sitemap.xml
-Allow: /privacy
-Allow: /terms
 
 Sitemap: https://broker.reddenda.com/sitemap.xml
