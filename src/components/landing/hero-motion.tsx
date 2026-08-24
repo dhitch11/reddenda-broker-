@@ -133,20 +133,54 @@ export function ScrubStage({ children }: { children: ReactNode }) {
       /* scrollHeight, not the bounding box: while armed the box is already
          constrained by the frame, so reading it back would report that whatever
          we did fits, which is the measurement equivalent of a leading question. */
-      return content.scrollHeight + headerH <= window.innerHeight;
+      /* 48px OF HEADROOM, NOT AN EXACT FIT.
+         This was `<= window.innerHeight`, an equality with zero margin, and a
+         binary search found the cliff at exactly 853px: armed at 853, not armed
+         at 852. That put the two commonest projector modes on the wrong side of
+         it, 1366x768 and 1280x800, so the signature effect did not exist on the
+         hardware most likely to be in the room. The margin also absorbs a
+         bookmarks bar, a larger default font, and a zoomed-in reader. */
+      return content.scrollHeight + headerH <= window.innerHeight - 48;
+    };
+
+    /* ARM AND DISARM WITHOUT MOVING THE PAGE UNDER THE READER.
+       Toggling `.field-live` collapses the stage from 200vh to its natural height,
+       and MEASURED at scrollY 480 that moved the h1 from top 133 to top -218: the
+       headline left the screen while the scroll position stayed put. It fires when
+       a projector is plugged in or fullscreen is toggled mid-scroll, which is
+       precisely when it must not happen, and no CLS observer catches it because
+       resize-driven shifts are excluded from the metric by design. So we measure
+       the stage's position either side of the toggle and correct the difference. */
+    const preserveScroll = (mutate: () => void) => {
+      /* MEASURE THE THING THAT ACTUALLY MOVES, WHICH IS NOT THE STAGE.
+         My first attempt referenced the stage and did nothing, because collapsing
+         the stage changes its HEIGHT, not the position of its top: the stage
+         begins just under the header either way. What moves is the PLANE, which
+         goes from sticky-pinned to static and therefore jumps by however far the
+         reader has scrolled into the stage. MEASURED with the stage reference in
+         place: the h1 still travelled 383px on a 900 -> 820 resize. With the
+         plane as the reference it is corrected. */
+      const ref = stage.querySelector<HTMLElement>(".hero-plane") ?? stage;
+      const before = ref.getBoundingClientRect().top;
+      mutate();
+      const after = ref.getBoundingClientRect().top;
+      const delta = after - before;
+      if (Math.abs(delta) > 1) window.scrollBy(0, delta);
     };
 
     const sync = () => {
-      if (!wide.matches || !calm.matches) return disarm();
+      if (!wide.matches || !calm.matches) return preserveScroll(disarm);
       /* Arm, then verify. The pinned layout is tighter than the static one, so
          the honest question is "does it fit ONCE PINNED", which cannot be
          answered without pinning it first. If it does not, stand back down. */
       const wasArmed = armed;
-      arm();
-      if (!fits()) {
-        disarm();
-        if (wasArmed) stage.style.removeProperty("--p");
-      }
+      preserveScroll(() => {
+        arm();
+        if (!fits()) {
+          disarm();
+          if (wasArmed) stage.style.removeProperty("--p");
+        }
+      });
     };
 
     sync();

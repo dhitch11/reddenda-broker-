@@ -83,7 +83,7 @@ export default async function MarketPage({ params }: { params: Promise<{ market:
             </p>
 
             <div style={{ marginTop: 22, maxWidth: 880 }}>
-              <LookupForm action="/" market={metro.cbsa} />
+              <LookupForm market={metro.cbsa} />
             </div>
           </div>
         </section>

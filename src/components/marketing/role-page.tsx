@@ -182,7 +182,7 @@ export async function RolePage({ config }: { config: RoleConfig }) {
                 lookup does not do anything, because the answer was already on
                 screen before they touched it. */}
             <div style={{ marginTop: 24, maxWidth: 880 }}>
-              <LookupForm action="/" service={config.demo.service} market={config.demo.market} />
+              <LookupForm service={config.demo.service} market={config.demo.market} />
             </div>
           </div>
         </section>
@@ -268,7 +268,10 @@ export async function RolePage({ config }: { config: RoleConfig }) {
                 <a href={DISCOVERY_URL} className="btn btn-primary">
                   Book a call
                 </a>
-                <Link href="/" className="btn btn-secondary">
+                {/* WAS href="/". See the note in methodology/page.tsx: the home
+                    page carries no form, so this promised a lookup and delivered a
+                    page without one. */}
+                <Link href="/rates" className="btn btn-secondary">
                   Run your own lookup
                 </Link>
               </div>

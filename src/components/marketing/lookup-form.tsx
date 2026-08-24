@@ -24,7 +24,20 @@ import { ServicePicker } from "@/components/ServicePicker";
  */
 
 export function LookupForm({
-  action = "/",
+  /*
+    DEFAULT CHANGED FROM "/" TO "/go" 2026-08-25 by @BROKER-5.
+
+    "/" reads neither `service` nor `market`, so every submission from every role
+    page and all 928 market pages returned the same hardcoded Sacramento
+    colonoscopy. MEASURED on live prod: the rendered hero for `/` and for
+    `/?service=73721&market=35620` was byte-identical, and the destination has no
+    form on it, so a visitor could not even retry where they landed.
+
+    `/go` resolves the two ids and redirects to `/rates/<market>/<service>`, which
+    is a page that actually answers. See src/app/go/route.ts for why the hop
+    exists rather than making "/" read the params.
+  */
+  action = "/go",
   service,
   market,
   compact = false,

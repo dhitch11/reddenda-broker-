@@ -279,7 +279,11 @@ export default async function Methodology() {
                 <a href={DISCOVERY_URL} className="btn btn-primary">
                   Book a call
                 </a>
-                <Link href="/" className="btn btn-secondary">
+                {/* WAS href="/". The home page has no form on it, so a button
+                    labelled "Run a lookup" landed a visitor somewhere they could
+                    not run one. /rates is the market index and carries the real
+                    control. Measured on live prod: `grep -c "<form" /` returns 0. */}
+                <Link href="/rates" className="btn btn-secondary">
                   Run a lookup
                 </Link>
               </p>
