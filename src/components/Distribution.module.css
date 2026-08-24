@@ -74,17 +74,20 @@
 }
 
 .label {
+  font-family: var(--font-mono), ui-monospace, monospace;
   position: absolute;
   white-space: nowrap;
 }
 
 .value {
+  font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 14px;
   font-weight: 600;
   color: var(--muted, var(--text-2));
 }
 
 .valuePrimary {
+  font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 20px;
   font-weight: 700;
   color: var(--ink, var(--text));

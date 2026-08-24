@@ -48,7 +48,7 @@ html {
 }
 
 body {
-  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-display), ui-sans-serif, system-ui, sans-serif;
   font-size: var(--text-base);
   line-height: var(--leading-normal);
   color: var(--body);
@@ -155,6 +155,21 @@ a { color: inherit; text-decoration: none; }
      these same three and ships no @font-face on either flagship page, so every
      headline and every dollar figure there renders in system fallback while the
      woff2 files sit unused on disk. We do not repeat that. ---- */
+  /* THE WEIGHT AXIS. Schibsted loads variable (400-900), so weight is continuous.
+     These four stops replace the blunt 500/600/700/800 cliffs; tune one number and
+     every control moves together. A no-family or no-weight fallthrough now lands on
+     a tuned stop instead of a browser default. */
+  --w-med:  520;
+  --w-semi: 640;
+  --w-bold: 730;
+  --w-disp: 800;
+  /* THE DEEPENED LADDER (BP1: 5 delivered rungs vs 16 on reddenda.health). The new
+     rungs are set to the exact px values that were hardcoded around the sheet, so
+     tokenising them changes zero geometry -- it makes the ladder REAL and editable. */
+  --text-3xs:  10px;
+  --text-2xs:  10.5px;
+  --text-xs2:  11px;
+  --text-xsm:  11.5px;
   --text-xs:   12px;
   --text-sm:   13px;
   --text-base: 15px;
@@ -163,7 +178,14 @@ a { color: inherit; text-decoration: none; }
   --text-xl:   24px;
   --text-2xl:  32px;
   --text-3xl:  42px;
+  --text-sm2:  14px;
+  --text-lg2:  21px;
+  --text-xl2:  28px;
+  --text-2xl2: 34px;
+  --text-3xl2: 36px;
   --text-4xl:  52px;
+  --text-5xl:  64px;
+  --text-6xl:  76px;
   --display:    clamp(34px, 5.6vw, 62px);
   --display-sm: clamp(27px, 4.2vw, 42px);
 
@@ -228,8 +250,8 @@ a { color: inherit; text-decoration: none; }
 }
 
 .display {
-  font-family: var(--font-display), var(--font-sans), sans-serif;
-  font-weight: 700;
+  font-family: var(--font-display), sans-serif;
+  font-weight: var(--w-bold);
   letter-spacing: var(--track-tight);
   line-height: var(--leading-tight);
   color: var(--ink);
@@ -237,14 +259,14 @@ a { color: inherit; text-decoration: none; }
 
 .eyebrow {
   font-family: var(--font-mono), monospace;
-  font-size: 10.5px;
-  font-weight: 600;
+  font-size: var(--text-2xs);
+  font-weight: var(--w-semi);
   text-transform: uppercase;
   letter-spacing: var(--track-eyebrow);
   color: var(--live-text);
 }
 
-.lede { font-size: var(--text-md); line-height: var(--leading-normal); color: var(--muted); }
+.lede { font-family: var(--font-fraunces), var(--font-display), serif; font-optical-sizing: auto; font-weight: 440; font-size: var(--text-md); line-height: var(--leading-normal); color: var(--muted); }
 
 /* :is() not :where(). :where() is zero-specificity, so .btn-primary won and the
    PRIMARY CTA had no keyboard focus ring on any page — WCAG 2.4.7 (AA) on the main
@@ -262,7 +284,7 @@ a { color: inherit; text-decoration: none; }
   padding: 13px 24px;
   border-radius: var(--r-sm);
   font-family: var(--font-display), sans-serif;
-  font-weight: 600; font-size: var(--text-base);
+  font-weight: var(--w-semi); font-size: var(--text-base);
   transition: transform var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease),
               border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
   will-change: transform;
@@ -307,7 +329,7 @@ a { color: inherit; text-decoration: none; }
   background: var(--pro-gradient);
   color: var(--pro-ink);
   font-family: var(--font-mono), monospace;
-  font-weight: 800; font-size: 10px;
+  font-weight: var(--w-disp); font-size: var(--text-3xs);
   letter-spacing: .12em; text-transform: uppercase;
   box-shadow: var(--pro-shadow);
 }
@@ -397,7 +419,7 @@ a { color: inherit; text-decoration: none; }
 .site-header__link {
   padding: 8px 11px;
   font-size: var(--text-sm);
-  font-weight: 500;
+  font-weight: var(--w-med);
   color: var(--muted);
   border-radius: var(--r-xs);
   white-space: nowrap;
@@ -526,7 +548,7 @@ a { color: inherit; text-decoration: none; }
   --radius:    var(--r-sm);
   --radius-sm: var(--r-xs);
 
-  --font:     var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font:     var(--font-display), ui-sans-serif, system-ui, sans-serif;
   --font-num: var(--font-mono), ui-monospace, monospace;
 }
 
@@ -703,14 +725,14 @@ a { color: inherit; text-decoration: none; }
 .proof-tile { display: grid; gap: 3px; min-width: 0; }
 .proof-tile__val {
   font-size: clamp(21px, 2.1vw, 25px);
-  font-weight: 600;
+  font-weight: var(--w-semi);
   letter-spacing: -.02em;
   color: var(--ink);
   font-variant-numeric: tabular-nums slashed-zero;
   line-height: 1.1;
 }
 .proof-tile__lab {
-  font-size: 11.5px;
+  font-size: var(--text-xsm);
   line-height: 1.4;
   color: var(--muted);
   text-wrap: pretty;
@@ -1110,7 +1132,7 @@ body.cine { color: var(--body); }
 .cine .btn-primary {
   background: var(--pro-gradient);
   color: var(--pro-ink);
-  font-weight: 700;
+  font-weight: var(--w-bold);
   box-shadow: 0 0 0 1px rgba(20, 224, 154, .35), 0 10px 30px -12px rgba(20, 224, 154, .5);
 }
 .cine .btn-primary:hover {
@@ -1207,11 +1229,16 @@ body.cine { color: var(--body); }
 
 /* ═══ 8.7 THE DISPLAY TYPE ════════════════════════════════════════════════════ */
 .cine .hero-title {
-  font-family: var(--font-display), sans-serif;
-  font-weight: 800;
+  /* FRAUNCES, THE DISPLAY SERIF -- on the h1 and the leads ONLY (BP1 order). The
+     optical-size axis serves the high-contrast display cut at this scale. Weight 620,
+     not 800: a display serif at 800 shouts, at 620 it states. Tracking relaxed from
+     -0.035em because Fraunces is natively tighter than a grotesk. */
+  font-family: var(--font-fraunces), var(--font-display), serif;
+  font-optical-sizing: auto;
+  font-weight: 620;
   font-size: clamp(38px, 7.4vw, 88px);
-  line-height: .98;
-  letter-spacing: -0.035em;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
   color: var(--ink);
   text-wrap: balance;
 }
@@ -1225,6 +1252,9 @@ body.cine { color: var(--body); }
   -webkit-text-fill-color: transparent;
 }
 .cine .hero-lede {
+  font-family: var(--font-fraunces), var(--font-display), serif;
+  font-optical-sizing: auto;
+  font-weight: 440;
   font-size: clamp(16px, 2.1vw, 21px);
   line-height: 1.5;
   color: var(--body);
@@ -1252,7 +1282,7 @@ body.cine { color: var(--body); }
 }
 .readout__label {
   font-family: var(--font-mono), monospace;
-  font-size: 10.5px; font-weight: 600;
+  font-size: var(--text-2xs); font-weight: var(--w-semi);
   text-transform: uppercase; letter-spacing: var(--track-eyebrow);
   color: var(--faint);
 }
@@ -1261,7 +1291,7 @@ body.cine { color: var(--body); }
   font-variant-numeric: tabular-nums;
   font-feature-settings: "tnum" 1, "zero" 1;
   font-size: clamp(22px, 3.4vw, 32px);
-  font-weight: 600;
+  font-weight: var(--w-semi);
   letter-spacing: -.02em;
   color: var(--ink);
   line-height: 1.05;
@@ -1282,7 +1312,7 @@ body.cine { color: var(--body); }
 .bar-row__amount {
   font-family: var(--font-mono), monospace;
   font-variant-numeric: tabular-nums;
-  font-size: var(--text-md); font-weight: 600; color: var(--ink);
+  font-size: var(--text-md); font-weight: var(--w-semi); color: var(--ink);
   white-space: nowrap;
 }
 .bar-row__track {
@@ -1337,7 +1367,7 @@ body.cine { color: var(--body); }
 .ledger th:nth-child(4), .ledger td:nth-child(4) { text-align: right; }
 .ledger th {
   text-align: left;
-  font-size: 10.5px; font-weight: 600;
+  font-size: var(--text-2xs); font-weight: var(--w-semi);
   text-transform: uppercase; letter-spacing: var(--track-eyebrow);
   color: var(--faint);
   padding: 0 12px 10px 0;
@@ -1348,7 +1378,7 @@ body.cine { color: var(--body); }
 .ledger tr[data-refused="1"] td { color: var(--faint); }
 .ledger__flag {
   display: inline-flex; align-items: center; gap: 6px;
-  font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  font-size: var(--text-2xs); font-weight: var(--w-semi); letter-spacing: .08em; text-transform: uppercase;
 }
 .ledger__flag--kept    { color: var(--efficient); }
 .ledger__flag--refused { color: var(--exposure); }
@@ -1365,7 +1395,7 @@ body.cine { color: var(--body); }
 .sec-head { display: grid; gap: 14px; max-width: 760px; }
 .cine .sec-title {
   font-family: var(--font-display), sans-serif;
-  font-weight: 700;
+  font-weight: var(--w-bold);
   font-size: clamp(26px, 4.2vw, 44px);
   line-height: 1.06;
   letter-spacing: -.03em;
@@ -1441,7 +1471,7 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
 .price-card__amount {
   font-family: var(--font-mono), monospace;
   font-variant-numeric: tabular-nums;
-  font-size: 34px; font-weight: 600; letter-spacing: -.03em; color: var(--ink);
+  font-size: var(--text-2xl2); font-weight: var(--w-semi); letter-spacing: -.03em; color: var(--ink);
   line-height: 1;
 }
 .price-card__per { font-size: var(--text-sm); color: var(--faint); font-family: var(--font-mono), monospace; }
@@ -1556,7 +1586,7 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
 .cta-col > .btn { width: 100%; justify-content: center; }
 .cta-micro {
   font-family: var(--font-mono), monospace;
-  font-size: 10.5px;
+  font-size: var(--text-2xs);
   letter-spacing: .04em;
   color: var(--faint);
   line-height: 1.4;
@@ -1680,7 +1710,7 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
     align-items: center;
     gap: 10px;
     font-family: var(--font-mono), monospace;
-    font-size: 10.5px;
+    font-size: var(--text-2xs);
     letter-spacing: .12em;
     text-transform: uppercase;
     color: var(--faint);
@@ -1787,7 +1817,7 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
   color: var(--muted);
   border-right: 1px solid var(--hair);
 }
-.tape-cell b { color: var(--ink); font-weight: 600; }
+.tape-cell b { color: var(--ink); font-weight: var(--w-semi); }
 .tape-cell s { color: var(--faint); text-decoration: none; }
 @keyframes tape-roll { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
 @media (prefers-reduced-motion: reduce) {
@@ -1889,7 +1919,7 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
 .leo__title {
   flex: 0 0 auto;
   font-size: var(--text-sm);
-  font-weight: 600;
+  font-weight: var(--w-semi);
   color: var(--ink);
   letter-spacing: -.01em;
 }
@@ -2082,7 +2112,7 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
      the digits change width. */
   font-variant-numeric: tabular-nums;
 }
-.leo__time b { color: var(--ink); font-weight: 600; }
+.leo__time b { color: var(--ink); font-weight: var(--w-semi); }
 .leo__time i { font-style: normal; opacity: .45; }
 
 .leo__skips { display: inline-flex; gap: 4px; margin-inline-start: auto; }
@@ -2097,7 +2127,7 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
   background: rgba(255, 255, 255, .03);
   color: var(--muted);
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11px;
+  font-size: var(--text-xs2);
   font-variant-numeric: tabular-nums;
   cursor: pointer;
   transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
@@ -2191,7 +2221,7 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
     content: "Meet Leo";
     color: var(--ink);
     font-size: var(--text-xs);
-    font-weight: 600;
+    font-weight: var(--w-semi);
     letter-spacing: -.01em;
   }
   .leo[data-variant="hero"] .leo__transcript {

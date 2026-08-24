@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Schibsted_Grotesk, IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Schibsted_Grotesk, Fraunces, IBM_Plex_Mono } from "next/font/google";
 import { BRAND } from "@/components/marketing/brand";
 import "./globals.css";
 
@@ -18,17 +18,30 @@ import "./globals.css";
  * that matters: every number, every CPT, every percentile renders in IBM Plex Mono.
  */
 
+/*
+ * TWO SANS FACES WAS THE DEFECT (BP1 typography order, 2026-08-24). Schibsted Grotesk
+ * and IBM Plex Sans shipped together and competed on every screen; a visitor cannot
+ * name the difference but reads it as cheapness. IBM Plex Sans is KILLED. Schibsted
+ * is the one UI voice, loaded on its VARIABLE wght axis (400-900, no `weight` list)
+ * so weight moves continuously instead of jumping 400/500/600/700/800 in cliffs --
+ * the CSS tokens --w-med/--w-semi/--w-bold/--w-disp sit at 520/640/730/800.
+ */
 const display = Schibsted_Grotesk({
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
   variable: "--font-display",
   display: "swap",
 });
 
-const sans = IBM_Plex_Sans({
+/*
+ * FRAUNCES IS THE DISPLAY SERIF, ON THE H1 AND THE SECTION LEADS ONLY. Everything
+ * else stays Schibsted; a serif that spreads past the leads becomes a theme instead
+ * of a voice. Variable wght + the optical-size axis, so at 88px it renders the
+ * high-contrast display cut and at 17px lede size the sturdier text cut, from one file.
+ */
+const fraunces = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-sans",
+  variable: "--font-fraunces",
+  axes: ["opsz"],
   display: "swap",
 });
 
@@ -105,7 +118,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`}>
+    <html lang="en" className={`${display.variable} ${fraunces.variable} ${mono.variable}`}>
       {/*
         THE REGISTER IS THE SITE, NOT ONE PAGE. Applied 2026-08-25 by @BROKER-5 on
         David's standard: "dark ultra-premium Linear on EVERY surface including the
