@@ -1,4 +1,5 @@
 import { serviceClient, isConfigured } from "./db";
+import { findService } from "./catalog";
 
 /**
  * THE LANDING PAGE'S DATA LAYER.
@@ -22,14 +23,41 @@ import { serviceClient, isConfigured } from "./db";
  *    and a rejected cell are three different sentences and the page prints the
  *    true one. There is no fallback constant anywhere in this file.
  *
- * 3. THE LOCALITY IS NAMED.
- *    `medicare_locality_cpt_rate` holds ONE row per state per code, and that row
- *    is a SPECIFIC Medicare locality, not a state average. Measured 2026-08-24:
- *    California resolves to `locality_name = "YUBA CITY"` with `n_localities =
- *    29`. Code elsewhere in this repo selects it with `.limit(1)` and labels the
- *    result "California", which silently presents one locality's fee as a state
- *    figure. This module reads `locality_name` and prints it. If a page cannot
- *    say WHICH locality a fee came from, it may not call the fee local.
+ * 3. THE LOCALITY IS NAMED, AND IT IS A REAL LOCALITY.
+ *    This module reads `medicare_locality_cpt_rate_fixed` and filters to an
+ *    explicit locality code. It does NOT read `medicare_locality_cpt_rate`, and
+ *    the difference is not cosmetic.
+ *
+ *    MEASURED 2026-08-24, to the digit. The unfixed table holds ONE row per
+ *    (state, cpt) whose values are the UNWEIGHTED MEAN across that state's
+ *    localities, while carrying a single stale `locality_name`. For CA/45378 the
+ *    mean of the 29 locality values is 422.9583 and the stored row is 422.96
+ *    labelled "YUBA CITY". Yuba City's ACTUAL rate is 398.34. So the row is a
+ *    state average wearing one city's name, and any page printing that number
+ *    beside that label is wrong twice: the figure is not Yuba City's, and the
+ *    figure is not any real locality's.
+ *
+ *    `_fixed` is the real grain: 1,047,200 rows, 110 locality names, 29 for CA.
+ *    Sacramento-Roseville-Folsom is locality 63 at 417.65 / 169.43.
+ *
+ *    If a page cannot say WHICH locality a fee came from, it may not call the fee
+ *    local.
+ *
+ * 4. THE DUPLICATE ROW IS DISCLOSED, NOT SILENTLY RESOLVED.
+ *    `_fixed` returns TWO rows for (CA, locality 63, 45378) that are identical on
+ *    every key it exposes (state, locality, mac, mac_locality, cpt, year,
+ *    status_code, conversion factor, all three GPCIs) and differ only in the
+ *    RVUs, where the second is EXACTLY half the first on work, pe and mp. Every
+ *    one of the 29 CA localities is doubled the same way. The table carries no
+ *    modifier column, so nothing in it says what the half row is.
+ *
+ *    A `.limit(1)` here is a coin flip between $417.65 and $209.11 on the free
+ *    surface of a product sold on accuracy, because Postgres does not guarantee
+ *    row order without an ORDER BY. So this module orders by `work_rvu`
+ *    descending, takes the full line, and RENDERS a sentence saying the other row
+ *    exists and that we cannot tell you what it is. Guessing that it is a
+ *    reduced-services modifier would be an inference printed as a fact, which is
+ *    the one thing this file exists to prevent.
  *
  * WHY THE FACILITY SIDE IS LABELLED SEPARATELY. `opps_hcpcs_apc_crosswalk` and
  * `asc_payment_rates` carry the CMS NATIONAL UNADJUSTED payment, before the wage
@@ -38,6 +66,18 @@ import { serviceClient, isConfigured } from "./db";
  * not a Sacramento total. Both halves are labelled on the face of the page so a
  * broker knows exactly what they are holding.
  */
+
+/**
+ * Medicare locality codes, from `src/demo/seed/ca-locality.json`, whose own
+ * `__PROVENANCE` field reads "REAL public CMS Physician Fee Schedule at California
+ * LOCALITY grain. Not fabricated." CBSA 40900 is Sacramento-Roseville-Folsom and
+ * maps to locality 63.
+ *
+ * Named as a constant rather than passed in, because a locality code is not a
+ * user input on this page: the landing has exactly one market on it and it is the
+ * market David is presenting to.
+ */
+export const SACRAMENTO = { state: "CA", locality: "63", cbsa: "40900" } as const;
 
 /** The tables this module reads, with who publishes them. Rendered as provenance. */
 export const PUBLISHER = {
@@ -97,8 +137,10 @@ export type SiteOfCare =
       state: string;
       /** The Medicare locality this physician fee actually belongs to. */
       localityName: string | null;
-      /** How many localities the state publishes. Context for the line above. */
-      localityCount: number | null;
+      /** The locality code, printed so the row is findable in the CMS file. */
+      localityCode: string | null;
+      /** Set when the fee table returned more than one row we cannot tell apart. */
+      duplicateRowNote: string | null;
       bars: SiteBar[];
       /** Hospital outpatient against office, as a whole percent. */
       hopdVsOfficePct: number | null;
@@ -117,6 +159,10 @@ const num = (v: unknown): number | null => {
 
 const round2 = (v: number) => Math.round(v * 100) / 100;
 
+/** Formatting lives here only because a disclosure sentence is built server side. */
+const usdIn = (v: number) =>
+  v.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 });
+
 /**
  * `quarter` on these tables is already a full label ("2026-Q3"), not an integer.
  * Composing `${year} Q${quarter}` produced the string "2026 Q2026-Q3" on the live
@@ -131,7 +177,11 @@ function vintage(row: { year?: unknown; quarter?: unknown } | null | undefined):
   return q == null ? String(y) : `${y} Q${q}`;
 }
 
-export async function siteOfCare(cpt: string, state: string): Promise<SiteOfCare> {
+export async function siteOfCare(
+  cpt: string,
+  state: string = SACRAMENTO.state,
+  locality: string = SACRAMENTO.locality,
+): Promise<SiteOfCare> {
   if (!isConfigured()) {
     return {
       ok: false,
@@ -144,13 +194,18 @@ export async function siteOfCare(cpt: string, state: string): Promise<SiteOfCare
     const sb = serviceClient();
 
     const [pfs, opps, asc] = await Promise.all([
+      /* ORDER BY is load-bearing, not tidiness. See rule 4 in the header: this
+         table returns two undifferentiated rows per locality and the second
+         carries half the RVUs, so an unordered `.limit(1)` is a coin flip
+         between the correct allowed amount and half of it. */
       sb
-        .from("medicare_locality_cpt_rate")
-        .select("nonfac_rate, fac_rate, description, year, locality_name, n_localities")
+        .from("medicare_locality_cpt_rate_fixed")
+        .select("nonfac_rate, fac_rate, year, locality, locality_name, work_rvu, status_code")
         .eq("cpt", cpt)
         .eq("state", state)
-        .limit(1)
-        .maybeSingle(),
+        .eq("locality", locality)
+        .order("work_rvu", { ascending: false })
+        .limit(4),
       sb
         .from("opps_hcpcs_apc_crosswalk")
         .select("payment_rate, status_indicator, year, quarter, source_file")
@@ -165,16 +220,24 @@ export async function siteOfCare(cpt: string, state: string): Promise<SiteOfCare
         .maybeSingle(),
     ]);
 
-    const m = pfs.data;
+    const rows = (pfs.data ?? []) as Record<string, unknown>[];
+    const m = rows[0];
     const office = num(m?.nonfac_rate);
     const professional = num(m?.fac_rate);
 
     if (office == null && professional == null) {
       return {
         ok: false,
-        reason: `The federal physician fee schedule does not carry ${cpt} in ${state} in our copy of the table, so there is no federal basis to compare settings against.`,
+        reason: `The federal physician fee schedule does not carry ${cpt} at Medicare locality ${locality} in ${state} in our copy of the table, so there is no federal basis to compare settings against.`,
       };
     }
+
+    /* The disclosure, built from what is actually in the result set rather than
+       from an assumption about what the extra row means. */
+    const others = rows.slice(1).map((r) => num(r.nonfac_rate)).filter((v): v is number => v != null && v !== office);
+    const duplicateRowNote = others.length
+      ? `This locality returns ${rows.length} rows for ${cpt} that are identical on every field the fee table exposes, differing only in their RVUs. We take the full-RVU line, printed above. The other resolves to ${others.map((v) => usdIn(v)).join(", ")}. The table carries no modifier column, so we will not tell you what that row is.`
+      : null;
 
     const oppsRate = num(opps.data?.payment_rate);
     const ascRate = num(asc.data?.payment_rate);
@@ -231,10 +294,15 @@ export async function siteOfCare(cpt: string, state: string): Promise<SiteOfCare
     return {
       ok: true,
       cpt,
-      description: (m?.description as string | null) ?? `CPT ${cpt}`,
+      /* `_fixed` carries no description column, so the name comes from our own
+         catalog rather than from an upstream field that does not exist. The
+         catalog is also the safer source: the unfixed table's description is null
+         for at least one code in the basket. */
+      description: findService(cpt)?.name ?? `CPT ${cpt}`,
       state,
       localityName: (m?.locality_name as string | null) ?? null,
-      localityCount: num(m?.n_localities),
+      localityCode: (m?.locality as string | null) ?? null,
+      duplicateRowNote,
       bars,
       hopdVsOfficePct,
       ascSavingVsHopd,

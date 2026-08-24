@@ -632,11 +632,11 @@ function SiteOfCarePanel({
       <div style={{ display: "grid", gap: 6, fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.65 }}>
         <div>
           Physician fee: {care.physician.publisher}
-          {care.localityName ? `, Medicare locality ${titleCase(care.localityName)}` : ""}
-          {care.physician.vintage ? `, ${care.physician.vintage}` : ""}.
-          {care.localityCount != null
-            ? ` ${care.state} publishes ${care.localityCount} localities and this is the row our fee table carries, so we name it rather than calling it "${care.state}".`
+          {care.localityName
+            ? `, Medicare locality ${care.localityCode ?? ""} ${titleCase(care.localityName)}`.replace("  ", " ")
             : ""}
+          {care.physician.vintage ? `, ${care.physician.vintage}` : ""}. We name the locality
+          because a state average carrying one city&rsquo;s label is not a local rate.
         </div>
         <div>
           Facility payment: {care.facility.publisher}, national unadjusted
@@ -648,6 +648,14 @@ function SiteOfCarePanel({
           The facility fee is added to the physician fee. Tools that omit it make the hospital
           look cheaper than the office, which is backwards.
         </div>
+        {care.duplicateRowNote && (
+          /* THE ROW WE DID NOT USE, ON THE FACE OF THE PANEL.
+             This is the page's whole thesis applied to itself. The fee table hands
+             back two rows we cannot tell apart; we take one, we say which, and we
+             say that we do not know what the other is. Resolving it silently would
+             be the more polished choice and it would make this a worse product. */
+          <div style={{ color: "var(--spread)" }}>{care.duplicateRowNote}</div>
+        )}
       </div>
     </div>
   );
