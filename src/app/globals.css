@@ -1433,3 +1433,80 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
   white-space: nowrap;
   border: 0;
 }
+
+/* ═══ 8.20 GLASS DEPTH  ·  adopted from reddenda.health ═══════════════════════
+   Read out of /home/ubuntu/estate/reddenda-main-build/site/assets/css/main.css,
+   which is the estate's visual bar and the reference David named. This is the
+   single technique that separates its cards from a default bordered box, and it
+   is worth carrying byte-for-byte in spirit so the two properties read as one
+   company.
+
+   A card on a near-black plane has no edge unless you give it one, and a flat 1px
+   border gives it a CHEAP one. What reads as glass is a ring that is BRIGHT along
+   the top edge and gone by the time it reaches the bottom, exactly as a real bevel
+   catches a light source above it, plus a faint wash down the top of the surface.
+
+   The ring is a masked pseudo-element rather than a border, because a border
+   cannot carry a gradient that fades along its own length.
+   `mask-composite: exclude` punches the interior out of a filled rounded rect and
+   leaves only the 1px frame, which the gradient then fades. Both the standard and
+   the -webkit- forms are present: Safari still needs the prefixed pair, and the
+   unprefixed keyword is `exclude` while the -webkit- one is `xor`. Get that pair
+   wrong and the whole card fills with a solid teal block instead of a hairline.
+
+   THE RING IS PURELY DECORATIVE AND MUST NEVER SWALLOW A CLICK, hence
+   pointer-events: none. It sits above the surface and below the content.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.cine .card,
+.cine .rail > *,
+.cine .readout {
+  position: relative;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, .022), rgba(255, 255, 255, 0) 42%);
+}
+
+.cine .card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, .22), rgba(255, 255, 255, .02) 42%, rgba(255, 255, 255, 0) 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+/* The feature card catches the brand light instead of white light. */
+.cine .price-card--feature::before {
+  background: linear-gradient(180deg, rgba(42, 217, 196, .55), rgba(42, 217, 196, .06) 46%, transparent 72%);
+}
+
+/* ═══ 8.21 THE HOVER LADDER ═══════════════════════════════════════════════════
+   Also from reddenda.health: the lift is proportional to the size of the thing
+   lifted, and it is the SAME ladder everywhere rather than a value picked per
+   component. A small control rises 1px, a card rises 2px. Nothing else changes,
+   so nothing reflows. The estate's own file sets -1px for a button and -2px for a
+   card; this register was lifting buttons 2px, which made a 40px control move as
+   far as a 400px panel and read as bouncy rather than tactile. ═════════════════ */
+.cine .btn:hover { transform: translateY(-1px); }
+.cine .btn:active { transform: translateY(0); }
+
+/* ═══ 8.22 THE CTA MICRO LINE ═════════════════════════════════════════════════
+   A CTA that answers "and then what happens" converts better than one that does
+   not, and this audience will not click a button that might start a trial they
+   have to cancel. One short line, under the control, in mono so it reads as a
+   fact rather than as marketing. Every claim in one has to be literally true. */
+.cta-col { display: grid; gap: 7px; justify-items: start; }
+.cta-col > .btn { width: 100%; justify-content: center; }
+.cta-micro {
+  font-family: var(--font-mono), monospace;
+  font-size: 10.5px;
+  letter-spacing: .04em;
+  color: var(--faint);
+  line-height: 1.4;
+}
+.cta-row { display: grid; grid-template-columns: 1fr; gap: 14px; align-items: start; }
+@media (min-width: 520px) { .cta-row { grid-template-columns: auto auto; justify-content: start; } }

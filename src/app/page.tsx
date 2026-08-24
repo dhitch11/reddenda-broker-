@@ -135,21 +135,31 @@ export default async function Landing() {
                 every one of them.
               </p>
 
-              <div
-                className="rise rise-4"
-                style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center" }}
-              >
-                <a href={APP} className="btn btn-primary">Create account</a>
-                <a href={APP_DEMO} className="btn btn-secondary">Log in with demo</a>
-                <a
-                  href={DISCOVERY_URL}
-                  style={{ fontSize: "var(--text-sm)", color: "var(--teal-deep)", padding: "8px 4px" }}
-                >
-                  or talk to us first
-                </a>
+              {/* Each CTA answers "and then what". A benefits broker will not press a
+                  button that might start something they have to cancel, and the
+                  micro line is the cheapest way to say what the click does. Every
+                  word in one has to be literally true, so the demo line describes
+                  the demo door and claims nothing about billing. */}
+              <div className="rise rise-4 cta-row">
+                <div className="cta-col">
+                  <a href={APP} className="btn btn-primary">Create account</a>
+                  <span className="cta-micro">opens the operator console</span>
+                </div>
+                <div className="cta-col">
+                  <a href={APP_DEMO} className="btn btn-secondary">Log in with demo</a>
+                  <span className="cta-micro">no account, nothing to cancel</span>
+                </div>
               </div>
 
-              <p className="rise rise-5" style={{ fontSize: "var(--text-xs)", color: "var(--faint)", maxWidth: "52ch", lineHeight: 1.6 }}>
+              <a
+                href={DISCOVERY_URL}
+                className="rise rise-5"
+                style={{ fontSize: "var(--text-sm)", color: "var(--teal-deep)", justifySelf: "start" }}
+              >
+                or talk to us first
+              </a>
+
+              <p className="rise rise-6" style={{ fontSize: "var(--text-xs)", color: "var(--faint)", maxWidth: "52ch", lineHeight: 1.6 }}>
                 No PHI, ever. Prices, not quotes and not bills. Nothing on this page is a
                 projection: every figure is read out of a published table when the page loads.
               </p>
@@ -157,7 +167,7 @@ export default async function Landing() {
 
             {/* THE FIRST PAINT CARRIES A REAL NUMBER. Not an illustration, not a
                 screenshot, not a mock: the same query the product runs. */}
-            <div className="rise rise-6">
+            <div className="rise rise-7">
               <SiteOfCarePanel care={care} barMax={barMax} />
             </div>
           </div>
