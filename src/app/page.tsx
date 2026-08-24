@@ -120,9 +120,13 @@ export default async function Landing() {
                 <span className="eyebrow">Self-funded employer groups</span>
               </div>
 
+              {/* Two blocks, not one line with a <br>. `text-wrap: balance` cannot
+                  balance across a forced break, so at 390px the second sentence
+                  wrapped to "Everyone else blurs / it." and left an orphan. As
+                  separate blocks each sentence balances on its own. */}
               <h1 className="hero-title rise rise-2">
-                We print the number.<br />
-                <span className="lit">Everyone else blurs it.</span>
+                <span style={{ display: "block" }}>We print the number.</span>
+                <span className="lit" style={{ display: "block" }}>Everyone else blurs it.</span>
               </h1>
 
               <p className="hero-lede rise rise-3">
@@ -326,7 +330,7 @@ export default async function Landing() {
                 money="One steered case can outrun a year of plan-design tinkering."
                 proof={
                   care.ok && care.ascSavingVsHopd != null
-                    ? `${usdc(care.ascSavingVsHopd)} separates the surgery centre from the hospital on ${care.description.toLowerCase()}, on the federal schedule alone.`
+                    ? `${usdc(care.ascSavingVsHopd)} separates the surgery center from the hospital on ${care.description.toLowerCase()}, on the federal schedule alone.`
                     : "Live figure in the panel above, with its locality and quarter named."
                 }
               />

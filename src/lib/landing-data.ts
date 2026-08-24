@@ -199,13 +199,13 @@ export async function siteOfCare(cpt: string, state: string): Promise<SiteOfCare
       },
       {
         key: "asc",
-        label: "Ambulatory surgery centre",
+        label: "Ambulatory surgery center",
         total: ascTotal,
         professional,
         facility: ascFee,
         unavailable:
           ascTotal == null
-            ? "Medicare does not publish a separate surgery centre payment for this code, so there is no total to add the physician fee to."
+            ? "Medicare does not publish a separate surgery center payment for this code, so there is no total to add the physician fee to."
             : null,
       },
       {
@@ -448,6 +448,6 @@ export async function scale(): Promise<ScaleFact[]> {
   return [
     { label: "Physician fee rows", value: pfs, foot: PUBLISHER.pfs },
     { label: "Hospital outpatient codes", value: opps, foot: PUBLISHER.opps },
-    { label: "Surgery centre codes", value: asc, foot: PUBLISHER.asc },
+    { label: "Surgery center codes", value: asc, foot: PUBLISHER.asc },
   ];
 }
