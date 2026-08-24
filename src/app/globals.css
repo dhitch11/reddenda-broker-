@@ -1591,7 +1591,7 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
      that can be cut off. This alone is not enough, so hero-motion.tsx ALSO
      measures the content against the frame and refuses to pin when it does not
      fit. Belt and braces, because the failure mode is invisible content. */
-  .hero-stage.field-live > .hero-plane > .wrap {
+  .hero-stage.field-live .hero-wrap {
     padding-top: 20px;
     padding-bottom: 20px;
   }
@@ -1599,7 +1599,11 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
   .hero-stage.field-live .hero-copy { gap: 18px; }
   /* The copy column recedes. Small numbers: this is a shot, not a slide. */
   .hero-stage.field-live .hero-copy {
-    transform: translate3d(0, calc(var(--p) * -34px), 0);
+    /* -22px, not -34px. At -34 the eyebrow finished the scrub tucked under the
+       translucent sticky header, which reads as a clipping bug rather than as
+       recession. The frame is only 900px tall on the commonest laptop, so the
+       travel has to respect the header it is sliding beneath. */
+    transform: translate3d(0, calc(var(--p) * -22px), 0);
     opacity: calc(1 - var(--p) * 0.42);
     will-change: transform, opacity;
   }
@@ -1772,4 +1776,350 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
   .bar-row--office .fig { animation-delay: 300ms; }
   .bar-row--asc    .fig { animation-delay: 400ms; }
   .bar-row--hopd   .fig { animation-delay: 520ms; }
+}
+
+/* The hero's own vertical rhythm, as a class so the pinned layout can override it.
+   See page.tsx: this was an inline style and inline styles cannot be overridden by
+   a selector, which is why the pinned padding rule was inert. */
+.hero-wrap {
+  width: 100%;
+  padding-top: clamp(48px, 8vw, 104px);
+  padding-bottom: clamp(48px, 8vw, 96px);
+}
+
+/* ═══ 9.5 THE TRUST BAND ══════════════════════════════════════════════════════
+   The "no PHI, prices not bills, nothing is a projection" line, lifted out of the
+   pinned hero column purely for height (see page.tsx) and given its own slim band
+   directly beneath it. It is the first thing under the fold either way, so it is
+   read before any claim is made, and it costs the shot nothing. */
+.trust-band { border-bottom: 1px solid var(--hair); }
+/* Leo and the trust line share the band. Stacked on a phone, side by side once
+   there is room, with the player holding its own column so a long trust sentence
+   cannot squeeze the transport controls. */
+.trust-band__inner { display: grid; gap: 18px; align-items: center; padding-block: 18px; }
+@media (min-width: 900px) {
+  .trust-band__inner { grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: 28px; }
+}
+.trust-band__inner > * { min-width: 0; }
+.trust-band__inner p { padding-block: 0; }
+.trust-band p {
+  padding-block: 14px;
+  font-size: var(--text-xs);
+  color: var(--faint);
+  line-height: 1.6;
+  max-width: 88ch;
+}
+/* The tertiary link sits on the CTA row's baseline, not on the button's top edge. */
+.cta-col--tertiary { align-self: center; }
+
+/* ╔══════════════════════════════════════════════════════════════════════════╗
+   ║ 10.  LEO — THE PLAYER IN THE HERO                        @BROKER-12       ║
+   ║ Appended 2026-08-24. Nothing above this line is edited by this section.   ║
+   ╚══════════════════════════════════════════════════════════════════════════╝
+
+   A three minute pitch on a play button, sitting in a hero that already carries a
+   headline, two CTAs and a live number. So the brief for this surface is restraint:
+   it has to read as premium and pressable at a glance without competing with the
+   primary CTA one row above it. It is a recessed slab rather than a raised card,
+   which is why it uses an inset highlight and a dark wash instead of a shadow.
+
+   Every dimension here is clamped, because at 320px this sits under a headline that
+   has already used the width, and at 1440px it sits beside a live proof panel. It
+   has to be correct at both without a breakpoint that guesses at the middle. */
+
+.leo {
+  --leo-h: 6px;                       /* track height, thumb and marks derive from it */
+  display: grid;
+  gap: 11px;
+  width: 100%;
+  max-width: 520px;
+  padding: clamp(12px, 3vw, 14px) clamp(13px, 3.2vw, 16px);
+  border: 1px solid var(--hair);
+  border-radius: 16px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, .045), rgba(255, 255, 255, .012)),
+    rgba(6, 9, 11, .58);
+  /* The hairline of light along the top edge is what separates a recessed slab
+     from a flat rectangle on a dark ground. It does the work a shadow would do
+     on a light page, and costs no blur. */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .07),
+    0 1px 2px rgba(0, 0, 0, .3);
+}
+
+/* ── the head line ────────────────────────────────────────────────────────── */
+.leo__head {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  min-width: 0;
+}
+.leo__title {
+  flex: 0 0 auto;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -.01em;
+}
+.leo__sub {
+  font-size: var(--text-xs);
+  color: var(--faint);
+  /* One line or nothing. A wrapped subtitle costs the pinned column 17px it does
+     not have, and this sentence is repeated in full on the play button's
+     accessible name, so truncating it loses a reader nothing. */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+/* The equalizer is the only ornament, and it is four bars, not a waveform: a fake
+   waveform would be a picture of audio this file has not analysed, and drawing a
+   shape that does not describe the actual signal is the same class of lie as a
+   placeholder number. Four bars say "audio" and claim nothing. */
+.leo__eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 13px;
+  flex: 0 0 auto;
+  align-self: center;
+}
+.leo__eq i {
+  width: 2.5px;
+  border-radius: 2px;
+  background: var(--teal);
+  opacity: .55;
+  height: 40%;
+}
+.leo__eq i:nth-child(2) { height: 85%; }
+.leo__eq i:nth-child(3) { height: 60%; }
+.leo__eq i:nth-child(4) { height: 100%; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Animated only while it is actually playing. A player that dances at rest is
+     telling the reader something is happening when nothing is. */
+  .leo[data-ready="1"]:has(.leo__play[aria-label^="Pause"]) .leo__eq i {
+    animation: leo-eq 900ms var(--ease-in, ease-in-out) infinite alternate;
+  }
+  .leo__eq i:nth-child(2) { animation-delay: 120ms; }
+  .leo__eq i:nth-child(3) { animation-delay: 240ms; }
+  .leo__eq i:nth-child(4) { animation-delay: 60ms; }
+}
+@keyframes leo-eq { from { height: 30%; opacity: .4; } to { height: 100%; opacity: .9; } }
+
+/* ── loading: a status line, never a control ──────────────────────────────── */
+.leo__loading {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--faint);
+  /* Reserves the height the transport will take, so arming the player does not
+     shove the CTA row below it. A hero that reflows after hydration is a layout
+     shift on the most-measured element on the site. */
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+}
+
+/* ── the transport row ────────────────────────────────────────────────────── */
+.leo__row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: clamp(12px, 3vw, 16px);
+}
+
+.leo__play {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  color: #04110F;
+  background: linear-gradient(180deg, var(--teal), var(--teal-mid));
+  box-shadow: 0 0 0 1px rgba(42, 217, 196, .35), 0 6px 20px rgba(42, 217, 196, .18);
+  transition: transform 140ms ease, box-shadow 200ms ease, filter 200ms ease;
+}
+.leo__play:hover { filter: brightness(1.07); box-shadow: 0 0 0 1px rgba(42, 217, 196, .5), 0 8px 26px rgba(42, 217, 196, .26); }
+.leo__play:active { transform: scale(.96); }
+.leo__play svg { transform: translateX(1px); }   /* optical centre of a triangle */
+.leo__play[aria-label^="Pause"] svg { transform: none; }
+
+/* The buffering ring is a ring around the button, not a spinner replacing the
+   icon: the transport must never lose its play/pause state to a loading state. */
+.leo__buffering {
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  border: 2px solid transparent;
+  border-top-color: rgba(42, 217, 196, .9);
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .leo__buffering { animation: leo-spin 700ms linear infinite; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* Not spinning, a partial ring reads as a broken border. A full dim ring reads
+     as "working". */
+  .leo__buffering { border-color: rgba(42, 217, 196, .45); }
+}
+@keyframes leo-spin { to { transform: rotate(360deg); } }
+
+.leo__transport { display: grid; gap: 9px; min-width: 0; }
+
+/* ── the scrubber ─────────────────────────────────────────────────────────── */
+.leo__track {
+  position: relative;
+  height: var(--leo-h);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .09);
+  cursor: pointer;
+  touch-action: none;                 /* required, or a drag scrolls the page */
+  /* The hit area is 22px tall while the bar is 6px. Without this the scrubber is
+     a 6px target on a phone, which fails every touch guideline and is the single
+     most common reason a good-looking player feels broken in the hand. */
+  padding-block: 8px;
+  background-clip: content-box;
+  margin-block: -8px;
+}
+.leo__track:focus-visible {
+  outline: 2px solid var(--teal-deep);
+  outline-offset: 6px;
+  border-radius: 4px;
+}
+.leo__buf, .leo__fill {
+  position: absolute;
+  left: 0;
+  top: 8px;
+  height: var(--leo-h);
+  border-radius: 999px;
+  pointer-events: none;
+}
+.leo__buf  { background: rgba(255, 255, 255, .10); }
+.leo__fill { background: linear-gradient(90deg, var(--teal-mid), var(--teal)); }
+
+.leo__mark {
+  position: absolute;
+  top: 8px;
+  width: 1px;
+  height: var(--leo-h);
+  background: rgba(6, 9, 11, .55);
+  pointer-events: none;
+}
+
+.leo__thumb {
+  position: absolute;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  margin-left: -6.5px;
+  border-radius: 999px;
+  background: #EAFFFB;
+  box-shadow: 0 0 0 1px rgba(42, 217, 196, .55), 0 2px 8px rgba(0, 0, 0, .45);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.leo__track[data-scrubbing="1"] .leo__thumb { width: 15px; height: 15px; margin-left: -7.5px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Transitioned on hover/scrub only. The fill is NOT transitioned: it is driven
+     by timeupdate at ~4Hz, and a transition on it turns steady playback into a
+     visible lurch every 250ms. */
+  .leo__thumb { transition: width 120ms ease, height 120ms ease, margin-left 120ms ease; }
+}
+
+/* ── time, skips, transcript toggle ───────────────────────────────────────── */
+.leo__meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.leo__time {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--text-xs);
+  color: var(--faint);
+  /* Tabular figures, or the elapsed time reflows the whole row once a second as
+     the digits change width. */
+  font-variant-numeric: tabular-nums;
+}
+.leo__time b { color: var(--ink); font-weight: 600; }
+.leo__time i { font-style: normal; opacity: .45; }
+
+.leo__skips { display: inline-flex; gap: 4px; margin-inline-start: auto; }
+.leo__skip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  min-height: 32px;
+  padding: 4px 9px;
+  border: 1px solid var(--hair);
+  border-radius: 9px;
+  background: rgba(255, 255, 255, .03);
+  color: var(--muted);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+.leo__skip:hover { color: var(--ink); border-color: rgba(42, 217, 196, .45); background: rgba(42, 217, 196, .07); }
+.leo__skip:active { transform: translateY(.5px); }
+
+.leo__reader {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--teal-deep);
+  font-size: var(--text-xs);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  text-decoration-color: rgba(111, 240, 220, .4);
+}
+.leo__reader:hover { text-decoration-color: currentColor; }
+
+/* Every control in here gets the same visible focus ring as the rest of the site.
+   A player is one of the few components a keyboard user must traverse in full. */
+.leo__play:focus-visible,
+.leo__skip:focus-visible,
+.leo__reader:focus-visible {
+  outline: 2px solid var(--teal-deep);
+  outline-offset: 3px;
+}
+
+/* ── the transcript ───────────────────────────────────────────────────────── */
+.leo__transcript {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 14px 2px 4px;
+  border-top: 1px solid var(--hair);
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  color: var(--muted);
+  overscroll-behavior: contain;       /* stops the page scrolling past its end */
+}
+.leo__transcript p { margin: 0 0 .85em; }
+.leo__transcript p:last-child { margin-bottom: 0; }
+
+/* ── 320px ───────────────────────────────────────────────────────────────────
+   At the narrow end the skip pair and the transcript toggle cannot share a line
+   with the timecode without one of them wrapping to a lonely second row. So the
+   timecode and the skips hold the first line and the toggle takes the second,
+   deliberately, rather than by whatever the flex algorithm happens to choose. */
+@media (max-width: 400px) {
+  .leo { --leo-h: 7px; }
+  /* Below 400px the head genuinely has no room for both, and an ellipsis after
+     two words is worse than no subtitle. The play button still carries it. */
+  .leo__sub { display: none; }
+  .leo__play { width: 48px; height: 48px; }
+  .leo__reader { flex-basis: 100%; text-align: left; }
 }

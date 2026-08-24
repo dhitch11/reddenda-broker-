@@ -165,7 +165,7 @@ export function RateCheck({
                     scaleFactor={res.basis.scaleFactor}
                   />
                 )}
-                <Badge tone="soft">Carriers that filed, pooled</Badge>
+                <Badge tone="soft">Pooled filings, payers not identified</Badge>
               </div>
             </div>
 

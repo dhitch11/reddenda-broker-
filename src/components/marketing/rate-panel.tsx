@@ -122,15 +122,24 @@ export function RatePanel({
             confidence={result.basis.confidence}
             scaleFactor={result.basis.scaleFactor}
           />
-          {/* WAS "Every carrier in this market". Corrected 2026-08-25 by @BROKER-5.
-              It is falsified by our own corpus on the same screen: Kaiser and
-              Sutter return zero rows in the peer distribution and structurally
-              always will, because integrated staff models do not file conventional
-              negotiated in-network rates. The BasisChip beside this already prints
-              the real sample size, so the honest label is what the number IS. */}
+          {/* WAS "Every carrier in this market", then briefly "Carriers that filed,
+              pooled". Both were wrong and the second was wrong in a subtler way.
+              Corrected 2026-08-25 by @BROKER-5 after MEASURING the table.
+
+              `cpt_peer_stats_cbsa` has EIGHT columns and not one of them is a
+              payer: cbsa, cpt, p25, p50, p75, p90, n, updated_at. So this cut
+              cannot tell you how many carriers are behind n, and any label that
+              implies a count is unsupported by the row it sits on. @BROKER-8
+              separately measured the upstream lake at 59.64 BILLION rows and found
+              it 99.9999997% a SINGLE carrier, which means "carriers" plural was
+              not merely unsupported, it was probably false.
+
+              So the chip now says the one thing the row can support. Naming the
+              limit is also the product: a visitor learns more from "we will not
+              tell you what we cannot see" than from a confident plural. */}
           <span className="chip">
             <span className="chip-dot" />
-            Carriers that filed, pooled
+            Pooled filings, payers not identified
           </span>
         </div>
       </header>

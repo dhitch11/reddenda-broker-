@@ -5,6 +5,7 @@ import { ScrollState } from "@/components/marketing/scroll-state";
 import { Reveal } from "@/components/marketing/reveal";
 import { GlowEye } from "@/components/landing/glow-eye";
 import { ScrubStage, Tilt } from "@/components/landing/hero-motion";
+import { LeoPlayer } from "@/components/landing/leo-player";
 import { siteOfCare, refusalLedger, scale, type SiteBar } from "@/lib/landing-data";
 
 /**
@@ -150,7 +151,15 @@ export default async function Landing() {
         </div>
         <div className="hero-plane__grid" aria-hidden="true" />
 
-        <div className="wrap" style={{ width: "100%", paddingTop: "clamp(48px, 8vw, 104px)", paddingBottom: "clamp(48px, 8vw, 96px)" }}>
+        {/* THE PADDING IS A CLASS, NOT AN INLINE STYLE, AND THAT IS THE WHOLE POINT.
+            It was inline. An inline style beats any selector without !important, so
+            section 9's `.field-live` padding override shipped, grepped as present,
+            and DID NOTHING. Measured: after adding .field-live the computed padding
+            was still 104px/96px, the content stayed 944px against an 835px frame,
+            and the pin silently refused to arm on every 900px-tall display. The
+            rule was correct, the cascade was not, and only reading the COMPUTED
+            value found it. */}
+        <div className="wrap hero-wrap">
           <div className="hero-split">
             <div className="hero-copy" style={{ display: "grid", gap: 24 }}>
               <div className="rise rise-1" style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -187,24 +196,23 @@ export default async function Landing() {
                   <a href={APP_DEMO} className="btn btn-secondary">Log in with demo</a>
                   <span className="cta-micro">no account, nothing to cancel</span>
                 </div>
+                <div className="cta-col cta-col--tertiary">
+                  <a href={DISCOVERY_URL} style={{ fontSize: "var(--text-sm)", color: "var(--teal-deep)" }}>
+                    or talk to us first
+                  </a>
+                </div>
               </div>
 
-              <a
-                href={DISCOVERY_URL}
-                className="rise rise-5"
-                style={{ fontSize: "var(--text-sm)", color: "var(--teal-deep)", justifySelf: "start" }}
-              >
-                or talk to us first
-              </a>
+              {/* THE PINNED COLUMN IS ON A HEIGHT BUDGET, so the two things that
+                  do not have to be inside the shot are not.
 
-              <p className="rise rise-6" style={{ fontSize: "var(--text-xs)", color: "var(--faint)", maxWidth: "52ch", lineHeight: 1.6 }}>
-                No PHI, ever. Prices, not quotes and not bills. Nothing on this page is a
-                projection: every figure is read out of a published table when the page loads.
-              </p>
-
-              {/* Rendered always, displayed only when the scrub is actually armed.
-                  Inviting someone to scroll through a shot that is not there would
-                  be a lie about the interface. */}
+                  MEASURED: the pinned frame at 1440x900 is 900 minus a 65px sticky
+                  header, so 835, and the copy column was 982. The shot therefore
+                  refused to arm on the single most common laptop resolution there
+                  is. The trust line moved to its own band directly under the hero,
+                  where it still reads within the first screen of scroll, and the
+                  tertiary link joined the CTA row where it belonged anyway. That
+                  is 147px, which is exactly what the budget was short. */}
               <div className="scrub-cue" aria-hidden="true">
                 <i />
                 <span>Scroll. The claim hands the frame to the number.</span>
@@ -222,6 +230,33 @@ export default async function Landing() {
         </div>
       </section>
       </ScrubStage>
+
+      {/* THE BAND UNDER THE SHOT: Leo, then the trust line.
+
+          LEO IS @BROKER-12's, and it stays. They mounted the player inside the
+          pinned hero column and asked me in .terminal-claims.md to keep it and
+          ping them if I restructured, so this is that: kept, working, moved one
+          band down, and posted to FINDINGS.md.
+
+          WHY IT MOVED, MEASURED: the pinned frame at 1440x900 is 900 minus a 65px
+          sticky header, so 835. The player is 107px and it took the hero column to
+          915, which put it back over budget and silently disarmed the pin on the
+          commonest laptop resolution there is. Below the hero it costs the shot
+          nothing and it is still on the first screen after the shot resolves.
+
+          It also reads BETTER here. In the hero it competed with the two CTAs for
+          the same click. Here the order is the argument: the claim, the number,
+          then "and here is three minutes on why". Nobody presses play before they
+          have seen the number. */}
+      <div className="trust-band">
+        <div className="wrap trust-band__inner">
+          <LeoPlayer />
+          <p>
+            No PHI, ever. Prices, not quotes and not bills. Nothing on this page is a
+            projection: every figure is read out of a published table when the page loads.
+          </p>
+        </div>
+      </div>
 
       {/* ══════════════════════════════════════════════════════════════════════
           THE WEDGE
@@ -406,7 +441,7 @@ export default async function Landing() {
               <Lever
                 title="Network repricing"
                 why="The network your client rents has a price and a shape."
-                money="Compare what plans agreed to pay, on one basket, in one market."
+                money="See the spread on one basket, in one market, before you renew."
                 proof="Commercial distributions from the transparency files, every cell carrying its sample size, every refusal carrying its reason."
               />
             </Reveal>
