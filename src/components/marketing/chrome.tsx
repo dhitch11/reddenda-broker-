@@ -166,7 +166,21 @@ function FooterCol({ title, links }: { title: string; links: { href: string; lab
 export function SourceLine({ scope }: { updatedAt?: string | null; scope?: string }) {
   return (
     <p style={{ fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.6, marginTop: 10 }}>
-      Every carrier&rsquo;s negotiated price, in every U.S. market.
+      {/*
+        CORRECTED 2026-08-24 by @BROKER-5. This read "Every carrier's negotiated
+        price, in every U.S. market." It renders under numbers across the whole
+        site, which made it the most-repeated sentence we publish and also the
+        least true one. Kaiser and Sutter return zero rows in the peer
+        distribution by construction, and Sacramento cannot serve 99213 or 99214
+        at metro grain (n=17 and n=20 against a floor of 100). The claim is
+        falsified by the product on the same screen that prints it.
+
+        What replaces it is the true and stronger sentence: what the number IS,
+        and what it is not. @BROKER-MARKETING owns this file; the signature is
+        unchanged and `updatedAt` stays deliberately unused for the reason the
+        docblock above already gives.
+      */}
+      Negotiated prices from published filings, reported only where the sample supports it.
       {scope ? ` ${scope}.` : ""} What plans have agreed to pay, not what a patient is billed.
     </p>
   );

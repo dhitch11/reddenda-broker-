@@ -55,8 +55,21 @@ export const metadata: Metadata = {
     default: `${BRAND.name} . ${BRAND.tagline}`,
     template: `%s . ${BRAND.name}`,
   },
+  /*
+    CORRECTED 2026-08-24 by @BROKER-5. The previous line read "Every carrier, in
+    every U.S. market, instantly."
+
+    It is not true and our own product says so on its face. Kaiser and Sutter
+    return ZERO rows in the peer distribution and structurally always will,
+    because integrated staff models do not generate conventional negotiated
+    in-network filings. Sacramento cannot serve 99213 or 99214 at metro grain at
+    all: n=17 and n=20 against a floor of 100. A site whose centrepiece is a
+    ledger of the rows it refused cannot carry "every carrier, in every market" in
+    its own meta description. Estate rule 4 also governs: a scale figure is the
+    universe indexed TOWARD, never a claim of live queryability.
+  */
   description:
-    "What health plans have contracted to pay providers, by metro. Every carrier, in every U.S. market, instantly.",
+    "Rate intelligence for self-funded employer groups and the brokers who advise them. What plans have agreed to pay, with the sample size and the vintage on every number.",
   applicationName: BRAND.name,
   robots: {
     /*
