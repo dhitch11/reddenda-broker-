@@ -366,6 +366,14 @@ export default async function Landing() {
                         Basket of six procedure codes for {ledger.metro}, showing which cells cleared the
                         honesty filter and which were refused.
                       </caption>
+                      {/* Explicit columns so the table is sized by role, not by
+                          whichever refusal sentence happens to be longest. */}
+                      <colgroup>
+                        <col className="c-code" />
+                        <col className="c-svc" />
+                        <col className="c-n" />
+                        <col className="c-verdict" />
+                      </colgroup>
                       <thead>
                         <tr>
                           <th scope="col">Code</th>

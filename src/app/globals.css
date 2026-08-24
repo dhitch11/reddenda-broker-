@@ -1312,7 +1312,29 @@ body.cine { color: var(--body); }
   font-family: var(--font-mono), monospace;
   font-variant-numeric: tabular-nums;
   font-size: var(--text-sm);
+  /* FIXED LAYOUT, AND THE COLUMN WIDTHS ARE DELIBERATE.
+     MEASURED at 1920x1080 on live prod: with `auto` layout the SERVICE column
+     took roughly 740px of an 1180px table because it holds the longest strings,
+     which pushed SAMPLE and VERDICT to the far edge and left a corridor of empty
+     space across every row. On a projector that reads as a sparse spreadsheet,
+     not as an instrument, and density is the entire visual argument of this
+     product. Fixed layout lets the columns be sized by their JOB rather than by
+     whichever row happens to hold the longest sentence. */
+  table-layout: fixed;
 }
+.ledger col.c-code { width: 96px; }
+.ledger col.c-svc  { width: auto; }
+.ledger col.c-n    { width: 132px; }
+.ledger col.c-verdict { width: 116px; }
+
+/* The service column still holds a full sentence of refusal reason, so it needs a
+   readable measure rather than the whole remaining width. */
+.ledger td:nth-child(2) { max-width: 62ch; }
+
+/* Sample and verdict are read as a pair, down the column, so they are right-set
+   against each other and the eye can run the column without tracking sideways. */
+.ledger th:nth-child(3), .ledger td:nth-child(3),
+.ledger th:nth-child(4), .ledger td:nth-child(4) { text-align: right; }
 .ledger th {
   text-align: left;
   font-size: 10.5px; font-weight: 600;
