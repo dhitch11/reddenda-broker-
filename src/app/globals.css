@@ -1081,9 +1081,22 @@ body.is-scrolled .site-header::after { opacity: 1; }
   color: var(--body);
 }
 
-/* The register owns the whole document when it is on the page, so the area below
-   the footer and the overscroll gutter are the same void and not a white band. */
+/* The register owns the whole document, so the area below the footer and the
+   overscroll gutter are the same void and not a white band.
+
+   BOTH SELECTORS ARE LOAD-BEARING. The register now lives on <body> itself
+   (layout.tsx), and `body:has(> .cine)` does NOT match an element against its own
+   class, so on its own it would silently stop painting the ground the moment the
+   class moved up one level. The landing still carries an inner `.cine` wrapper so
+   the page is self-contained, and the :has() form keeps that case correct too. */
+body.cine,
 body:has(> .cine) { background: #06090B; }
+
+/* The light canon paints <body> from :root's --paper before the register's own
+   custom properties resolve on the same element. Stating it here removes the
+   ambiguity rather than relying on cascade order between two rules that both
+   legitimately apply. */
+body.cine { color: var(--body); }
 
 /* ---- 8.5 BUTTONS in the register ---- */
 .cine .btn-primary {
@@ -1360,6 +1373,14 @@ body:has(> .cine) { background: #06090B; }
 
 .hero-split { display: grid; grid-template-columns: 1fr; gap: clamp(28px, 4vw, 52px); align-items: center; }
 @media (min-width: 1024px) { .hero-split { grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr); } }
+
+/* TOP-ALIGNED VARIANT, for a hero whose right column is much taller than its left.
+   MEASURED on /brokers at 1440x900: the live distribution panel is roughly twice
+   the height of the copy, and `align-items: center` pushed the headline down to
+   y=400 with a screen of dead space above it. Centring is right when the two
+   columns are comparable and wrong the moment one of them is a data readout that
+   grows with its own content. */
+.hero-split--top { align-items: start; }
 
 /* ═══ 8.15 THE SITE HEADER inside the register ════════════════════════════════ */
 .cine .site-header {

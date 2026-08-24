@@ -165,7 +165,7 @@ export function RateCheck({
                     scaleFactor={res.basis.scaleFactor}
                   />
                 )}
-                <Badge tone="soft">Every carrier in this market</Badge>
+                <Badge tone="soft">Carriers that filed, pooled</Badge>
               </div>
             </div>
 

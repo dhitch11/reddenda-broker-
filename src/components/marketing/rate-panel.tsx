@@ -122,9 +122,15 @@ export function RatePanel({
             confidence={result.basis.confidence}
             scaleFactor={result.basis.scaleFactor}
           />
+          {/* WAS "Every carrier in this market". Corrected 2026-08-25 by @BROKER-5.
+              It is falsified by our own corpus on the same screen: Kaiser and
+              Sutter return zero rows in the peer distribution and structurally
+              always will, because integrated staff models do not file conventional
+              negotiated in-network rates. The BasisChip beside this already prints
+              the real sample size, so the honest label is what the number IS. */}
           <span className="chip">
             <span className="chip-dot" />
-            Every carrier in this market
+            Carriers that filed, pooled
           </span>
         </div>
       </header>

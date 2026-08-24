@@ -267,7 +267,7 @@ export default async function Image({
           }}
         >
           <div style={{ fontSize: 23, color: MUTED }}>
-            Every carrier in this market, in every U.S. city.
+            What plans have agreed to pay, with the sample size shown.
           </div>
           <div style={{ fontFamily: "Mono", fontSize: 21, color: FAINT }}>
             broker.reddenda.com

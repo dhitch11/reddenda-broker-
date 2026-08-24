@@ -45,7 +45,7 @@ type Tool = {
 
 const TOOLS: Tool[] = [
   {
-    href: "/tools/rate-check",
+    href: "https://app.reddenda.com/broker/console/rates",
     eyebrow: "Start here",
     name: "Rate Check",
     what:
@@ -54,7 +54,7 @@ const TOOLS: Tool[] = [
     ready: true,
   },
   {
-    href: "/tools/market-brief",
+    href: "https://app.reddenda.com/broker/console/brief",
     eyebrow: "The leave behind",
     name: "Market Brief",
     what:
@@ -63,7 +63,7 @@ const TOOLS: Tool[] = [
     ready: true,
   },
   {
-    href: "/tools/site-of-service",
+    href: "https://app.reddenda.com/broker/console/site-of-care",
     eyebrow: "Plan design",
     name: "Site of Service",
     what:
@@ -167,8 +167,31 @@ export default async function ToolsIndex() {
                 gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 320px), 1fr))",
               }}
             >
+              {/*
+                PLAIN <a>, AND THE FINAL URL, NOT THE REDIRECT.
+                Fixed 2026-08-25 by @BROKER-5.
+
+                MEASURED: this page threw SIX console errors on every load, at
+                every width. These three cards pointed at /tools/* which
+                next.config.ts 308s to app.reddenda.com. Next prefetches a <Link>
+                on sight, the RSC prefetch followed the redirect cross-origin, and
+                the browser refused it:
+
+                  Access to fetch at 'https://app.reddenda.com/broker/console/rates'
+                  (redirected from 'http://.../tools/rate-check') has been blocked
+                  by CORS policy ... Failed to load resource: net::ERR_FAILED
+
+                Nothing was visibly broken, which is exactly why it survived: the
+                links worked when clicked and the console screamed on every visit.
+
+                Pointing at the destination fixes three things at once. The prefetch
+                stops (a plain <a> is not prefetched), the user stops paying a
+                redirect hop, and the browser stops being asked to do something it
+                will refuse. The 308s in next.config.ts stay for anyone holding an
+                old URL; nothing on this site walks into them any more.
+              */}
               {TOOLS.map((t) => (
-                <Link
+                <a
                   key={t.href}
                   href={t.href}
                   className="card card-hover"
@@ -223,7 +246,7 @@ export default async function ToolsIndex() {
                   >
                     Open {t.name} →
                   </p>
-                </Link>
+                </a>
               ))}
             </div>
 

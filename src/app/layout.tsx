@@ -96,14 +96,37 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#FFFFFF",
-  colorScheme: "light",
+  /* The whole site is the dark register now, so the browser chrome is told the
+     truth. A white status bar above a near-black page on every scroll bounce is
+     the single cheapest way to look unfinished on a phone. */
+  themeColor: "#06090B",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${sans.variable} ${mono.variable}`}>
-      <body>{children}</body>
+      {/*
+        THE REGISTER IS THE SITE, NOT ONE PAGE. Applied 2026-08-25 by @BROKER-5 on
+        David's standard: "dark ultra-premium Linear on EVERY surface including the
+        marketing site."
+
+        WHY THIS IS ONE LINE AND NOT EIGHT PAGE EDITS. globals.css section 8 does
+        not fork the design system, it RE-POINTS the same semantic tokens: --ink,
+        --paper, --hair, --teal and the rest keep their meanings and change their
+        values. Every component on this site was already written against those
+        tokens (measured: exactly two hardcoded white hexes exist outside the
+        opengraph routes, and both are handled). So moving the class from one page
+        wrapper to the body turns the entire marketing surface dark at once, and
+        no component needed a single edit. That is the payoff the token layer was
+        built for and this is the first thing to collect it.
+
+        Section 7.1's refusal still stands and is NOT reinstated: there is no
+        prefers-color-scheme block in this file and there must never be one. This
+        is a deliberate, measured register applied on purpose, not a palette that
+        flips under half of all visitors.
+      */}
+      <body className="cine">{children}</body>
     </html>
   );
 }

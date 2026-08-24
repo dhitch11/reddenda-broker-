@@ -7,6 +7,7 @@ import { SiteHeader, SiteFooter, DISCOVERY_URL } from "./chrome";
 import { LookupForm } from "./lookup-form";
 import { RatePanel } from "./rate-panel";
 import { Reveal } from "./reveal";
+import { GlowEye } from "@/components/landing/glow-eye";
 
 /**
  * The shared chassis for /brokers, /general-agencies and /employers.
@@ -54,27 +55,72 @@ export async function RolePage({ config }: { config: RoleConfig }) {
       <SiteHeader />
 
       <main>
-        {/* ---------------- hero ---------------- */}
-        <section style={{ paddingTop: "clamp(38px, 6vw, 68px)", paddingBottom: "clamp(28px, 4vw, 44px)" }}>
-          <div className="wrap">
-            <div style={{ maxWidth: 720 }}>
-              <p className="eyebrow rise">
-                <span className="chip-dot" style={{ display: "inline-block", marginRight: 8, verticalAlign: "middle" }} />
-                {config.eyebrow}
-              </p>
-              <h1 className="display rise rise-1" style={{ fontSize: "var(--display)", marginTop: 14, maxWidth: "17ch" }}>
-                {config.h1}
-              </h1>
-              <p className="lede rise rise-2" style={{ marginTop: 18, maxWidth: "58ch" }}>
-                {config.lede}
-              </p>
-              <div className="rise rise-3" style={{ marginTop: 24, display: "flex", gap: 10, flexWrap: "wrap" }}>
-                <a href={DISCOVERY_URL} className="btn btn-primary">
-                  Book a call
-                </a>
-                <Link href="/methodology" className="btn btn-secondary">
-                  Read the methodology
-                </Link>
+        {/* ---------------- hero ----------------
+             REBUILT 2026-08-25 by @BROKER-5 on David's standard, and it closes a
+             defect this repo's own CSS documents from 2026-08-07: "at 1440 the
+             hero text capped at 760px inside a 1092px content grid and roughly
+             47% of the first screen was empty on five routes, including all three
+             persona landing pages. The audit named filling it the single
+             highest-leverage change on the site."
+
+             It was still empty. Now the same two-column hero the landing uses
+             carries the LIVE measured rate this page was already fetching for a
+             panel further down. The number was on the page the whole time, three
+             screens below the fold, on the pages whose entire job is to prove we
+             have it. Same query, same component, moved to where a visitor
+             actually meets it.
+
+             The plane behind it is the landing's: aurora and survey grid, one
+             register across the site rather than a flagship and four siblings. -->
+          */}
+        <section className="hero-plane">
+          <div className="hero-plane__aurora" aria-hidden="true">
+            <b /><b /><b />
+          </div>
+          <div className="hero-plane__grid" aria-hidden="true" />
+
+          <div className="wrap" style={{ paddingTop: "clamp(40px, 6vw, 76px)", paddingBottom: "clamp(40px, 6vw, 72px)" }}>
+            <div className="hero-split hero-split--top">
+              <div style={{ display: "grid", gap: 20 }}>
+                <div className="rise" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <GlowEye size={34} />
+                  <span className="eyebrow">{config.eyebrow}</span>
+                </div>
+                <h1 className="hero-title rise rise-1" style={{ fontSize: "clamp(32px, 5.4vw, 62px)" }}>
+                  {config.h1}
+                </h1>
+                <p className="hero-lede rise rise-2">{config.lede}</p>
+                <div className="rise rise-3" style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+                  <a href="https://app.reddenda.com/broker" className="btn btn-primary">
+                    Create account
+                  </a>
+                  <a href="https://app.reddenda.com/broker?demo=1" className="btn btn-secondary">
+                    Log in with demo
+                  </a>
+                  <a href={DISCOVERY_URL} style={{ fontSize: "var(--text-sm)", color: "var(--teal-deep)", padding: "8px 4px" }}>
+                    or book a call
+                  </a>
+                </div>
+              </div>
+
+              {/* The proof, above the fold, measured. Or an honest empty state
+                  that names its exit rather than apologising. */}
+              <div className="rise rise-4">
+                {result ? (
+                  <RatePanel result={result} plainName={svc?.plain ?? null} />
+                ) : (
+                  <div className="card" style={{ padding: 22 }}>
+                    <div className="readout__label">Live market rate</div>
+                    <div className="empty-state" style={{ marginTop: 14 }}>
+                      The rate corpus is not reachable from this server right now, so there is no number
+                      here. Nothing on this page is estimated to fill the gap.{" "}
+                      <Link href="/methodology" style={{ color: "var(--teal-deep)" }}>
+                        Read what we hold and what we do not
+                      </Link>
+                      .
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -123,25 +169,20 @@ export async function RolePage({ config }: { config: RoleConfig }) {
             <Reveal>
               <p className="eyebrow">Live, right now</p>
               <h2 className="display" style={{ fontSize: "var(--display-sm)", marginTop: 12, maxWidth: "22ch" }}>
-                Not a screenshot. A query.
+                Change it. It is a query, not a screenshot.
               </h2>
               <p className="lede" style={{ marginTop: 14, maxWidth: "60ch" }}>
                 {config.demo.why}
               </p>
             </Reveal>
 
+            {/* The panel itself now lives in the hero, so this section is the
+                CONTROL rather than a second copy of the same readout. Rendering
+                the identical panel twice on one page taught a visitor that the
+                lookup does not do anything, because the answer was already on
+                screen before they touched it. */}
             <div style={{ marginTop: 24, maxWidth: 880 }}>
               <LookupForm action="/" service={config.demo.service} market={config.demo.market} />
-              <div style={{ marginTop: 18 }}>
-                {result ? (
-                  <RatePanel result={result} plainName={svc?.plain ?? null} />
-                ) : (
-                  <div className="empty-state">
-                    The rate corpus is not reachable right now. Nothing on this page is estimated to fill the
-                    gap.
-                  </div>
-                )}
-              </div>
             </div>
           </div>
         </section>
