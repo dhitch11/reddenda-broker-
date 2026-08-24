@@ -347,8 +347,16 @@ a { color: inherit; text-decoration: none; }
 .site-header {
   position: sticky; top: 0; z-index: 40;
   background: rgba(255, 255, 255, .88);
+  /* ONE FORM ONLY. DO NOT ADD THE -webkit- LINE BACK.
+     MEASURED ON LIVE PROD 2026-08-25 by @BROKER-5, in the shipped stylesheet, not
+     the source: Lightning CSS (Next 16's minifier) STRIPS the unprefixed
+     `backdrop-filter` when both it and `-webkit-backdrop-filter` are hand-written.
+     The deployed CSS carried `-webkit-backdrop-filter` twice and the standard
+     property ZERO times, so the frosted header rendered in Safari and was simply
+     dead in Chrome and Firefox: a flat translucent bar with unblurred content
+     scrolling behind it. Writing the standard property alone lets the build emit
+     whatever prefixes it wants and both survive. */
   backdrop-filter: saturate(180%) blur(12px);
-  -webkit-backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--hair);
 }
 
@@ -1385,8 +1393,10 @@ body.cine { color: var(--body); }
 /* ═══ 8.15 THE SITE HEADER inside the register ════════════════════════════════ */
 .cine .site-header {
   background: rgba(6, 9, 11, .72);
+  /* Standard property only. See the note on `.site-header` above: hand-writing
+     both forms makes the minifier drop the standard one and kills the blur in
+     every non-WebKit browser. */
   backdrop-filter: saturate(160%) blur(14px);
-  -webkit-backdrop-filter: saturate(160%) blur(14px);
   border-bottom: 1px solid transparent;
   transition: border-color var(--dur) var(--ease), background-color var(--dur) var(--ease);
 }
