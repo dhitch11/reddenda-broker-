@@ -38,22 +38,34 @@ import { metroSlug, serviceSlug } from "@/components/marketing/slugs";
  * missing parameter, a hand-edited URL: all of them fall back to the market index
  * or the home page rather than a 404. A visitor who mistypes should not be
  * punished with a dead end.
+ *
+ * THE LOCATION IS RELATIVE, AND THAT IS NOT A STYLE CHOICE.
+ * My first version built an absolute URL from `req.nextUrl.origin`. MEASURED on
+ * live prod immediately after deploying it:
+ *   GET /go?service=73721&market=35620
+ *   -> 307 https://6a8ccf82a6cefc0d9b56daad--reddenda-broker.netlify.app/rates/...
+ * On Netlify that origin is the DEPLOY-SPECIFIC host, not the branded one, so a
+ * broker who used the lookup was thrown off broker.reddenda.com and onto a
+ * hashed netlify.app URL, visible in the address bar, on a page being presented
+ * from a stage. RFC 7231 permits a relative Location and every browser resolves
+ * it against the requested host, which is exactly the behaviour we want: whatever
+ * host they arrived on is the host they stay on.
  */
+function go(path: string) {
+  return new NextResponse(null, { status: 307, headers: { location: path, "cache-control": "no-store" } });
+}
+
 export function GET(req: NextRequest) {
-  const { searchParams, origin } = req.nextUrl;
+  const { searchParams } = req.nextUrl;
 
   const svc = findService((searchParams.get("service") ?? "").trim());
   const metro = findMetro((searchParams.get("market") ?? "").trim());
 
-  if (svc && metro) {
-    return NextResponse.redirect(`${origin}/rates/${metroSlug(metro)}/${serviceSlug(svc)}`, 307);
-  }
+  if (svc && metro) return go(`/rates/${metroSlug(metro)}/${serviceSlug(svc)}`);
 
   /* One half resolved. Send them to the most specific real page we can build,
      which is the market's own index: it lists every service we hold there. */
-  if (metro) {
-    return NextResponse.redirect(`${origin}/rates/${metroSlug(metro)}`, 307);
-  }
+  if (metro) return go(`/rates/${metroSlug(metro)}`);
 
-  return NextResponse.redirect(`${origin}/rates`, 307);
+  return go("/rates");
 }
