@@ -1510,3 +1510,245 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
 }
 .cta-row { display: grid; grid-template-columns: 1fr; gap: 14px; align-items: start; }
 @media (min-width: 520px) { .cta-row { grid-template-columns: auto auto; justify-content: start; } }
+
+/* ═════════════════════════════════════════════════════════════════════════════
+   9. THE MOTION PASS  ·  @BROKER-5, ORDERS v4 section F, 2026-08-24
+   APPEND ONLY. Nothing above this line was edited.
+
+   David's bar is reddenda.health and his word is "wildly beautiful in every way".
+   Its highest-value structural idea, and the one thing this page did not have, is
+   PIN AND SCRUB: the hero is twice as tall as it looks and it does not move.
+
+   THE PREMISE. `.hero-stage` is 200vh. `.hero-plane` is sticky at top 0 and one
+   viewport tall. Scrolling the second viewport-height translates NOTHING. It
+   advances a single number, `--p`, from 0 to 1. The frame is HELD while the
+   content transforms inside it, so you are not scrolling past a hero, you are
+   scrubbing a shot. Everything downstream is a pure function of `--p`.
+
+   WHAT THE SHOT IS ABOUT. It moves from CLAIM to PROOF. At p=0 the headline owns
+   the frame and the data panel sits back, dimmer and slightly small. As you
+   scrub, the headline recedes and softens and the panel comes forward, brightens
+   and settles. The page's argument is "we print the number", so the shot is the
+   sentence handing the frame over to the number. Motion that says nothing is
+   decoration; this one says the thesis.
+
+   WHY IT CANNOT BREAK THE PAGE:
+   - `--p` DEFAULTS TO 1, the finished state. A visitor with no JS, a failed
+     hydration, or a browser that never fires our listener sees the fully resolved
+     hero with the panel bright and settled. The scrub is armed only when JS adds
+     `.field-live`, which is also what sets `--p` to a live value. This is the
+     `.js` gate from reddenda.health inverted the correct way round: the terminal
+     state is the default and the animated initial state is the special case.
+   - It is DESKTOP AND NO-REDUCED-MOTION ONLY. Below 900px `.hero-stage` has no
+     height and `.hero-plane` is static, so a phone gets the ordinary hero and
+     never pays 100vh of scroll for a transition it cannot see well.
+   - Only `transform` and `opacity` are functions of `--p`. Nothing here can
+     trigger layout, so the scrub composites and a mid-range phone is untouched
+     because it never runs.
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+.hero-stage { --p: 1; position: relative; }
+
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .hero-stage.field-live { height: 200vh; }
+  .hero-stage.field-live > .hero-plane {
+    position: sticky;
+    top: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+  }
+  /* THE PINNED FRAME IS SHORTER THAN THE PAGE THINKS.
+     MEASURED at 1440x900: the hero content is 1036px tall while the frame is
+     900 minus a 65px sticky header, so 835. Pinned and centred, that overflows
+     BOTH ends and `overflow: hidden` on the plane clips them, which put the top
+     of the headline behind the header at the end of the scrub. It looked like a
+     rendering bug and it was one.
+
+     Unpinned the page just gets taller and nothing is lost, so the generous
+     rhythm stays everywhere except inside the pin, where every pixel is a pixel
+     that can be cut off. This alone is not enough, so hero-motion.tsx ALSO
+     measures the content against the frame and refuses to pin when it does not
+     fit. Belt and braces, because the failure mode is invisible content. */
+  .hero-stage.field-live > .hero-plane > .wrap {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .hero-stage.field-live .hero-split { gap: clamp(24px, 3vw, 40px); }
+  .hero-stage.field-live .hero-copy { gap: 18px; }
+  /* The copy column recedes. Small numbers: this is a shot, not a slide. */
+  .hero-stage.field-live .hero-copy {
+    transform: translate3d(0, calc(var(--p) * -34px), 0);
+    opacity: calc(1 - var(--p) * 0.42);
+    will-change: transform, opacity;
+  }
+  /* The proof comes forward and settles.
+     MEASURED, AND THE REASON THIS RULE TARGETS `.tilt` AND NOT `.hero-proof`:
+     `.hero-proof` also carries `.rise`, the CSS entrance. A running or filled
+     ANIMATION beats a normal declaration in the cascade, so authoring these on
+     the same element silently lost both of them to `rise`'s own transform and
+     opacity. I measured it: the panel sat at opacity 0.995 with transform none at
+     p=0, when the design calls for 0.68 and a 26px offset. The copy column
+     receded correctly and the panel simply did not move, so half the shot was
+     missing and every assertion still passed.
+
+     Three layers, one job each, and none of them fights another:
+       .hero-proof  the entrance animation      (rise)
+       .tilt        the scrub                   (this rule)
+       .tilt > *    the pointer parallax        (section 9.2)  */
+  .hero-stage.field-live .hero-proof > .tilt {
+    transform: translate3d(0, calc((1 - var(--p)) * 26px), 0) scale(calc(0.972 + var(--p) * 0.028));
+    /* FLOOR RAISED FROM 0.68 to 0.78 after measuring it. At 0.68 the flagship
+       dollar figures sit at roughly 8:1 on the panel, which passes, but this is
+       the one number the whole page exists to show and a desktop visitor who
+       never scrolls would meet it dimmed. 0.78 keeps the come-forward move
+       legible as motion while leaving the number essentially at full strength on
+       first paint. When in doubt the number wins, not the effect. */
+    opacity: calc(0.78 + var(--p) * 0.22);
+    will-change: transform, opacity;
+  }
+  /* The field settles down as the number takes the frame. */
+  .hero-stage.field-live .hero-plane__aurora { opacity: calc(0.58 - var(--p) * 0.22); }
+  .hero-stage.field-live .hero-plane__grid { opacity: calc(1 - var(--p) * 0.45); }
+  /* The cue only exists while there is travel left. */
+  .hero-stage.field-live .scrub-cue { opacity: calc(1 - var(--p) * 2.4); }
+}
+
+/* The scroll cue. Hidden unless the scrub is actually armed, because an
+   invitation to scroll through a shot that is not there is a lie about the UI. */
+.scrub-cue { display: none; }
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .field-live .scrub-cue {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono), monospace;
+    font-size: 10.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--faint);
+    padding-top: 8px;
+  }
+  .field-live .scrub-cue i {
+    display: block;
+    width: 1px;
+    height: 22px;
+    background: linear-gradient(180deg, var(--teal), transparent);
+    animation: cue-fall 2.6s var(--ease) infinite;
+    transform-origin: top center;
+  }
+}
+@keyframes cue-fall {
+  0%   { transform: scaleY(0);   opacity: 0; }
+  35%  { transform: scaleY(1);   opacity: 1; }
+  100% { transform: scaleY(1) translateY(14px); opacity: 0; }
+}
+
+/* ═══ 9.1 THE BARS DRAW IN ════════════════════════════════════════════════════
+   Measured defect in my own work: `.bar-row__fill` was authored with a
+   `transition` from a transform that was already at its final value, so nothing
+   ever transitioned and the bars simply appeared. A transition needs two states
+   and an inline custom property set at render time is only ever one.
+
+   A keyframe CAN read a custom property, so the growth is authored as an
+   animation from scaleX(0) to the measured width, with `both` so the pre-paint
+   state is the collapsed one and the post state is exactly the number. The
+   stagger is per-row and small: three bars is a chord, not a queue.
+   ══════════════════════════════════════════════════════════════════════════════ */
+@keyframes bar-grow { from { transform: scaleX(0); } to { transform: scaleX(var(--w, 0)); } }
+
+@media (prefers-reduced-motion: no-preference) {
+  .bar-row__fill {
+    transform: scaleX(0);
+    animation: bar-grow 1000ms var(--ease-in) both;
+    transition: none;
+  }
+  .bar-row--office .bar-row__fill { animation-delay: 340ms; }
+  .bar-row--asc    .bar-row__fill { animation-delay: 440ms; }
+  .bar-row--hopd   .bar-row__fill { animation-delay: 560ms; }
+}
+
+/* ═══ 9.2 POINTER PARALLAX ════════════════════════════════════════════════════
+   The panel tilts a degree and a half toward the cursor. It is the difference
+   between a screenshot and a thing that is present in the room, and it costs two
+   transforms on an element that is already composited.
+
+   `--mx` and `--my` are normalised to -1..1 and written by a rAF-throttled
+   listener. They default to 0, so with no JS the panel is simply flat. Fine
+   detail that matters: the rotation is applied on a WRAPPER, so it composes with
+   the scrub's own transform on `.hero-proof` instead of fighting it. Two rules
+   writing `transform` on one element is how this kind of effect usually breaks.
+   ══════════════════════════════════════════════════════════════════════════════ */
+.tilt { --mx: 0; --my: 0; transform-style: preserve-3d; }
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .tilt.tilt-live {
+    perspective: 1400px;
+    transition: transform 400ms var(--ease);
+  }
+  .tilt.tilt-live > * {
+    transform: rotateY(calc(var(--mx) * 1.6deg)) rotateX(calc(var(--my) * -1.6deg)) translate3d(0, 0, 0);
+    transition: transform 260ms var(--ease);
+    will-change: transform;
+  }
+}
+
+/* ═══ 9.3 THE TAPE ════════════════════════════════════════════════════════════
+   A slow ticker of real measured figures. Bloomberg furniture, and it is honest
+   furniture: every cell on it is a number this server read out of a table, with
+   its locality and quarter attached.
+
+   Transform-only and JS-free. The track holds the row TWICE and translates
+   exactly -50%, so the seam lands where the duplicate begins and the loop is
+   invisible. `aria-hidden` on the duplicate half, so a screen reader hears the
+   figures once rather than stuttering them.
+   ══════════════════════════════════════════════════════════════════════════════ */
+.tape {
+  border-block: 1px solid var(--hair);
+  background: var(--band);
+  overflow: hidden;
+  /* `contain` keeps a permanently animating strip from invalidating the page's
+     layout and paint on every frame. Without it the whole document is a candidate
+     for re-layout 60 times a second for the life of the tab. */
+  contain: content;
+}
+.tape-track {
+  display: flex;
+  width: max-content;
+  animation: tape-roll 64s linear infinite;
+  will-change: transform;
+}
+.tape-half { display: flex; flex: none; }
+.tape-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 22px;
+  white-space: nowrap;
+  font-family: var(--font-mono), monospace;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--text-xs);
+  color: var(--muted);
+  border-right: 1px solid var(--hair);
+}
+.tape-cell b { color: var(--ink); font-weight: 600; }
+.tape-cell s { color: var(--faint); text-decoration: none; }
+@keyframes tape-roll { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+@media (prefers-reduced-motion: reduce) {
+  .tape-track { animation: none; }
+  /* Stopped, the duplicate half is dead weight that a keyboard user would tab
+     through twice. It is decorative either way, so it goes. */
+  .tape-half + .tape-half { display: none; }
+}
+
+/* ═══ 9.4 THE NUMBER LANDS ════════════════════════════════════════════════════
+   A dollar figure that fades in reads as loading. One that rises a few pixels and
+   settles reads as arriving. Same duration, entirely different sentence, and it
+   is the only piece of pure ornament on the page that earns its place, because
+   the arrival of a number is what this company sells. */
+@keyframes fig-land { from { opacity: 0; transform: translate3d(0, 8px, 0); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .fig { animation: fig-land 620ms var(--ease-in) both; }
+  .bar-row--office .fig { animation-delay: 300ms; }
+  .bar-row--asc    .fig { animation-delay: 400ms; }
+  .bar-row--hopd   .fig { animation-delay: 520ms; }
+}

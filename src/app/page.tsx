@@ -4,6 +4,7 @@ import { SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
 import { ScrollState } from "@/components/marketing/scroll-state";
 import { Reveal } from "@/components/marketing/reveal";
 import { GlowEye } from "@/components/landing/glow-eye";
+import { ScrubStage, Tilt } from "@/components/landing/hero-motion";
 import { siteOfCare, refusalLedger, scale, type SiteBar } from "@/lib/landing-data";
 
 /**
@@ -81,6 +82,37 @@ export default async function Landing() {
     ? Math.max(...care.bars.map((b) => b.total ?? 0), 1)
     : 1;
 
+  /* THE TAPE'S CONTENT IS BUILT FROM MEASURED VALUES OR IT IS EMPTY.
+     Every cell below is pulled off a result that already carries its source and
+     vintage. There is no padding, no rounding up to a nicer figure, and no filler
+     cell to make the strip look fuller. If the tables are down the tape does not
+     render at all, which is the honest state for a ticker with nothing to tick. */
+  const tape: { k: string; v: string; note: string }[] = [];
+  if (care.ok) {
+    const where = care.localityName ? titleCase(care.localityName) : care.state;
+    const vint = care.physician.vintage ?? "";
+    for (const b of care.bars) {
+      if (b.total == null) continue;
+      tape.push({ k: `CPT ${care.cpt}`, v: usdc(b.total), note: `${b.label} · ${where}${vint ? ` · ${vint}` : ""}` });
+    }
+    if (care.hopdVsOfficePct != null) {
+      tape.push({ k: "HOPD vs office", v: `+${care.hopdVsOfficePct}%`, note: `${care.cpt} · ${where}` });
+    }
+    if (care.ascSavingVsHopd != null) {
+      tape.push({ k: "ASC vs HOPD", v: usdc(care.ascSavingVsHopd), note: `${care.cpt} · per case · federal basis` });
+    }
+  }
+  if (ledger.ok) {
+    for (const r of ledger.rows) {
+      if (r.n == null) continue;
+      tape.push({
+        k: `CPT ${r.cpt}`,
+        v: `n=${r.n.toLocaleString()}`,
+        note: r.kept ? `${ledger.metro} · reported` : `${ledger.metro} · refused, floor ${ledger.minimumSample}`,
+      });
+    }
+  }
+
   return (
     <div className="cine">
       <ScrollState />
@@ -106,15 +138,21 @@ export default async function Landing() {
         </div>
       </header>
 
+      {/* THE SHOT. 200vh of stage, one viewport of sticky hero, and a single
+          number `--p` that carries the frame from the claim to the number.
+          See globals.css section 9 and components/landing/hero-motion.tsx.
+          Desktop and no-reduced-motion only, and it arms itself: with no JS the
+          stage is an ordinary hero in its finished state. */}
+      <ScrubStage>
       <section className="hero-plane">
         <div className="hero-plane__aurora" aria-hidden="true">
           <b /><b /><b />
         </div>
         <div className="hero-plane__grid" aria-hidden="true" />
 
-        <div className="wrap" style={{ paddingTop: "clamp(48px, 8vw, 104px)", paddingBottom: "clamp(48px, 8vw, 96px)" }}>
+        <div className="wrap" style={{ width: "100%", paddingTop: "clamp(48px, 8vw, 104px)", paddingBottom: "clamp(48px, 8vw, 96px)" }}>
           <div className="hero-split">
-            <div style={{ display: "grid", gap: 24 }}>
+            <div className="hero-copy" style={{ display: "grid", gap: 24 }}>
               <div className="rise rise-1" style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <GlowEye size={40} title={`${BRAND.name} rate intelligence`} />
                 <span className="eyebrow">Self-funded employer groups</span>
@@ -163,16 +201,27 @@ export default async function Landing() {
                 No PHI, ever. Prices, not quotes and not bills. Nothing on this page is a
                 projection: every figure is read out of a published table when the page loads.
               </p>
+
+              {/* Rendered always, displayed only when the scrub is actually armed.
+                  Inviting someone to scroll through a shot that is not there would
+                  be a lie about the interface. */}
+              <div className="scrub-cue" aria-hidden="true">
+                <i />
+                <span>Scroll. The claim hands the frame to the number.</span>
+              </div>
             </div>
 
             {/* THE FIRST PAINT CARRIES A REAL NUMBER. Not an illustration, not a
                 screenshot, not a mock: the same query the product runs. */}
-            <div className="rise rise-7">
-              <SiteOfCarePanel care={care} barMax={barMax} />
+            <div className="rise rise-7 hero-proof">
+              <Tilt>
+                <SiteOfCarePanel care={care} barMax={barMax} />
+              </Tilt>
             </div>
           </div>
         </div>
       </section>
+      </ScrubStage>
 
       {/* ══════════════════════════════════════════════════════════════════════
           THE WEDGE
@@ -534,6 +583,36 @@ export default async function Landing() {
         </div>
       </section>
 
+      {/* THE TAPE. Only rendered when there is something real to put on it. An
+          empty ticker, or one padded out to look busy, would be the exact failure
+          this page is about. */}
+      {tape.length > 0 && (
+        <div className="tape" aria-label="Measured figures currently held by this server">
+          <div className="tape-track">
+            <div className="tape-half">
+              {tape.map((t) => (
+                <span className="tape-cell" key={t.k}>
+                  <s>{t.k}</s>
+                  <b>{t.v}</b>
+                  <s>{t.note}</s>
+                </span>
+              ))}
+            </div>
+            {/* The seam. Identical content, hidden from assistive tech so the
+                figures are announced once rather than stuttered. */}
+            <div className="tape-half" aria-hidden="true">
+              {tape.map((t) => (
+                <span className="tape-cell" key={`dup-${t.k}`}>
+                  <s>{t.k}</s>
+                  <b>{t.v}</b>
+                  <s>{t.note}</s>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ══════════════════════════════════════════════════════════════════════
           CLOSE
           ══════════════════════════════════════════════════════════════════════ */}
@@ -683,7 +762,7 @@ function BarRow({ bar, max }: { bar: SiteBar; max: number }) {
     <div className={`bar-row bar-row--${bar.key}`}>
       <div className="bar-row__head">
         <span>{bar.label}</span>
-        <span className="bar-row__amount">{usdc(bar.total)}</span>
+        <span className="bar-row__amount fig">{usdc(bar.total)}</span>
       </div>
       <div
         className="bar-row__track"
