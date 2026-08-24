@@ -375,35 +375,36 @@ export default async function Landing() {
           <div className="g3" style={{ marginTop: 30 }}>
             <Reveal delay={60}>
               <Legal
-                eyebrow="Compensation disclosure"
-                title="ERISA 408(b)(2)(B)"
-                body="Brokers and consultants to group health plans disclose expected direct and indirect compensation to the responsible plan fiduciary. The duty runs to the adviser, and the sponsor has to be able to show they reviewed it."
-                cite="29 U.S.C. 1108(b)(2)(B), added by CAA 2021 Division BB Title II section 202"
+                eyebrow="ERISA 408(b)(2)(B)"
+                title="Disclosure is what makes the fee reasonable"
+                body="A service contract with a group health plan is not reasonable unless the broker or consultant discloses its direct and indirect compensation in writing to the responsible plan fiduciary. Lose reasonable and you lose the exemption. It bites at $1,000 of expected compensation, and it is due reasonably in advance of signing, extending or renewing."
+                cite="29 U.S.C. 1108(b)(2)(B), added by Pub. L. 116-260 Div. BB Title II sec. 202. Applies to contracts entered into on or after 2021-12-27."
               />
             </Reveal>
             <Reveal delay={120}>
               <Legal
                 eyebrow="Gag clause attestation"
-                title="No contract may hide the price"
-                body="Plans and issuers attest annually that their agreements contain no clause restricting access to provider-specific cost or quality data. A self-funded sponsor signs that attestation about contracts they usually have never read."
-                cite="CAA 2021 Division BB Title II section 201, attestation filed at the CMS gag clause portal"
+                title="The attestation is the plan's, even when the TPA files it"
+                body="No agreement may stop a plan from seeing provider-specific cost or quality data, or from reaching de-identified claims. Self-funded plans are Responsible Entities and attest annually by December 31. A TPA can submit it. The duty to make sure it happened does not move."
+                cite="ERISA 724 (29 U.S.C. 1185m), PHS Act 2799A-9, IRC 9824, added by Pub. L. 116-260 Div. BB Title II sec. 201. Filed on the CMS HIOS webform."
               />
             </Reveal>
             <Reveal delay={180}>
               <Legal
-                eyebrow="Out-of-network"
-                title="No Surprises Act and federal IDR"
-                body="When a dispute goes to federal arbitration the certified entity picks one of two offers, anchored on the qualifying payment amount. Those outcomes are published, so a plan's out-of-network exposure can be looked at instead of guessed at."
-                cite="Public Health Service Act 2799A-1, 45 CFR Part 149, CMS federal IDR public use files"
+                eyebrow="No Surprises Act"
+                title="The gap between the QPA and the award is plan assets"
+                body="In federal arbitration the certified entity considers the qualifying payment amount, then weighs credible information on acuity, market share, teaching status, case mix and prior contracting. That second step is where the money moves, and for a self-funded plan the difference is paid out of the plan, not by a carrier."
+                cite="45 CFR 149.510(c)(4)(iii), ERISA parallel at 29 CFR 2590.716-8. QPA methodology at 45 CFR 149.140."
               />
             </Reveal>
           </div>
 
           <Reveal delay={220}>
             <p style={{ marginTop: 26, fontSize: "var(--text-xs)", color: "var(--faint)", maxWidth: "78ch", lineHeight: 1.7 }}>
-              This is a description of published rules, not legal advice, and it is not a
-              compliance service. We hold rate data and we show our work on it. Your counsel
-              owns the filing.
+              Every citation on this page was read from the enrolled statute or from current
+              eCFR, not from a summary. This is a description of published rules, not legal
+              advice, and it is not a compliance service. We hold rate data and we show our work
+              on it. Your counsel owns the filing.
             </p>
           </Reveal>
         </div>
