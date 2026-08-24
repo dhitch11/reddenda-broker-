@@ -2123,3 +2123,60 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
   .leo__play { width: 48px; height: 48px; }
   .leo__reader { flex-basis: 100%; text-align: left; }
 }
+
+/* ── 10.H THE HERO VARIANT ────────────────────────────────────────────────────
+   @BROKER-12, 2026-08-25, on David's direct order: the play button lives in the
+   hero. The pinned column budget is why this exists: the full 107px player plus
+   its gap disarms the pin-and-scrub on every 900px-tall display (measured, the
+   numbers are on the claims board), and the right column has exactly 68px of
+   slack against the copy column. So at >=900px, where the hero pins, the hero
+   variant compresses to a 56px transport: no head line, "Meet Leo" moves into
+   the meta row, the play button drops to 44px, and the transcript opens as an
+   overlay ABOVE the player instead of in the flow, because a height change
+   inside a pinned overflow:hidden plane after fits() has measured it is a
+   clipped hero. Under 900px the hero never pins and the variant renders the
+   identical full transport. Same DOM either way; this is cascade only. */
+@media (min-width: 900px) {
+  .leo[data-variant="hero"] {
+    position: relative;
+    margin-top: 14px;
+    max-width: none;
+    width: 100%;
+    gap: 0;
+    padding: 6px 12px 6px 6px;
+  }
+  .leo[data-variant="hero"] .leo__head { display: none; }
+  .leo[data-variant="hero"] .leo__row { gap: 10px; }
+  .leo[data-variant="hero"] .leo__play { width: 44px; height: 44px; }
+  .leo[data-variant="hero"] .leo__transport { gap: 5px; }
+  /* Pre-ready reserves EXACTLY the transport's height. fits() measures the
+     column when the scrub arms, and a player that grows 12px when metadata
+     lands would make that measurement a lie. */
+  .leo[data-variant="hero"] .leo__loading { min-height: 44px; }
+  /* The name rides the meta row. The play button's accessible name carries the
+     full sentence, so this is visual branding, not the only label. */
+  .leo[data-variant="hero"] .leo__meta::before {
+    content: "Meet Leo";
+    color: var(--ink);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: -.01em;
+  }
+  .leo[data-variant="hero"] .leo__transcript {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    z-index: 6;
+    max-height: 340px;
+    padding: 16px 18px;
+    border: 1px solid var(--hair);
+    border-radius: 14px;
+    /* Near-opaque on purpose. The one blur this could borrow is backdrop-filter,
+       and this build's minifier is known to strip the standard form when the
+       prefixed one is also present (see the .site-header note). A solid ground
+       needs no filter and cannot be broken by one. */
+    background: rgba(6, 9, 11, .97);
+    box-shadow: 0 18px 48px rgba(0, 0, 0, .5), inset 0 1px 0 rgba(255, 255, 255, .06);
+  }
+}

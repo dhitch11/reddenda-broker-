@@ -63,11 +63,17 @@ export function LeoTransport({
   duration: knownDuration,
   transcript,
   chapters,
+  variant = "band",
 }: {
   src: string;
   duration: number | null;
   transcript: string;
   chapters: Chapter[];
+  /* "hero" compacts the surface at >=900px (CSS only, same DOM) so it can live
+     inside the pinned hero without spending the height budget that disarms the
+     pin-and-scrub. Under 900px the hero is never pinned, so both variants
+     render the identical full transport there. */
+  variant?: "band" | "hero";
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -230,7 +236,7 @@ export function LeoTransport({
   const total = duration || knownDuration || 0;
 
   return (
-    <div className="leo" data-ready={ready ? "1" : "0"}>
+    <div className="leo" data-ready={ready ? "1" : "0"} data-variant={variant}>
       {/* preload="metadata" and not "auto": the duration has to be known before a
           control may render, but a visitor who never presses play should not pay
           for three minutes of audio on a phone. */}

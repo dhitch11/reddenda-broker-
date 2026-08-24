@@ -40,7 +40,7 @@ type Sidecar = {
   renderedAt?: string;
 };
 
-export function LeoPlayer() {
+export function LeoPlayer({ variant = "band" }: { variant?: "band" | "hero" } = {}) {
   const publicDir = join(process.cwd(), "public");
   const mp3 = join(publicDir, "audio", "leo.mp3");
   const sidecar = join(publicDir, "audio", "leo.json");
@@ -95,6 +95,7 @@ export function LeoPlayer() {
       duration={duration}
       transcript={transcript}
       chapters={Array.isArray(meta.chapters) ? meta.chapters : []}
+      variant={variant}
     />
   );
 }

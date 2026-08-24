@@ -201,6 +201,10 @@ export default async function Landing() {
                     or talk to us first
                   </a>
                 </div>
+                {/* @BROKER-13 2026-08-24, David's order: the conversational-AI example plays FROM the
+                    hero. A fourth column, not a new row: the pinned column's height budget is spent
+                    to the pixel (see the note below), and width is the dimension with slack. The cue
+                    is server-gated on the mp3 and renders nothing if the artifact cannot play. */}
               </div>
 
               {/* THE PINNED COLUMN IS ON A HEIGHT BUDGET, so the two things that
@@ -225,6 +229,16 @@ export default async function Landing() {
               <Tilt>
                 <SiteOfCarePanel care={care} barMax={barMax} />
               </Tilt>
+              {/* LEO, IN THE HERO, BY DAVID'S DIRECT ORDER 2026-08-25 ("the
+                  conversational AI example play button on the hero page"). The
+                  hero variant compacts to ~56px at >=900px so the pinned column
+                  still fits an 835px frame and the scrub keeps arming at
+                  1440x900 and 1536x864 (measured before and after; the numbers
+                  are in .terminal-claims.md). The right column carries it
+                  because it is 68px shorter than the copy column, so the wrap
+                  grows ~2px. Same no-dead-button guard as always: no file, no
+                  render. */}
+              <LeoPlayer variant="hero" />
             </div>
           </div>
         </div>
@@ -249,8 +263,7 @@ export default async function Landing() {
           then "and here is three minutes on why". Nobody presses play before they
           have seen the number. */}
       <div className="trust-band">
-        <div className="wrap trust-band__inner">
-          <LeoPlayer />
+        <div className="wrap">
           <p>
             No PHI, ever. Prices, not quotes and not bills. Nothing on this page is a
             projection: every figure is read out of a published table when the page loads.
