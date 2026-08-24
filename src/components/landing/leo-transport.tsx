@@ -127,7 +127,20 @@ export function LeoTransport({
        fired and will not fire again, so the listener alone would never arm. */
     if (el.readyState >= 1) onMeta();
 
+    /* THE LOAD DEADLINE.
+       MEASURED: with the audio request aborted at the network layer, the media
+       element fires no `error` at all. It simply never loads, and without this
+       the surface sits under the words "Loading the audio" for the rest of the
+       session. That is a sentence the page cannot keep, and a component that
+       lies quietly is worse than one that fails loudly, so an audio file that
+       has not produced a duration within the deadline is treated exactly like
+       one that errored: the whole component leaves the page. */
+    const deadline = window.setTimeout(() => {
+      if (el.readyState < 1) setDead(true);
+    }, 12000);
+
     return () => {
+      window.clearTimeout(deadline);
       el.removeEventListener("loadedmetadata", onMeta);
       el.removeEventListener("durationchange", onMeta);
       el.removeEventListener("timeupdate", onTime);
@@ -223,10 +236,15 @@ export function LeoTransport({
           for three minutes of audio on a phone. */}
       <audio ref={audioRef} src={src} preload="metadata" playsInline />
 
+      {/* ONE LINE, NOT TWO. The pinned hero column runs to exactly its height
+          budget at 1440x900 (see the measured note in page.tsx), so every pixel
+          this component spends is a pixel taken from the scrub effect. The
+          subtitle that used to sit under the title is now the button's
+          accessible name, where it costs nothing and says more. */}
       <div className="leo__head">
         <span className="leo__eq" aria-hidden="true"><i /><i /><i /><i /></span>
         <span className="leo__title">Meet Leo</span>
-        <span className="leo__sub">Three minutes on why we built this, and what it does for you.</span>
+        <span className="leo__sub">why we built this, in three minutes</span>
       </div>
 
       {!ready ? (
@@ -240,7 +258,7 @@ export function LeoTransport({
               type="button"
               className="leo__play"
               onClick={toggle}
-              aria-label={playing ? "Pause Leo" : "Play Leo, three minutes"}
+              aria-label={playing ? "Pause Leo" : "Play Leo: why we built this, in three minutes"}
             >
               {playing ? (
                 <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">

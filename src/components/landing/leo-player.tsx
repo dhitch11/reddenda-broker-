@@ -73,10 +73,19 @@ export function LeoPlayer() {
       ? meta.duration
       : null;
 
-  /* Cache bust on the file's own mtime. When the war room's script lands and the
-     audio is re-rendered, the URL changes and no CDN or service worker can serve
-     yesterday's take behind today's transcript. */
-  const src = `${AUDIO_PUBLIC_PATH}?v=${Math.floor(mtimeMs)}`;
+  /* CACHE BUST ON SOMETHING THAT ACTUALLY CHANGES.
+     The first cut of this used the file's mtime. MEASURED on live prod: the
+     served URL was `?v=315532800000`, which is 1980-01-01, because Netlify
+     normalises every file's mtime at build for reproducible bundles. So the
+     "version" was a constant, and a swapped take would have been served stale
+     from every CDN edge and browser cache behind today's transcript. The render
+     stamps `renderedAt` into the sidecar and the byte count changes with every
+     take, so those are the version. mtime is kept only as a last resort. */
+  const renderedAtMs = typeof meta.renderedAt === "string" ? Date.parse(meta.renderedAt) : NaN;
+  const version = Number.isFinite(renderedAtMs) && renderedAtMs > 0
+    ? `${Math.floor(renderedAtMs / 1000)}-${bytes}`
+    : `${bytes}-${Math.floor(mtimeMs)}`;
+  const src = `${AUDIO_PUBLIC_PATH}?v=${version}`;
 
   const transcript = typeof meta.transcript === "string" ? meta.transcript.trim() : "";
 
