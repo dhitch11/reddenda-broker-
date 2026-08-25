@@ -133,14 +133,31 @@ export function ScrubStage({ children }: { children: ReactNode }) {
       /* scrollHeight, not the bounding box: while armed the box is already
          constrained by the frame, so reading it back would report that whatever
          we did fits, which is the measurement equivalent of a leading question. */
-      /* 48px OF HEADROOM, NOT AN EXACT FIT.
-         This was `<= window.innerHeight`, an equality with zero margin, and a
-         binary search found the cliff at exactly 853px: armed at 853, not armed
-         at 852. That put the two commonest projector modes on the wrong side of
-         it, 1366x768 and 1280x800, so the signature effect did not exist on the
-         hardware most likely to be in the room. The margin also absorbs a
-         bookmarks bar, a larger default font, and a zoomed-in reader. */
-      return content.scrollHeight + headerH <= window.innerHeight - 48;
+      /* 12px OF HEADROOM. THIS WAS 48, AND 48 WAS BACKWARDS.
+         The commit that introduced it correctly observed that 1366x768 and
+         1280x800 were on the wrong side of the cliff, then subtracted 48 from the
+         budget - which RAISES the bar and pushes those modes further away. It also
+         took out a mode that used to work. MEASURED on live prod, armed content
+         774px against a 1536x864 frame: 774 <= 799 was true and armed; 774 <= 751
+         is false and does not. That regressed a verified-working projector mode in
+         the name of fixing two others it could not fix.
+
+         It cannot fix them because the headline is not what overflows. Shrinking
+         the h1 from 88px to 60px moves the pinned content by TEN pixels
+         (774 -> 764), because `.hero-split` is a centred two-column grid and the
+         proof column is 748px tall on its own. The copy column is not the binding
+         constraint; the proof card is. Sizing the type down to force an arm would
+         cost legibility on the exact hardware it was meant to serve and still not
+         reach 1366x768, which needs 83px.
+
+         Two of the three things 48px was justified as absorbing are already
+         accounted for: `window.innerHeight` IS the post-chrome viewport, so a
+         bookmarks bar and a zoomed reader are in the number we just read. The one
+         real risk is growth AFTER we measure, when a web font swaps in and the
+         copy reflows, so that is handled by measuring again when the fonts land
+         rather than by pre-paying 48px forever. 12px covers sub-pixel rounding
+         across the three elements this sums. */
+      return content.scrollHeight + headerH <= window.innerHeight - 12;
     };
 
     /* ARM AND DISARM WITHOUT MOVING THE PAGE UNDER THE READER.
@@ -184,6 +201,12 @@ export function ScrubStage({ children }: { children: ReactNode }) {
     };
 
     sync();
+    /* MEASURE AGAIN WHEN THE FONTS LAND. Fraunces is a web font, and the first
+       measurement can happen against fallback metrics whose line count differs.
+       Re-deciding costs one layout read and is the honest alternative to carrying
+       a permanent safety margin for a transient condition. `.catch` because a
+       browser that never resolves this must still keep the first decision. */
+    document.fonts?.ready.then(sync).catch(() => {});
     wide.addEventListener("change", sync);
     calm.addEventListener("change", sync);
     /* A resize changes the answer to "does it fit", not just the progress value,
