@@ -7,6 +7,7 @@ import { GlowEye } from "@/components/landing/glow-eye";
 import { ScrubStage, Tilt } from "@/components/landing/hero-motion";
 import { LeoPlayer } from "@/components/landing/leo-player";
 import { siteOfCare, refusalLedger, scale, type SiteBar } from "@/lib/landing-data";
+import { LADDER, PRO_PER } from "@/lib/pricing-ladder";
 
 /**
  * broker.reddenda.com  ·  THE LANDING PAGE
@@ -584,8 +585,8 @@ export default async function Landing() {
             <Reveal delay={60}>
               <Price
                 name="Broker Pro"
-                amount="$149"
-                per="per month, or $1,490 a year"
+                amount={LADDER.proMonthly.display}
+                per={PRO_PER}
                 lines={[
                   "Site of care, federal, every published code",
                   "Commercial distributions with the sample size on every cell",
@@ -600,7 +601,7 @@ export default async function Landing() {
             <Reveal delay={120}>
               <Price
                 name="Agency"
-                amount="$4,900"
+                amount={LADDER.agencyAnnual.display}
                 per="a year, flat, not per seat"
                 lines={[
                   "Everything in Broker Pro for the whole agency",
@@ -615,7 +616,7 @@ export default async function Landing() {
             <Reveal delay={180}>
               <Price
                 name="Renewal exhibit"
-                amount="$490"
+                amount={LADDER.exhibitOnce.display}
                 per="one time, per exhibit"
                 lines={[
                   "One market, one basket, one self-funded group",
