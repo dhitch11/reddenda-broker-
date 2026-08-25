@@ -13,3 +13,6 @@ data/coverage.json
 
 # per-lane build dirs (see next.config.ts distDir note)
 .next-*
+.last-conductor-deploy
+tsconfig.tsbuildinfo
+ga.html
