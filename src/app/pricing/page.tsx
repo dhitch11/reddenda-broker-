@@ -209,8 +209,11 @@ export default function PricingPage() {
                   <b>{PLAN_SPEND.source}</b> Nationally the honest band is{" "}
                   <span className="num">{PLAN_SPEND.bandLow}</span> to{" "}
                   <span className="num">{PLAN_SPEND.bandHigh}</span> per covered employee per year, and it
-                  is a band rather than a figure because the survey does not support a point estimate. It
-                  does not come from our corpus, and we will not print it as though it did.
+                  is a band rather than a figure because the survey does not support a point estimate.{" "}
+                  {PLAN_SPEND.corroboration.source} measured{" "}
+                  <span className="num">{PLAN_SPEND.corroboration.value}</span> in{" "}
+                  {PLAN_SPEND.corroboration.year}, near the top of it. It does not come from our corpus,
+                  and we will not print it as though it did.
                 </p>
               </div>
             </Reveal>
@@ -227,9 +230,10 @@ export default function PricingPage() {
                 <p style={{ fontSize: "var(--text-sm)", color: "var(--body)", lineHeight: 1.7, maxWidth: "72ch" }}>
                   It is also the fastest-growing line on the plan at roughly{" "}
                   <span className="num">{PHARMACY_GAP.growth}</span> a year, which is exactly why you should
-                  expect somebody to quote you a number for it. We hold no PBM contract and no rebate data,
-                  so we will tell you nothing about pharmacy. Anyone selling you a pharmacy figure off
-                  transparency files is selling you an assumption.
+                  expect somebody to quote you a number for it. We hold no {PHARMACY_GAP.pbm} contract, no
+                  rebate data and no point-of-sale pricing, so we will tell you nothing about pharmacy.
+                  Anyone selling you a pharmacy figure off transparency in coverage files is selling you an
+                  assumption.
                 </p>
               </div>
             </Reveal>

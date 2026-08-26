@@ -36,7 +36,11 @@ export const PLAN_SPEND = {
   annualMillions: (PEPY_CA * REFERENCE_LIVES / 1_000_000).toFixed(2),
   bandLow: dollars(PEPY_NATIONAL_BAND[0]),
   bandHigh: dollars(PEPY_NATIONAL_BAND[1]),
-  source: "Modelled from the federal MEPS-IC California 2024 survey. Not a measurement of any one plan.",
+  source: "Modelled from the federal MEPS-IC California 2024 survey and trended. Not a measurement of any one plan.",
+  /* An independent third party at the top of the band, named and dated. A modelled
+     figure standing alone invites "says who"; a modelled figure next to somebody
+     else's published measurement answers it before it is asked. */
+  corroboration: { source: "Mercer", value: "$17,496", year: "2025" },
 } as const;
 
 /**
@@ -50,4 +54,11 @@ export const PLAN_SPEND = {
 export const PHARMACY_GAP = {
   shareOfSpend: "23%",
   growth: "+14.8%",
+  /* Named in full at least once on every surface that carries this card. "PBM" is
+     industry shorthand and a CFO reading a forwarded page may not expand it, and the
+     whole point of the card is that it is legible to somebody outside the trade. */
+  pbm: "pharmacy benefit manager",
+  /* All three, because they are three different absences and naming only one implies
+     we hold the other two. */
+  weDoNotHold: ["a pharmacy benefit manager contract", "rebate data", "point-of-sale pricing"],
 } as const;

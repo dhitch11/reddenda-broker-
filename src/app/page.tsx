@@ -8,6 +8,7 @@ import { ScrubStage, Tilt } from "@/components/landing/hero-motion";
 import { LeoPlayer } from "@/components/landing/leo-player";
 import { siteOfCare, refusalLedger, scale, type SiteBar } from "@/lib/landing-data";
 import { LADDER, PRO_PER, AGENCY_PER_GROUP } from "@/lib/pricing-ladder";
+import { PLAN_SPEND, PHARMACY_GAP } from "@/lib/plan-spend";
 
 /**
  * broker.reddenda.com  ·  THE LANDING PAGE
@@ -605,6 +606,74 @@ export default async function Landing() {
       {/* ══════════════════════════════════════════════════════════════════════
           PRICING
           ══════════════════════════════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════════════════════
+          THE DENOMINATOR, AND THE GAP WE REFUSE TO FILL.
+          Placed immediately BEFORE pricing on purpose. Nothing on this page told a
+          reader what our fee is a fraction of, so every visitor supplied their own
+          denominator and we never got to choose it. And the pharmacy card sits here
+          rather than in the methodology, because a refusal is only worth anything
+          where somebody is deciding whether to pay us.
+          ⛔ BOTH ARE LABELLED MODELLED ON THEIR FACE. That is not caution, it is what
+          makes the number survive a CFO reading it in a forwarded page.
+          ══════════════════════════════════════════════════════════════════════ */}
+      <section className="sec" id="denominator">
+        <div className="wrap">
+          <Reveal>
+            <div className="sec-head">
+              <span className="eyebrow">What this is a fraction of</span>
+              <h2 className="sec-title">
+                A {PLAN_SPEND.lives} life plan in California spends about ${PLAN_SPEND.annualMillions} million a year.
+              </h2>
+              <p className="lede" style={{ color: "var(--body)" }}>
+                That is <span className="num">{PLAN_SPEND.pepy}</span> per covered employee per year, or{" "}
+                <span className="num">{PLAN_SPEND.pepm}</span> per covered employee per month. We print it
+                because a fee means nothing without the number underneath it, and because you would
+                estimate one anyway.
+              </p>
+            </div>
+          </Reveal>
+          <div className="g2" style={{ marginTop: 24 }}>
+            <Reveal delay={60}>
+              <div className="card" style={{ padding: 22, display: "grid", gap: 10, height: "100%" }}>
+                <h3 className="display" style={{ fontSize: "var(--text-base)", color: "var(--ink)" }}>
+                  Where that figure comes from
+                </h3>
+                <p style={{ fontSize: "var(--text-sm)", color: "var(--body)", lineHeight: 1.7 }}>
+                  <b>{PLAN_SPEND.source}</b> The honest national band is{" "}
+                  <span className="num">{PLAN_SPEND.bandLow}</span> to{" "}
+                  <span className="num">{PLAN_SPEND.bandHigh}</span> per covered employee per year, and it
+                  is a band rather than a point because the survey does not support a point.{" "}
+                  {PLAN_SPEND.corroboration.source} measured{" "}
+                  <span className="num">{PLAN_SPEND.corroboration.value}</span> in{" "}
+                  {PLAN_SPEND.corroboration.year}, near the top of it.
+                </p>
+                <p style={{ fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.6 }}>
+                  It does not come from our corpus and we will not print it as though it did. Every other
+                  dollar on this page is measured; this one is modelled, and the difference is the point.
+                </p>
+              </div>
+            </Reveal>
+            <Reveal delay={120}>
+              <div className="card" style={{ padding: 22, display: "grid", gap: 10, height: "100%" }}>
+                <h3 className="display" style={{ fontSize: "var(--text-base)", color: "var(--ink)" }}>
+                  Pharmacy is about {PHARMACY_GAP.shareOfSpend} of that. We hold none of it.
+                </h3>
+                <p style={{ fontSize: "var(--text-sm)", color: "var(--body)", lineHeight: 1.7 }}>
+                  It is also the fastest-growing line on the plan, at roughly{" "}
+                  <span className="num">{PHARMACY_GAP.growth}</span> a year, which is exactly why you should
+                  expect somebody to quote you a number for it. We hold no {PHARMACY_GAP.pbm} contract, no
+                  rebate data and no point-of-sale pricing, so we will tell you nothing about pharmacy.
+                </p>
+                <p style={{ fontSize: "var(--text-sm)", color: "var(--teal-deep)", lineHeight: 1.6, fontWeight: 500 }}>
+                  Anyone selling you a pharmacy figure off transparency in coverage files is selling you an
+                  assumption.
+                </p>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
       <section className="sec" id="pricing">
         <div className="wrap">
           <Reveal>
