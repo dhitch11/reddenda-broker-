@@ -60,6 +60,18 @@ const APP = "https://app.reddenda.com/broker";
  * from anything a browser sends. A price in a URL is a price a customer can edit. */
 const BUY = "https://app.reddenda.com/broker/console/upgrade";
 
+/* Each plan card on the buy page carries `id={slug}`, so a fragment lands the buyer on the plan
+   whose price they just pressed. MEASURED BEFORE THIS EXISTED: "Broker Pro $149 per seat per
+   month" landed at the top of a page whose FIRST card is the $1,490 annual plan. Nothing was
+   hidden - both are on the screen - but a buyer who presses a $149 button and meets $1,490 has to
+   re-find what they came for, and on a phone that is a scroll they did not ask for.
+   A SLUG IN A FRAGMENT IS NOT A PRICE IN A URL: the plan is still chosen on the buy page and the
+   amount is still resolved server-side from the live Stripe catalog by lookup_key. And a fragment
+   degrades to nothing - if the anchor is ever absent the buyer lands at the top of the page, which
+   is exactly today's behaviour, so this can never be the reason a purchase fails. */
+const BUY_PRO_MONTHLY = `${BUY}#pro_monthly`;
+const BUY_AGENCY = `${BUY}#agency_annual`;
+
 export const metadata: Metadata = {
   title: "Pricing",
   description:
@@ -110,7 +122,7 @@ const PLANS: Plan[] = [
       "A share link that opens for whoever you send it to, with no account",
     ],
     cta: "Start Broker Pro",
-    href: BUY,
+    href: BUY_PRO_MONTHLY,
     feature: true,
     chip: "Most brokers",
   },
@@ -130,7 +142,7 @@ const PLANS: Plan[] = [
       `A firm advising twenty self-funded groups pays ${AGENCY_PER_GROUP(20)} a group a year`,
     ],
     cta: "Start Agency",
-    href: BUY,
+    href: BUY_AGENCY,
     note: "Flat and firm-wide. Not per seat, and it does not meter on producers, clients, claims or lives.",
   },
   {
