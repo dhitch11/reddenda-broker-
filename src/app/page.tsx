@@ -478,89 +478,9 @@ export default async function Landing() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════════════════════════════
-          THE REFUSAL
-          ══════════════════════════════════════════════════════════════════════ */}
-      <section className="sec" id="refusal">
-        <div className="wrap">
-          <Reveal>
-            <div className="sec-head">
-              <span className="eyebrow">The part nobody shows you</span>
-              <h2 className="sec-title">The rows we threw away.</h2>
-              <p className="lede" style={{ color: "var(--body)" }}>
-                Most tools hand you a number no matter what. We do not. Here is one basket of
-                codes, with the cells we kept and the ones we refused.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={80}>
-            <div className="card" style={{ marginTop: 28, padding: "22px 20px" }}>
-              {ledger.ok ? (
-                <>
-                  <div className="scroll-x">
-                    <table className="ledger">
-                      <caption className="sr-only">
-                        Basket of six procedure codes for {ledger.metro}, showing which cells cleared the
-                        honesty filter and which were refused.
-                      </caption>
-                      {/* Explicit columns so the table is sized by role, not by
-                          whichever refusal sentence happens to be longest. */}
-                      <colgroup>
-                        <col className="c-code" />
-                        <col className="c-svc" />
-                        <col className="c-n" />
-                        <col className="c-verdict" />
-                      </colgroup>
-                      <thead>
-                        <tr>
-                          <th scope="col">Code</th>
-                          <th scope="col">Service</th>
-                          <th scope="col">Sample</th>
-                          <th scope="col">Verdict</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {ledger.rows.map((r) => (
-                          <tr key={r.cpt} data-refused={r.kept ? "0" : "1"}>
-                            <td style={{ whiteSpace: "nowrap", color: "var(--ink)" }}>{r.cpt}</td>
-                            <td style={{ fontFamily: "var(--font-sans), sans-serif" }}>
-                              {r.label}
-                              {!r.kept && r.reason && (
-                                <div style={{ color: "var(--faint)", fontSize: "var(--text-xs)", marginTop: 4, lineHeight: 1.5 }}>
-                                  {r.reason}
-                                </div>
-                              )}
-                            </td>
-                            <td style={{ whiteSpace: "nowrap" }}>
-                              {r.n != null ? `n=${r.n.toLocaleString()}` : <span className="gap-dot" aria-label="no sample" />}
-                            </td>
-                            <td>
-                              <span className={`ledger__flag ledger__flag--${r.kept ? "kept" : "refused"}`}>
-                                {r.kept ? "Reported" : "Refused"}
-                              </span>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-
-                  <p style={{ marginTop: 18, fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.65 }}>
-                    A cell needs {ledger.minimumSample} filed prices before we report it. Values under
-                    five dollars are percent-of-schedule filings, not prices, so we refuse them.
-                    {ledger.corpusStamp
-                      ? ` Rows written ${ledger.corpusStamp}: that is our date, not a filing date.`
-                      : ""}
-                  </p>
-                </>
-              ) : (
-                <div className="empty-state">{ledger.reason}</div>
-              )}
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      {/* The refusal-ledger section lived here ("The rows we threw away"). Removed by
+         David's direct order 2026-08-26: the honesty machinery stays in the product,
+         where it earns trust at the moment of use; the homepage does not lead with it. */}
 
       {/* ══════════════════════════════════════════════════════════════════════
           SELF-FUNDED LEVERS
