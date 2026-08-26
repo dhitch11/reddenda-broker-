@@ -8,6 +8,7 @@ import { ScrubStage, Tilt } from "@/components/landing/hero-motion";
 import { PriceField } from "@/components/landing/price-field";
 import { HeroAudio } from "@/components/landing/hero-audio";
 import { siteOfCare, refusalLedger, scale, type SiteBar } from "@/lib/landing-data";
+import { CA_EMPLOYER, commissionsShort } from "@/lib/ca-employer";
 import { LADDER, PRO_PER, AGENCY_PER_GROUP } from "@/lib/pricing-ladder";
 import { PLAN_SPEND, PHARMACY_GAP } from "@/lib/plan-spend";
 import { APP, APP_DEMO, BUY_PRO_MONTHLY, BUY_AGENCY } from "@/lib/buy-links";
@@ -266,7 +267,7 @@ export default async function Landing() {
             <div className="hero-copy">
               <div className="rise rise-1" style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <GlowEye size={40} title={`${BRAND.name} rate intelligence`} />
-                <span className="eyebrow">Self-funded employer groups</span>
+                <span className="eyebrow">California self-funded employer groups</span>
               </div>
 
               {/* Two blocks, not one line with a <br>. `text-wrap: balance` cannot
@@ -278,9 +279,37 @@ export default async function Landing() {
                 <span className="lit" style={{ display: "block" }}>Everyone else blurs it.</span>
               </h1>
 
+              {/* 13 words, down from 31. code-marketing section 3.1 row 3 sets the hero
+                  lede at 12 and the copy audit is explicit that the hero is the ONLY
+                  homepage change: the rest of this page already reads a full grade
+                  easier than the benchmark and cutting it would move us away from the
+                  bar, not toward it. The words that left are the ones the line below
+                  now says better, with a number attached. */}
               <p className="hero-lede rise rise-3">
-                Real prices for the people who advise self-funded health plans. Every number
-                shows its source and its sample size.
+                What health plans really pay in California, with the sample size on every number.
+              </p>
+
+              {/* ⛔ CALIFORNIA AND EMPLOYER DATA, IN THE HERO. David's ask, 2026-08-26.
+                  Before this the word California did not appear above the fold once,
+                  while national framing appeared nine times on the page.
+
+                  THE NUMBER IS MEASURED BY THIS LANE FROM THE PRIMARY FILES, not taken
+                  from a brief. The figure circulating in the fleet was $947.2M and it
+                  did not reproduce; two passes over the DOL's own CSVs give $968.0M.
+                  See src/lib/ca-employer.ts for the exact method. It is rendered from
+                  that module rather than typed here, so it cannot drift out of step
+                  with its own provenance line. */}
+              <p className="rise rise-3 hero-ca">
+                {/* "of it" had no antecedent: the lede above is about what plans pay
+                    PROVIDERS, and this is what employers pay BROKERS. Two different
+                    pockets, and the first draft quietly implied one came out of the
+                    other. Caught by reading the rendered hero, not the source. */}
+                <b>{commissionsShort()}</b> in broker commission is already public too, on{" "}
+                {CA_EMPLOYER.brokerRows.toLocaleString()} California filings.
+                <span className="hero-ca__src">
+                  {CA_EMPLOYER.source}, plan year {CA_EMPLOYER.planYear}. At least that, not
+                  exactly that: under 100 people, nobody files.
+                </span>
               </p>
 
               {/* Each CTA answers "and then what". A benefits broker will not press a

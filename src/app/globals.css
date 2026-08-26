@@ -1841,8 +1841,13 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
    height gets a vote. 74px still reads as display type at this distance and it is the
    difference between the shot arming and not arming in the room. */
 @media (min-width: 900px) and (prefers-reduced-motion: no-preference) and (max-height: 800px) {
-  .cine .hero-stage.field-live .hero-title { font-size: clamp(38px, 5.6vw, 74px); }
-  .hero-stage.field-live .hero-copy { gap: 10px; }
+  /* 68, not 74. The hero gained the California employer line - David's explicit ask -
+     and on a 768px frame that line and the signature motion were competing for the
+     same pixels. Six points of display type on the room's projector is a cheaper
+     thing to spend than the pin-and-scrub, which is the whole shot. Tall screens are
+     untouched and keep the size the audit confirmed matches the benchmark exactly. */
+  .cine .hero-stage.field-live .hero-title { font-size: clamp(38px, 5.2vw, 68px); }
+  .hero-stage.field-live .hero-copy { gap: 8px; }
   .hero-stage.field-live .hero-proof .bars { gap: 8px; }
   .hero-stage.field-live .hero-proof .heroaudio { margin-top: 4px; }
   /* The bars are the card's tallest block and its most elastic: three rows, each a label,
@@ -1850,6 +1855,11 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
      figure in them, is dropped. Once the headline came down the proof column became the
      binding one, so this is the part that actually decides whether the shot arms. */
   .hero-stage.field-live .hero-proof .bar-row { gap: 4px; }
+  /* The California line tightens with everything else on a short frame. Its source
+     note is a checkable footnote, not a paragraph, so it can run tighter than body
+     copy without costing anything a reader needs at a glance. */
+  .hero-stage.field-live .hero-ca { line-height: 1.45; }
+  .hero-stage.field-live .hero-ca__src { margin-top: 3px; line-height: 1.45; }
   .hero-stage.field-live .hero-proof .bars { gap: 6px; }
   /* The last few pixels, taken from padding rather than from anything a reader reads.
      9px of margin on the fit check is not enough to survive a font swapping in late, and
@@ -2561,3 +2571,29 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
 }
 
 
+
+/* The hero's California employer line. It sits between the lede and the CTAs and it
+   is the one figure above the fold that is about the reader's own business rather
+   than about a procedure. The source note is small on purpose: the claim has to be
+   readable at a glance and checkable on a second look, in that order. */
+.hero-ca {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.55;
+  color: var(--body);
+  max-width: 46ch;
+}
+.hero-ca b {
+  color: var(--ink);
+  font-weight: var(--w-semi);
+  font-variant-numeric: tabular-nums;
+}
+.hero-ca__src {
+  display: block;
+  margin-top: 6px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--faint);
+  letter-spacing: .01em;
+}
