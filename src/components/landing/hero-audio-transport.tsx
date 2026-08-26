@@ -1,43 +1,40 @@
 "use client";
 
-import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 
 /**
- * THE TRANSPORT. The client half of LEO.
- * @BROKER-12, 2026-08-24.
+ * THE TRANSPORT. The client half of the hero audio.
+ * @BROKER-AUDIO, 2026-08-26. Successor to leo-transport.tsx (@BROKER-12, 08-24);
+ * the discipline below is inherited, two things are new, and both are honest:
  *
- * The server half (leo-player.tsx) has already proven the file exists and is not
- * a stub. This half proves the browser can actually decode it, and refuses to
- * present a transport until it has. `ready` is set by `loadedmetadata` with a
- * finite duration and by nothing else. Until then the surface is a single
- * non-interactive line that says it is loading, which is true, and carries no
- * control that could be pressed to no effect.
+ * 1. THE SCRUB TRACK IS A REAL WAVEFORM, MEASURED, NEVER DRAWN.
+ *    The previous file's equalizer comment ruled that "a fake waveform would be
+ *    a picture of audio this file has not analysed." This file has analysed it:
+ *    the sidecar carries RMS per 1/220th of the shipped mp3, decoded to PCM at
+ *    render time. When peaks are absent the track falls back to the plain bar
+ *    rather than inventing a shape.
  *
- * ═══ WHAT THIS GETS RIGHT, DELIBERATELY ══════════════════════════════════════
+ * 2. CAPTIONS SYNCED TO THE SCRIPT. Sentence-level cues, timed from a blind
+ *    speech-to-text pass over the shipped file (not from the script's own
+ *    assumptions), render in a fixed-height slot so their appearance moves no
+ *    layout. The full transcript stays one press away; captions are a
+ *    convenience, the transcript is the accessible artifact.
  *
- * 1. THE SCRUBBER IS A REAL SLIDER, NOT A DIV THAT LOOKS LIKE ONE.
- *    role="slider" with aria-valuemin / max / now / text, tabbable, and driven by
- *    the same arrow keys a native range input answers to. A keyboard reader gets
- *    the position read out as "1 minute 12 seconds of 3 minutes 2 seconds",
- *    because a percentage is meaningless when what you want is a timecode.
+ * Inherited discipline, unchanged: `ready` is set only by loadedmetadata with a
+ * finite duration; the scrubber is a real slider with pointer capture and the
+ * native keys; an error REMOVES the control rather than disabling it; a file
+ * that produces no duration within the deadline is treated as errored; reduced
+ * motion is honored (the only animations are the equalizer, gated in CSS, and
+ * a caption fade gated in this file's own style block).
  *
- * 2. IT SCRUBS ON POINTER CAPTURE, SO THE DRAG SURVIVES LEAVING THE TRACK.
- *    Releasing over the page body still commits the seek. During a drag the
- *    thumb follows the pointer while the audio element is left alone, and the
- *    seek is committed once on release: seeking a compressed stream on every
- *    pointermove is what makes a scrubber feel like it is fighting back.
- *
- * 3. REDUCED MOTION IS AN ANSWER, NOT A DECORATION.
- *    The only animation here is the equalizer beside the title, and it is gated
- *    in CSS on prefers-reduced-motion: no-preference. Nothing in the transport
- *    itself moves except as the direct result of an input or of time passing.
- *
- * 4. AN ERROR REMOVES THE CONTROL. It does not disable it.
- *    If the media element errors at any point, this returns null. A visitor never
- *    meets a play button that has stopped being able to play.
+ * CLS CONTRACT WITH THE HERO (agreed with @BROKER-MARKETING in FINDINGS):
+ * this component reserves its box synchronously. The root carries a min-height
+ * that matches the ready state, and the caption slot has a fixed height from
+ * first paint, so neither metadata arrival nor playback moves the page.
  */
 
 type Chapter = { t: number; text: string };
+type Caption = { t0: number; t1: number; text: string };
 
 const SKIP = 15;
 
@@ -58,21 +55,21 @@ function spoken(s: number): string {
   return m ? `${mm} ${ss}` : ss;
 }
 
-export function LeoTransport({
+export function HeroAudioTransport({
   src,
   duration: knownDuration,
   transcript,
   chapters,
-  variant = "band",
+  captions,
+  peaks,
+  variant = "hero",
 }: {
   src: string;
   duration: number | null;
   transcript: string;
   chapters: Chapter[];
-  /* "hero" compacts the surface at >=900px (CSS only, same DOM) so it can live
-     inside the pinned hero without spending the height budget that disarms the
-     pin-and-scrub. Under 900px the hero is never pinned, so both variants
-     render the identical full transport there. */
+  captions: Caption[];
+  peaks: number[];
   variant?: "band" | "hero";
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -82,6 +79,7 @@ export function LeoTransport({
   const [dead, setDead] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [waiting, setWaiting] = useState(false);
+  const [started, setStarted] = useState(false);
   const [current, setCurrent] = useState(0);
   const [duration, setDuration] = useState(knownDuration ?? 0);
   const [buffered, setBuffered] = useState(0);
@@ -89,6 +87,7 @@ export function LeoTransport({
   const [openTranscript, setOpenTranscript] = useState(false);
 
   const transcriptId = useId();
+  const waveId = useId();
 
   /* ── the media element is the source of truth; state only mirrors it ──────── */
   useEffect(() => {
@@ -103,7 +102,7 @@ export function LeoTransport({
       }
     };
     const onTime = () => setCurrent(el.currentTime);
-    const onPlay = () => setPlaying(true);
+    const onPlay = () => { setPlaying(true); setStarted(true); };
     const onPause = () => setPlaying(false);
     const onEnded = () => { setPlaying(false); setCurrent(0); el.currentTime = 0; };
     const onWaiting = () => setWaiting(true);
@@ -133,14 +132,10 @@ export function LeoTransport({
        fired and will not fire again, so the listener alone would never arm. */
     if (el.readyState >= 1) onMeta();
 
-    /* THE LOAD DEADLINE.
-       MEASURED: with the audio request aborted at the network layer, the media
-       element fires no `error` at all. It simply never loads, and without this
-       the surface sits under the words "Loading the audio" for the rest of the
-       session. That is a sentence the page cannot keep, and a component that
-       lies quietly is worse than one that fails loudly, so an audio file that
-       has not produced a duration within the deadline is treated exactly like
-       one that errored: the whole component leaves the page. */
+    /* THE LOAD DEADLINE. MEASURED on the predecessor: with the audio request
+       aborted at the network layer, the media element fires no `error` at all.
+       An audio file that has not produced a duration within the deadline is
+       treated exactly like one that errored: the whole component leaves. */
     const deadline = window.setTimeout(() => {
       if (el.readyState < 1) setDead(true);
     }, 12000);
@@ -228,39 +223,102 @@ export function LeoTransport({
     }
   };
 
+  /* ── the current caption, by binary search kept trivial (33 cues) ─────────── */
+  const shown = scrub ?? current;
+  const cue = useMemo(() => {
+    if (!captions.length) return null;
+    for (const c of captions) if (shown >= c.t0 && shown < c.t1 + 0.15) return c;
+    return null;
+  }, [captions, shown]);
+
+  /* ── the waveform path, built once; it never changes during playback ──────── */
+  const hasWave = peaks.length >= 40;
+  const waveBars = useMemo(() => {
+    if (!hasWave) return null;
+    const W = 1000; const H = 100; const n = peaks.length;
+    const bw = W / n;
+    return peaks.map((p, i) => {
+      const h = Math.max(4, p);
+      return (
+        <rect
+          key={i}
+          x={(i * bw + bw * 0.18).toFixed(1)}
+          y={((H - h) / 2).toFixed(1)}
+          width={(bw * 0.64).toFixed(1)}
+          height={h.toFixed(1)}
+          rx={Math.min(1.6, bw * 0.3)}
+        />
+      );
+    });
+  }, [peaks, hasWave]);
+
   if (dead) return null;
 
-  const shown = scrub ?? current;
   const pct = duration ? Math.max(0, Math.min(100, (shown / duration) * 100)) : 0;
   const bufPct = duration ? Math.max(0, Math.min(100, (buffered / duration) * 100)) : 0;
   const total = duration || knownDuration || 0;
 
-  /* ⛔ THE SUBTITLE USED TO SAY "in three minutes" AS A STRING LITERAL, and when the
-     7:14 cut replaced the 2:50 one the front door went on advertising three minutes
-     over seven minutes of audio. A hardcoded duration is a claim that drifts the
-     moment the file behind it changes, and nothing in the build can catch it.
-     So the label is DERIVED from the same measured duration the transport already
-     holds — and when the duration is not yet known it says nothing about length at
-     all, rather than guessing. A number we do not have does not get printed. */
-  const lengthPhrase = total >= 30 ? `in ${Math.round(total / 60)} minutes` : "";
-  const promise = lengthPhrase ? `why we built this, ${lengthPhrase}` : "why we built this";
+  /* The label is DERIVED from the measured duration; a number we do not have
+     does not get printed (the predecessor once advertised three minutes over
+     seven minutes of audio from a string literal). */
+  const lengthPhrase =
+    total >= 120 ? `in ${Math.round(total / 60)} minutes`
+    : total >= 30 ? `in ${Math.round(total)} seconds`
+    : "";
+  const promise = lengthPhrase ? `the pitch, ${lengthPhrase}` : "the pitch";
 
   return (
-    <div className="leo" data-ready={ready ? "1" : "0"} data-variant={variant}>
-      {/* preload="metadata" and not "auto": the duration has to be known before a
-          control may render, but a visitor who never presses play should not pay
-          for the whole file on a phone. */}
+    <div
+      className="leo heroaudio"
+      data-ready={ready ? "1" : "0"}
+      data-variant={variant}
+      data-captions={captions.length ? "1" : "0"}
+    >
+      {/* Styles for what is NEW in this transport (waveform, captions). The
+          inherited surface keeps the .leo classes styled in globals.css, so
+          the marketing lane's stylesheet stays untouched by this lane. */}
+      <style>{`
+        /* CLS contract with the hero (FINDINGS, 08-26): the box is reserved
+           BEFORE metadata arrives, at the ready-state height MEASURED at each
+           breakpoint (1920/1440: 178px; 768, where the hero variant is no
+           longer compacted: 204px; 390/320, where the meta row wraps: 230px).
+           Media queries, not an inline style, so the narrow reservations win. */
+        .heroaudio[data-captions="1"]{min-height:178px}
+        .heroaudio[data-captions="0"]{min-height:132px}
+        @media (max-width: 899px){
+          .heroaudio[data-captions="1"]{min-height:204px}
+          .heroaudio[data-captions="0"]{min-height:158px}
+        }
+        @media (max-width: 480px){
+          .heroaudio[data-captions="1"]{min-height:230px}
+          .heroaudio[data-captions="0"]{min-height:184px}
+        }
+        .heroaudio__wave{position:relative;width:100%;height:44px;border-radius:8px;overflow:hidden;cursor:pointer;touch-action:none;outline-offset:2px}
+        .heroaudio__wave:focus-visible{outline:2px solid var(--mint, #7ee0c3)}
+        .heroaudio__wave svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+        .heroaudio__wave-base{fill:rgba(255,255,255,.22)}
+        .heroaudio__wave-buf{position:absolute;inset:0;background:rgba(255,255,255,.05)}
+        .heroaudio__wave-fill{fill:var(--mint, #7ee0c3)}
+        .heroaudio__wave-mark{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.28)}
+        .heroaudio__wave-thumb{position:absolute;top:2px;bottom:2px;width:2px;border-radius:1px;background:var(--ink, #fff);box-shadow:0 0 0 1px rgba(0,0,0,.35)}
+        .heroaudio__caption{height:46px;overflow:hidden;display:flex;align-items:flex-start;font-size:13px;line-height:1.45;color:var(--faint, rgba(255,255,255,.72))}
+        .heroaudio__caption q{quotes:none;font-style:normal}
+        .heroaudio__caption[data-live="1"]{color:var(--ink, #fff)}
+        @media (prefers-reduced-motion: no-preference){
+          .heroaudio__caption span{transition:opacity .18s linear}
+        }
+      `}</style>
+
+      {/* preload="metadata" and not "auto": the duration has to be known before
+          a control may render, but a visitor who never presses play should not
+          pay for the whole file on a phone. The header fetch is a few KB and is
+          never the LCP. */}
       <audio ref={audioRef} src={src} preload="metadata" playsInline />
 
-      {/* ONE LINE, NOT TWO. The pinned hero column runs to exactly its height
-          budget at 1440x900 (see the measured note in page.tsx), so every pixel
-          this component spends is a pixel taken from the scrub effect. The
-          subtitle that used to sit under the title is now the button's
-          accessible name, where it costs nothing and says more. */}
       <div className="leo__head">
         <span className="leo__eq" aria-hidden="true"><i /><i /><i /><i /></span>
-        <span className="leo__title">Meet Leo</span>
-        <span className="leo__sub">{promise}</span>
+        <span className="leo__title">Hear the pitch</span>
+        <span className="leo__sub">{lengthPhrase || null}</span>
       </div>
 
       {!ready ? (
@@ -274,7 +332,7 @@ export function LeoTransport({
               type="button"
               className="leo__play"
               onClick={toggle}
-              aria-label={playing ? "Pause Leo" : `Play Leo: ${promise}`}
+              aria-label={playing ? "Pause the pitch" : `Play ${promise}`}
             >
               {playing ? (
                 <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
@@ -292,10 +350,10 @@ export function LeoTransport({
             <div className="leo__transport">
               <div
                 ref={trackRef}
-                className="leo__track"
+                className={hasWave ? "heroaudio__wave" : "leo__track"}
                 role="slider"
                 tabIndex={0}
-                aria-label="Seek through Leo"
+                aria-label="Seek through the pitch"
                 aria-valuemin={0}
                 aria-valuemax={Math.round(total)}
                 aria-valuenow={Math.round(shown)}
@@ -307,16 +365,39 @@ export function LeoTransport({
                 onKeyDown={onTrackKeyDown}
                 data-scrubbing={scrub !== null ? "1" : "0"}
               >
-                <span className="leo__buf" style={{ width: `${bufPct}%` }} aria-hidden="true" />
-                <span className="leo__fill" style={{ width: `${pct}%` }} aria-hidden="true" />
-                {/* Beat marks, so a listener can see the shape of the run
-                    rather than only its length. Purely visual: seeking is the track's. */}
-                {chapters.length > 1 && total
-                  ? chapters.slice(1).map((c) => (
-                      <span key={c.t} className="leo__mark" style={{ left: `${(c.t / total) * 100}%` }} aria-hidden="true" />
-                    ))
-                  : null}
-                <span className="leo__thumb" style={{ left: `${pct}%` }} aria-hidden="true" />
+                {hasWave ? (
+                  <>
+                    <span className="heroaudio__wave-buf" style={{ width: `${bufPct}%` }} aria-hidden="true" />
+                    <svg viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true">
+                      <g className="heroaudio__wave-base">{waveBars}</g>
+                    </svg>
+                    <svg
+                      viewBox="0 0 1000 100"
+                      preserveAspectRatio="none"
+                      aria-hidden="true"
+                      style={{ clipPath: `inset(0 ${100 - pct}% 0 0)` }}
+                    >
+                      <g className="heroaudio__wave-fill" id={waveId}>{waveBars}</g>
+                    </svg>
+                    {chapters.length > 1 && total
+                      ? chapters.slice(1).map((c) => (
+                          <span key={c.t} className="heroaudio__wave-mark" style={{ left: `${(c.t / total) * 100}%` }} aria-hidden="true" />
+                        ))
+                      : null}
+                    <span className="heroaudio__wave-thumb" style={{ left: `${pct}%` }} aria-hidden="true" />
+                  </>
+                ) : (
+                  <>
+                    <span className="leo__buf" style={{ width: `${bufPct}%` }} aria-hidden="true" />
+                    <span className="leo__fill" style={{ width: `${pct}%` }} aria-hidden="true" />
+                    {chapters.length > 1 && total
+                      ? chapters.slice(1).map((c) => (
+                          <span key={c.t} className="leo__mark" style={{ left: `${(c.t / total) * 100}%` }} aria-hidden="true" />
+                        ))
+                      : null}
+                    <span className="leo__thumb" style={{ left: `${pct}%` }} aria-hidden="true" />
+                  </>
+                )}
               </div>
 
               <div className="leo__meta">
@@ -355,6 +436,22 @@ export function LeoTransport({
               </div>
             </div>
           </div>
+
+          {/* THE CAPTION SLOT. Fixed height from first ready paint, so a cue
+              appearing moves nothing. Before playback starts it invites; during
+              playback it carries the current sentence, timed from the blind
+              transcription of the shipped file. aria-hidden because the audio
+              itself plus the transcript are the accessible artifacts; a
+              screen reader should not hear every sentence twice. */}
+          {captions.length ? (
+            <div className="heroaudio__caption" data-live={cue && (playing || started) ? "1" : "0"} aria-hidden="true">
+              <span>
+                {cue && (playing || started)
+                  ? cue.text
+                  : "Two numbers, one city, and the reading habit that is the whole company."}
+              </span>
+            </div>
+          ) : null}
 
           {/* Always in the DOM when it exists, so it is findable and indexable, and
               so a reader who prefers text is never asked to play audio to get it. */}

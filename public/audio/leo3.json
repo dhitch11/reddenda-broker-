@@ -1,0 +1,428 @@
+{
+ "renderedAt": "2026-08-26T15:48:15.103380+00:00",
+ "bytes": 1582020,
+ "seconds": 79,
+ "duration": 79.07,
+ "words": 236,
+ "chunks": 1,
+ "voice": "Leo (an AI voice; self-identifies in its first spoken first-person sentence; no real person is named)",
+ "model": "eleven_multilingual_v2",
+ "src": "/audio/leo3.mp3",
+ "title": "LEO III - The Two Numbers Cut",
+ "renderedFrom": "/home/ubuntu/.broker-fleet/LEO3-SCRIPT.md",
+ "loudness": "-16.5 LUFS integrated, true peak below -1.5 dBTP, measured with ffmpeg loudnorm",
+ "claimCheck": "Every spoken figure measured; see the CLAIM CHECK section of LEO3-SCRIPT.md. Sacramento 70553 p50/p90/n reproduced from the engine 2026-08-26.",
+ "transcript": "Five hundred ninety one dollars. And fifteen hundred thirty five.\n\nThe same brain MRI. The same city. Sacramento.\n\nThe first number is the middle of the market. The second is the top. More than twenty two thousand filings behind them, from the health plans themselves. Public, because federal law requires it.\n\nHey. I'm Leo. I'm an AI. And here is the strange part.\n\nAlmost nobody on the buying side has ever opened those files. One file can be bigger than everything you have ever downloaded. Combined.\n\nWe read them. That is the whole company. There is no magic. There is just the reading.\n\nAnd when a sample is too thin to defend, we show you a refusal instead of a number. Because the first bad number you hand a chief financial officer is the last one they trust.\n\nIf you are a broker, walk into renewal season holding the filed rate. Your proposal stops sounding like everyone else's.\n\nIf you run an agency, point this at your own book. It hands your decisions back, with dates on them.\n\nIf you fund your own health plan, this is your money. Now every number in the file carries a source and a date.\n\nAnd if you run a health plan, you could always read your own numbers. Now read the market.\n\nThe other side of the table just learned to read.\n\nCome find us. Ask for the knee.",
+ "captions": [
+  {
+   "t0": 0.12,
+   "t1": 1.82,
+   "text": "Five hundred ninety one dollars."
+  },
+  {
+   "t0": 2.36,
+   "t1": 4.48,
+   "text": "And fifteen hundred thirty five."
+  },
+  {
+   "t0": 5.24,
+   "t1": 6.72,
+   "text": "The same brain MRI."
+  },
+  {
+   "t0": 7.46,
+   "t1": 8.28,
+   "text": "The same city."
+  },
+  {
+   "t0": 9.0,
+   "t1": 9.54,
+   "text": "Sacramento."
+  },
+  {
+   "t0": 10.2,
+   "t1": 11.8,
+   "text": "The first number is the middle of the market."
+  },
+  {
+   "t0": 11.86,
+   "t1": 13.32,
+   "text": "The second is the top."
+  },
+  {
+   "t0": 13.82,
+   "t1": 17.8,
+   "text": "More than twenty two thousand filings behind them, from the health plans themselves."
+  },
+  {
+   "t0": 18.72,
+   "t1": 20.88,
+   "text": "Public, because federal law requires it."
+  },
+  {
+   "t0": 22.0,
+   "t1": 22.14,
+   "text": "Hey."
+  },
+  {
+   "t0": 22.32,
+   "t1": 22.64,
+   "text": "I'm Leo."
+  },
+  {
+   "t0": 22.74,
+   "t1": 23.18,
+   "text": "I'm an AI."
+  },
+  {
+   "t0": 23.26,
+   "t1": 24.64,
+   "text": "And here is the strange part."
+  },
+  {
+   "t0": 25.04,
+   "t1": 27.66,
+   "text": "Almost nobody on the buying side has ever opened those files."
+  },
+  {
+   "t0": 28.1,
+   "t1": 30.88,
+   "text": "One file can be bigger than everything you have ever downloaded."
+  },
+  {
+   "t0": 31.42,
+   "t1": 32.02,
+   "text": "Combined."
+  },
+  {
+   "t0": 32.78,
+   "t1": 33.38,
+   "text": "We read them."
+  },
+  {
+   "t0": 34.22,
+   "t1": 35.42,
+   "text": "That is the whole company."
+  },
+  {
+   "t0": 35.62,
+   "t1": 36.74,
+   "text": "There is no magic."
+  },
+  {
+   "t0": 37.04,
+   "t1": 38.04,
+   "text": "There is just the reading."
+  },
+  {
+   "t0": 38.64,
+   "t1": 44.14,
+   "text": "And when a sample is too thin to defend, we show you a refusal instead of a number."
+  },
+  {
+   "t0": 44.2,
+   "t1": 48.94,
+   "text": "Because the first bad number you hand a chief financial officer is the last one they trust."
+  },
+  {
+   "t0": 49.3,
+   "t1": 52.62,
+   "text": "If you are a broker, walk into renewal season holding the filed rate."
+  },
+  {
+   "t0": 53.02,
+   "t1": 55.52,
+   "text": "Your proposal stops sounding like everyone else's."
+  },
+  {
+   "t0": 55.96,
+   "t1": 58.4,
+   "text": "If you run an agency, point this at your own book."
+  },
+  {
+   "t0": 58.8,
+   "t1": 61.66,
+   "text": "It hands your decisions back, with dates on them."
+  },
+  {
+   "t0": 62.26,
+   "t1": 65.86,
+   "text": "If you fund your own health plan, this is your money."
+  },
+  {
+   "t0": 65.9,
+   "t1": 68.74,
+   "text": "Now every number in the file carries a source and a date."
+  },
+  {
+   "t0": 69.32,
+   "t1": 72.66,
+   "text": "And if you run a health plan, you could always read your own numbers."
+  },
+  {
+   "t0": 73.2,
+   "t1": 74.24,
+   "text": "Now read the market."
+  },
+  {
+   "t0": 74.74,
+   "t1": 76.78,
+   "text": "The other side of the table just learned to read."
+  },
+  {
+   "t0": 76.82,
+   "t1": 77.98,
+   "text": "Come find us."
+  },
+  {
+   "t0": 78.08,
+   "t1": 78.7,
+   "text": "Ask for the knee."
+  }
+ ],
+ "chapters": [
+  {
+   "t": 0,
+   "text": "Two numbers"
+  },
+  {
+   "t": 22.0,
+   "text": "Leo"
+  },
+  {
+   "t": 38.64,
+   "text": "The refusal"
+  },
+  {
+   "t": 49.3,
+   "text": "For you"
+  },
+  {
+   "t": 74.74,
+   "text": "The close"
+  }
+ ],
+ "peaks": [
+  61,
+  61,
+  67,
+  65,
+  49,
+  1,
+  24,
+  50,
+  56,
+  50,
+  59,
+  60,
+  10,
+  1,
+  22,
+  66,
+  44,
+  48,
+  47,
+  1,
+  18,
+  46,
+  60,
+  7,
+  3,
+  60,
+  30,
+  1,
+  50,
+  60,
+  58,
+  78,
+  44,
+  54,
+  28,
+  37,
+  45,
+  1,
+  46,
+  52,
+  57,
+  54,
+  52,
+  52,
+  17,
+  26,
+  59,
+  44,
+  60,
+  18,
+  2,
+  1,
+  64,
+  44,
+  75,
+  80,
+  56,
+  33,
+  1,
+  1,
+  1,
+  21,
+  48,
+  76,
+  49,
+  56,
+  56,
+  39,
+  22,
+  42,
+  71,
+  65,
+  67,
+  63,
+  63,
+  43,
+  41,
+  1,
+  67,
+  45,
+  52,
+  51,
+  49,
+  43,
+  45,
+  1,
+  1,
+  49,
+  35,
+  1,
+  1,
+  67,
+  43,
+  1,
+  1,
+  59,
+  64,
+  38,
+  20,
+  82,
+  67,
+  49,
+  4,
+  72,
+  54,
+  27,
+  1,
+  34,
+  48,
+  54,
+  59,
+  45,
+  46,
+  1,
+  3,
+  69,
+  93,
+  54,
+  45,
+  40,
+  21,
+  1,
+  1,
+  49,
+  52,
+  68,
+  50,
+  32,
+  41,
+  35,
+  52,
+  40,
+  30,
+  68,
+  48,
+  51,
+  1,
+  81,
+  88,
+  77,
+  61,
+  55,
+  46,
+  52,
+  52,
+  54,
+  9,
+  47,
+  83,
+  64,
+  52,
+  42,
+  59,
+  35,
+  11,
+  15,
+  74,
+  62,
+  48,
+  75,
+  41,
+  67,
+  8,
+  29,
+  58,
+  47,
+  64,
+  45,
+  8,
+  72,
+  43,
+  25,
+  1,
+  59,
+  60,
+  60,
+  57,
+  43,
+  1,
+  49,
+  35,
+  17,
+  1,
+  66,
+  65,
+  68,
+  84,
+  62,
+  75,
+  19,
+  57,
+  2,
+  7,
+  70,
+  63,
+  27,
+  9,
+  46,
+  77,
+  51,
+  39,
+  27,
+  3,
+  46,
+  69,
+  51,
+  21,
+  2,
+  100,
+  69,
+  80,
+  32,
+  32,
+  43,
+  59,
+  29,
+  1,
+  58,
+  40,
+  4
+ ],
+ "peaksNote": "RMS per 1/220th of the file, normalized 0-100, measured from the shipped mp3 decoded to PCM. A real waveform, never a drawing."
+}
