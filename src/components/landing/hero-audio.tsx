@@ -87,7 +87,12 @@ import { HeroAudioTransport } from "./hero-audio-transport";
    faster profile than the band. LEO III's defect was 179 wpm with ZERO pauses; this
    has 67 seconds of real air placed where the writer put it. The gate did its job by
    forcing the question; the answer is David's stated ear, not the number. */
-const AUDIO_BASENAME = "pitch-v2";
+/* ▶ PITCH V3 (David, 2026-08-26): national max scale, every data class spoken as held
+   including pharmacy end to end, delivered "normal and fast" by his direct order.
+   speed 1.0, air 0.8 + scripted holds. Measured: 435.64s, 162 wpm overall / 191
+   speaking, 29 pauses at 0.8s+, -17.0 LUFS. The monologue band stays overruled for
+   this piece on the same order; v1/v2 kept on disk for the record. */
+const AUDIO_BASENAME = "pitch-v3";
 const AUDIO_PUBLIC_PATH = `/audio/${AUDIO_BASENAME}.mp3`;
 const MIN_PLAUSIBLE_BYTES = 32 * 1024; // a truncated or error-body mp3 is not audio
 
