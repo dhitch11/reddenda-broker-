@@ -115,15 +115,32 @@ export default async function Landing() {
   if (care.ok) {
     const where = care.localityName ? titleCase(care.localityName) : care.state;
     const vint = care.physician.vintage ?? "";
+    /* ★ THE TICKER WAS UNDOING THE PANEL'S OWN DISCLOSURE.
+       Twenty lines further down the panel says, in as many words: "Facility payment:
+       national unadjusted. Not wage-index adjusted to a single market." The ticker
+       then took the SAME totals and labelled them with the locality name, so a strip
+       of chips scrolling past the reader attributed a national figure to
+       Sacramento-Roseville-Folsom. The chips travel further than the panel: they are
+       above the fold and they are what somebody screenshots.
+
+       A total is only a local number where every component of it is local. The office
+       bar is physician-only (`facility` is null by construction) and IS local. ASC and
+       hospital outpatient are physician-local plus facility-national, so they get a
+       mixed-grain label rather than a locality. It is longer and it is the truth. */
     for (const b of care.bars) {
       if (b.total == null) continue;
-      tape.push({ k: `CPT ${care.cpt}`, v: usdc(b.total), note: `${b.label} · ${where}${vint ? ` · ${vint}` : ""}` });
+      const grain = b.facility != null ? `physician ${where}, facility national unadjusted` : where;
+      tape.push({ k: `CPT ${care.cpt}`, v: usdc(b.total), note: `${b.label} · ${grain}${vint ? ` · ${vint}` : ""}` });
     }
     if (care.hopdVsOfficePct != null) {
-      tape.push({ k: "HOPD vs office", v: `+${care.hopdVsOfficePct}%`, note: `${care.cpt} · ${where}` });
+      // Compares a mixed-grain total against a local one, so it cannot claim the locality.
+      tape.push({ k: "HOPD vs office", v: `+${care.hopdVsOfficePct}%`, note: `${care.cpt} · physician ${where}, facility national` });
     }
     if (care.ascSavingVsHopd != null) {
-      tape.push({ k: "ASC vs HOPD", v: usdc(care.ascSavingVsHopd), note: `${care.cpt} · per case · federal basis` });
+      /* "federal basis" was vague rather than wrong. This difference is ENTIRELY the
+         facility component, since the physician fee is identical on both sides and
+         cancels, so it is a purely national figure and says so. */
+      tape.push({ k: "ASC vs HOPD", v: usdc(care.ascSavingVsHopd), note: `${care.cpt} · per case · facility fees, national unadjusted` });
     }
   }
   if (ledger.ok) {
