@@ -33,9 +33,9 @@ const config: RoleConfig = {
 
   demo: {
     service: "73721",
-    market: "26420",
+    market: "40900",
     why:
-      "A knee MRI in Houston. You do not need to know what a CPT code is to read this. The spread between the low and high end of one market is usually the part that surprises people, and it is the part you can actually do something about.",
+      "A knee MRI in Sacramento. You do not need to know what a procedure code is to read this. The spread between the low and high end of one market is usually the part that surprises people, and it is the part you can actually do something about.",
   },
 
   scenarios: [
@@ -72,11 +72,21 @@ const config: RoleConfig = {
        sentences, and the gap between them is exactly where a marketing page turns into a
        promise nobody kept. It now says both halves - what is in the corpus, and what is not
        yet in the lookup - and names the reason, which is that a drug price without the right
-       unit is worse than no drug price. */
+       unit is worse than no drug price.
+
+       ↩︎ UPDATED 2026-08-26, AND THE UPDATE IS THE SAME DEFECT POINTING THE OTHER WAY.
+       "They are not in the lookup yet" was true when it was written and is now FALSE:
+       clinic-administered drugs are in the lookup, every figure carries its billing unit,
+       the carrier whose book it came from, and the Medicare benchmark or an honest line
+       saying none is wired. This page was telling an employer we cannot do a thing we do.
+       ★ A PAGE THAT UNDERSTATES THE PRODUCT IS THE SAME CLASS OF ERROR AS ONE THAT
+       OVERSTATES IT: both are a sentence the product does not match. Stale honesty is
+       still stale. Whoever ships the next drug capability edits this paragraph in the
+       same commit. */
     {
       when: "When somebody offers you pharmacy savings",
       body:
-        "We hold no pharmacy benefit manager contract, no rebate data and no point-of-sale pricing, so we will tell you nothing about your pharmacy benefit. The federal government collects rebate totals and says in writing that it cannot publish them in a form that identifies a plan or a drug, so anybody selling you a pharmacy number built from public data should be asked which file it came from. What is public is the other half of drug spend: the drugs given in a clinic - the infusions and the injections - are billed under the medical benefit at a negotiated rate, and those rates are filed like every other one. They are in our corpus, and they are not yet in the lookup: the tools cover imaging, scopes and procedures today, and putting a drug price on screen means getting its unit right, which is a thing to do properly rather than quickly. Ask us for the drug your plan actually spends on and we will show you what we hold.",
+        "We hold no pharmacy benefit manager contract. No rebate data. No point-of-sale pricing. So we will tell you nothing about your pharmacy benefit. The federal government does collect rebate totals. It says in writing it cannot publish them in a way that names a plan or a drug. So if someone sells you a pharmacy number built from public data, ask which file it came from. The other half of drug spend is public. Drugs given in a clinic are billed under the medical benefit. Infusions. Injections. They carry a negotiated rate, filed like every other one. Those rates are in the lookup now. Every figure shows its billing unit, because a drug price without one is off by whatever the dose is. Each one names the carrier whose book it came from. Each one shows the Medicare benchmark beside it, or says plainly that we do not hold one. Ask us for the drug your plan actually spends on.",
     },
     {
       when: "When someone asks whether you could build your own network",
