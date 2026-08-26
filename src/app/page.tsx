@@ -319,8 +319,12 @@ export default async function Landing() {
                   the demo door and claims nothing about billing. */}
               <div className="rise rise-4 cta-row">
                 <div className="cta-col">
-                  <a href={APP} className="btn btn-primary">Create account</a>
-                  <span className="cta-micro">opens the operator console</span>
+                  {/* "Start free" is literally true: the free tier is $0, no card, and it
+                      does not expire. "Create account" described the mechanism; this
+                      describes the reason to press it. David 2026-08-26: the hero must
+                      make the sign-up a no-brainer, and a no-brainer names its price. */}
+                  <a href={APP} className="btn btn-primary">Start free</a>
+                  <span className="cta-micro">free tier, no card, your market in a minute</span>
                 </div>
                 <div className="cta-col">
                   <a href={APP_DEMO} className="btn btn-secondary">Log in with demo</a>

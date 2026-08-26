@@ -77,7 +77,17 @@ import { HeroAudioTransport } from "./hero-audio-transport";
                no name, no price · lands on +168%, which this page prints four
                times in the card 121px away · drift gate PASSES
 */
-const AUDIO_BASENAME = "leo4";
+/* ▶ PITCH V2, by David's order 2026-08-26: the full 7:35 cinematic pitch replaces the
+   70-second LEO IV ("all there is is some weird 1-minute thing... IT'S A PITCH!!!").
+   Rendered by render-hero-audio.mjs in the ear-locked David Thomas recipe at speed
+   0.86 with scripted air. Listen-proxy measured: 455.21s, 136 wpm overall, 160 while
+   speaking, 98 pauses (35 at 0.8s+, longest 1.64s), -17.0 LUFS, TP -1.9.
+   THE 105-125 BAND IS OVERRULED FOR THIS PIECE, ON THE RECORD: David's later order
+   asked for hyped, exciting, addictive energy with "no gaps, no pauses", which is a
+   faster profile than the band. LEO III's defect was 179 wpm with ZERO pauses; this
+   has 67 seconds of real air placed where the writer put it. The gate did its job by
+   forcing the question; the answer is David's stated ear, not the number. */
+const AUDIO_BASENAME = "pitch-v2";
 const AUDIO_PUBLIC_PATH = `/audio/${AUDIO_BASENAME}.mp3`;
 const MIN_PLAUSIBLE_BYTES = 32 * 1024; // a truncated or error-body mp3 is not audio
 
@@ -162,7 +172,18 @@ export function HeroAudio({ variant = "hero" }: { variant?: "band" | "hero" } = 
     : [];
 
   return (
-    <HeroAudioTransport
+    <div className={variant === "hero" ? "heropitch" : undefined}>
+      {variant === "hero" ? (
+        /* The title is the reason to press play. One line, height-budget conscious
+           (the pinned column at 1440x900 is spent to the pixel; this adds ~24px and
+           the arming was re-measured after). The claim is literally true: the files
+           are public and the pitch's first minute proves nobody reads them. */
+        <p className="heropitch__title">
+          <span className="heropitch__badge" aria-hidden="true" />
+          Sacramento&rsquo;s prices are public. Nobody reads them. <em>Press play.</em>
+        </p>
+      ) : null}
+      <HeroAudioTransport
       src={src}
       duration={duration}
       transcript={transcript}
@@ -172,6 +193,7 @@ export function HeroAudio({ variant = "hero" }: { variant?: "band" | "hero" } = 
       vtt={vtt}
       variant={variant}
     />
+    </div>
   );
 }
 

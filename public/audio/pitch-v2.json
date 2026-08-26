@@ -1,0 +1,723 @@
+{
+  "renderedAt": "2026-08-26T20:21:23.549Z",
+  "renderedFrom": "hero-pitch-final.md",
+  "take": "locked",
+  "voiceSettings": {
+    "stability": 0.42,
+    "similarity_boost": 0.8,
+    "style": 0.28,
+    "use_speaker_boost": true,
+    "speed": 0.86
+  },
+  "voiceId": "z0BOWBeixS6REJudB8Qi",
+  "model": "eleven_multilingual_v2",
+  "src": "/audio/pitch-v2.mp3",
+  "bytes": 9104763,
+  "duration": 455.21,
+  "seconds": 455,
+  "words": 1000,
+  "beats": 23,
+  "scriptedAirSeconds": 26.1,
+  "wpm": 131.8,
+  "loudness": {
+    "targetLufs": -16.5,
+    "targetTruePeakDb": -1.5,
+    "measuredInputLufs": -18.5
+  },
+  "transcript": "There is a file on the internet right now that says what every hospital in Sacramento gets paid. By each health plan. For each procedure. To the cent.\n\nIt is public. It is legal to read. Almost no human being has ever read it.\n\nNobody hid it. It is the size. Federal law said publish the negotiated rates, and they were, in machine files so big that opening one on a laptop is like drinking a reservoir through a straw. The intent was daylight. What arrived was a room with the lights on and nobody able to get in the door.\n\nWe got through the door.\n\nFive hundred and eight million rate rows, serving live. Behind them, a drug rate lake of one point nine three billion rows that answers a question in one and seven tenths of a second. That is the sound of the file opening.\n\nHere is what is inside.\n\nOne common procedure, in Sacramento. In a doctor's office, the negotiated rate is four hundred seventeen dollars and sixty five cents. In a surgery center, six hundred seventy nine dollars and ninety two cents. In a hospital outpatient department, one thousand one hundred nineteen dollars and fifty three cents. Same procedure, same city. Four hundred thirty nine dollars and sixty one cents between the surgery center and the hospital, decided by which building the patient sits down in.\n\nA new patient office visit, same city. Anthem files it at one hundred nine dollars. Blue Shield at four hundred three. Both published. Neither on anybody's screen at renewal time.\n\nNow think about the meeting you had last spring. The employer leaned back and asked the honest question. Are we paying too much. And the honest answer available to anyone in that chair was a feeling. The market is tough this year. Everyone is up.\n\nThat is what the closed file costs. Not a line item. A whole category of conversation you could not have.\n\nSacramento is California's strongest data metro. Fifty one point four percent of peer cells are scoreable. Grade A. Your market is where this works best.\n\nYou have sat through the other demos. Someone slid a confident figure across the table, you asked where it came from, and the room got vague. That is the problem. Not insurers. Opacity. A health plan pays for the room you are standing in. The enemy is that nobody will tell you how the number was made.\n\nSo we tell you. And when we do not know, the screen says so. Ask for the standard office visit, code 99213, in Sacramento, and you get a refusal printed in plain sight: seventeen filings, and our publishing floor is one hundred. In the federal payment dispute record, San Francisco shows one thousand eight hundred seventy resolved lines at one point nine one times the benchmark. Sacramento gives you a refusal at four hundred thirty six, under the higher floor that record carries. Kaiser publishes no negotiated rate file at all, because it is a closed system, so we say that instead of inventing a number to fill the box. A tool that never says I do not know is lying to you somewhere, and you will not know where.\n\nNow here is the turn.\n\nRates are what everyone expects. What changes your Monday is that the same discipline runs across your whole book.\n\nEvery group you serve sits in one operator register, with the renewal clock counting down, so the ninety day window never arrives as a surprise in a carrier email. Beside each group, a dossier built from the public record. Eight thousand four hundred sixty seven California employer plan sponsors on the federal Form 5500. Three thousand two hundred seventy in the Bay Area and Sacramento corridors, three hundred forty eight in Sacramento itself. Nine hundred sixty eight million dollars of broker commission filed on California Schedule A for plan year 2023, across fifty two thousand two hundred sixty eight rows. That is your industry, describing itself, in public, all this time.\n\nThree hundred thirty six thousand three hundred twenty California provider affiliation rows, twenty two thousand two hundred twenty named groups. So who is actually in this network near our warehouse is an answer, not a project.\n\nThen the documents. The rate exhibit. The market memo. The renewal brief. You do not hand over a screenshot. You hand over an exhibit with your firm's name on it, your language, the sources cited underneath, the refusals still printed where refusals belong. And the chief financial officer stops asking why it is going up. He starts asking what we do about it. That is a different meeting. That is a renewal you keep for five years.\n\nThe automations keep watch while you sell. Thirteen codes retire on the thirtieth of September, inside renewal season, and you hear about it before the plan sponsor does. Eight thousand seven hundred sixty nine supply and equipment codes carry plain English names, so a wheelchair cushion reads like a wheelchair cushion.\n\nAnd you can ask your own book a question in plain words. Which of my groups is exposed to that hospital rate. The answer comes back sourced. Your book stays in this browser. No patient information, no uploads, ever.\n\nOne last figure, labelled the way the screen labels it. A two hundred fifty life California plan spends about three point nine five million dollars a year. That figure is modelled, from federal survey data, trended forward, with an honest range of fifteen thousand eight hundred to eighteen thousand five hundred dollars per employee. Mercer measured seventeen thousand four hundred ninety six in 2025. Modelled, not measured, and we say so in front of your client.\n\nIn a market that sells confident numbers, the one willing to tell you no is the only one worth believing.\n\nBook a discovery call. Twenty minutes. Your metro, your codes, your groups, on the screen, with the refusals showing. Then walk into your next renewal holding the file.",
+  "captions": [
+    {
+      "t0": 0,
+      "t1": 4.57,
+      "text": "There is a file on the internet right now that says what every hospital in Sacramento gets paid."
+    },
+    {
+      "t0": 5.26,
+      "t1": 6.4,
+      "text": "By each health plan."
+    },
+    {
+      "t0": 7.1,
+      "t1": 8.3,
+      "text": "For each procedure."
+    },
+    {
+      "t0": 8.81,
+      "t1": 10.57,
+      "text": "To the cent."
+    },
+    {
+      "t0": 10.74,
+      "t1": 11.6,
+      "text": "It is public."
+    },
+    {
+      "t0": 11.62,
+      "t1": 12.89,
+      "text": "It is legal to read."
+    },
+    {
+      "t0": 12.91,
+      "t1": 15.11,
+      "text": "Almost no human being has ever read it."
+    },
+    {
+      "t0": 16.66,
+      "t1": 17.65,
+      "text": "Nobody hid it."
+    },
+    {
+      "t0": 18,
+      "t1": 19.14,
+      "text": "It is the size."
+    },
+    {
+      "t0": 19.9,
+      "t1": 31.27,
+      "text": "Federal law said publish the negotiated rates, and they were, in machine files so big that opening one on a laptop is like drinking a reservoir through a straw."
+    },
+    {
+      "t0": 32.14,
+      "t1": 33.6,
+      "text": "The intent was daylight."
+    },
+    {
+      "t0": 34.14,
+      "t1": 40.71,
+      "text": "What arrived was a room with the lights on and nobody able to get in the door."
+    },
+    {
+      "t0": 40.51,
+      "t1": 42.46,
+      "text": "We got through the door."
+    },
+    {
+      "t0": 43.1,
+      "t1": 47.06,
+      "text": "Five hundred and eight million rate rows, serving live."
+    },
+    {
+      "t0": 48,
+      "t1": 58.35,
+      "text": "Behind them, a drug rate lake of one point nine three billion rows that answers a question in one and seven tenths of a second."
+    },
+    {
+      "t0": 59.29,
+      "t1": 63.21,
+      "text": "That is the sound of the file opening."
+    },
+    {
+      "t0": 63.31,
+      "t1": 65.4,
+      "text": "Here is what is inside."
+    },
+    {
+      "t0": 65.88,
+      "t1": 68.55,
+      "text": "One common procedure, in Sacramento."
+    },
+    {
+      "t0": 69.06,
+      "t1": 74.89,
+      "text": "In a doctor's office, the negotiated rate is four hundred seventeen dollars and sixty five cents."
+    },
+    {
+      "t0": 75.48,
+      "t1": 80.51,
+      "text": "In a surgery center, six hundred seventy nine dollars and ninety two cents."
+    },
+    {
+      "t0": 81.21,
+      "t1": 88.58,
+      "text": "In a hospital outpatient department, one thousand one hundred nineteen dollars and fifty three cents."
+    },
+    {
+      "t0": 89.22,
+      "t1": 91.34,
+      "text": "Same procedure, same city."
+    },
+    {
+      "t0": 91.98,
+      "t1": 102.57,
+      "text": "Four hundred thirty nine dollars and sixty one cents between the surgery center and the hospital, decided by which building the patient sits down in."
+    },
+    {
+      "t0": 103.22,
+      "t1": 105.66,
+      "text": "A new patient office visit, same city."
+    },
+    {
+      "t0": 106.25,
+      "t1": 108.79,
+      "text": "Anthem files it at one hundred nine dollars."
+    },
+    {
+      "t0": 109.49,
+      "t1": 111.21,
+      "text": "Blue Shield at four hundred three."
+    },
+    {
+      "t0": 111.24,
+      "t1": 112.29,
+      "text": "Both published."
+    },
+    {
+      "t0": 112.88,
+      "t1": 116.45,
+      "text": "Neither on anybody's screen at renewal time."
+    },
+    {
+      "t0": 116.74,
+      "t1": 119.46,
+      "text": "Now think about the meeting you had last spring."
+    },
+    {
+      "t0": 119.84,
+      "t1": 123.16,
+      "text": "The employer leaned back and asked the honest question."
+    },
+    {
+      "t0": 123.55,
+      "t1": 124.96,
+      "text": "Are we paying too much."
+    },
+    {
+      "t0": 125.66,
+      "t1": 129.62,
+      "text": "And the honest answer available to anyone in that chair was a feeling."
+    },
+    {
+      "t0": 130.13,
+      "t1": 131.62,
+      "text": "The market is tough this year."
+    },
+    {
+      "t0": 131.67,
+      "t1": 132.91,
+      "text": "Everyone is up."
+    },
+    {
+      "t0": 134,
+      "t1": 136.47,
+      "text": "That is what the closed file costs."
+    },
+    {
+      "t0": 136.71,
+      "t1": 138.12,
+      "text": "Not a line item."
+    },
+    {
+      "t0": 138.63,
+      "t1": 142.96,
+      "text": "A whole category of conversation you could not have."
+    },
+    {
+      "t0": 144.05,
+      "t1": 147.55,
+      "text": "Sacramento is California's strongest data metro."
+    },
+    {
+      "t0": 148.07,
+      "t1": 151.5,
+      "text": "Fifty one point four percent of peer cells are scoreable."
+    },
+    {
+      "t0": 152.2,
+      "t1": 153.14,
+      "text": "Grade A."
+    },
+    {
+      "t0": 153.84,
+      "t1": 156.63,
+      "text": "Your market is where this works best."
+    },
+    {
+      "t0": 157.05,
+      "t1": 159,
+      "text": "You have sat through the other demos."
+    },
+    {
+      "t0": 159.41,
+      "t1": 166.25,
+      "text": "Someone slid a confident figure across the table, you asked where it came from, and the room got vague."
+    },
+    {
+      "t0": 167,
+      "t1": 168.09,
+      "text": "That is the problem."
+    },
+    {
+      "t0": 168.74,
+      "t1": 170,
+      "text": "Not insurers."
+    },
+    {
+      "t0": 170.75,
+      "t1": 171.66,
+      "text": "Opacity."
+    },
+    {
+      "t0": 172.22,
+      "t1": 174.81,
+      "text": "A health plan pays for the room you are standing in."
+    },
+    {
+      "t0": 175.32,
+      "t1": 179.07,
+      "text": "The enemy is that nobody will tell you how the number was made."
+    },
+    {
+      "t0": 180.17,
+      "t1": 181.04,
+      "text": "So we tell you."
+    },
+    {
+      "t0": 181.59,
+      "t1": 184.51,
+      "text": "And when we do not know, the screen says so."
+    },
+    {
+      "t0": 185.39,
+      "t1": 199.83,
+      "text": "Ask for the standard office visit, code 99213, in Sacramento, and you get a refusal printed in plain sight: seventeen filings, and our publishing floor is one hundred."
+    },
+    {
+      "t0": 200.34,
+      "t1": 211.21,
+      "text": "In the federal payment dispute record, San Francisco shows one thousand eight hundred seventy resolved lines at one point nine one times the benchmark."
+    },
+    {
+      "t0": 211.91,
+      "t1": 218.21,
+      "text": "Sacramento gives you a refusal at four hundred thirty six, under the higher floor that record carries."
+    },
+    {
+      "t0": 218.98,
+      "t1": 229.73,
+      "text": "Kaiser publishes no negotiated rate file at all, because it is a closed system, so we say that instead of inventing a number to fill the box."
+    },
+    {
+      "t0": 230.38,
+      "t1": 236.36,
+      "text": "A tool that never says I do not know is lying to you somewhere, and you will not know where."
+    },
+    {
+      "t0": 237.45,
+      "t1": 239.26,
+      "text": "Now here is the turn."
+    },
+    {
+      "t0": 240.65,
+      "t1": 242.33,
+      "text": "Rates are what everyone expects."
+    },
+    {
+      "t0": 243.15,
+      "t1": 248.03,
+      "text": "What changes your Monday is that the same discipline runs across your whole book."
+    },
+    {
+      "t0": 249.09,
+      "t1": 261.82,
+      "text": "Every group you serve sits in one operator register, with the renewal clock counting down, so the ninety day window never arrives as a surprise in a carrier email."
+    },
+    {
+      "t0": 262.63,
+      "t1": 266.73,
+      "text": "Beside each group, a dossier built from the public record."
+    },
+    {
+      "t0": 266.91,
+      "t1": 275.76,
+      "text": "Eight thousand four hundred sixty seven California employer plan sponsors on the federal Form 5500."
+    },
+    {
+      "t0": 276.55,
+      "t1": 285.03,
+      "text": "Three thousand two hundred seventy in the Bay Area and Sacramento corridors, three hundred forty eight in Sacramento itself."
+    },
+    {
+      "t0": 285.39,
+      "t1": 298.63,
+      "text": "Nine hundred sixty eight million dollars of broker commission filed on California Schedule A for plan year 2023, across fifty two thousand two hundred sixty eight rows."
+    },
+    {
+      "t0": 299.3,
+      "t1": 304.96,
+      "text": "That is your industry, describing itself, in public, all this time."
+    },
+    {
+      "t0": 305.29,
+      "t1": 314.81,
+      "text": "Three hundred thirty six thousand three hundred twenty California provider affiliation rows, twenty two thousand two hundred twenty named groups."
+    },
+    {
+      "t0": 315.51,
+      "t1": 321.45,
+      "text": "So who is actually in this network near our warehouse is an answer, not a project."
+    },
+    {
+      "t0": 321.65,
+      "t1": 322.78,
+      "text": "Then the documents."
+    },
+    {
+      "t0": 323.5,
+      "t1": 324.4,
+      "text": "The rate exhibit."
+    },
+    {
+      "t0": 324.8,
+      "t1": 325.8,
+      "text": "The market memo."
+    },
+    {
+      "t0": 326.41,
+      "t1": 327.53,
+      "text": "The renewal brief."
+    },
+    {
+      "t0": 328.25,
+      "t1": 330.14,
+      "text": "You do not hand over a screenshot."
+    },
+    {
+      "t0": 330.75,
+      "t1": 341.4,
+      "text": "You hand over an exhibit with your firm's name on it, your language, the sources cited underneath, the refusals still printed where refusals belong."
+    },
+    {
+      "t0": 341.91,
+      "t1": 346.28,
+      "text": "And the chief financial officer stops asking why it is going up."
+    },
+    {
+      "t0": 346.52,
+      "t1": 348.52,
+      "text": "He starts asking what we do about it."
+    },
+    {
+      "t0": 349.33,
+      "t1": 351.41,
+      "text": "That is a different meeting."
+    },
+    {
+      "t0": 352.1,
+      "t1": 355.83,
+      "text": "That is a renewal you keep for five years."
+    },
+    {
+      "t0": 355.97,
+      "t1": 358.6,
+      "text": "The automations keep watch while you sell."
+    },
+    {
+      "t0": 359.15,
+      "t1": 368.31,
+      "text": "Thirteen codes retire on the thirtieth of September, inside renewal season, and you hear about it before the plan sponsor does."
+    },
+    {
+      "t0": 369.2,
+      "t1": 380.12,
+      "text": "Eight thousand seven hundred sixty nine supply and equipment codes carry plain English names, so a wheelchair cushion reads like a wheelchair cushion."
+    },
+    {
+      "t0": 380.53,
+      "t1": 383.77,
+      "text": "And you can ask your own book a question in plain words."
+    },
+    {
+      "t0": 384.58,
+      "t1": 387.61,
+      "text": "Which of my groups is exposed to that hospital rate."
+    },
+    {
+      "t0": 388.43,
+      "t1": 390.56,
+      "text": "The answer comes back sourced."
+    },
+    {
+      "t0": 391.26,
+      "t1": 392.77,
+      "text": "Your book stays in this browser."
+    },
+    {
+      "t0": 393.46,
+      "t1": 397.81,
+      "text": "No patient information, no uploads, ever."
+    },
+    {
+      "t0": 398.89,
+      "t1": 402.16,
+      "text": "One last figure, labelled the way the screen labels it."
+    },
+    {
+      "t0": 402.75,
+      "t1": 408.82,
+      "text": "A two hundred fifty life California plan spends about three point nine five million dollars a year."
+    },
+    {
+      "t0": 409.52,
+      "t1": 421.41,
+      "text": "That figure is modelled, from federal survey data, trended forward, with an honest range of fifteen thousand eight hundred to eighteen thousand five hundred dollars per employee."
+    },
+    {
+      "t0": 422.51,
+      "t1": 428.62,
+      "text": "Mercer measured seventeen thousand four hundred ninety six in 2025."
+    },
+    {
+      "t0": 429.21,
+      "t1": 433.07,
+      "text": "Modelled, not measured, and we say so in front of your client."
+    },
+    {
+      "t0": 434.13,
+      "t1": 441.56,
+      "text": "In a market that sells confident numbers, the one willing to tell you no is the only one worth believing."
+    },
+    {
+      "t0": 442.29,
+      "t1": 443.71,
+      "text": "Book a discovery call."
+    },
+    {
+      "t0": 443.74,
+      "t1": 444.84,
+      "text": "Twenty minutes."
+    },
+    {
+      "t0": 445.28,
+      "t1": 450.97,
+      "text": "Your metro, your codes, your groups, on the screen, with the refusals showing."
+    },
+    {
+      "t0": 451.91,
+      "t1": 455.52,
+      "text": "Then walk into your next renewal holding the file."
+    }
+  ],
+  "peaks": [
+    0.7121,
+    0.5877,
+    0.5258,
+    0.4988,
+    0.3688,
+    0.6875,
+    0.5839,
+    0.3669,
+    0.6251,
+    0.7537,
+    0.6463,
+    0.5645,
+    0.6132,
+    0.7787,
+    0.6898,
+    0.3806,
+    0.7239,
+    0.5707,
+    0.5404,
+    0.444,
+    0.4884,
+    0.7877,
+    0.5957,
+    0.7934,
+    0.7707,
+    0.6865,
+    0.643,
+    0.5541,
+    0.5258,
+    0.6336,
+    0.2983,
+    0.4979,
+    0.6402,
+    0.6875,
+    0.7858,
+    0.6695,
+    0.5494,
+    0.6548,
+    0.4028,
+    0.6104,
+    0.5636,
+    0.592,
+    0.4151,
+    0.5054,
+    0.6388,
+    0.5792,
+    0.5163,
+    0.5277,
+    0.6752,
+    0.2539,
+    0.7012,
+    0.6629,
+    0.6856,
+    1,
+    0.7504,
+    0.6066,
+    0.6931,
+    0.6359,
+    0.8861,
+    0.6355,
+    0.5083,
+    0.8312,
+    0.6189,
+    0.7825,
+    0.4832,
+    0.5092,
+    0.3428,
+    0.6752,
+    0.4052,
+    0.5593,
+    0.7371,
+    0.5674,
+    0.7783,
+    0.583,
+    0.5617,
+    0.4473,
+    0.5957,
+    0.6629,
+    0.5721,
+    0.4785,
+    0.6369,
+    0.556,
+    0.3754,
+    0.6586,
+    0.5801,
+    0.8728,
+    0.3121,
+    0.4515,
+    0.6265,
+    0.434,
+    0.5031,
+    0.6884,
+    0.3976,
+    0.6596,
+    0.4312,
+    0.5092,
+    0.5054,
+    0.6865,
+    0.6738,
+    0.7612,
+    0.6681,
+    0.5745,
+    0.6132,
+    0.7281,
+    0.6359,
+    0.4752,
+    0.7343,
+    0.6974,
+    0.47,
+    0.6591,
+    0.6615,
+    0.5953,
+    0.4137,
+    0.557,
+    0.6033,
+    0.2879,
+    0.6113,
+    0.5508,
+    0.7362,
+    0.3745,
+    0.8137,
+    0.7764,
+    0.6322,
+    0.513,
+    0.8927,
+    0.4662,
+    0.4392,
+    0.7007,
+    0.7693,
+    0.7991,
+    0.6709,
+    0.6298,
+    0.7073,
+    0.6232,
+    0.7333,
+    0.7532,
+    0.6733,
+    0.6024,
+    0.7196,
+    0.7929,
+    0.6889,
+    0.6274,
+    0.6279,
+    0.7442,
+    0.6298,
+    0.5626,
+    0.5352,
+    0.6738,
+    0.6416,
+    0.6066,
+    0.782,
+    0.6979,
+    0.6463,
+    0.6251,
+    0.7281,
+    0.3702,
+    0.4066,
+    0.4345,
+    0.5305,
+    0.5551,
+    0.6648,
+    0.408,
+    0.5645,
+    0.7745,
+    0.5225,
+    0.4572,
+    0.6969,
+    0.5225,
+    0.565,
+    0.4553,
+    0.6827,
+    0.3574,
+    0.6941,
+    0.5901,
+    0.7603,
+    0.6161,
+    0.7078,
+    0.6459,
+    0.6894,
+    0.6983,
+    0.7759,
+    0.4728,
+    0.8213,
+    0.3102,
+    0.6388,
+    0.4671,
+    0.7348,
+    0.4827,
+    0.556,
+    0.6827,
+    0.591,
+    0.5853,
+    0.4596,
+    0.653,
+    0.487,
+    0.5995,
+    0.609,
+    0.4988,
+    0.6927,
+    0.7239,
+    0.6416,
+    0.6695,
+    0.7291,
+    0.6222,
+    0.7735,
+    0.7423,
+    0.5158,
+    0.6492,
+    0.696,
+    0.4236,
+    0.9518,
+    0.783,
+    0.7182,
+    0.4931,
+    0.6331,
+    0.8279,
+    0.5868,
+    0.5726,
+    0.6293,
+    0.7612
+  ],
+  "peaksNote": "RMS per 1/220th of the SHIPPED mp3, decoded to PCM after mastering. Not drawn."
+}

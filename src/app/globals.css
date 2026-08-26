@@ -2604,3 +2604,35 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
 .pa__takehead { margin-bottom: 1rem; }
 .pa__taketitle { font-size: 1.15rem; line-height: 1.3; margin: 0.4rem 0 0.35rem; }
 .pa__takesub { margin: 0; font-size: 0.92rem; opacity: 0.75; }
+
+/* ── THE HERO PITCH TITLE + THE GLOWING PLAY (President, David's order 2026-08-26) ──
+   The glow is the invitation; the title is the reason. The pulse runs on box-shadow
+   only (compositor-friendly, no layout), pauses while playing (a playing piece needs
+   no invitation), and dies under prefers-reduced-motion. */
+.heropitch__title {
+  margin: 0 0 6px;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  letter-spacing: .01em;
+  color: var(--ink);
+}
+.heropitch__title em { font-style: normal; color: var(--teal-deep); }
+.heropitch__badge {
+  display: inline-block; width: 8px; height: 8px; border-radius: 999px;
+  margin-right: 8px; vertical-align: baseline;
+  background: var(--teal-deep, #14b8a6);
+  box-shadow: 0 0 8px 2px rgba(42, 217, 196, .55);
+  animation: heropitch-pulse 2.2s ease-in-out infinite;
+}
+.heropitch .leo__play {
+  box-shadow: 0 0 0 1px rgba(42, 217, 196, .55), 0 0 18px 4px rgba(42, 217, 196, .30);
+  animation: heropitch-pulse 2.2s ease-in-out infinite;
+}
+.heropitch .leo__play[aria-label^="Pause"] { animation: none; }
+@keyframes heropitch-pulse {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(42, 217, 196, .45), 0 0 10px 2px rgba(42, 217, 196, .22); }
+  50%      { box-shadow: 0 0 0 2px rgba(42, 217, 196, .65), 0 0 26px 7px rgba(42, 217, 196, .38); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .heropitch__badge, .heropitch .leo__play { animation: none; }
+}

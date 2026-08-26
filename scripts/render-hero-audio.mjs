@@ -113,7 +113,13 @@ const TAKES = {
   locked: { stability: 0.42, similarity_boost: 0.80, style: 0.28, use_speaker_boost: true },
   fleet:  { stability: 0.42, similarity_boost: 0.85, style: 0.35, use_speaker_boost: true },
 };
-const VOICE_SETTINGS = TAKES[takeArg];
+/* --speed: ElevenLabs voice_settings.speed. David's own live-line config, locked by
+   ear, runs 0.86 (reference_david_thomas_voice_the_estate_wide_recipe): the one slowed
+   setting he has personally approved. The monologue band (105-125 wpm overall) cannot
+   be reached by air alone without dead gaps, and the dialogue ruling already
+   established that pace belongs in the speaking rate, not the silence. */
+const speedArg = Number((args.find((a)=>a.startsWith("--speed="))??"--speed=1.0").split("=")[1]);
+const VOICE_SETTINGS = { ...TAKES[takeArg], ...(speedArg !== 1.0 ? { speed: speedArg } : {}) };
 if (!VOICE_SETTINGS) {
   console.error(`unknown --take=${takeArg}. known: ${Object.keys(TAKES).join(", ")}`);
   process.exit(2);
@@ -122,7 +128,7 @@ if (!VOICE_SETTINGS) {
 const VOICE = process.env.DAVID_THOMAS_VOICE_ID || "z0BOWBeixS6REJudB8Qi";
 const MODEL = "eleven_multilingual_v2";
 const SR = 44100;                 // samples per second, mono s16le throughout
-const DEFAULT_AIR = 0.70;         // seconds between beats when the script says nothing
+const DEFAULT_AIR = Number((args.find((a)=>a.startsWith("--air="))??"--air=0.70").split("=")[1]);         // seconds between beats when the script says nothing
 const TRIM_FLOOR = 0.006;         // amplitude below this is silence for trimming (about -44 dBFS)
 const TARGET_LUFS = -16.5;        // web hero loudness. SEE THE NOTE BELOW BEFORE CHANGING THIS.
 const TARGET_TP = -1.5;           // dBTP ceiling
