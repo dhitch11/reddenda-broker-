@@ -34,7 +34,25 @@ const NAV = [
 
 export const DISCOVERY_URL = "https://calendly.com/reddenda/discovery";
 
-export function SiteHeader() {
+/**
+ * ★ QA-018. THE HOMEPAGE USED TO HAND-ROLL ITS OWN HEADER AND IT COST US THE
+ * PRICING PAGE.
+ *
+ * Its nav was five IN-PAGE ANCHORS: #proof, #refusal, #levers, #pricing,
+ * /methodology. MEASURED across the whole served homepage, header body and footer:
+ * `href="/pricing"` appeared ZERO times, `/tools` ZERO, `/rates` ZERO. So a visitor
+ * who typed the domain could not reach the pricing page at all, and that page
+ * carries the free tier, the plan-spend denominator, the MEPS-IC disclosure, the
+ * pharmacy refusal and all four live prices. Nobody saw a WRONG price; they simply
+ * never saw the page.
+ *
+ * Two navs is the root defect, not the anchors. One header now serves every page,
+ * so it cannot diverge again, and the homepage passes its own CTA rather than
+ * getting a second copy of the markup. The in-page anchors survive as a secondary
+ * strip in the page body, which is where a jump list belongs anyway.
+ */
+export function SiteHeader({ cta }: { cta?: { href: string; label: string } } = {}) {
+  const action = cta ?? { href: DISCOVERY_URL, label: "Talk to us" };
   return (
     <header className="site-header">
       <div className="wrap site-header__inner">
@@ -50,8 +68,8 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        <a href={DISCOVERY_URL} className="btn btn-primary site-header__cta">
-          Talk to us
+        <a href={action.href} className="btn btn-primary site-header__cta">
+          {action.label}
         </a>
       </div>
     </header>

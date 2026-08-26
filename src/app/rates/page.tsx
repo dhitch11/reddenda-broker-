@@ -3,6 +3,7 @@ import Link from "next/link";
 import { METROS } from "@/lib/metros";
 import { SERVICES } from "@/lib/catalog";
 import { MEASURED_COVERAGE } from "@/lib/coverage-measured";
+import { SCALE } from "@/lib/national";
 import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
 import { Reveal } from "@/components/marketing/reveal";
 import { marketPath, metroShort } from "@/components/marketing/slugs";
@@ -50,10 +51,17 @@ export default function MarketIndex() {
                 pages run and writes the counts with the date attached. A count of what survives a
                 filter is true on a day, not forever, so the date renders with it. */}
             <p className="lede" style={{ marginTop: 14, maxWidth: "62ch" }}>
-              {METROS.length} metropolitan markets, {SERVICES.length} services in each. Pick a market to see
-              what plans have contracted to pay there, or go straight to a service.
+              {/* ★ THE LAST 928 ON THE ESTATE, and it read as a coverage claim.
+                  928 is how many market PAGES this site publishes; the corpus indexes
+                  918 metros. Leading with the page count made it a claim about what we
+                  hold. The corpus number leads now, the page count is stated as a page
+                  count in the sentence below, and neither is doing the other's job. */}
+              {SCALE.metros} metropolitan markets in the corpus, {SERVICES.length} services in each. Pick a
+              market to see what plans have contracted to pay there, or go straight to a service.
             </p>
             <p style={{ marginTop: 10, maxWidth: "62ch", fontSize: "var(--text-sm)", color: "var(--muted)", lineHeight: 1.7 }}>
+              We publish a page for each of the{" "}
+              <span className="num">{MEASURED_COVERAGE.publishedMetros}</span> federal CBSAs, and{" "}
               <span className="num">{MEASURED_COVERAGE.metrosAnsweringLocally}</span> of those markets hold
               enough of their own filings to answer at metro grain, on{" "}
               <span className="num">{MEASURED_COVERAGE.metroServicePagesAnsweringLocally.toLocaleString("en-US")}</span>{" "}

@@ -451,6 +451,16 @@ a { color: inherit; text-decoration: none; }
    nothing at any width. The scroller stays between 561 and 859px where one line
    still nearly fits. */
 @media (max-width: 560px) {
+  /* TOUCH TARGETS. Measured 16px tall at 320 and 390: the links are inline, so the
+     8px vertical padding never built a real box to tap. `inline-flex` plus a
+     min-height gives the thumb something to hit without changing the type or the
+     horizontal rhythm. The primary CTAs were already 51px; this was nav only. */
+  .site-header__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: 0;
+  }
   .site-header__nav {
     flex-wrap: wrap;
     overflow-x: visible;

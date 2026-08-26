@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { BRAND, Wordmark } from "@/components/marketing/brand";
-import { SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
+import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
 import { ScrollState } from "@/components/marketing/scroll-state";
 import { Reveal } from "@/components/marketing/reveal";
 import { GlowEye } from "@/components/landing/glow-eye";
@@ -161,23 +161,31 @@ export default async function Landing() {
       {/* ══════════════════════════════════════════════════════════════════════
           HERO
           ══════════════════════════════════════════════════════════════════════ */}
-      <header className="site-header">
-        <div className="wrap site-header__inner">
-          <a href="/" aria-label={`${BRAND.name} home`} className="site-header__logo">
-            <Wordmark size={26} />
-          </a>
-          <nav aria-label="Primary" className="site-header__nav">
-            <a className="site-header__link" href="#proof">The number</a>
-            <a className="site-header__link" href="#refusal">What we refuse</a>
-            <a className="site-header__link" href="#levers">Self-funded levers</a>
-            <a className="site-header__link" href="#pricing">Pricing</a>
-            <a className="site-header__link" href="/methodology">Methodology</a>
-          </nav>
-          <a href={APP} className="btn btn-primary site-header__cta">
-            Create account
-          </a>
-        </div>
-      </header>
+      {/* ★ QA-018. THE SHARED SITE HEADER, not a second hand-rolled one.
+          This used to be five in-page anchors, and MEASURED across the whole served
+          homepage: `href="/pricing"` ZERO times, `/tools` ZERO, `/rates` ZERO. A
+          visitor who typed the domain could not reach the pricing page at all, and
+          that is the page carrying the free tier, the denominator, the MEPS-IC
+          disclosure, the pharmacy refusal and all four live prices. They never saw a
+          wrong price. They never saw the page.
+          One header for every page now, so the two cannot drift apart again. The
+          jump list lives in the body below, which is where a jump list belongs. */}
+      <SiteHeader cta={{ href: APP, label: "Create account" }} />
+
+      {/* The in-page anchors, kept as a SECONDARY strip. They are genuinely useful on
+          a page this long; they were never a substitute for site navigation. */}
+      <nav aria-label="On this page" className="wrap"
+        style={{ display: "flex", flexWrap: "wrap", gap: 14, padding: "14px 0 0",
+                 fontSize: "var(--text-xs)", color: "var(--faint)" }}>
+        <span style={{ fontFamily: "var(--font-mono), monospace", letterSpacing: ".1em", textTransform: "uppercase" }}>
+          On this page
+        </span>
+        <a href="#proof" style={{ color: "var(--muted)" }}>The number</a>
+        <a href="#refusal" style={{ color: "var(--muted)" }}>What we refuse</a>
+        <a href="#levers" style={{ color: "var(--muted)" }}>Self-funded levers</a>
+        <a href="#denominator" style={{ color: "var(--muted)" }}>What this is a fraction of</a>
+        <a href="#pricing" style={{ color: "var(--muted)" }}>Pricing</a>
+      </nav>
 
       {/* THE SHOT. 200vh of stage, one viewport of sticky hero, and a single
           number `--p` that carries the frame from the claim to the number.
