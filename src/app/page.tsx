@@ -6,7 +6,7 @@ import { Reveal } from "@/components/marketing/reveal";
 import { GlowEye } from "@/components/landing/glow-eye";
 import { ScrubStage, Tilt } from "@/components/landing/hero-motion";
 import { PriceField } from "@/components/landing/price-field";
-import { LeoPlayer } from "@/components/landing/leo-player";
+import { HeroAudio } from "@/components/landing/hero-audio";
 import { siteOfCare, refusalLedger, scale, type SiteBar } from "@/lib/landing-data";
 import { LADDER, PRO_PER, AGENCY_PER_GROUP } from "@/lib/pricing-ladder";
 import { PLAN_SPEND, PHARMACY_GAP } from "@/lib/plan-spend";
@@ -235,9 +235,8 @@ export default async function Landing() {
               </h1>
 
               <p className="hero-lede rise rise-3">
-                Rate intelligence for the brokers and consultants who advise self-funded plans.
-                Federal allowed amounts, commercial distributions, and the sample size behind
-                every one of them.
+                Real prices for the people who advise self-funded health plans. Every number
+                shows its source and its sample size.
               </p>
 
               {/* Each CTA answers "and then what". A benefits broker will not press a
@@ -296,7 +295,7 @@ export default async function Landing() {
                   because it is 68px shorter than the copy column, so the wrap
                   grows ~2px. Same no-dead-button guard as always: no file, no
                   render. */}
-              <LeoPlayer variant="hero" />
+              <HeroAudio variant="hero" />
             </div>
           </div>
         </div>
@@ -412,9 +411,8 @@ export default async function Landing() {
               <span className="eyebrow">The part nobody shows you</span>
               <h2 className="sec-title">The rows we threw away.</h2>
               <p className="lede" style={{ color: "var(--body)" }}>
-                Ask most tools for a rate on a code they cannot support and you get a number
-                anyway. Here is the same basket run through our honesty filter, live, with the
-                accepted cells and the refused ones side by side.
+                Most tools hand you a number no matter what. We do not. Here is one basket of
+                codes, with the cells we kept and the ones we refused.
               </p>
             </div>
           </Reveal>
@@ -472,11 +470,10 @@ export default async function Landing() {
                   </div>
 
                   <p style={{ marginTop: 18, fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.65 }}>
-                    A metro cell needs {ledger.minimumSample} observations before we will report it, and
-                    percentile values below five dollars are rejected outright because they are
-                    percentage-of-schedule filings stored as dollars, not prices.
+                    A cell needs {ledger.minimumSample} filed prices before we report it. Values under
+                    five dollars are percent-of-schedule filings, not prices, so we refuse them.
                     {ledger.corpusStamp
-                      ? ` Corpus rows written ${ledger.corpusStamp}. That is when we wrote the row, not when a carrier filed the rate, and we will not print it as a filing date.`
+                      ? ` Rows written ${ledger.corpusStamp}: that is our date, not a filing date.`
                       : ""}
                   </p>
                 </>
@@ -526,7 +523,7 @@ export default async function Landing() {
                 title="Which facility, not which room"
                 why="Inside one metro, at one carrier, for the same code, facilities are not priced alike."
                 money="The spread between facilities is wider than the spread between carriers."
-                proof="Anthem, Sacramento, 55 codes each carrying 100 or more filed observations: shifting facility volume from the median-priced facility to the 25th percentile is 53.25% of facility spend, corroborated independently at 59.49% on Blue Shield's separately ingested book of 694 codes. That is a reallocation of volume, not a saving we promise: how much of it a plan captures is not something we have measured."
+                proof="Anthem's Sacramento book, 55 codes with 100+ filed prices each: moving volume from mid-priced facilities to the cheaper quarter is 53% of facility spend. Blue Shield's book shows 59% on 694 codes. That is a reallocation we can document, not a saving we promise."
               />
             </Reveal>
             <Reveal delay={120}>
@@ -534,7 +531,7 @@ export default async function Landing() {
                 title="Network repricing"
                 why="The network your client rents has a price and a shape."
                 money="See the spread on one basket, in one market, before you renew."
-                proof="Commercial distributions from the transparency files, every cell carrying its sample size, every refusal carrying its reason. Weighted by utilization, carrier choice is worth 4.94% on the Sacramento professional basket: real, and smaller than the per-code headline spread suggests, because those spreads largely cancel."
+                proof="Commercial prices from the transparency files, each with its sample size. Weighted by real use, carrier choice moves about 4.9% of a Sacramento basket. Real, and smaller than the headline spreads suggest."
               />
             </Reveal>
             <Reveal delay={180}>
@@ -542,7 +539,7 @@ export default async function Landing() {
                 title="Out-of-network exposure"
                 why="Federal arbitration decides what your plan pays when there is no contract."
                 money="Awards are public. Your exposure is knowable before you renew."
-                proof="Federal IDR outcomes against the plan's own qualifying payment amount, with the code count, the line count and the period on the face of the screen."
+                proof="Arbitration results against the plan's own benchmark price, with the counts and the period on the face of the screen."
               />
             </Reveal>
           </div>
@@ -574,24 +571,24 @@ export default async function Landing() {
             <Reveal delay={60}>
               <Legal
                 eyebrow="ERISA 408(b)(2)(B)"
-                title="Disclosure is what makes the fee reasonable"
-                body="A service contract with a group health plan is not reasonable unless the broker or consultant discloses what they are paid, directly and indirectly, in writing, to the person at the plan responsible for hiring them. Lose reasonable and you lose the exemption. It bites at $1,000 of expected pay, and it is due before signing, extending or renewing."
+                title="The fee must be disclosed to be legal"
+                body="Brokers and consultants must tell the plan, in writing, what they are paid. It applies from $1,000 a year of expected pay, and it is due before the contract is signed, extended or renewed."
                 cite="29 U.S.C. 1108(b)(2)(B), added by Pub. L. 116-260 Div. BB Title II sec. 202. Applies to contracts entered into on or after 2021-12-27."
               />
             </Reveal>
             <Reveal delay={120}>
               <Legal
                 eyebrow="Gag clause attestation"
-                title="The attestation is the plan's, even when the TPA files it"
-                body="No agreement may stop a plan from seeing provider-specific cost or quality data, or from reaching de-identified claims. Self-funded plans are Responsible Entities and attest annually by December 31. A TPA can submit it. The duty to make sure it happened does not move."
+                title="No contract may hide prices from the plan"
+                body="No agreement may block a plan from seeing its own cost and quality data. Plans confirm this in writing every year by December 31. A vendor can file it, but the duty stays with the plan."
                 cite="ERISA 724 (29 U.S.C. 1185m), PHS Act 2799A-9, IRC 9824, added by Pub. L. 116-260 Div. BB Title II sec. 201. Filed on the CMS HIOS webform."
               />
             </Reveal>
             <Reveal delay={180}>
               <Legal
                 eyebrow="No Surprises Act"
-                title="The gap between the QPA and the award is plan assets"
-                body="In federal arbitration the certified entity considers the qualifying payment amount, then weighs credible information on acuity, market share, teaching status, case mix and prior contracting. That second step is where the money moves, and for a self-funded plan the difference is paid out of the plan, not by a carrier."
+                title="Arbitration gaps come out of plan money"
+                body="When there is no contract, a federal arbitrator sets the price, starting from the plan's own benchmark. For a self-funded plan, the gap between the two is paid from the plan's own money, not by a carrier."
                 cite="45 CFR 149.510(c)(4)(iii), ERISA parallel at 29 CFR 2590.716-8. QPA methodology at 45 CFR 149.140."
               />
             </Reveal>
@@ -599,10 +596,8 @@ export default async function Landing() {
 
           <Reveal delay={220}>
             <p style={{ marginTop: 26, fontSize: "var(--text-xs)", color: "var(--faint)", maxWidth: "78ch", lineHeight: 1.7 }}>
-              Every citation on this page was read from the enrolled statute or from current
-              eCFR, not from a summary. This is a description of published rules, not legal
-              advice, and it is not a compliance service. We hold rate data and we show our work
-              on it. Your counsel owns the filing.
+              Every citation was read from the statute itself, not a summary. This is not legal
+              advice. We hold the rate data; your counsel owns the filing.
             </p>
           </Reveal>
         </div>
@@ -669,10 +664,8 @@ export default async function Landing() {
                 A {PLAN_SPEND.lives} life plan in California spends about ${PLAN_SPEND.annualMillions} million a year.
               </h2>
               <p className="lede" style={{ color: "var(--body)" }}>
-                That is <span className="num">{PLAN_SPEND.pepy}</span> per covered employee per year, or{" "}
-                <span className="num">{PLAN_SPEND.pepm}</span> per covered employee per month. We print it
-                because a fee means nothing without the number underneath it, and because you would
-                estimate one anyway.
+                That is <span className="num">{PLAN_SPEND.pepy}</span> per employee per year. We print
+                it because a fee means nothing without the number under it.
               </p>
             </div>
           </Reveal>
@@ -683,17 +676,15 @@ export default async function Landing() {
                   Where that figure comes from
                 </h3>
                 <p style={{ fontSize: "var(--text-sm)", color: "var(--body)", lineHeight: 1.7 }}>
-                  <b>{PLAN_SPEND.source}</b> The honest national band is{" "}
+                  <b>{PLAN_SPEND.source}</b> The honest range is{" "}
                   <span className="num">{PLAN_SPEND.bandLow}</span> to{" "}
-                  <span className="num">{PLAN_SPEND.bandHigh}</span> per covered employee per year, and it
-                  is a band rather than a point because the survey does not support a point.{" "}
+                  <span className="num">{PLAN_SPEND.bandHigh}</span> per employee per year.{" "}
                   {PLAN_SPEND.corroboration.source} measured{" "}
                   <span className="num">{PLAN_SPEND.corroboration.value}</span> in{" "}
                   {PLAN_SPEND.corroboration.year}, near the top of it.
                 </p>
                 <p style={{ fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.6 }}>
-                  It does not come from our corpus and we will not print it as though it did. Every other
-                  dollar on this page is measured; this one is modelled, and the difference is the point.
+                  Every other dollar on this page is measured. This one is modeled, and we say so.
                 </p>
               </div>
             </Reveal>
@@ -703,10 +694,9 @@ export default async function Landing() {
                   Pharmacy is about {PHARMACY_GAP.shareOfSpend} of that. We hold none of it.
                 </h3>
                 <p style={{ fontSize: "var(--text-sm)", color: "var(--body)", lineHeight: 1.7 }}>
-                  It is also the fastest-growing line on the plan, at roughly{" "}
-                  <span className="num">{PHARMACY_GAP.growth}</span> a year, which is exactly why you should
-                  expect somebody to quote you a number for it. We hold no {PHARMACY_GAP.pbm} contract, no
-                  rebate data and no point-of-sale pricing, so we will tell you nothing about pharmacy.
+                  It grows about <span className="num">{PHARMACY_GAP.growth}</span> a year. We hold no{" "}
+                  {PHARMACY_GAP.pbm} contract, no rebate data and no drug prices, so we will tell you
+                  nothing about pharmacy.
                 </p>
                 <p style={{ fontSize: "var(--text-sm)", color: "var(--teal-deep)", lineHeight: 1.6, fontWeight: 500 }}>
                   Anyone selling you a pharmacy figure off transparency in coverage files is selling you an
@@ -725,8 +715,7 @@ export default async function Landing() {
               <span className="eyebrow">Flat fees, published</span>
               <h2 className="sec-title">You can read the price without booking a call.</h2>
               <p className="lede" style={{ color: "var(--body)" }}>
-                Every fee here is a flat dollar amount. We do not price off a percentage of
-                what a plan saves, and we do not price off patient or claim volume.
+                Every fee is flat. Never a cut of savings. Never per patient.
               </p>
             </div>
           </Reveal>
@@ -738,9 +727,9 @@ export default async function Landing() {
                 amount={LADDER.proMonthly.display}
                 per={PRO_PER}
                 lines={[
-                  "Site of care, federal, every published code",
-                  "Commercial distributions with the sample size on every cell",
-                  "Out-of-network exposure against the plan's QPA",
+                  "Office vs surgery center vs hospital, every published code",
+                  "What plans pay, low to high, with the sample size shown",
+                  "Out-of-network exposure against the plan's own benchmark",
                   "Client-ready exhibits with the sourcing printed",
                 ]}
                 /* ★ PRESS THE PRICE, LAND ON THE PLAN. These two cards sent a
@@ -763,7 +752,7 @@ export default async function Landing() {
                   "Your agency's name on every exhibit, set server side",
                   "Shared saved markets and baskets",
                   "Onboarding for your producers",
-                  `A firm advising twenty self-funded groups pays ${AGENCY_PER_GROUP(20)} a group a year, and that does not change when you hire`,
+                  `Twenty groups? That is ${AGENCY_PER_GROUP(20)} a group a year. Hiring does not change it`,
                 ]}
                 cta="Buy for your agency"
                 href={BUY_AGENCY}
@@ -788,9 +777,8 @@ export default async function Landing() {
 
           <Reveal delay={220}>
             <p style={{ marginTop: 24, fontSize: "var(--text-xs)", color: "var(--faint)", maxWidth: "78ch", lineHeight: 1.7 }}>
-              Multi-agency and portfolio arrangements are scoped on a call rather than listed.
-              Prices shown are the published flat fees for these plans; checkout confirms the
-              amount before anything is charged.
+              Portfolio setups are scoped on a call. Checkout confirms every amount before
+              anything is charged.
             </p>
           </Reveal>
         </div>
@@ -926,34 +914,30 @@ function SiteOfCarePanel({
         </div>
       )}
 
-      {/* THE PROVENANCE. This block is why the panel is allowed to exist. */}
-      <div style={{ display: "grid", gap: 6, fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.65 }}>
-        <div>
-          Physician fee: {care.physician.publisher}
-          {care.localityName
-            ? `, Medicare locality ${care.localityCode ?? ""} ${titleCase(care.localityName)}`.replace("  ", " ")
-            : ""}
-          {care.physician.vintage ? `, ${care.physician.vintage}` : ""}. We name the locality
-          because a state average carrying one city&rsquo;s label is not a local rate.
-        </div>
-        <div>
-          Facility payment: {care.facility.publisher}, national unadjusted
-          {care.facility.vintage ? `, ${care.facility.vintage}` : ""}
-          {care.facility.sourceFile ? `, from ${care.facility.sourceFile}` : ""}. Not wage-index
-          adjusted to a single market.
-        </div>
-        <div style={{ color: "var(--muted)" }}>
-          The facility fee is added to the physician fee. Tools that omit it make the hospital
-          look cheaper than the office, which is backwards.
+      {/* THE PROVENANCE, COMPACTED 2026-08-26 (M3). The hero column lives on a
+          hard height budget: at 1440x900 the pinned frame is 835px, and four
+          paragraphs of provenance here disarmed the shot on the commonest
+          laptop there is. Every FACT survives: the locality is named, the
+          facility basis is named, the duplicate row is disclosed, and the full
+          reasoning lives one click away on the methodology page. What left is
+          the explanation prose, not the disclosure. */}
+      <div style={{ display: "grid", gap: 6, fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.6 }}>
+        <div className="num">
+          {care.physician.publisher}
+          {care.localityCode ? `, locality ${care.localityCode}` : ""}
+          {care.localityName ? ` ${titleCase(care.localityName)}` : ""}
+          {care.physician.vintage ? ` ${care.physician.vintage}` : ""} · facility national
+          {care.facility.vintage ? ` ${care.facility.vintage}` : ""}
         </div>
         {care.duplicateRowNote && (
-          /* THE ROW WE DID NOT USE, ON THE FACE OF THE PANEL.
-             This is the page's whole thesis applied to itself. The fee table hands
-             back two rows we cannot tell apart; we take one, we say which, and we
-             say that we do not know what the other is. Resolving it silently would
-             be the more polished choice and it would make this a worse product. */
-          <div style={{ color: "var(--spread)" }}>{care.duplicateRowNote}</div>
+          /* The row we did not use stays ON the face, in one sentence. */
+          <div style={{ color: "var(--spread)" }}>
+            The fee table returns two identical rows here. We print the full one and say so.
+          </div>
         )}
+        <a href="/methodology#limits" style={{ color: "var(--muted)" }}>
+          How this number is built &rarr;
+        </a>
       </div>
     </div>
   );

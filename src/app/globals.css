@@ -176,13 +176,13 @@ a { color: inherit; text-decoration: none; }
   /* THE DEEPENED LADDER (BP1: 5 delivered rungs vs 16 on reddenda.health). The new
      rungs are set to the exact px values that were hardcoded around the sheet, so
      tokenising them changes zero geometry -- it makes the ladder REAL and editable. */
-  --text-3xs:  10px;
-  --text-2xs:  10.5px;
+  --text-3xs:  11px;   /* 11px HARD FLOOR (Bulletin 2 #9): nothing renders below it */
+  --text-2xs:  11px;   /* was 10.5px; the eyebrow rides this and sub-11 is a defect */
   --text-xs2:  11px;
   --text-xsm:  11.5px;
   --text-xs:   12px;
   --text-sm:   13px;
-  --text-base: 15px;
+  --text-base: 17px;   /* was 15px; the reading bar is reddenda.health's 17px body */
   --text-md:   17px;
   --text-lg:   19px;
   --text-xl:   24px;
@@ -297,7 +297,6 @@ a { color: inherit; text-decoration: none; }
   font-weight: var(--w-semi); font-size: var(--text-base);
   transition: transform var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease),
               border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
-  will-change: transform;
 }
 .btn-primary { background: var(--teal-deep); color: #FFFFFF; box-shadow: var(--shadow-sm); }
 .btn-primary:hover { background: var(--teal-press); transform: translateY(-2px); box-shadow: var(--shadow-md); }
@@ -892,7 +891,6 @@ a { color: inherit; text-decoration: none; }
     transform var(--dur) var(--ease-settle),
     box-shadow var(--dur) var(--ease),
     border-color var(--dur-fast) var(--ease);
-  will-change: transform;
 }
 .lift:hover {
   transform: translateY(-3px);
@@ -1224,7 +1222,6 @@ body.cine { color: var(--body); }
   position: absolute;
   display: block;
   border-radius: 50%;
-  will-change: transform;
 }
 .hero-plane__aurora b:nth-child(1) {
   width: 62vw; height: 62vw; max-width: 780px; max-height: 780px;
@@ -1291,7 +1288,10 @@ body.cine { color: var(--body); }
      -0.035em because Fraunces is natively tighter than a grotesk. */
   font-family: var(--font-fraunces), var(--font-display), serif;
   font-optical-sizing: auto;
-  font-weight: 620;
+  /* 470, not 620. Measured against the bar (Bulletin 2 #9): reddenda.health
+     sets its display serif at weight 470, and the LIGHTNESS is most of the
+     expensive feel. At 620 the same face shouts; at 470 it states. */
+  font-weight: 470;
   font-size: clamp(38px, 7.4vw, 88px);
   line-height: 1.02;
   letter-spacing: -0.015em;
@@ -1382,7 +1382,6 @@ body.cine { color: var(--body); }
   border-radius: var(--pill);
   transform: scaleX(var(--w, 0)); transform-origin: left center;
   transition: transform 900ms var(--ease-in);
-  will-change: transform;
 }
 .bar-row--office .bar-row__fill { background: linear-gradient(90deg, #1E6F68, #2AD9C4); }
 .bar-row--asc    .bar-row__fill { background: linear-gradient(90deg, #2AD9C4, #6FF0DC); }
@@ -1450,11 +1449,15 @@ body.cine { color: var(--body); }
 .sec--tight { padding-block: clamp(40px, 6vw, 72px); }
 .sec-head { display: grid; gap: 14px; max-width: 760px; }
 .cine .sec-title {
-  font-family: var(--font-display), sans-serif;
-  font-weight: var(--w-bold);
+  /* The section statements join the hero's serif register (the bar's own
+     grammar: mono eyebrow above, serif statement below, short lede after).
+     470 for the same reason as the H1: the lightness is the expensive feel. */
+  font-family: var(--font-fraunces), var(--font-display), serif;
+  font-optical-sizing: auto;
+  font-weight: 470;
   font-size: clamp(26px, 4.2vw, 44px);
-  line-height: 1.06;
-  letter-spacing: -.03em;
+  line-height: 1.08;
+  letter-spacing: -.02em;
   color: var(--ink);
   text-wrap: balance;
 }
@@ -1555,7 +1558,7 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
   0%, 100% { opacity: .55; transform: scale(1); }
   50%      { opacity: 1;   transform: scale(1.06); }
 }
-.ge-halo { transform-origin: 24px 24px; animation: ge-pulse 3.7s var(--ease) infinite; will-change: transform, opacity; }
+.ge-halo { transform-origin: 24px 24px; animation: ge-pulse 3.7s var(--ease) infinite; }
 @media (prefers-reduced-motion: reduce) { .ge-halo { animation: none !important; opacity: .75; transform: none; } }
 
 /* ═══ 8.19 THE VISUALLY-HIDDEN UTILITY ════════════════════════════════════════
@@ -1735,7 +1738,6 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
        travel has to respect the header it is sliding beneath. */
     transform: translate3d(0, calc(var(--p) * -22px), 0);
     opacity: calc(1 - var(--p) * 0.42);
-    will-change: transform, opacity;
   }
   /* The proof comes forward and settles.
      MEASURED, AND THE REASON THIS RULE TARGETS `.tilt` AND NOT `.hero-proof`:
@@ -1770,7 +1772,6 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
        The come-forward still reads: scale runs 0.972 to 1.000 and the panel
        translates 26px. Motion that costs legibility is not motion this page can
        afford. */
-    will-change: transform, opacity;
   }
   /* The field settles down as the number takes the frame. */
   .hero-stage.field-live .hero-plane__aurora { opacity: calc(0.58 - var(--p) * 0.22); }
@@ -1853,7 +1854,6 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
   .tilt.tilt-live > * {
     transform: rotateY(calc(var(--mx) * 1.6deg)) rotateX(calc(var(--my) * -1.6deg)) translate3d(0, 0, 0);
     transition: transform 260ms var(--ease);
-    will-change: transform;
   }
 }
 
@@ -1880,7 +1880,6 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
   display: flex;
   width: max-content;
   animation: tape-roll 64s linear infinite;
-  will-change: transform;
 }
 .tape-half { display: flex; flex: none; }
 .tape-cell {
@@ -2031,6 +2030,12 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
   background: var(--teal);
   opacity: .55;
   height: 40%;
+  /* The dance is transform, not height. `leo-eq` used to animate `height`,
+     which re-runs layout on every frame of an infinite loop — the one keyframe
+     Bulletin 2 #9 named on this page. scaleY from the baseline is the same
+     picture on the compositor: each bar keeps its static height as its full
+     extent and breathes between 30% and 100% of it. */
+  transform-origin: center bottom;
 }
 .leo__eq i:nth-child(2) { height: 85%; }
 .leo__eq i:nth-child(3) { height: 60%; }
@@ -2046,7 +2051,7 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
   .leo__eq i:nth-child(3) { animation-delay: 240ms; }
   .leo__eq i:nth-child(4) { animation-delay: 60ms; }
 }
-@keyframes leo-eq { from { height: 30%; opacity: .4; } to { height: 100%; opacity: .9; } }
+@keyframes leo-eq { from { transform: scaleY(.3); opacity: .4; } to { transform: scaleY(1); opacity: .9; } }
 
 /* ── loading: a status line, never a control ──────────────────────────────── */
 .leo__loading {
@@ -2270,7 +2275,7 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
    its gap disarms the pin-and-scrub on every 900px-tall display (measured, the
    numbers are on the claims board), and the right column has exactly 68px of
    slack against the copy column. So at >=900px, where the hero pins, the hero
-   variant compresses to a 56px transport: no head line, "Meet Leo" moves into
+   variant compresses to a 56px transport: no head line, the label moves into
    the meta row, the play button drops to 44px, and the transcript opens as an
    overlay ABOVE the player instead of in the flow, because a height change
    inside a pinned overflow:hidden plane after fits() has measured it is a
@@ -2293,10 +2298,12 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
      column when the scrub arms, and a player that grows 12px when metadata
      lands would make that measurement a lie. */
   .leo[data-variant="hero"] .leo__loading { min-height: 44px; }
-  /* The name rides the meta row. The play button's accessible name carries the
-     full sentence, so this is visual branding, not the only label. */
+  /* ★ NO CHARACTER NAMES. David banned "Meet Leo" and any named character from
+     the hero's visible copy (President, 16:05Z real). The label now says what
+     the button does. The play button's accessible name still carries the full
+     sentence, so this is visual branding, not the only label. */
   .leo[data-variant="hero"] .leo__meta::before {
-    content: "Meet Leo";
+    content: "Hear the pitch";
     color: var(--ink);
     font-size: var(--text-xs);
     font-weight: var(--w-semi);
