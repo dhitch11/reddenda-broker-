@@ -160,10 +160,48 @@ function FooterCol({ title, links }: { title: string; links: { href: string; lab
  * furniture comes OUT rather than getting hung on figures, so this now states
  * SCALE and CAPABILITY instead, which is a bigger claim and needs no citation.
  *
- * `updatedAt` is kept in the signature so no caller breaks, and deliberately
- * unused: a date rendered under a price reads as an audit trail.
+ * ★ AND THEN THE DATE CAME BACK, 2026-08-26, BECAUSE THE PAGES PROMISE IT.
+ *
+ * This used to read: "`updatedAt` is kept in the signature so no caller breaks,
+ * and deliberately unused: a date rendered under a price reads as an audit
+ * trail." That was a defensible reading of David's 2026-08-07 ruling right up
+ * until you read the pages that render it. /brokers and /employers promise a
+ * printed date FOUR TIMES between them, in the copy that sells the product:
+ * "with the filing count and the build date printed on it", "the corpus build
+ * date on the page, so it survives being forwarded to someone who was not in
+ * the meeting". MEASURED on live prod at 1440, fully scrolled: 19,723 / 19,375 /
+ * 19,267 characters of rendered text across the three ICP pages and ZERO dates
+ * in any of them. Our headline is the number, the sample size AND the date. The
+ * sample size was there. The half the page brags about was not.
+ *
+ * The 08-07 ruling took out FURNITURE - a regulation cite hung on a figure. It
+ * did not licence promising a date and not printing one. So the date renders and
+ * the citation stays out, which is both rulings honoured rather than one traded
+ * against the other.
+ *
+ * WHAT IT IS LABELLED, and this is not a free choice. Three real and DIFFERENT
+ * corpus dates exist and were rendering as if interchangeable: filings as of
+ * 2026-07-20, corpus rows written 2026-07-27, corpus built 2026-07-30. The
+ * ruling is to label each for exactly what it is, IDENTICALLY on every surface.
+ * `updatedAt` on a peer-stats cell is the filings vintage, so it renders with
+ * the same words the console Overview already uses for the same column:
+ * "Filings as of July 20, 2026." Do not reword one and not the other.
+ *
+ * A null date prints NOTHING. It never prints a placeholder, a sentinel or an
+ * un-substituted template - see the "Coverage date: not yet stamped" defect.
  */
-export function SourceLine({ scope }: { updatedAt?: string | null; scope?: string }) {
+const FILINGS_DATE = new Intl.DateTimeFormat("en-US", {
+  year: "numeric", month: "long", day: "numeric", timeZone: "UTC",
+});
+function filingsAsOf(updatedAt?: string | null): string | null {
+  if (!updatedAt) return null;
+  const d = new Date(updatedAt);
+  if (Number.isNaN(d.getTime())) return null;
+  return `Filings as of ${FILINGS_DATE.format(d)}.`;
+}
+
+export function SourceLine({ updatedAt, scope }: { updatedAt?: string | null; scope?: string }) {
+  const asOf = filingsAsOf(updatedAt);
   return (
     <p style={{ fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.6, marginTop: 10 }}>
       {/*
@@ -182,6 +220,7 @@ export function SourceLine({ scope }: { updatedAt?: string | null; scope?: strin
       */}
       Negotiated prices from published filings, reported only where the sample supports it.
       {scope ? ` ${scope}.` : ""} What plans have agreed to pay, not what a patient is billed.
+      {asOf ? ` ${asOf}` : ""}
     </p>
   );
 }

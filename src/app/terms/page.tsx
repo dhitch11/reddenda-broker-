@@ -12,7 +12,7 @@ const sections: LegalSection[] = [
   {
     h: "What a figure on this site is",
     body: [
-      "A distribution of negotiated rates for one procedure code in one market, computed from machine-readable files that health plans publish under the federal Transparency in Coverage rule, 45 CFR 147.212. Every figure carries its scope, its filing count and the date the corpus was built.",
+      "A distribution of negotiated rates for one procedure code in one market, computed from machine-readable files that health plans publish under the federal Transparency in Coverage rule, 45 CFR 147.212. Every figure carries its scope, its filing count and the date of the filings behind it.",
       "It is a measurement of what plans have contracted to pay. It is not a quote, not an offer, not a prediction of your renewal, and not a guarantee that any particular party will pay any particular amount.",
     ],
   },

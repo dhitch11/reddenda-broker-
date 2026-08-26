@@ -7,6 +7,8 @@ import { isConfigured } from "@/lib/db";
 import { SERVICES } from "@/lib/catalog";
 import { METROS } from "@/lib/metros";
 import { DOLLAR_FLOOR, N_MINIMUM, N_CONFIDENT, MAX_SPREAD_RATIO } from "@/lib/honesty";
+import { MEASURED_COVERAGE } from "@/lib/coverage-measured";
+import { SCALE } from "@/lib/national";
 
 /**
  * METHODOLOGY.
@@ -256,6 +258,59 @@ export default async function Methodology() {
                 Current corpus: <span className="num">{meta.label}</span>
               </p>
             )}
+
+            {/* ★ FOUR NUMBERS, ONE QUESTION, AND UNTIL NOW NO PAGE SAID WHICH WAS WHICH.
+                Reconciled 2026-08-26 after an audit found /tools claiming 918 metros,
+                /rates claiming 928, and the tooling able to answer for neither figure
+                exactly. None of them was invented. They count DIFFERENT THINGS, and
+                the honest move is to say so on the page rather than pick the flattering
+                one. "Indexed" and "answers locally" are both true and the gap between
+                them is the product: a corpus that refuses when it cannot defend a cell.
+                Every row is computed. The two measured rows carry the date they were
+                measured, because what survives a filter is true on a day. */}
+            <div style={{ marginTop: 26, overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "var(--text-sm)", minWidth: 460 }}>
+                <caption style={{ captionSide: "top", textAlign: "left", paddingBottom: 10, color: "var(--muted)", lineHeight: 1.6 }}>
+                  What each number counts. They are different questions, so they have
+                  different answers.
+                </caption>
+                <thead>
+                  <tr>
+                    {["Count", "What it counts", "Where it shows"].map((h) => (
+                      <th key={h} style={{
+                        textAlign: "left", padding: "8px 10px 8px 0", borderBottom: "1px solid var(--hair)",
+                        fontFamily: "var(--font-mono), monospace", fontSize: 10.5, letterSpacing: ".1em",
+                        textTransform: "uppercase", color: "var(--faint)", fontWeight: 600,
+                      }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    [SCALE.metros.toLocaleString("en-US"), "metropolitan areas the corpus indexes", "the platform page"],
+                    [MEASURED_COVERAGE.publishedMetros.toLocaleString("en-US"), "market pages published on this site", "the markets index"],
+                    [MEASURED_COVERAGE.metrosAnsweringLocally.toLocaleString("en-US"),
+                      `of those markets hold enough of their own filings to answer at metro grain (measured ${MEASURED_COVERAGE.measuredAt})`,
+                      "every market page"],
+                    [SCALE.procedures.toLocaleString("en-US"), "procedures the corpus indexes", "the platform page"],
+                    [SERVICES.length.toLocaleString("en-US"), "services in the public picker here", "this page, the markets index"],
+                    [MEASURED_COVERAGE.metroServicePagesAnsweringLocally.toLocaleString("en-US"),
+                      `of the ${MEASURED_COVERAGE.publishedPages.toLocaleString("en-US")} market and service pages answer at metro grain (measured ${MEASURED_COVERAGE.measuredAt})`,
+                      "every market page"],
+                    [MEASURED_COVERAGE.statesAnswering.toLocaleString("en-US"), "states and territories that answer when a metro cannot", "the fallback line on a market page"],
+                  ].map(([n, what, where]) => (
+                    <tr key={String(n) + String(what)}>
+                      <td className="num" style={{
+                        padding: "10px 10px 10px 0", borderBottom: "1px solid var(--hair)",
+                        fontWeight: 650, whiteSpace: "nowrap", verticalAlign: "top", color: "var(--ink)",
+                      }}>{n}</td>
+                      <td style={{ padding: "10px 10px 10px 0", borderBottom: "1px solid var(--hair)", color: "var(--body)", lineHeight: 1.6 }}>{what}</td>
+                      <td style={{ padding: "10px 0", borderBottom: "1px solid var(--hair)", color: "var(--muted)", lineHeight: 1.6 }}>{where}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </Section>
 
           <Reveal>

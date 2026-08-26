@@ -52,7 +52,7 @@ const config: RoleConfig = {
     {
       when: "Answering the CFO",
       body:
-        "The question is always some version of how do we know this is a good deal. A sourced market figure with a regulation cite and a build date on it is an answer you can put in a file and still defend a year later.",
+        "The question is always some version of how do we know this is a good deal. A sourced market figure with its filing count and its filings date on it is an answer you can put in a file and still defend a year later.",
     },
   ],
 
@@ -64,7 +64,7 @@ const config: RoleConfig = {
       "Plain English throughout. An MRI is called an MRI, and the procedure code sits behind it as detail rather than in front of it as jargon.",
       "Your metro, not a national or state average, because the market you buy care in is local.",
       "A Medicare reference beside each service, which is the comparison most finance teams already understand.",
-      "The source, the federal regulation and the corpus build date printed on every figure.",
+      "The source, the filing count and the filings date printed on every figure.",
       "An explicit statement of what the data cannot tell you, so nothing in your file overstates what you knew at the time.",
     ],
   },

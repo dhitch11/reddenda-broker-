@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { METROS } from "@/lib/metros";
 import { SERVICES } from "@/lib/catalog";
+import { MEASURED_COVERAGE } from "@/lib/coverage-measured";
 import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
 import { Reveal } from "@/components/marketing/reveal";
 import { marketPath, metroShort } from "@/components/marketing/slugs";
@@ -42,9 +43,24 @@ export default function MarketIndex() {
             <h1 className="display" style={{ fontSize: "var(--display-sm)", marginTop: 12, maxWidth: "20ch" }}>
               Every market we hold, and what it pays.
             </h1>
-            <p className="lede" style={{ marginTop: 14, maxWidth: "60ch" }}>
+            {/* ★ THIS SENTENCE USED TO SAY "{METROS.length} metropolitan markets, {SERVICES.length}
+                services in each" and stop there, which read as a promise that all 36,192 of those
+                pages carry a local number. They do not, and saying so is the stronger sentence.
+                MEASURED, not typed: scripts/measure-coverage.mjs runs the SAME honesty filter the
+                pages run and writes the counts with the date attached. A count of what survives a
+                filter is true on a day, not forever, so the date renders with it. */}
+            <p className="lede" style={{ marginTop: 14, maxWidth: "62ch" }}>
               {METROS.length} metropolitan markets, {SERVICES.length} services in each. Pick a market to see
               what plans have contracted to pay there, or go straight to a service.
+            </p>
+            <p style={{ marginTop: 10, maxWidth: "62ch", fontSize: "var(--text-sm)", color: "var(--muted)", lineHeight: 1.7 }}>
+              <span className="num">{MEASURED_COVERAGE.metrosAnsweringLocally}</span> of those markets hold
+              enough of their own filings to answer at metro grain, on{" "}
+              <span className="num">{MEASURED_COVERAGE.metroServicePagesAnsweringLocally.toLocaleString("en-US")}</span>{" "}
+              of the <span className="num">{MEASURED_COVERAGE.publishedPages.toLocaleString("en-US")}</span> market
+              and service pages here. The rest resolve to their state and say so on the page rather than
+              printing a metro label over a state number. Measured{" "}
+              <span className="num">{MEASURED_COVERAGE.measuredAt}</span>.
             </p>
           </div>
         </section>

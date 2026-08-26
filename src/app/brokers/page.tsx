@@ -32,7 +32,7 @@ const config: RoleConfig = {
     {
       when: "The finalist presentation",
       body:
-        "Every competing broker brings the same carrier illustrations. You bring a number none of them has, from a source the prospect can verify themselves, with the filing count and the build date printed on it.",
+        "Every competing broker brings the same carrier illustrations. You bring a number none of them has, from a source the prospect can verify themselves, with the filing count and the filings date printed on it.",
     },
     {
       when: "Defending an account",
@@ -49,7 +49,7 @@ const config: RoleConfig = {
       "The distribution for the services that matter to that group, in the metro they actually buy care in, not a state average.",
       "A Medicare reference figure beside every service, because it is the one reference point this audience already has a feel for. It is a fixed line to read against, not a fair price.",
       "The filing count on every number, so a skeptical reader can judge the depth for themselves.",
-      "The source, the regulation and the corpus build date on the page, so it survives being forwarded to someone who was not in the meeting.",
+      "The source, the filing count and the filings date on the page, so it survives being forwarded to someone who was not in the meeting.",
       "An honest gap where we do not have the data, rather than a number that would embarrass you later.",
     ],
   },
