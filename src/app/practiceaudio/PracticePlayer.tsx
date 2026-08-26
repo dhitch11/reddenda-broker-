@@ -44,6 +44,10 @@ const fmt = (s: number) => {
   return `${m}:${String(r).padStart(2, "0")}`;
 };
 
+/* The speeds worth having on a phone walking into a meeting. 1x first because that
+   is where every listen starts; 0.75x last, for a line worth slowing down for. */
+const RATES = [1, 1.25, 1.5, 1.75, 2, 0.75];
+
 export function PracticePlayer({
   src,
   duration: known,
@@ -79,6 +83,13 @@ export function PracticePlayer({
   const [failed, setFailed] = useState<string | null>(null);
   const [showText, setShowText] = useState(false);
   const [scrub, setScrub] = useState<number | null>(null);
+  /**
+   * PLAYBACK SPEED. A cycle button, not a menu, because this page is driven
+   * one-handed on a phone. The rate is applied through an effect rather than only
+   * in the click handler, so nothing that reloads the element can silently reset
+   * playback to 1x while the button still claims otherwise.
+   */
+  const [rate, setRate] = useState(1);
 
   const total = dur > 0 ? dur : known;
   const at = scrub ?? t;
@@ -190,6 +201,15 @@ export function PracticePlayer({
 
   const skip = useCallback((by: number) => seekTo((ref.current?.currentTime ?? 0) + by), [seekTo]);
 
+  const cycleRate = useCallback(() => {
+    setRate((r) => RATES[(RATES.indexOf(r) + 1) % RATES.length]);
+  }, []);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (el) el.playbackRate = rate;
+  }, [rate]);
+
   const onRail = (e: React.MouseEvent<HTMLDivElement>) => {
     if (total <= 0) return;
     const r = e.currentTarget.getBoundingClientRect();
@@ -268,6 +288,14 @@ export function PracticePlayer({
               {fmt(at)} <span className="pap__slash">/</span> {fmt(total)}
             </span>
             <span className="pap__spacer" />
+            <button
+              type="button"
+              className="pap__skip"
+              onClick={cycleRate}
+              aria-label={`Playback speed, now ${rate}x. Press to change.`}
+            >
+              {rate}x
+            </button>
             <button type="button" className="pap__skip" onClick={() => skip(-15)} aria-label="Back 15 seconds">
               15 back
             </button>

@@ -2597,3 +2597,10 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
   color: var(--faint);
   letter-spacing: .01em;
 }
+
+/* practiceaudio: the two-take layout (additive, @MAC-POLISH 2026-08-26) */
+.pa__take { margin-top: 2.4rem; }
+.pa__take + .pa__take { margin-top: 3.2rem; padding-top: 2.4rem; border-top: 1px solid color-mix(in srgb, currentColor 14%, transparent); }
+.pa__takehead { margin-bottom: 1rem; }
+.pa__taketitle { font-size: 1.15rem; line-height: 1.3; margin: 0.4rem 0 0.35rem; }
+.pa__takesub { margin: 0; font-size: 0.92rem; opacity: 0.75; }

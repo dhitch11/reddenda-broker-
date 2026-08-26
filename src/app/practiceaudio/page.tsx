@@ -36,6 +36,7 @@ export const metadata: Metadata = {
 
 const MEDIA_DIR = "practice-audio-media";
 const SIDECAR = "practiceaudio.json";
+const BRIEF_SIDECAR = "meetingbrief.json";
 
 type Sidecar = {
   title?: string;
@@ -53,9 +54,9 @@ type Sidecar = {
   peaks?: number[];
 };
 
-async function loadSidecar(): Promise<Sidecar | null> {
+async function loadSidecar(name: string): Promise<Sidecar | null> {
   try {
-    const raw = await readFile(join(process.cwd(), "public", MEDIA_DIR, SIDECAR), "utf8");
+    const raw = await readFile(join(process.cwd(), "public", MEDIA_DIR, name), "utf8");
     const j = JSON.parse(raw) as Sidecar;
     /* A sidecar with no duration is a half-written file, not a recording. */
     const secs = Number(j.duration ?? j.seconds ?? 0);
@@ -65,6 +66,11 @@ async function loadSidecar(): Promise<Sidecar | null> {
     return null;
   }
 }
+
+/* The renderer writes `src` as a path ("/audio/x.mp3"); this page serves from the
+   gated media dir only. Basename it rather than trusting either convention. */
+const mediaSrc = (sc: Sidecar, fallback: string) =>
+  `/${MEDIA_DIR}/${(sc.src ?? fallback).split("/").pop() ?? fallback}`;
 
 export default async function PracticeAudio({
   searchParams,
@@ -77,29 +83,65 @@ export default async function PracticeAudio({
 
   if (!unlocked) return <Lock bad={bad === "1"} live={configured()} />;
 
-  const sc = await loadSidecar();
+  const [rehearsal, brief] = await Promise.all([loadSidecar(SIDECAR), loadSidecar(BRIEF_SIDECAR)]);
+
+  /* Each take renders only if its sidecar is complete: no sidecar, no transport,
+     and never a play button in front of a recording that does not exist. */
+  const takes = [
+    rehearsal && {
+      key: "rehearsal",
+      sc: rehearsal,
+      fallback: "practiceaudio.mp3",
+      eyebrow: "Take one · the rehearsal",
+      heading: rehearsal.title ?? "The room, end to end",
+      sub: "Blair asks what the floor will ask. David Thomas answers, end to end.",
+    },
+    brief && {
+      key: "brief",
+      sc: brief,
+      fallback: "meetingbrief.mp3",
+      eyebrow: "Take two · the Q&A drill",
+      heading: brief.title ?? "Any question, the answer",
+      sub: "Short questions, fast, the way a broker will actually ask them. Each answer is the one worth keeping.",
+    },
+  ].filter(Boolean) as Array<{
+    key: string; sc: Sidecar; fallback: string; eyebrow: string; heading: string; sub: string;
+  }>;
 
   return (
     <main className="pa">
       <div className="pa__wrap">
         <header className="pa__head">
           <span className="pa__eyebrow">Private rehearsal audio</span>
-          <h1 className="pa__title">{sc?.title ?? "The room, end to end"}</h1>
+          <h1 className="pa__title">
+            {takes.length === 2 ? "Two takes for this afternoon" : takes[0]?.heading ?? "The room, end to end"}
+          </h1>
           <p className="pa__lede">
             Blair asks what the floor will ask. David Thomas answers. Every figure spoken here is one
             we hold, with its sample size and its date, so it can be said out loud and defended.
           </p>
         </header>
 
-        {sc ? (
-          <PracticePlayer
-            src={`/${MEDIA_DIR}/${sc.src ?? "practiceaudio.mp3"}`}
-            duration={Number(sc.duration ?? sc.seconds ?? 0)}
-            captions={Array.isArray(sc.captions) ? sc.captions : []}
-            chapters={Array.isArray(sc.chapters) ? sc.chapters : []}
-            peaks={Array.isArray(sc.peaks) ? sc.peaks : []}
-            transcript={typeof sc.transcript === "string" ? sc.transcript : ""}
-          />
+        {takes.length > 0 ? (
+          takes.map((take) => (
+            <section key={take.key} className="pa__take" aria-label={take.heading}>
+              {takes.length > 1 ? (
+                <div className="pa__takehead">
+                  <span className="pa__eyebrow">{take.eyebrow}</span>
+                  <h2 className="pa__taketitle">{take.heading}</h2>
+                  <p className="pa__takesub">{take.sub}</p>
+                </div>
+              ) : null}
+              <PracticePlayer
+                src={mediaSrc(take.sc, take.fallback)}
+                duration={Number(take.sc.duration ?? take.sc.seconds ?? 0)}
+                captions={Array.isArray(take.sc.captions) ? take.sc.captions : []}
+                chapters={Array.isArray(take.sc.chapters) ? take.sc.chapters : []}
+                peaks={Array.isArray(take.sc.peaks) ? take.sc.peaks : []}
+                transcript={typeof take.sc.transcript === "string" ? take.sc.transcript : ""}
+              />
+            </section>
+          ))
         ) : (
           <div className="pa__pending">
             <strong>The recording is not published yet.</strong>
@@ -116,7 +158,13 @@ export default async function PracticeAudio({
             Private to David. Not linked from anywhere, not in the sitemap, not indexable. The voice is
             a synthetic David Thomas voice built for this estate; the words are ours.
           </p>
-          {sc?.claimCheck ? <p className="pa__claim">{sc.claimCheck}</p> : null}
+          {takes.map((take) =>
+            take.sc.claimCheck ? (
+              <p key={take.key} className="pa__claim">
+                {take.sc.claimCheck}
+              </p>
+            ) : null,
+          )}
         </footer>
       </div>
     </main>
