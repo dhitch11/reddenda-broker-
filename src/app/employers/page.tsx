@@ -29,25 +29,25 @@ const config: RoleConfig = {
   eyebrow: "For self-funded and level-funded employers",
   h1: "Walk into your renewal knowing what the market pays.",
   lede:
-    "You are accountable for a number to someone senior, and almost everything you are shown about it comes from a party with a position in the outcome. This is the same underlying data, published by the plans themselves, read in plain English.",
+    "You answer for a number to someone senior, and almost everyone explaining it has a stake in the outcome. This is the same data, published by the plans, in plain English.",
 
   demo: {
     service: "45378",
     market: "40900",
     why:
-      "A screening colonoscopy in Sacramento. You do not need to know what a procedure code is to read this. The spread between the low and high end of one market is usually the part that surprises people, and it is the part you can actually do something about.",
+      "A screening colonoscopy in Sacramento. No codes required. The spread inside one market surprises people, and it is the part you can act on.",
   },
 
   scenarios: [
     {
       when: "Before the renewal presentation",
       body:
-        "You are about to be told what your increase is and why. Knowing the range your market pays for the handful of services that drive your spend changes what questions you are able to ask, and it changes them before the meeting rather than after.",
+        "You are about to be told what your increase is and why. Knowing what your market pays for the services that drive your spend changes your questions, before the meeting instead of after.",
     },
     {
       when: "Evaluating a network or a plan design change",
       body:
-        "Narrower networks, tiering and steering are all sold on the promise of price. You can look at the actual distribution in your metro and see how much room there is between the low and high end before anyone models a saving for you.",
+        "Narrower networks, tiering and steering are all sold on price. See the real spread in your metro before anyone models a saving for you.",
     },
     /* ── THE THREE QUESTIONS A SELF-FUNDED GROUP ACTUALLY ASKED US ──────────────────────
        Added 2026-08-26 after a call with a self-funded employer group: pharmacy and
@@ -86,26 +86,26 @@ const config: RoleConfig = {
     {
       when: "When somebody offers you pharmacy savings",
       body:
-        "We hold no pharmacy benefit manager contract. No rebate data. No point-of-sale pricing. So we will tell you nothing about your pharmacy benefit. The federal government does collect rebate totals. It says in writing it cannot publish them in a way that names a plan or a drug. So if someone sells you a pharmacy number built from public data, ask which file it came from. The other half of drug spend is public. Drugs given in a clinic are billed under the medical benefit. Infusions. Injections. They carry a negotiated rate, filed like every other one. Those rates are in the lookup now. Every figure shows its billing unit, because a drug price without one is off by whatever the dose is. Each one names the carrier whose book it came from. Each one shows the Medicare benchmark beside it, or says plainly that we do not hold one. Ask us for the drug your plan actually spends on.",
+        "We hold no pharmacy benefit manager contract, no rebate data, no point-of-sale pricing. So we will tell you nothing about your pharmacy benefit. The government collects rebate totals and says in writing it cannot publish them by plan or drug. If someone sells you a pharmacy number from public data, ask which file. The other half of drug spend is public: clinic-administered drugs, infusions and injections, billed under the medical benefit at a filed negotiated rate. Those are in the lookup now, each with its billing unit, because a drug price without one is off by the dose. Each names its carrier and shows the Medicare benchmark, or says we hold none.",
     },
     {
       when: "When someone asks whether you could build your own network",
       body:
-        "The honest answer is a yes and a boundary. The prices exist, provider by provider, for the plans an employer in your market can actually buy, and nobody who has ever built a network has started with the full price map in front of them. What we will not do is pretend the rest of it is a data problem: we do not sign contracts, we do not run a plan, and steering patients is not something this product will ever help with. We measure. What you build from the measurement is yours, and it is a conversation with counsel and an administrator, not a report.",
+        "A yes and a boundary. The prices exist, provider by provider, for the plans your market can buy, and nobody building a network has started with the full map. We will not pretend the rest is a data problem. We do not sign contracts, run plans, or help steer patients. We measure. What you build from it is yours, with counsel and an administrator.",
     },
     {
       when: "Answering the CFO",
       body:
-        "The question is always some version of how do we know this is a good deal. A sourced market figure with its filing count and its filings date on it is an answer you can put in a file and still defend a year later.",
+        "The question is always some version of how do we know this is a good deal. A market figure carrying its filing count and date is an answer you can still defend a year later.",
     },
   ],
 
   deliverable: {
     title: "A file you can defend.",
     body:
-      "Not a dashboard you will stop logging into. A dated, sourced view of what your market pays, in language that does not require a benefits background to read.",
+      "Not a dashboard you stop opening. A dated, sourced view of what your market pays, readable without a benefits background.",
     bullets: [
-      "Plain English throughout. An MRI is called an MRI, and the procedure code sits behind it as detail rather than in front of it as jargon.",
+      "Plain English throughout. An MRI is called an MRI, with the code behind it as detail, not in front as jargon.",
       "Your metro, not a national or state average, because the market you buy care in is local.",
       "A Medicare reference beside each service, which is the comparison most finance teams already understand.",
       "The source, the filing count and the filings date printed on every figure.",
@@ -116,7 +116,7 @@ const config: RoleConfig = {
   limit: {
     title: "We are a price dataset, and we are not your advisor.",
     body:
-      "We hold what plans have contracted to pay providers. We do not hold your claims, your enrollment or your utilization, so we cannot project your spend, model your renewal or tell you what a plan change would save. We hold no protected health information and there is no path by which any would enter this product. Nothing here is legal, actuarial or benefits advice, and using it does not by itself satisfy any obligation you may have. What it does is let you see the market for yourself, from the filings, with the source attached.",
+      "We hold what plans contracted to pay providers. We do not hold your claims, enrollment or utilization, so we cannot project your spend, model your renewal, or say what a plan change would save. We hold no protected health information and there is no path for any to enter this product. Nothing here is legal, actuarial or benefits advice. It lets you see the market for yourself, from the filings, with the source attached.",
   },
 
   closer: "See the market before someone explains it to you.",
