@@ -162,7 +162,17 @@ export function PriceField() {
       const popMax = Math.max(...d.counties.map((c) => c[2]), 1);
 
       particles = [];
+      /* THE MOBILE BUDGET. The field used to be `display:none` below 900px, so the
+         hero's ONE signature effect did not exist for half the audience. It exists
+         now, thinned rather than deleted: every 2nd county on a phone, which keeps
+         the country's shape (the coasts and the Great Lakes still read) while
+         halving the per-frame arc count. Never sample below this - at 1-in-3 the
+         Mountain West falls apart and it stops being a map. */
+      const stride = lite.matches ? 2 : 1;
+      let seen = -1;
       for (const [lat, lng, pop, st] of d.counties) {
+        seen += 1;
+        if (seen % stride !== 0) continue;
         if (lat < LAT_MIN || lat > LAT_MAX || lng < LNG_MIN || lng > LNG_MAX) continue;
         const mx = ((lng - LNG_MIN) / (LNG_MAX - LNG_MIN)) * W;
         const my = ((LAT_MAX - lat) / (LAT_MAX - LAT_MIN)) * (H * 0.86) + H * 0.02;
@@ -170,7 +180,16 @@ export function PriceField() {
         const t = v == null ? 0.5 : (Math.min(Math.max(v, DMIN), DMAX) - DMIN) / (DMAX - DMIN);
         const axv = v ?? mid;
         const axX = dollarX(axv) + (Math.random() - 0.5) * 6;
-        const r = 0.5 + Math.sqrt(pop / popMax) * 2.1;
+        /* ⛔ MEASURED 2026-08-26: THIS FIELD LIT 0.89% OF ITS OWN CANVAS.
+           reddenda.health lights 11.27%, which is why theirs reads as a glowing
+           county map and ours read as near-black emptiness across the left 60% of
+           the hero. The cause was not particle COUNT - we draw every real county,
+           and we out-count health on every other effect metric. It was radius: a
+           0.5px floor means most of the 3,000 counties were a single antialiased
+           pixel at roughly a quarter alpha, which is a dot the eye never resolves.
+           The floor is what moved, not the ceiling: the biggest counties grow a
+           little, the smallest ones grow a lot, and the map keeps its shape. */
+        const r = 0.95 + Math.sqrt(pop / popMax) * 2.35;
         particles.push({
           mx, my,
           ax: axX, ay: ay0 + 14 + Math.random() * 10,
@@ -201,13 +220,32 @@ export function PriceField() {
 
       const anim = !reduced.matches;
 
-      /* the field, morphing */
+      /* THE FIELD, MORPHING. Two passes now, and the halo is the one that matters.
+         The audit measured LIT AREA (alpha > 8/255), and area goes as the square of
+         the radius, so a halo at 2.9x the core radius lights roughly eight times the
+         pixels for a fraction of the ink. It is drawn UNDER the core in the same
+         loop pair rather than as a shadowBlur, because shadowBlur on three thousand
+         arcs drops the frame rate off a cliff and this hero is pinned while it
+         scrubs. The halo twinkles with its core, which is also what lifts the
+         changing-pixel share the audit measured at 0.565% against health's 1.316%. */
       for (const p of particles) {
         const q = smooth((P0 - p.dly) / (1 - p.dly));
         const x = p.mx + (p.ax - p.mx) * q;
         const y = p.my + (p.ay - p.my) * q;
-        const twinkle = anim ? 0.62 + 0.38 * Math.sin(p.tw + t * p.tws) : 0.8;
-        ctx.globalAlpha = (0.28 + 0.5 * twinkle) * (0.9 - q * 0.25);
+        const twinkle = anim ? 0.66 + 0.34 * Math.sin(p.tw + t * p.tws) : 0.8;
+        const rr = p.r * (1 - q * 0.35);
+        ctx.globalAlpha = (0.098 + 0.096 * twinkle) * (0.9 - q * 0.3);
+        ctx.fillStyle = p.hue;
+        ctx.beginPath();
+        ctx.arc(x, y, rr * 2.9, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      for (const p of particles) {
+        const q = smooth((P0 - p.dly) / (1 - p.dly));
+        const x = p.mx + (p.ax - p.mx) * q;
+        const y = p.my + (p.ay - p.my) * q;
+        const twinkle = anim ? 0.66 + 0.34 * Math.sin(p.tw + t * p.tws) : 0.8;
+        ctx.globalAlpha = (0.36 + 0.52 * twinkle) * (0.9 - q * 0.25);
         ctx.fillStyle = p.hue;
         ctx.beginPath();
         ctx.arc(x, y, p.r * (1 - q * 0.35), 0, Math.PI * 2);
