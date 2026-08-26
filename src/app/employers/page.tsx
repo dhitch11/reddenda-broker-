@@ -49,6 +49,26 @@ const config: RoleConfig = {
       body:
         "Narrower networks, tiering and steering are all sold on the promise of price. You can look at the actual distribution in your metro and see how much room there is between the low and high end before anyone models a saving for you.",
     },
+    /* ── THE THREE QUESTIONS A SELF-FUNDED GROUP ACTUALLY ASKED US ──────────────────────
+       Added 2026-08-26 after a call with a self-funded employer group: pharmacy and
+       rebates, pass-through and transparency, and whether a plan could design its own
+       network from this data. THIS PAGE - THE ONE BUILT FOR THAT EXACT AUDIENCE - DID NOT
+       MENTION ANY OF THE THREE. Measured: zero occurrences of pharmacy, rebate, PBM,
+       pass-through or network design anywhere on it.
+       Both scenarios below are written to be TRUE FIRST and useful second, and neither
+       prints a figure: static prose quoting a table it cannot see is a number that decays
+       silently, and this repo has the scar. The figures live in the tool, where they are
+       computed on the request. */
+    {
+      when: "When somebody offers you pharmacy savings",
+      body:
+        "We hold no pharmacy benefit manager contract, no rebate data and no point-of-sale pricing, so we will tell you nothing about your pharmacy benefit. The federal government collects rebate totals and says in writing that it cannot publish them in a form that identifies a plan or a drug, so anybody selling you a pharmacy number built from public data should be asked which file it came from. What is public is the other half of drug spend: the drugs given in a clinic - the infusions and the injections - are billed under the medical benefit at a negotiated rate, and those rates are filed like every other one. We hold them, by market, with the sample size beside them, and the spread between the low and the high end of one city on a single cancer drug is not small.",
+    },
+    {
+      when: "When someone asks whether you could build your own network",
+      body:
+        "The honest answer is a yes and a boundary. The prices exist, provider by provider, for the plans an employer in your market can actually buy, and nobody who has ever built a network has started with the full price map in front of them. What we will not do is pretend the rest of it is a data problem: we do not sign contracts, we do not run a plan, and steering patients is not something this product will ever help with. We measure. What you build from the measurement is yours, and it is a conversation with counsel and an administrator, not a report.",
+    },
     {
       when: "Answering the CFO",
       body:
