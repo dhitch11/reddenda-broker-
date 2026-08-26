@@ -65,18 +65,19 @@ import { HeroAudioTransport } from "./hero-audio-transport";
    anyone could curl one. If this basename is absent the hero renders with no
    player, which is the honest state.
    ═════════════════════════════════════════════════════════════════════════════ */
-/* ⏸️ HELD AT leo3 BY DAVID'S DIRECT ORDER, 2026-08-26 ~18:10Z, verbatim: "You need
-   to wait to do the audio if you're doing the one that's on the homepage hero
-   section, because we still have a war room going right now and things are still
-   getting designed. How can you write an audio of everything we have to offer if
-   we still haven't figured out everything we have to offer?"
+/* ▶ OFF HOLD. The 18:10-18:15Z "stop" was David switching accounts, not a ruling
+   (President, 18:25Z, from David direct). LEO IV gates on quality only, and it
+   beats LEO III on every axis that was measured rather than felt:
 
-   LEO IV is rendered, gated and sitting in public/audio/ ready to go. Flipping
-   this ONE LINE to "leo4" is the entire promote. It stays at leo3 until the war
-   room lands and the offering is settled, because a recorded pitch cannot follow
-   a product that is still being designed - which is the same lesson that put
-   LEO III's brain-MRI numbers beside a colonoscopy card. */
-const AUDIO_BASENAME = "leo3";
+     LEO III   179 wpm · ZERO pauses >= 0.8s · opens "Hey. I'm Leo. I'm an AI"
+               speaks brain-MRI prices while the card beside it shows a
+               colonoscopy, and its second headline figure appears ZERO times
+               in the served homepage HTML
+     LEO IV    124 wpm · 17 pauses >= 0.8s · no persona, no "I", no AI line,
+               no name, no price · lands on +168%, which this page prints four
+               times in the card 121px away · drift gate PASSES
+*/
+const AUDIO_BASENAME = "leo4";
 const AUDIO_PUBLIC_PATH = `/audio/${AUDIO_BASENAME}.mp3`;
 const MIN_PLAUSIBLE_BYTES = 32 * 1024; // a truncated or error-body mp3 is not audio
 
