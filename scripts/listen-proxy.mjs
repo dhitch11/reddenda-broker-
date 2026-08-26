@@ -67,10 +67,32 @@ if (!MP3 || !existsSync(MP3)) {
 }
 
 const SR = 22050;              // plenty for F0 on a human voice, and a quarter of the samples
-const TARGET_WPM = [105, 125];
-const MIN_LONG_PAUSES = 6;     // a 140-word cinematic read needs real beats, not commas
+/* ── THE PACE BAND IS A FLAG, BECAUSE A MONOLOGUE AND A DIALOGUE ARE NOT THE
+      SAME INSTRUMENT AND ONE BAND CANNOT JUDGE BOTH ─────────────────────────
+   Default 105-125 wpm: the President's order for the cinematic hero cut, which
+   reaches it by putting 26 seconds of deliberate air into 70 seconds of audio.
+   A monologue is mostly beats and that is the point of it.
+
+   A CONVERSATION CANNOT BE JUDGED THAT WAY. Measured on this pipeline, the
+   voices read at 238 wpm at speed 1.0 and 180 wpm at speed 0.75. To drag a
+   two-voice piece to 115 wpm OVERALL, roughly 40% of its runtime would have to
+   be silence, which means about 1.5 seconds between every single turn - and
+   that is the artifact David rejected in his own words on 08-25: "not like
+   they're having a conversation". The listen-proxy memory puts conversational
+   turn gaps at 0.2-0.7s and that is not negotiable against a pace number.
+
+   So a dialogue is gated on --wpm=130,165 (natural speech, snapping turns) and
+   --pauses=0, and the SPEAKING rate is the number that matters. Passing the
+   flag is not lowering the bar; using the monologue band on a conversation
+   would be measuring the wrong thing and calling it rigour. */
+const bandFlag = (args.find((a) => a.startsWith("--wpm=")) ?? "").split("=")[1];
+const TARGET_WPM = bandFlag ? bandFlag.split(",").map(Number) : [105, 125];
+const pausesFlag = (args.find((a) => a.startsWith("--pauses=")) ?? "").split("=")[1];
+const MIN_LONG_PAUSES = pausesFlag !== undefined ? Number(pausesFlag) : 6;
 const LONG_PAUSE = 0.8;        // the President's own threshold
-const DROPOUT = 2.6;           // longer than any beat this script asks for
+const DROPOUT = 2.6;           // longer than any beat a script here asks for
+const gapFlag = (args.find((a) => a.startsWith("--turngaps=")) ?? "").split("=")[1];
+const TURN_GAP_BAND = gapFlag ? gapFlag.split(",").map(Number) : null;
 const LUFS_BAND = [-18.5, -14.5];
 const TP_CEIL = -1.0;
 
@@ -225,7 +247,27 @@ if (Number.isFinite(wpm)) {
   if (wpm > TARGET_WPM[1]) problems.push(`PACE ${wpm.toFixed(0)} wpm is above the ordered ${TARGET_WPM[0]}-${TARGET_WPM[1]}. This is the LEO III defect: 179 wpm with nowhere to breathe.`);
 } else couldNotRun.push("pace: no blind transcript, so no honest word count");
 
-if (longPauses.length < MIN_LONG_PAUSES) {
+/* ── TURN GAPS. The measurement nobody made on 08-25. ─────────────────────── */
+let turnGaps = [];
+try {
+  const side = MP3.replace(/\.mp3$/, ".json");
+  if (existsSync(side)) {
+    const spans = JSON.parse(readFileSync(side, "utf8")).speakerSpans;
+    if (Array.isArray(spans)) {
+      for (let i = 1; i < spans.length; i++) {
+        turnGaps.push({ at: spans[i - 1].t1, seconds: +(spans[i].t0 - spans[i - 1].t1).toFixed(3),
+                        from: spans[i - 1].speaker, to: spans[i].speaker });
+      }
+    }
+  }
+} catch { /* no spans is not an error; it just means this is not a dialogue */ }
+const speakerChanges = turnGaps.filter((g) => g.from !== g.to);
+if (TURN_GAP_BAND && speakerChanges.length) {
+  const bad = speakerChanges.filter((g) => g.seconds < TURN_GAP_BAND[0] || g.seconds > TURN_GAP_BAND[1]);
+  if (bad.length) problems.push(`TURN GAPS: ${bad.length} of ${speakerChanges.length} speaker changes fall outside ${TURN_GAP_BAND[0]}-${TURN_GAP_BAND[1]}s (worst ${Math.max(...bad.map((b) => b.seconds))}s at ${bad[0].at.toFixed(1)}s). This is the measurement nobody made on the take David rejected.`);
+}
+
+if (MIN_LONG_PAUSES > 0 && longPauses.length < MIN_LONG_PAUSES) {
   problems.push(`AIR only ${longPauses.length} pause(s) of ${LONG_PAUSE}s or longer, want at least ${MIN_LONG_PAUSES}. LEO III had ZERO across 79 seconds and that is exactly what "no real air" sounds like.`);
 }
 for (const d of dropouts) problems.push(`DROPOUT ${d.seconds.toFixed(2)}s of silence at ${d.at.toFixed(1)}s. Longer than any beat should be; it will read as a fault.`);
@@ -252,6 +294,10 @@ line("pace", Number.isFinite(wpm) ? `${wpm.toFixed(0)} wpm overall · ${speechWp
 line("air", `${inner.length} pauses · ${longPauses.length} at ${LONG_PAUSE}s+ · longest ${inner.length ? Math.max(...inner.map((p) => p.seconds)).toFixed(2) : "0"}s · ${(duration - speechSeconds).toFixed(1)}s of silence total`);
 line("loudness", Number.isFinite(lufs) ? `${lufs.toFixed(1)} LUFS · TP ${tp.toFixed(1)} dBTP · LRA ${lra.toFixed(1)}` : "—");
 line("pitch", f0.frames ? `mean ${f0.mean.toFixed(1)} Hz · sd ${f0.sd.toFixed(1)} · range ${f0.min.toFixed(0)}-${f0.max.toFixed(0)} Hz over ${f0.frames} voiced frames` : "—");
+if (speakerChanges.length) {
+  const g = speakerChanges.map((x) => x.seconds).sort((a, b) => a - b);
+  line("turn gaps", `${speakerChanges.length} speaker changes · median ${g[Math.floor(g.length / 2)].toFixed(2)}s · min ${g[0].toFixed(2)}s · max ${g[g.length - 1].toFixed(2)}s`);
+}
 if (longPauses.length) line("beats at", longPauses.map((p) => `${p.at.toFixed(1)}s/${p.seconds.toFixed(1)}`).join("  "));
 if (added.length) line("heard extra", added.slice(0, 10).join(" "));
 

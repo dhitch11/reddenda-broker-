@@ -104,10 +104,33 @@ function ffstderr(argv) {
    Blair's model is probed at startup rather than assumed, because a model that
    is not enabled on this account returns an error at render time and a model
    that IS enabled but wrong sounds fine and is the wrong person. */
+/* ── SPEED, AND WHY IT IS A DIAL HERE AND NOT IN THE HERO RENDERER ────────────
+   MEASURED on a 4-turn smoke test of this exact pipeline: this clone reads at
+   238 words per minute while actually speaking. Normal conversational English
+   is 140-160; audiobooks sit at 150-160. 238 is not "energetic", it is faster
+   than a listener can comfortably follow, and this piece exists to TEACH.
+
+   ⚠️ A MONOLOGUE AND A CONVERSATION CANNOT HIT A PACE TARGET THE SAME WAY, and
+   conflating them produces the exact artifact David has already rejected once.
+   The hero cut reaches 105-125 wpm by putting 26 SECONDS of deliberate air into
+   70 seconds of audio, because a cinematic monologue is mostly beats. Doing that
+   to a dialogue means one-and-a-half seconds of silence between every turn, and
+   his words on the last two-voice piece that did it were: "not like they're
+   having a conversation". The listen-proxy memory is explicit that conversational
+   turn gaps belong at 0.2-0.7s.
+
+   So in a dialogue the pace comes from the SPEAKING RATE, not from the silence:
+   slow the voices to a natural 150-170 wpm and keep the turns snapping in at
+   0.25-0.6s. That is what "easy to understand and not boring" actually requires.
+
+   ★ AND THIS MOVES TOWARD DAVID'S EAR, NOT AWAY FROM IT. His locked live-line
+   config in VOICE-LOCK.md runs speed 0.86, not 1.0. The one config he has
+   personally approved by ear is a SLOWED one. Nothing here is being invented. */
 const TAKES = {
   locked: { stability: 0.42, similarity_boost: 0.80, style: 0.28, use_speaker_boost: true },
   fleet:  { stability: 0.42, similarity_boost: 0.85, style: 0.35, use_speaker_boost: true },
 };
+const SPEED = Number(flag("speed", "0.85"));
 const take = flag("take", "locked");
 if (!TAKES[take]) { console.error(`unknown --take=${take}`); process.exit(2); }
 
@@ -115,7 +138,7 @@ const CAST = {
   DAVID: {
     voice: "z0BOWBeixS6REJudB8Qi",
     model: "eleven_multilingual_v2",
-    settings: TAKES[take],
+    settings: { ...TAKES[take], speed: SPEED },
   },
   BLAIR: {
     voice: "3io0Zxlhm30puFW858RF",
@@ -124,7 +147,7 @@ const CAST = {
        answering voice, or the two read as one person doing an impression.
        These are a starting point for an EAR comparison, never a locked recipe:
        Blair has never been through David's ear on this estate. */
-    settings: { stability: 0.38, similarity_boost: 0.82, style: 0.32, use_speaker_boost: true },
+    settings: { stability: 0.38, similarity_boost: 0.82, style: 0.32, use_speaker_boost: true, speed: SPEED },
   },
 };
 
