@@ -57,7 +57,10 @@ const TOOLS: Tool[] = [
     eyebrow: "Start here",
     name: "Rate Check",
     what:
-      "Pick your city and a procedure and see what every carrier has agreed to pay: the low end, the middle price and the high end, with the Medicare rate beside them.",
+      /* "every carrier" removed here too: this card is the first description of the
+         product a visitor reads on this page, and it said the one thing the refusal
+         ledger exists to contradict. */
+      "Pick your city and a procedure and see what the carriers that filed have agreed to pay: the low end, the middle price and the high end, with the Medicare rate beside them.",
     who: "The one every visitor should open first.",
     ready: true,
   },
@@ -128,7 +131,9 @@ export default async function ToolsIndex() {
                   className="chip-dot"
                   style={{ display: "inline-block", marginRight: 8, verticalAlign: "middle" }}
                 />
-                Live corpus · every U.S. metro market
+                {/* "every U.S. metro market" was false by ten and inconsistent with the
+                    line directly beneath it, which now correctly says 918. */}
+                Live corpus · {SCALE.metros.toLocaleString("en-US")} U.S. metro markets
               </p>
 
               <h1

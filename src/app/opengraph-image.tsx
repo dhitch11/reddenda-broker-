@@ -22,7 +22,9 @@ import { METROS } from "@/lib/metros";
  */
 
 export const runtime = "nodejs";
-export const alt = "Reddenda. What health plans have agreed to pay, in every U.S. city";
+/* The alt carried the same "in every U.S. city" claim as the card body. Alt text is
+   read aloud by a screen reader and indexed by search, so it is published copy. */
+export const alt = "Reddenda. What health plans have agreed to pay, with the sample size on every number";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -108,7 +110,12 @@ export default async function Image() {
             Know what the market pays.
           </div>
           <div style={{ fontSize: 30, color: MUTED, marginTop: 18, maxWidth: 900, lineHeight: 1.4 }}>
-            What every carrier has agreed to pay providers, in every U.S. city.
+            {/* WAS "What every carrier has agreed to pay providers, in every U.S. city."
+                This is the site's main share card, the most-forwarded surface we publish,
+                and it carried the broadest version of a claim the product refuses on its
+                own screens. Kaiser and Sutter file zero conventional in-network rows by
+                construction, and the engine answers for 918 metros, not every U.S. city. */}
+            What health plans have agreed to pay providers, with the sample size on every number.
           </div>
         </div>
 
