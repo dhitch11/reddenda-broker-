@@ -175,7 +175,12 @@ export default async function Landing() {
       {/* The in-page anchors, kept as a SECONDARY strip. They are genuinely useful on
           a page this long; they were never a substitute for site navigation. */}
       <nav aria-label="On this page" className="wrap"
-        style={{ display: "flex", flexWrap: "wrap", gap: 14, padding: "14px 0 0",
+        /* paddingTop, NOT the `padding` shorthand. `.wrap` supplies the horizontal
+           gutter through padding-inline, and a shorthand here reset it to 0, so the
+           strip sat flush against the viewport edge and the first word read as
+           clipped. Every assertion passed: it was inside the viewport, it just had
+           no gutter. A screenshot found it. */
+        style={{ display: "flex", flexWrap: "wrap", gap: 14, paddingTop: 14,
                  fontSize: "var(--text-xs)", color: "var(--faint)" }}>
         <span style={{ fontFamily: "var(--font-mono), monospace", letterSpacing: ".1em", textTransform: "uppercase" }}>
           On this page
