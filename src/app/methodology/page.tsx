@@ -65,10 +65,11 @@ export default async function Methodology() {
           {/* ---------------- SOURCE ---------------- */}
           <Section id="sources" eyebrow="The source" title="Federal transparency filings, nothing else">
             <P>
-              The Transparency in Coverage rule, 45 CFR 147.212, requires health plans and issuers to publish
-              machine-readable files listing the negotiated rate they hold with every in-network provider for
-              every covered item and service. Files are republished monthly. They are public, and no login,
-              contract or vendor relationship is required to read them.
+              Federal law makes health plans publish what they have agreed to pay. Each plan files a
+              machine-readable file. That file lists the rate the plan holds with every in-network
+              provider, for every covered item and service. The files are republished monthly. They are
+              public. No login, contract or vendor relationship is needed to read them. The rule is
+              Transparency in Coverage, 45 CFR 147.212.
             </P>
             <P>
               That is the entire basis of this product. We hold no claims, no enrollment, no utilization and
@@ -191,19 +192,19 @@ export default async function Methodology() {
           {/* ---------------- GEOGRAPHY ---------------- */}
           <Section id="geography" eyebrow="Geography" title="Metro first, and we always tell you which one you got">
             <P>
-              A state average hides the market you actually sell in. Prices inside one state vary more than
-              prices between states, so we report at the metropolitan statistical area level wherever the
-              filings support it. When a metro cell does not pass the gate we fall back to the state, and the
-              result says so, naming the metro it fell back from. A broker in Fresno is never shown a
-              California number labelled as theirs.
+              A state average hides the market you actually sell in. Prices inside one state vary more
+              than prices between states. So we report at the metro level wherever the filings support it.
+              When a metro cell does not pass the gate, we fall back to the state. The result says so, and
+              it names the metro it fell back from. A broker in Fresno is never shown a California number
+              labelled as theirs.
             </P>
             <P>
-              One limit you should know about how a rate becomes a market. The transparency files carry no
-              provider address. They identify providers by NPI and tax identifier, so metro assignment is
-              derived by joining those identifiers to the national provider registry, and that registry can
-              lag a provider&apos;s actual practice location. The Congressional Research Service flags this
-              directly. It means metro assignment is a well-founded inference rather than something stated in
-              the source file, and a provider who has moved may be counted in the market they left.
+              One limit you should know about how a rate becomes a market. The filings carry no provider
+              address. They name providers by NPI and tax identifier. We work out the metro by joining those
+              identifiers to the national provider registry. That registry can lag where a provider actually
+              practises, and the Congressional Research Service flags this directly. So the metro is a
+              well-founded inference, not something the source file states. A provider who has moved may
+              still be counted in the market they left.
             </P>
           </Section>
 
@@ -221,7 +222,7 @@ export default async function Methodology() {
                 },
                 {
                   h: "We cannot give you a total cost by site of service",
-                  b: "Medicare publishes a physician fee for an office setting and a lower physician fee for a facility setting. The lower figure is not the cost of care in a hospital: when a service is performed in a hospital outpatient department the facility bills its own payment separately, and that facility payment is not in this dataset. Anyone showing you those two Medicare figures side by side as a site of service saving is showing you something backwards. We publish the comparison only with that caveat attached, and we will not publish a total until we hold the facility side.",
+                  b: "Medicare publishes two physician fees. One is for an office setting. The other, lower one, is for a facility setting. That lower figure is not what care costs in a hospital. When a service happens in a hospital outpatient department, the facility bills its own payment separately. That facility payment is not in this dataset. So putting the two Medicare figures side by side as a site of care saving shows you something backwards. We publish the comparison only with that caveat attached. We will not publish a total until we hold the facility side.",
                 },
                 {
                   h: "Filed does not always mean used",
