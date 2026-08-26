@@ -439,6 +439,29 @@ a { color: inherit; text-decoration: none; }
 
 .site-header__cta { padding: 9px 15px; font-size: var(--text-sm); flex: none; }
 
+/* ★ AT PHONE WIDTHS THE NAV WRAPS INSTEAD OF SCROLLING, 2026-08-26.
+   The scroller above is a deliberate choice with a stated reason: items scroll
+   "rather than hiding items behind a menu". MEASURED on live prod, that intent
+   was not being met. At 390 the nav's scrollWidth is 681 against a 390 client
+   width and FOUR of seven links sit entirely outside the viewport (Platform,
+   Market rates, Methodology, Pricing); at 320 it is four of seven. A trailing
+   fade is an affordance, not access: an item you must discover a horizontal
+   swipe to reach is hidden, which is the exact thing that rule was written to
+   prevent. Wrapping honours the rule better than the scroller did, and it hides
+   nothing at any width. The scroller stays between 561 and 859px where one line
+   still nearly fits. */
+@media (max-width: 560px) {
+  .site-header__nav {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    row-gap: 0;
+    /* The fade exists to say "there is more this way". Nothing is cut here now,
+       so it would only dim a real link. */
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}
+
 @media (min-width: 860px) {
   .site-header__inner {
     grid-template-columns: auto 1fr auto;
