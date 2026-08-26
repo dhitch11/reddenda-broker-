@@ -37,6 +37,10 @@ export const metadata: Metadata = {
 const MEDIA_DIR = "practice-audio-media";
 const SIDECAR = "practiceaudio.json";
 const BRIEF_SIDECAR = "meetingbrief.json";
+/* The four stage questions as their own take, by David's direct order 2026-08-26
+   ("the audio with just the three questions or four max... as a separate play
+   button. THAT IS MY PRIORITY"). Cut verbatim from the full rehearsal script. */
+const STAGEFOUR_SIDECAR = "stagefour.json";
 
 type Sidecar = {
   title?: string;
@@ -83,11 +87,19 @@ export default async function PracticeAudio({
 
   if (!unlocked) return <Lock bad={bad === "1"} live={configured()} />;
 
-  const [rehearsal, brief] = await Promise.all([loadSidecar(SIDECAR), loadSidecar(BRIEF_SIDECAR)]);
+  const [rehearsal, brief, stagefour] = await Promise.all([loadSidecar(SIDECAR), loadSidecar(BRIEF_SIDECAR), loadSidecar(STAGEFOUR_SIDECAR)]);
 
   /* Each take renders only if its sidecar is complete: no sidecar, no transport,
      and never a play button in front of a recording that does not exist. */
   const takes = [
+    stagefour && {
+      key: "stagefour",
+      sc: stagefour,
+      fallback: "stagefour.mp3",
+      eyebrow: "First · the four stage questions",
+      heading: stagefour.title ?? "The four questions, straight through",
+      sub: "Just the four numbered challenges from the packet, in order, and the answers worth being quoted on.",
+    },
     rehearsal && {
       key: "rehearsal",
       sc: rehearsal,
@@ -114,7 +126,7 @@ export default async function PracticeAudio({
         <header className="pa__head">
           <span className="pa__eyebrow">Private rehearsal audio</span>
           <h1 className="pa__title">
-            {takes.length === 2 ? "Two takes for this afternoon" : takes[0]?.heading ?? "The room, end to end"}
+            {takes.length > 1 ? `${takes.length} takes for this afternoon` : takes[0]?.heading ?? "The room, end to end"}
           </h1>
           <p className="pa__lede">
             Blair asks what the floor will ask. David Thomas answers. Every figure spoken here is one
