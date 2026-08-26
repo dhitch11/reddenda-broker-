@@ -377,6 +377,24 @@ export async function payerBreakdown(
 export { METROS, findMetro, searchMetros } from "./metros";
 
 /** Provenance line shown under every number. */
+/* ★ THE STORED PLACEHOLDER THAT RENDERED AS A VALUE, 2026-08-26.
+   `/methodology` was printing "Current corpus: Coverage date: not yet stamped"
+   to anyone who scrolled, and `/api/lookup` was handing the same string to every
+   caller in JSON. Nothing was wrong with either page: the SENTINEL IS THE STORED
+   DATA. All ELEVEN headline rows in `data_manifest`, back to 2026-07-18, carry
+   `coverage_label = "Coverage date: not yet stamped"`. It has never been stamped.
+
+   The same string renders three times on the app's paid client exhibit. This is
+   the shared root, and it is a data fix, not a copy fix: the label needs writing
+   by whoever owns the corpus build. Until then the code refuses to repeat it,
+   because a placeholder rendered where a fact belongs is a fabrication with
+   extra steps, and this one sits under the word "corpus" on the methodology page.
+
+   `built_at` IS real and stays: 2026-07-30 on the current headline row. So the
+   honest answer is not silence, it is the fact we actually hold, labelled for
+   exactly what it is. Callers get `label: null` and render their empty state. */
+const UNSTAMPED = /not yet stamped|^\s*$|^n\/?a$|^tbd$|^unknown$|^null$|^undefined$/i;
+
 export async function freshness(): Promise<{ builtAt: string | null; label: string | null }> {
   const sb = serviceClient();
   const { data } = await sb
@@ -387,7 +405,9 @@ export async function freshness(): Promise<{ builtAt: string | null; label: stri
     .limit(1)
     .maybeSingle();
 
-  return { builtAt: data?.built_at ?? null, label: data?.coverage_label ?? null };
+  const raw = data?.coverage_label ?? null;
+  const label = raw && !UNSTAMPED.test(raw.trim()) ? raw : null;
+  return { builtAt: data?.built_at ?? null, label };
 }
 
 export const revalidate = FRESHNESS_TTL;

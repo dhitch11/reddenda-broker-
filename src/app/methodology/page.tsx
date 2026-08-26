@@ -253,9 +253,24 @@ export default async function Methodology() {
               Coverage is deeper in dense markets and thinner in small ones, which is a property of how much
               was filed there, and the filing count on every figure tells you which you are looking at.
             </P>
-            {meta.label && (
+            {/* The coverage label has never been stamped on any headline manifest row,
+                so `freshness()` now returns null for it rather than repeating the
+                placeholder, and this renders the fact we DO hold. Labelled "Corpus
+                built" and not "as of": it is when the corpus was assembled, which is
+                a different date from when a carrier filed a rate, and the site prints
+                the filings date separately under each figure. */}
+            {(meta.label || meta.builtAt) && (
               <p style={{ marginTop: 14, fontSize: "var(--text-sm)", color: "var(--muted)" }}>
-                Current corpus: <span className="num">{meta.label}</span>
+                {meta.label ? (
+                  <>Current corpus: <span className="num">{meta.label}</span></>
+                ) : (
+                  <>Corpus built{" "}
+                    <span className="num">
+                      {new Intl.DateTimeFormat("en-US", { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" })
+                        .format(new Date(meta.builtAt as string))}
+                    </span>.
+                  </>
+                )}
               </p>
             )}
 
