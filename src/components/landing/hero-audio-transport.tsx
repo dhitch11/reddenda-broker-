@@ -33,6 +33,82 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
  * first paint, so neither metadata arrival nor playback moves the page.
  */
 
+/* ═══ B-QA-23 · A CONTROL NEVER ERASES ITSELF ════════════════════════════════
+   FILED by @BROKER-QA on prod, 2026-08-26: in Firefox at 390 and 1440, pressing
+   play REMOVED the audio element and the button from the DOM. No error, no
+   message, no fallback. The visitor presses a control and watches it disappear.
+
+   THE MEASURED CAUSE, and it is neither of the two that were hypothesised.
+   Instrumented every media event on the live element (@BROKER-AUDIO, Firefox
+   via Playwright, prod):
+
+     play → waiting → HTTP 206, 1,582,020 B → durationchange → loadedmetadata
+     → loadeddata → canplay → PLAYING → canplaythrough
+     → error  code 3  "OnMediaSinkAudioError"   → this component unmounts
+
+   The file downloaded, decoded and STARTED PLAYING. Then Firefox failed to open
+   an audio OUTPUT SINK and reported it as MEDIA_ERR_DECODE. The harness box has
+   no /dev/snd, no PulseAudio and no ALSA, so there is no device to open. It was
+   never canPlayType (this file has never contained one) and never a play()
+   rejection (measured: play() RESOLVES here, readyState 0 → 3).
+
+   SO THE SEVERITY WAS ALSO WRONG, AND THAT MATTERS AS MUCH AS THE FIX: this is
+   not "Firefox visitors get a vanishing player". It is "a listener whose audio
+   OUTPUT is unavailable gets a vanishing player" - a headless box, a machine
+   with no sound card, a broken driver, a device held exclusively by another
+   application. Rarer than a browser, and far worse when it happens, because the
+   one thing that visitor needed was the transcript and we deleted it from under
+   them.
+
+   THE RULE THIS FILE NOW HOLDS. It is the estate's no-dead-play-button rule read
+   correctly, and the line falls in a different place than the predecessor put it:
+     · The SERVER decides whether a control EXISTS. hero-audio.tsx returns null
+       when the file is absent, so a control that could never play is never
+       rendered. That is the right home for "render nothing".
+     · Once the control is on screen, a CLIENT-SIDE failure degrades VISIBLY. The
+       play button goes (it cannot play, so it must not stay pressable) and a
+       plain sentence takes its place, with the two things that still work: the
+       transcript, and a direct link to the file the visitor can open in anything.
+     · An autoplay-policy refusal is NOT a failure. It is the browser asking for a
+       gesture. It says so, and the button stays pressable.
+     · A capability probe accepts ANY non-empty canPlayType answer. "maybe" is the
+       correct, spec-compliant reply for MP3 without a codecs parameter, and every
+       Firefox on earth returns it (measured: "maybe" bare, "probably" with
+       codecs="mp3"). A check written as === "probably" would refuse them all.
+   ════════════════════════════════════════════════════════════════════════════ */
+type Failure =
+  | null
+  | { kind: "decode"; detail: string }
+  | { kind: "unsupported"; detail: string }
+  | { kind: "timeout"; detail: string };
+
+/* MEDIA_ERR_* read back as words, because a bare "3" in a support thread is not
+   an answer. Only the visible sentence is shown to the visitor; the detail goes
+   to the data attribute so a lane can read it off a real page without a debugger. */
+function describeMediaError(el: HTMLAudioElement | null): string {
+  const e = el?.error;
+  if (!e) return "the audio stopped without reporting a reason";
+  switch (e.code) {
+    case 1: return "the download was aborted";
+    case 2: return "the network dropped the file";
+    case 3: return `this device could not play the sound (${e.message || "decode or audio-output failure"})`;
+    case 4: return "this browser cannot play this file";
+    default: return `media error ${e.code}`;
+  }
+}
+
+/* ACCEPT "maybe". See the doctrine above. Any non-empty answer is a yes; only the
+   empty string is a no, and it is the ONLY thing that may pre-emptively stand the
+   player down. Runs client-side only, so the server render is never affected. */
+function browserRefusesMp3(): boolean {
+  if (typeof document === "undefined") return false;
+  try {
+    return document.createElement("audio").canPlayType("audio/mpeg") === "";
+  } catch {
+    return false; // an unanswerable question is not a refusal
+  }
+}
+
 type Chapter = { t: number; text: string };
 type Caption = { t0: number; t1: number; text: string };
 
@@ -62,6 +138,7 @@ export function HeroAudioTransport({
   chapters,
   captions,
   peaks,
+  vtt,
   variant = "hero",
 }: {
   src: string;
@@ -70,6 +147,9 @@ export function HeroAudioTransport({
   chapters: Chapter[];
   captions: Caption[];
   peaks: number[];
+  /* The URL of a real WebVTT file, or null. Never a guessed path: the server
+     half only passes this when the file is on disk beside the mp3. */
+  vtt: string | null;
   variant?: "band" | "hero";
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -85,7 +165,8 @@ export function HeroAudioTransport({
   const armFromSidecar = knownDuration !== null && knownDuration > 0;
 
   const [ready, setReady] = useState(armFromSidecar);
-  const [dead, setDead] = useState(false);
+  const [failure, setFailure] = useState<Failure>(null);
+  const [blocked, setBlocked] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [waiting, setWaiting] = useState(false);
   const [started, setStarted] = useState(false);
@@ -111,7 +192,7 @@ export function HeroAudioTransport({
       }
     };
     const onTime = () => setCurrent(el.currentTime);
-    const onPlay = () => { setPlaying(true); setStarted(true); };
+    const onPlay = () => { setPlaying(true); setStarted(true); setBlocked(false); };
     const onPause = () => setPlaying(false);
     const onEnded = () => { setPlaying(false); setCurrent(0); el.currentTime = 0; };
     const onWaiting = () => setWaiting(true);
@@ -121,9 +202,16 @@ export function HeroAudioTransport({
         if (el.buffered.length) setBuffered(el.buffered.end(el.buffered.length - 1));
       } catch { /* buffered can throw before any data arrives */ }
     };
-    /* A decode failure is indistinguishable, to a visitor, from a button that
-       does nothing. So it removes the control rather than disabling it. */
-    const onError = () => { setDead(true); setReady(false); setPlaying(false); };
+    /* A real media error. It takes the PLAY BUTTON away, because a button that
+       cannot play must not stay pressable, and it puts a sentence and the
+       transcript in its place. It does NOT take the component away: see the
+       doctrine at the top of this file. */
+    const onError = () => {
+      setFailure({ kind: "decode", detail: describeMediaError(el) });
+      setReady(false);
+      setPlaying(false);
+      setWaiting(false);
+    };
 
     el.addEventListener("loadedmetadata", onMeta);
     el.addEventListener("durationchange", onMeta);
@@ -151,7 +239,10 @@ export function HeroAudioTransport({
     const deadline = armFromSidecar
       ? 0
       : window.setTimeout(() => {
-          if (el.readyState < 1) setDead(true);
+          if (el.readyState < 1) {
+            setFailure({ kind: "timeout", detail: "no metadata within 12 seconds of load" });
+            setReady(false);
+          }
         }, 12000);
 
     return () => {
@@ -167,6 +258,17 @@ export function HeroAudioTransport({
       el.removeEventListener("progress", onProgress);
       el.removeEventListener("error", onError);
     };
+  }, []);
+
+  /* THE CAPABILITY PROBE. Runs once, after mount, so the server render is
+     untouched and hydration cannot mismatch. It accepts "maybe": only a browser
+     that answers with the EMPTY STRING is telling us it cannot play MP3, and
+     only that browser is stood down before it has tried. */
+  useEffect(() => {
+    if (browserRefusesMp3()) {
+      setFailure({ kind: "unsupported", detail: 'canPlayType("audio/mpeg") returned the empty string' });
+      setReady(false);
+    }
   }, []);
 
   const seekTo = useCallback((t: number) => {
@@ -189,12 +291,31 @@ export function HeroAudioTransport({
         setWaiting(true);
         window.setTimeout(() => {
           const now = audioRef.current;
-          if (now && now.readyState < 1) setDead(true);
+          if (now && now.readyState < 1) {
+            setFailure({ kind: "timeout", detail: "pressed, and no metadata arrived within 12 seconds" });
+            setReady(false);
+            setWaiting(false);
+          }
         }, 12000);
       }
-      /* play() rejects on an autoplay policy or a decode fault. An unhandled
-         rejection here would leave the button reading "pause" over silence. */
-      void el.play().catch(() => { setPlaying(false); setDead(true); });
+      /* ★ THIS CATCH WAS THE B-QA-23 KILL SITE. It read every rejection as a dead
+         file and unmounted the component. It now reads the error's NAME, because
+         the two things that land here are not the same event:
+           NotAllowedError  the browser wants a gesture it did not think it had.
+                            Nothing is broken. Say so and stay pressable.
+           anything else    a genuine fault, and the element's own `error` event
+                            will have fired with a real MediaError beside it.
+         MEASURED on prod in Firefox: play() RESOLVES under preload="none"
+         (readyState 0 -> 3). The rejection this catch was written for does not
+         happen there, and the unmount it caused did. */
+      void el.play().catch((err: unknown) => {
+        setPlaying(false);
+        setWaiting(false);
+        const name = err && typeof err === "object" && "name" in err ? String((err as Error).name) : "";
+        if (name === "NotAllowedError") { setBlocked(true); return; }
+        if (el.error) setFailure({ kind: "decode", detail: describeMediaError(el) });
+        else setFailure({ kind: "decode", detail: name ? `playback refused (${name})` : "playback refused" });
+      });
     } else {
       el.pause();
     }
@@ -277,7 +398,9 @@ export function HeroAudioTransport({
     });
   }, [peaks, hasWave]);
 
-  if (dead) return null;
+  /* ★ WHERE `if (dead) return null` USED TO STAND. It is gone on purpose. See the
+     doctrine at the top of this file: the server decides whether a control
+     exists, and a client-side failure degrades where the visitor can see it. */
 
   const pct = duration ? Math.max(0, Math.min(100, (shown / duration) * 100)) : 0;
   const bufPct = duration ? Math.max(0, Math.min(100, (buffered / duration) * 100)) : 0;
@@ -298,6 +421,10 @@ export function HeroAudioTransport({
       data-ready={ready ? "1" : "0"}
       data-variant={variant}
       data-captions={captions.length ? "1" : "0"}
+      data-failed={failure ? failure.kind : "0"}
+      /* The measured detail rides the DOM so a lane can read the real cause off a
+         real page, at 390 or 1440, without attaching a debugger. */
+      data-failure-detail={failure ? failure.detail : undefined}
     >
       {/* Styles for what is NEW in this transport (waveform, captions). The
           inherited surface keeps the .leo classes styled in globals.css, so
@@ -332,6 +459,21 @@ export function HeroAudioTransport({
         @media (prefers-reduced-motion: no-preference){
           .heroaudio__caption span{transition:opacity .18s linear}
         }
+
+        /* ── B-QA-23: THE VISIBLE FALLBACK ──────────────────────────────────
+           Deliberately quiet. This is an honest status, not an alarm: no red,
+           no icon, no border shouting at a visitor about a fault that is on
+           their machine. It reserves its own height so replacing the transport
+           with it moves nothing around it, which is the same CLS contract the
+           transport holds. */
+        .leo__fallback{display:grid;gap:10px}
+        .leo__fallback-line{margin:0;font-size:13px;line-height:1.5;color:var(--faint, rgba(255,255,255,.72))}
+        .leo__fallback-link{font-size:12px;color:var(--muted, rgba(255,255,255,.62));text-decoration:underline;text-underline-offset:3px;justify-self:start}
+        .leo__fallback-link:hover{color:var(--ink, #fff)}
+        .leo__transcript--open{max-height:186px;overflow:auto}
+        /* The autoplay-policy hint. Not a failure, so it never takes the button
+           away: it sits under a transport that is still fully pressable. */
+        .leo__blocked{margin:0;font-size:12px;line-height:1.45;color:var(--faint, rgba(255,255,255,.72))}
       `}</style>
 
       {/* preload="none" whenever the sidecar carries the measured duration
@@ -339,7 +481,16 @@ export function HeroAudioTransport({
           bytes for this element. The metadata fallback exists only for a
           sidecar-less asset, where a timecoded control cannot honestly render
           before loadedmetadata. */}
-      <audio ref={audioRef} src={src} preload={armFromSidecar ? "none" : "metadata"} playsInline />
+      {/* A REAL <track>, beside the on-page caption slot and not instead of it.
+          The slot is a styled convenience that matches the hero; the track is
+          the standards artifact the browser's own caption UI, a screen reader
+          and a "save this page" all understand. It is rendered ONLY when the
+          render actually produced a .vtt, because a <track> pointing at a 404 is
+          a caption button that shows nothing, which is this file's whole sin in
+          miniature. Same origin, so no crossOrigin is needed. */}
+      <audio ref={audioRef} src={src} preload={armFromSidecar ? "none" : "metadata"} playsInline>
+        {vtt ? <track kind="captions" src={vtt} srcLang="en" label="English" default /> : null}
+      </audio>
 
       <div className="leo__head">
         <span className="leo__eq" aria-hidden="true"><i /><i /><i /><i /></span>
@@ -347,7 +498,33 @@ export function HeroAudioTransport({
         <span className="leo__sub">{lengthPhrase || null}</span>
       </div>
 
-      {!ready ? (
+      {failure ? (
+        /* ═══ THE VISIBLE FALLBACK ═══════════════════════════════════════════
+           What replaced the vanishing act. No play button, because it cannot
+           play. A plain sentence that says what happened, and the two routes
+           that still work on any device: the words, and the file itself. The
+           transcript renders OPEN here rather than behind a toggle, because a
+           visitor who just lost the audio should not have to find a second
+           control to get the content. */
+        <div className="leo__fallback" role="status">
+          <p className="leo__fallback-line">
+            {failure.kind === "unsupported"
+              ? "This browser will not play MP3 audio."
+              : failure.kind === "timeout"
+                ? "The audio did not load."
+                : "The audio could not play on this device."}{" "}
+            {transcript ? "Here it is in words." : null}
+          </p>
+          {transcript ? (
+            <div id={transcriptId} className="leo__transcript leo__transcript--open">
+              {transcript.split(/\n{2,}/).map((para, i) => <p key={i}>{para}</p>)}
+            </div>
+          ) : null}
+          <a className="leo__fallback-link" href={src} download>
+            Open the audio file directly
+          </a>
+        </div>
+      ) : !ready ? (
         /* No transport exists yet, because no transport can work yet. This is a
            status line, not a disabled control. Nothing here is pressable. */
         <p className="leo__loading" role="status">Loading the audio…</p>
@@ -477,6 +654,16 @@ export function HeroAudioTransport({
                   : "Two numbers, one city, and the reading habit that is the whole company."}
               </span>
             </div>
+          ) : null}
+
+          {/* AN AUTOPLAY REFUSAL IS NOT A FAULT, so it gets a sentence and not the
+              fallback. The transport above it stays entirely pressable; the
+              browser simply wanted a gesture it did not think it had, and the
+              next press gives it one. */}
+          {blocked ? (
+            <p className="leo__blocked" role="status">
+              This browser stopped the audio from starting. Press play once more.
+            </p>
           ) : null}
 
           {/* Always in the DOM when it exists, so it is findable and indexable, and

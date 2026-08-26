@@ -35,10 +35,15 @@ import { HeroAudioTransport } from "./hero-audio-transport";
    peak below -1.5 dBTP, and gated through the listen-proxy (blind transcript
    match, turn-gap scan, waveform inspection) before it was allowed here.
 
-   ONE NAME, THREE FILES OF HISTORY. The .mp3 and the .json derive from this
-   basename. leo.mp3 and leo2.mp3 stay on disk and are deliberately NOT
-   fallbacks: falling back would mean a listener silently hears a withdrawn
-   take. If leo3 is absent the hero renders with no player, the honest state.
+   ONE NAME. The .mp3, the .json and the .vtt all derive from this basename.
+   THERE IS NO FALLBACK TAKE, and there is no longer a withdrawn take on disk to
+   fall back TO. leo.mp3 / leo.json / leo2.mp3 / leo2.json were deleted on
+   2026-08-26: all four were serving 200 on prod, and BOTH sidecars named a real
+   person in a public JSON body (leo.json three times, in its first sentence,
+   beside a statement that his voice was cloned). Falling back would mean a
+   listener silently hears a withdrawn take; keeping the files at all meant
+   anyone could curl one. If this basename is absent the hero renders with no
+   player, which is the honest state.
    ═════════════════════════════════════════════════════════════════════════════ */
 const AUDIO_BASENAME = "leo3";
 const AUDIO_PUBLIC_PATH = `/audio/${AUDIO_BASENAME}.mp3`;
@@ -58,6 +63,7 @@ export function HeroAudio({ variant = "hero" }: { variant?: "band" | "hero" } = 
   const publicDir = join(process.cwd(), "public");
   const mp3 = join(publicDir, "audio", `${AUDIO_BASENAME}.mp3`);
   const sidecar = join(publicDir, "audio", `${AUDIO_BASENAME}.json`);
+  const vttPath = join(publicDir, "audio", `${AUDIO_BASENAME}.vtt`);
 
   if (!existsSync(mp3)) return null;
 
@@ -109,6 +115,12 @@ export function HeroAudio({ variant = "hero" }: { variant?: "band" | "hero" } = 
     ? meta.peaks.filter((p) => typeof p === "number" && Number.isFinite(p))
     : [];
 
+  /* THE CAPTION TRACK, GATED THE SAME WAY THE AUDIO IS. A <track> whose src
+     404s renders a caption button that shows nothing, which is the dead-control
+     defect in miniature. So the file is checked on the server, where the answer
+     is knowable, and the transport is handed null when it is not there. */
+  const vtt = existsSync(vttPath) ? `/audio/${AUDIO_BASENAME}.vtt?v=${version}` : null;
+
   const captions = Array.isArray(meta.captions)
     ? meta.captions.filter(
         (c) =>
@@ -125,6 +137,7 @@ export function HeroAudio({ variant = "hero" }: { variant?: "band" | "hero" } = 
       chapters={Array.isArray(meta.chapters) ? meta.chapters : []}
       captions={captions}
       peaks={peaks}
+      vtt={vtt}
       variant={variant}
     />
   );
