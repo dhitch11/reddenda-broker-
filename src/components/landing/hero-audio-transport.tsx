@@ -75,7 +75,16 @@ export function HeroAudioTransport({
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const trackRef = useRef<HTMLDivElement | null>(null);
 
-  const [ready, setReady] = useState(false);
+  /* ARMED FROM THE SIDECAR (visual-standard §8.12: preload="none").
+     When the render pipeline measured a duration into the sidecar, the
+     transport arms from it and the browser fetches NOTHING until first press:
+     the server half already proved the file exists at the requested path, so
+     the control is not a lie, and the first press pays the load. Without a
+     sidecar duration we cannot honestly render a timecoded transport, so we
+     fall back to preload="metadata" and arm on loadedmetadata as before. */
+  const armFromSidecar = knownDuration !== null && knownDuration > 0;
+
+  const [ready, setReady] = useState(armFromSidecar);
   const [dead, setDead] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [waiting, setWaiting] = useState(false);
@@ -134,14 +143,19 @@ export function HeroAudioTransport({
 
     /* THE LOAD DEADLINE. MEASURED on the predecessor: with the audio request
        aborted at the network layer, the media element fires no `error` at all.
-       An audio file that has not produced a duration within the deadline is
-       treated exactly like one that errored: the whole component leaves. */
-    const deadline = window.setTimeout(() => {
-      if (el.readyState < 1) setDead(true);
-    }, 12000);
+       Under preload="metadata" the deadline runs from mount as before. Under
+       preload="none" (armed from the sidecar) nothing loads until first press,
+       so the deadline is armed by the press handler instead: a press that
+       produces no metadata within the deadline kills the component the same
+       way. */
+    const deadline = armFromSidecar
+      ? 0
+      : window.setTimeout(() => {
+          if (el.readyState < 1) setDead(true);
+        }, 12000);
 
     return () => {
-      window.clearTimeout(deadline);
+      if (deadline) window.clearTimeout(deadline);
       el.removeEventListener("loadedmetadata", onMeta);
       el.removeEventListener("durationchange", onMeta);
       el.removeEventListener("timeupdate", onTime);
@@ -167,6 +181,17 @@ export function HeroAudioTransport({
     const el = audioRef.current;
     if (!el || !ready) return;
     if (el.paused) {
+      /* First press under preload="none": nothing has loaded yet. Show the
+         buffering ring at once and arm the deadline that mount could not arm.
+         A press that produces no metadata in 12s is a dead file, and a dead
+         file removes the control. */
+      if (el.readyState < 1) {
+        setWaiting(true);
+        window.setTimeout(() => {
+          const now = audioRef.current;
+          if (now && now.readyState < 1) setDead(true);
+        }, 12000);
+      }
       /* play() rejects on an autoplay policy or a decode fault. An unhandled
          rejection here would leave the button reading "pause" over silence. */
       void el.play().catch(() => { setPlaying(false); setDead(true); });
@@ -309,11 +334,12 @@ export function HeroAudioTransport({
         }
       `}</style>
 
-      {/* preload="metadata" and not "auto": the duration has to be known before
-          a control may render, but a visitor who never presses play should not
-          pay for the whole file on a phone. The header fetch is a few KB and is
-          never the LCP. */}
-      <audio ref={audioRef} src={src} preload="metadata" playsInline />
+      {/* preload="none" whenever the sidecar carries the measured duration
+          (visual-standard §8.12): a visitor who never presses play pays zero
+          bytes for this element. The metadata fallback exists only for a
+          sidecar-less asset, where a timecoded control cannot honestly render
+          before loadedmetadata. */}
+      <audio ref={audioRef} src={src} preload={armFromSidecar ? "none" : "metadata"} playsInline />
 
       <div className="leo__head">
         <span className="leo__eq" aria-hidden="true"><i /><i /><i /><i /></span>
