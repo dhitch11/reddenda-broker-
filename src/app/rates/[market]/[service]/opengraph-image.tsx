@@ -4,6 +4,7 @@ import { join } from "node:path";
 import { marketRate } from "@/lib/rates";
 import { type Basis } from "@/lib/basis";
 import { findMetroBySlug, findServiceBySlug, metroShort } from "@/components/marketing/slugs";
+import { STATES } from "@/lib/metros";
 
 /**
  * THE FORWARDED-LINK CARD. @BROKER-CANON, closing gap G6.
@@ -98,6 +99,8 @@ export default async function Image({
   // screenshotted, so it must disclose the REAL basis: a scaled, statewide or modeled number can never
   // unfurl as a measured metro cell. Same resolution order as the page it points at.
   let basis: Basis | null = null;
+  // The scope the corpus actually answered at. The card names THIS, not the URL.
+  let scope: "metro" | "state" | null = null;
   if (metro && svc) {
     try {
       let r = await marketRate(svc.cpt, {
@@ -124,7 +127,7 @@ export default async function Image({
          Now the card resolves exactly as the page does. Where the page refuses, the card
          carries the mark, the market and the service with no figures, which is the honest
          unfurl for a question we decline to answer. */
-      if (r.found) { cell = r.cell; basis = r.basis.basis; }
+      if (r.found) { cell = r.cell; basis = r.basis.basis; scope = r.scope; }
     } catch {
       // A corpus hiccup renders the honest card, never a guessed one.
       cell = null;
@@ -136,14 +139,24 @@ export default async function Image({
   // A clean local_metro cell needs no tag: it IS this metro's own measured filings.
   const OG_TAG: Partial<Record<Basis, { label: string; color: string; dashed?: boolean }>> = {
     demo: { label: "Demo simulation", color: "#6D5BD6", dashed: true },
-    localized_estimate: { label: "Localized estimate", color: "#077A70" },
     statewide: { label: "Statewide", color: "#5B6166" },
     national: { label: "National", color: "#8A6414" },
   };
   const tag = basis ? OG_TAG[basis] : undefined;
 
   const title = svc ? svc.plain : "This procedure";
-  const where = metro ? metroShort(metro) : "";
+  /* ⛔ THE CARD NAMES THE DATA'S GEOGRAPHY, NOT THE URL'S. David 08-24 order 6.
+     This is the surface that gets pasted into an email and screenshotted, so a card
+     reading "Sacramento, CA" over a California distribution is the version of the
+     defect that outlives every correction. When the state answered, the card says the
+     state, and the "Statewide" tag beside it is then a description rather than a
+     contradiction. When the page refuses, `scope` is null and the card falls back to
+     the market the reader asked about, with no figures beside it. */
+  const where = scope === "state" && metro
+    ? (STATES[metro.state] ?? metro.state)
+    : metro
+      ? metroShort(metro)
+      : "";
 
   return new ImageResponse(
     (

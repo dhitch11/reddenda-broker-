@@ -219,7 +219,13 @@ export default async function Landing() {
             value found it. */}
         <div className="wrap hero-wrap">
           <div className="hero-split">
-            <div className="hero-copy" style={{ display: "grid", gap: 24 }}>
+            {/* ⛔ THE GAP LIVES IN CSS, NOT HERE. It was an inline `gap: 24`, and an inline
+                style beats a stylesheet rule at any specificity, so the armed rule
+                `.hero-stage.field-live .hero-copy { gap: 14px }` (globals.css) had shipped and
+                done nothing since the pin was built. That silent 40px is most of the reason the
+                shot refused to arm at 1366x768. Base and armed values are both in the stylesheet
+                now, where the cascade can actually choose between them. */}
+            <div className="hero-copy">
               <div className="rise rise-1" style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <GlowEye size={40} title={`${BRAND.name} rate intelligence`} />
                 <span className="eyebrow">Self-funded employer groups</span>
@@ -493,7 +499,7 @@ export default async function Landing() {
           <Reveal>
             <div className="sec-head">
               <span className="eyebrow">Three levers a self-funded plan can actually pull, largest first</span>
-              <h2 className="sec-title">Fully insured, you renew. Self-funded, you steer.</h2>
+              <h2 className="sec-title">Fully insured, you renew. Self-funded, you decide where the money goes.</h2>
             </div>
           </Reveal>
 
@@ -523,7 +529,7 @@ export default async function Landing() {
                 title="Which facility, not which room"
                 why="Inside one metro, at one carrier, for the same code, facilities are not priced alike."
                 money="The spread between facilities is wider than the spread between carriers."
-                proof="Anthem's Sacramento book, 55 codes with 100+ filed prices each: moving volume from mid-priced facilities to the cheaper quarter is 53% of facility spend. Blue Shield's book shows 59% on 694 codes. That is a reallocation we can document, not a saving we promise."
+                proof="Anthem's Sacramento book, 55 codes with 100+ filed prices each: the filed prices for the same code at different facilities spread from the median down to the 25th percentile by 53%. Blue Shield's book spreads 59% across 694 codes. That is measured dispersion between facilities. What any plan would capture from it depends on where its volume actually goes, which we do not hold."
               />
             </Reveal>
             <Reveal delay={120}>
@@ -531,7 +537,7 @@ export default async function Landing() {
                 title="Network repricing"
                 why="The network your client rents has a price and a shape."
                 money="See the spread on one basket, in one market, before you renew."
-                proof="Commercial prices from the transparency files, each with its sample size. Weighted by real use, carrier choice moves about 4.9% of a Sacramento basket. Real, and smaller than the headline spreads suggest."
+                proof="Commercial prices from the transparency files, each with its sample size. The carriers' filed medians differ by 4.94% on this basket, weighted by Medicare Part B volumes as a proxy. Real, and smaller than the headline spreads suggest."
               />
             </Reveal>
             <Reveal delay={180}>
@@ -559,10 +565,17 @@ export default async function Landing() {
                   The claim is the same; the words are the reader's. */}
               <span className="eyebrow">Why this landed on your desk</span>
               <h2 className="sec-title">The rules changed. The file is the proof.</h2>
+              {/* ⛔ KILL LIST (President 17:26Z, legal-honesty §3.1): the four legal-conclusion
+                  sentences in this frame. Each one told the reader what the law REQUIRES OF THEM.
+                  We are a price dataset. Describing a statute is reporting; telling a plan sponsor
+                  what their duty is, is advice, and a plaintiff's lawyer reads a marketing page in
+                  exactly that light. Every sentence here now says what the text says and attributes
+                  it, and the citation under each card is what a reader checks it against. */}
               <p className="lede" style={{ color: "var(--body)" }}>
-                In 2021, Congress gave health plans the same duties retirement plans have
-                carried for decades. Three changes turned the rate number into paperwork
-                your client has to be able to show.
+                In 2021, Congress added three requirements to the law that governs group health
+                plans. Each one turns on a price your client has to be able to show. The statutes
+                are below with their citations, so your counsel can read them rather than take
+                our word for what they mean.
               </p>
             </div>
           </Reveal>
@@ -571,24 +584,24 @@ export default async function Landing() {
             <Reveal delay={60}>
               <Legal
                 eyebrow="ERISA 408(b)(2)(B)"
-                title="The fee must be disclosed to be legal"
-                body="Brokers and consultants must tell the plan, in writing, what they are paid. It applies from $1,000 a year of expected pay, and it is due before the contract is signed, extended or renewed."
+                title="The law asks for the fee in writing"
+                body="The statute has a covered service provider describe its compensation to the plan fiduciary in writing. It reaches arrangements expected to pay $1,000 a year or more, and it sets the timing as reasonably in advance of the contract being entered into, extended or renewed."
                 cite="29 U.S.C. 1108(b)(2)(B), added by Pub. L. 116-260 Div. BB Title II sec. 202. Applies to contracts entered into on or after 2021-12-27."
               />
             </Reveal>
             <Reveal delay={120}>
               <Legal
                 eyebrow="Gag clause attestation"
-                title="No contract may hide prices from the plan"
-                body="No agreement may block a plan from seeing its own cost and quality data. Plans confirm this in writing every year by December 31. A vendor can file it, but the duty stays with the plan."
+                title="Gag clauses are barred, and plans attest each year"
+                body="The statute bars agreements that would keep a plan from seeing its own cost and quality data, and it calls for an annual attestation. CMS sets the December 31 date on its webform. A vendor can file it; the statute puts the attestation on the plan."
                 cite="ERISA 724 (29 U.S.C. 1185m), PHS Act 2799A-9, IRC 9824, added by Pub. L. 116-260 Div. BB Title II sec. 201. Filed on the CMS HIOS webform."
               />
             </Reveal>
             <Reveal delay={180}>
               <Legal
                 eyebrow="No Surprises Act"
-                title="Arbitration gaps come out of plan money"
-                body="When there is no contract, a federal arbitrator sets the price, starting from the plan's own benchmark. For a self-funded plan, the gap between the two is paid from the plan's own money, not by a carrier."
+                title="Arbitration starts from the plan's own benchmark"
+                body="Where there is no contract, a federal arbitrator chooses between the two offers, and the regulation makes the plan's own qualifying payment amount one of the factors. A self-funded plan pays an award out of plan assets, because that is what self-funded means."
                 cite="45 CFR 149.510(c)(4)(iii), ERISA parallel at 29 CFR 2590.716-8. QPA methodology at 45 CFR 149.140."
               />
             </Reveal>
@@ -873,8 +886,11 @@ function SiteOfCarePanel({
     );
   }
 
+  /* Padding and gap live in CSS (`.hero-proof-card`) for the same reason the copy column's
+     gap does: an inline style cannot be overridden by a stylesheet, so the short-frame rules
+     in globals.css 8.16b could not touch this card while these were declared here. */
   return (
-    <div className="card" style={{ padding: "22px 20px", display: "grid", gap: 18 }}>
+    <div className="card hero-proof-card">
       <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
         <div>
           <div className="readout__label">Same procedure, three settings</div>

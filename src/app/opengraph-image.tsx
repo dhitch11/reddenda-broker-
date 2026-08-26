@@ -23,7 +23,10 @@ import { SCALE } from "@/lib/national";
 export const runtime = "nodejs";
 /* The alt carried the same "in every U.S. city" claim as the card body. Alt text is
    read aloud by a screen reader and indexed by search, so it is published copy. */
-export const alt = "Reddenda. What health plans have agreed to pay, with the sample size on every number";
+// ⛔ KILL LIST (President 17:26Z, legal-honesty §3.1). "What health plans have agreed
+// to pay" describes an agreement we are not party to and cannot see the terms of. What
+// we hold is what they FILED. The verb is the whole correction.
+export const alt = "Reddenda. The rates health plans filed, with the sample size on every number";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

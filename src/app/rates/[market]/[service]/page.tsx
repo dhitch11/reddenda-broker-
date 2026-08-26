@@ -1,8 +1,9 @@
+import { cache } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { marketRate, type MarketRate, type NoMarketRate } from "@/lib/rates";
-import { METROS, type Metro } from "@/lib/metros";
+import { METROS, STATES, type Metro } from "@/lib/metros";
 import { SERVICES, CATEGORY_LABEL, type Service } from "@/lib/catalog";
 import { isConfigured } from "@/lib/db";
 import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
@@ -19,7 +20,6 @@ import {
   metroShort,
   ratePath,
   marketPath,
-  rateTitle,
 } from "@/components/marketing/slugs";
 
 /**
@@ -60,6 +60,46 @@ export function generateStaticParams() {
   );
 }
 
+/**
+ * ONE QUERY PER PAGE, SHARED BY THE METADATA AND THE BODY.
+ *
+ * The title, the H1 and the OG card must all name the geography the DATA actually
+ * resolved to, which means metadata has to know the answer before it writes the
+ * title. React's cache() makes generateMetadata and the component share a single
+ * round trip instead of racing to two, and it is what lets the two halves of the
+ * page be incapable of disagreeing about which market answered.
+ */
+const getRate = cache((cpt: string, cbsa: string, state: string, metroName: string) =>
+  marketRate(cpt, { cbsa, state, metroName }),
+);
+
+/**
+ * WHERE THE ANSWER ACTUALLY CAME FROM, AND WHAT THE PAGE IS ALLOWED TO CALL IT.
+ *
+ * This is the fix for David's 08-24 order 6. Before it, a metro too thin to answer
+ * was answered anyway by scaling the state distribution, and the page went on
+ * printing the metro's name over it. The URL asked about Sacramento, so every
+ * heading said Sacramento, and the number underneath was California's arithmetic.
+ *
+ * Now the geography of the WORDS is derived from the geography of the DATA. When
+ * the state cell answered, the page says the state, in the title, the H1, the meta
+ * description, the OG card and the lede, and it names the metro only to explain why
+ * the metro is not the answer, with that metro's own filing count in the sentence.
+ */
+function answerGeography(metro: Metro, result: MarketRate | NoMarketRate | null) {
+  const stateFull = STATES[metro.state] ?? metro.state;
+  const isState = Boolean(result?.found && result.scope === "state");
+  return {
+    isState,
+    stateFull,
+    /** What every heading on this page is allowed to name. */
+    label: isState ? stateFull : metroShort(metro),
+    /** The metro's own count, when it had a row and the row was too thin. */
+    metroN: result?.found ? (result.fellBackFrom?.n ?? null) : null,
+    need: result?.found ? (result.fellBackFrom?.need ?? null) : null,
+  };
+}
+
 type Params = { market: string; service: string };
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
@@ -68,14 +108,25 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const s = findServiceBySlug(service);
   if (!m || !s) return { title: "Market not found" };
 
-  const title = rateTitle(m, s);
+  // The metadata names the geography the DATA resolved to, not the one in the URL.
+  // Same cached query the body uses, so the title and the H1 cannot disagree.
+  const result = isConfigured()
+    ? await getRate(s.cpt, m.cbsa, m.state, m.name)
+    : null;
+  const geo = answerGeography(m, result);
+
+  const title = `${s.plain} cost in ${geo.label}`;
+  const description = geo.isState
+    ? `What health plans have contracted to pay for ${s.plain} in ${geo.stateFull}. We do not hold enough ${metroShort(m)} filings for this service, so this page shows ${geo.stateFull} and says so.`
+    : `What health plans have contracted to pay for ${s.plain} in ${metroShort(m)}. The carriers that filed, the low end to the high end, with a Medicare reference beside it.`;
+
   return {
     title,
-    description: `What health plans have contracted to pay for ${s.plain} in ${metroShort(m)}. The carriers that filed, the low end to the high end, with a Medicare reference beside it.`,
+    description,
     alternates: { canonical: ratePath(m, s) },
     openGraph: {
       title: `${title} . ${BRAND.name}`,
-      description: `Negotiated rate distribution for ${s.plain} (CPT ${s.cpt}) in ${metroShort(m)}.`,
+      description: `Negotiated rate distribution for ${s.plain} (CPT ${s.cpt}) in ${geo.label}.`,
       type: "article",
     },
   };
@@ -92,8 +143,9 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
   const configured = isConfigured();
 
   const result: MarketRate | NoMarketRate | null = configured
-    ? await marketRate(svc.cpt, { cbsa: metro.cbsa, state: metro.state, metroName: metro.name })
+    ? await getRate(svc.cpt, metro.cbsa, metro.state, metro.name)
     : null;
+  const geo = answerGeography(metro, result);
 
   // Peer markets for the same service. The comparison IS the insight: a number
   // alone tells a broker nothing, a number beside four other markets tells them
@@ -118,17 +170,30 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
 
   const found = result?.found ? result : null;
   const spreadX = found && found.cell.p25 > 0 ? found.cell.p75 / found.cell.p25 : null;
+  /* ⛔ THE PERCENTAGE IS SUPPRESSED WHEN THE TWO HALVES ARE DIFFERENT GEOGRAPHIES.
+     Medicare has no California rate. It has LOCALITY rates, and the anchor here resolves
+     locality 63, Sacramento-Roseville-Folsom. Dividing a CALIFORNIA statewide median by a
+     SACRAMENTO Medicare rate produces a percentage of nothing, and it would have read
+     "74% of what Medicare pays at its Sacramento-Roseville-Folsom locality" over a number
+     that is not Sacramento's. The Medicare figure is still real and still printed below;
+     it is the RATIO across two grains that we refuse to compute. */
   const vsMedicare =
-    found && found.medicare?.nonFacility && found.medicare.nonFacility > 0
+    found && !geo.isState && found.medicare?.nonFacility && found.medicare.nonFacility > 0
       ? Math.round((found.cell.p50 / found.medicare.nonFacility) * 100)
       : null;
 
   // Where this market sits among the peers we measured. Only stated when there are
   // enough real peers to make a ranking meaningful.
-  const ranked = found
-    ? [...usablePeers.map((p) => p.rate.cell.p50), found.cell.p50].sort((a, b) => b - a)
-    : [];
-  const position = found && ranked.length >= 4 ? ranked.indexOf(found.cell.p50) + 1 : null;
+  const ranked =
+    found && !geo.isState
+      ? [...usablePeers.map((p) => p.rate.cell.p50), found.cell.p50].sort((a, b) => b - a)
+      : [];
+  // The ranking compares THIS page's number against peer metro medians. When this page
+  // is answering with the state cell, that comparison puts a state median in a league
+  // table of cities and calls it a position. It is withheld rather than qualified,
+  // because a rank is a single number and there is no honest footnote small enough.
+  const position =
+    found && !geo.isState && ranked.length >= 4 ? ranked.indexOf(found.cell.p50) + 1 : null;
 
   return (
     <>
@@ -165,14 +230,39 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
               <p className="eyebrow">
                 {CATEGORY_LABEL[svc.category]} · procedure code {svc.cpt}
               </p>
+              {/* ⛔ THE H1 NAMES THE DATA, NOT THE URL. David 08-24 order 6.
+                   This heading used to read the metro's name on every page, including the
+                   ones whose number came from the state. Now `geo.label` is derived from
+                   the scope the corpus actually answered at, so a page can no longer put a
+                   city's name over a state's filings. */}
               <h1 className="display" style={{ fontSize: "var(--display-sm)", marginTop: 12, maxWidth: "18ch" }}>
-                {rateTitle(metro, svc)}
+                {svc.plain} cost in {geo.label}
               </h1>
-              <p className="lede" style={{ marginTop: 14, maxWidth: "60ch" }}>
-                What health plans have contracted to pay providers for {svc.name} in the{" "}
-                {metro.name.split(",")[0]} market, from the machine-readable files those plans publish under
-                federal law. Not billed charges, and not an estimate.
-              </p>
+              {geo.isState ? (
+                <p className="lede" style={{ marginTop: 14, maxWidth: "62ch" }}>
+                  {geo.metroN != null && geo.need != null ? (
+                    <>
+                      {metroShort(metro)} has {geo.metroN.toLocaleString()}{" "}
+                      {geo.metroN === 1 ? "filing" : "filings"} for {svc.name}. We need{" "}
+                      {geo.need.toLocaleString()} before we will publish a market figure, so this page
+                      shows {geo.stateFull} instead and says so.
+                    </>
+                  ) : (
+                    <>
+                      No plan has filed {svc.name} in {metroShort(metro)} in a form we can read, so this
+                      page shows {geo.stateFull} instead and says so.
+                    </>
+                  )}{" "}
+                  These are the rates plans published under federal law. Not billed charges, and nothing
+                  here is scaled, adjusted or estimated to stand in for the market we do not hold.
+                </p>
+              ) : (
+                <p className="lede" style={{ marginTop: 14, maxWidth: "60ch" }}>
+                  What health plans have contracted to pay providers for {svc.name} in the{" "}
+                  {metro.name.split(",")[0]} market, from the machine-readable files those plans publish
+                  under federal law. Not billed charges, and not an estimate.
+                </p>
+              )}
             </div>
 
             <div style={{ marginTop: 24, maxWidth: 880 }}>
@@ -228,7 +318,13 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                               ? ` at its ${titleWords(found.medicare.localityName)} locality`
                               : " in this state"
                           }. Medicare is a fixed reference line most finance teams already have a feel for, which is why we print it beside every figure. It is not a fair price and not what anything should cost.`
-                        : `We do not hold a Medicare rate for this service in this state, so we do not show a comparison. The distribution above stands on its own.`
+                        : geo.isState && found?.medicare?.nonFacility
+                          ? `Medicare pays ${money(found.medicare.nonFacility)} for this service${
+                              found.medicare.localityName
+                                ? ` at its ${titleWords(found.medicare.localityName)} locality`
+                                : ""
+                            }. We do not turn that into a percentage here, because the price above is ${geo.stateFull} and that Medicare figure is one locality inside it. Two different maps do not divide.`
+                          : `We do not hold a Medicare rate for this service in this state, so we do not show a comparison. The distribution above stands on its own.`
                     }
                   />
                   <Insight
@@ -266,9 +362,10 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                     {ordinal(position)} highest middle price.
                   </p>
                 )}
-                {/* Header chip: the dominant basis across this metro + its peers, from summarize() over
-                    the real per-row bases. `scope === "metro"` includes metro-index-scaled state rows
-                    (localized_estimate), so the per-row chips below disclose which markets are measured. */}
+                {/* Header chip: the dominant basis across this market + its peers, from summarize() over
+                    the real per-row bases. Since the scaling path was removed, `scope === "metro"` means a
+                    metro cell that passed the honesty filter and nothing else, so a "local" chip is now a
+                    claim about that metro's own filings rather than about arithmetic done to a state's. */}
                 <div style={{ marginTop: 12 }}>
                   <HeaderBasisChip
                     rows={[
@@ -320,7 +417,7 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                     </thead>
                     <tbody>
                       {found && (
-                        <PeerRow metro={metro} rate={found} svc={svc} current />
+                        <PeerRow metro={metro} rate={found} svc={svc} current label={geo.label} />
                       )}
                       {usablePeers.map((p) => (
                         <PeerRow key={p.metro.cbsa} metro={p.metro} rate={p.rate} svc={svc} />
@@ -413,9 +510,17 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                 ],
               },
               {
+                /* ⛔ THE STRUCTURED DATA TELLS THE SAME TRUTH AS THE H1.
+                   This block is the version of the page a search engine reads, and it used to
+                   assert spatialCoverage = the metro on every page, including the ones whose
+                   number came from the state. A machine-readable claim is still a claim, and
+                   this one was being made 4,641 times. Both the name and the spatial coverage
+                   now follow the scope the data resolved at. */
                 "@type": "Dataset",
-                name: rateTitle(metro, svc),
-                description: `Distribution of negotiated rates for ${svc.name} (CPT ${svc.cpt}) among health plans filing in the ${metro.name} market.`,
+                name: `${svc.plain} cost in ${geo.label}`,
+                description: geo.isState
+                  ? `Distribution of negotiated rates for ${svc.name} (CPT ${svc.cpt}) among health plans filing in ${geo.stateFull}. Shown at state scope because ${metroShort(metro)} does not hold enough filings for this service.`
+                  : `Distribution of negotiated rates for ${svc.name} (CPT ${svc.cpt}) among health plans filing in the ${metro.name} market.`,
                 creator: { "@type": "Organization", name: BRAND.name },
                 isBasedOn: {
                   "@type": "Dataset",
@@ -423,7 +528,10 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                   description: "Prices health plans have agreed to pay providers, by city and procedure.",
                 },
                 measurementTechnique: "Percentile distribution of in-network negotiated rates",
-                spatialCoverage: { "@type": "Place", name: metro.name },
+                spatialCoverage: {
+                  "@type": geo.isState ? "State" : "Place",
+                  name: geo.isState ? geo.stateFull : metro.name,
+                },
                 ...(found?.updatedAt ? { dateModified: found.updatedAt } : {}),
                 ...(found
                   ? { variableMeasured: [{ "@type": "PropertyValue", name: "Median negotiated rate", value: Math.round(found.cell.p50), unitCode: "USD" }] }
@@ -442,11 +550,15 @@ function PeerRow({
   rate,
   svc,
   current,
+  label,
 }: {
   metro: Metro;
   rate: MarketRate;
   svc: Service;
   current?: boolean;
+  /** Overrides the row's name when the page's own answer came from the state, so this
+      row cannot label California's cell "Sacramento, CA". Peers always use their own. */
+  label?: string;
 }) {
   return (
     <tr style={current ? { background: "var(--teal-wash)" } : undefined}>
@@ -462,7 +574,7 @@ function PeerRow({
       >
         {current ? (
           <span style={{ color: "var(--ink)" }}>
-            {metroShort(metro)}{" "}
+            {label ?? metroShort(metro)}{" "}
             <span className="num" style={{ color: "var(--teal-deep)", fontSize: "var(--text-xs)" }}>
               this page
             </span>

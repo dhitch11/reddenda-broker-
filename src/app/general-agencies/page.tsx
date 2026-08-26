@@ -6,7 +6,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "For general agencies",
   description:
-    "Equip a downstream broker network with market rate intelligence they cannot get anywhere else, under your name.",
+    "Equip a downstream broker network with market rate intelligence under your name.",
 };
 
 /**
@@ -27,7 +27,7 @@ const config: RoleConfig = {
   eyebrow: "For general agencies and wholesalers",
   h1: "Give your brokers a reason to quote through you.",
   lede:
-    "Your downstream brokers can get carrier illustrations from anyone. They cannot get metro level negotiated rate data from anyone. Put it in their hands under your name and it becomes a reason to bring you the case.",
+    "They can get carrier illustrations anywhere. They cannot usually get metro-level filed rates from their GA. Put it in their hands under your name and it becomes a reason to bring you the case.",
 
   demo: {
     service: "70553",

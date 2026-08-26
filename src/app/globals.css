@@ -1501,6 +1501,16 @@ body.cine { color: var(--body); }
    grows with its own content. */
 .hero-split--top { align-items: start; }
 
+/* The hero copy column's own rhythm. This was an inline style on the element until
+   2026-08-26, which is why the armed override below could never win: an inline
+   declaration outranks every selector in this file. Base here, armed value in 8.16,
+   compact value in 8.16b, and the cascade decides. */
+.hero-copy { display: grid; gap: 24px; }
+
+/* The hero's proof card. Same story as .hero-copy: these were inline on the element, so
+   every short-frame override in 8.16b silently lost to them. */
+.hero-proof-card { padding: 22px 20px; display: grid; gap: 18px; }
+
 /* ═══ 8.15 THE SITE HEADER inside the register ════════════════════════════════ */
 .cine .site-header {
   background: rgba(6, 9, 11, .72);
@@ -1774,6 +1784,61 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
        afford. */
   }
   /* The field settles down as the number takes the frame. */
+/* ═══ 8.16b THE SHORT-FRAME PROJECTOR ═════════════════════════════════════════
+   THE ROOM'S PROJECTOR IS 1366x768, AND THE SIGNATURE MOTION WAS OFF ON IT.
+
+   MEASURED, armed, on this build: the shot needs `content + header <= innerHeight - 12`.
+   Before today that read 811 against a 756 budget at 1366x768 and 811 against 788 at
+   1280x800, so both refused and the two commonest laptops in a conference room got the
+   static hero. 1440x900 and up were fine, which is why it went unnoticed.
+
+   ⛔ THE FIRST 40px WAS NOT A BUDGET PROBLEM AT ALL. `.hero-copy` carried an inline
+   `gap: 24`, and an inline declaration outranks every selector in this file, so
+   `.hero-stage.field-live .hero-copy { gap: 14px }` in 8.16 had been shipping and doing
+   nothing since the pin was built. It greps as present, it reads as correct, and the
+   computed value was 24 the whole time. Moving it to a stylesheet rule took the need
+   from 811 to 783 on its own.
+
+   THE REST IS THIS BLOCK, AND IT IS A DESIGN RESPONSE RATHER THAN A SHRINK RAY. Once the
+   copy column came down, the PROOF column became the binding one at 702px, so squeezing
+   type further would have cost legibility and bought nothing: a two-column grid row is as
+   tall as its tallest child. What gives instead is the card's breathing room, which is
+   generous because it was drawn for a 900px frame. Padding, the rhythm between blocks and
+   the space above the player tighten on a short frame. No figure is dropped, no type is
+   shrunk, and the reader on a tall screen sees none of it.
+
+   Scoped to `.field-live` on purpose: an unpinned hero is never touched by anything here,
+   so a page that does not arm cannot be changed by a rule that exists to help it arm. */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) and (max-height: 880px) {
+  .hero-stage.field-live .hero-copy { gap: 12px; }
+  .hero-stage.field-live .hero-proof-card { padding-top: 14px; padding-bottom: 14px; gap: 12px; }
+  .hero-stage.field-live .hero-proof .bars { gap: 10px; }
+  .hero-stage.field-live .hero-proof .heroaudio { margin-top: 8px; }
+}
+
+/* Step two, for the 768px-class frame. `clamp()` on the headline scales display type with
+   the WIDTH of the frame and has nothing to say about its HEIGHT, which is why an 88px
+   headline survived onto a 768px screen where it is nearly half the copy column. Here the
+   height gets a vote. 74px still reads as display type at this distance and it is the
+   difference between the shot arming and not arming in the room. */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) and (max-height: 800px) {
+  .cine .hero-stage.field-live .hero-title { font-size: clamp(38px, 5.6vw, 74px); }
+  .hero-stage.field-live .hero-copy { gap: 10px; }
+  .hero-stage.field-live .hero-proof .bars { gap: 8px; }
+  .hero-stage.field-live .hero-proof .heroaudio { margin-top: 4px; }
+  /* The bars are the card's tallest block and its most elastic: three rows, each a label,
+     a track and a caption. Their rhythm tightens; not one of the three rows, and not one
+     figure in them, is dropped. Once the headline came down the proof column became the
+     binding one, so this is the part that actually decides whether the shot arms. */
+  .hero-stage.field-live .hero-proof .bar-row { gap: 4px; }
+  .hero-stage.field-live .hero-proof .bars { gap: 6px; }
+  /* The last few pixels, taken from padding rather than from anything a reader reads.
+     9px of margin on the fit check is not enough to survive a font swapping in late, and
+     a shot that arms on one load and refuses on the next is worse than one that never
+     arms. This takes it to ~23px, which is the margin the room's projector deserves. */
+  .hero-stage.field-live .hero-proof-card { padding-top: 10px; padding-bottom: 10px; gap: 10px; }
+}
+
   .hero-stage.field-live .hero-plane__aurora { opacity: calc(0.58 - var(--p) * 0.22); }
   .hero-stage.field-live .hero-plane__grid { opacity: calc(1 - var(--p) * 0.45); }
   /* The cue only exists while there is travel left. */

@@ -1,7 +1,6 @@
 import { serviceClient } from "./db";
 import { caLocalityCodeFor, CA_DEFAULT_LOCALITY } from "./ca-locality";
-import { METRO_INDEX, metroIndex } from "./metro-index";
-import { judge, explain, type CleanCell, type Confidence, type Rejection } from "./honesty";
+import { judge, explain, N_MINIMUM, type CleanCell, type Confidence, type Rejection } from "./honesty";
 // THE UNIFIED RATE-BASIS STANDARD (David ruling 2026-08-10). Every returned cell carries a per-row
 // `basis` derived from the code path that resolved it, never a constant label. `confidenceFor` is the
 // ONE confidence formula shared with the app (n>=50 high, >=20 moderate, <20 thin).
@@ -42,17 +41,26 @@ export type MarketRate = {
   /** CBSA code when scope is metro, two-letter code when scope is state. */
   geoId: string;
   geoName: string;
-  /** Present when we fell back, so the UI can say so out loud. */
-  fellBackFrom?: { metro: string; reason: Rejection };
+  /**
+   * Present when we fell back, so the UI can say so out loud.
+   *
+   * `n` is the metro's OWN filing count, and `need` is the floor it missed. Both are
+   * carried because the honest sentence needs the number, not the adjective: David's
+   * 08-24 order 6 wants "Sacramento has 17 filings and we need 100", not "thin data".
+   * `n` is null only when the metro held no row at all, which is a different fact
+   * from holding a row that was too thin, and the UI says the two differently.
+   */
+  fellBackFrom?: { metro: string; reason: Rejection; n: number | null; need: number };
   cell: CleanCell;
   confidence: Exclude<Confidence, "insufficient">;
   /**
    * THE PER-ROW RATE BASIS (David ruling 2026-08-10). Derived from which code path resolved this cell,
-   * NEVER a constant. PATH#1 (real cbsa cell) => local_metro; PATH#2 (metro-index-scaled state) =>
-   * localized_estimate when `cbsa in METRO_INDEX` (key presence) else statewide, carrying scaleFactor;
-   * PATH#3 (plain state) => statewide. national.ts maps its own _src/geo_grain. Carries `n` (the peer
-   * sample of the rung that produced the number) and the shared `confidence` bucket. The UI renders the
-   * <BasisChip> from this and only this, so a scaled or statewide number can never wear a "local" label.
+   * NEVER a constant. PATH#1 (a real cbsa cell that passed the honesty filter) => local_metro;
+   * PATH#3 (the state cell) => statewide. There is no longer a scaling path, so this module CANNOT
+   * emit `localized_estimate` at all - see the block where PATH#2 used to be. national.ts maps its own
+   * _src/geo_grain. Carries `n` (the peer sample of the rung that produced the number) and the shared
+   * `confidence` bucket. The UI renders the <BasisChip> from this and only this, so a statewide number
+   * can never wear a "local" label.
    */
   basis: CellBasis;
   medicare: MedicareAnchor | null;
@@ -263,7 +271,23 @@ export async function marketRate(
         };
       }
 
-      fellBackFrom = { metro: geo.metroName ?? geo.cbsa, reason: verdict.reason };
+      // The metro's OWN count travels with the rejection. It is the whole sentence:
+      // "Sacramento has 17 filings and we need 100" is checkable; "thin data" is not.
+      fellBackFrom = {
+        metro: geo.metroName ?? geo.cbsa,
+        reason: verdict.reason,
+        n: data.n ?? null,
+        need: N_MINIMUM,
+      };
+    } else {
+      // No row at all for this metro and code. Different fact from a row that was
+      // too thin, and the surface is required to say the two differently.
+      fellBackFrom = {
+        metro: geo.metroName ?? geo.cbsa,
+        reason: "missing_percentile",
+        n: null,
+        need: N_MINIMUM,
+      };
     }
   }
 
@@ -298,56 +322,29 @@ export async function marketRate(
   const medicare = await medicareAnchor(cpt, geo.state, { cbsa: geo.cbsa });
 
   /**
-   * LOCALISE THE ANSWER.
+   * ⛔ THE SCALING PATH IS DEAD. DO NOT REBUILD IT.
    *
-   * The state distribution is real. What it is not is LOCAL, and a broker asking
-   * about Sacramento should be answered about Sacramento. So when the caller asked
-   * about a metro and that metro was too thin to publish on its own, we scale the
-   * state distribution by that metro's own measured price level (see metro-index.ts:
-   * the median ratio of its real metro medians to the same state medians, across
-   * the services where it does hold deep filings).
+   * There used to be a PATH#2 here. When a metro's own cell was too thin to publish,
+   * it took the CALIFORNIA state distribution, multiplied every percentile by that
+   * metro's price index, and returned the product under the METRO's name, labelled
+   * "Localized estimate". The index itself is measured, and that is exactly what made
+   * it dangerous: a measured multiplier applied to a real number still produces a
+   * number nobody filed. metro-index.ts states the assumption in its own words - "a
+   * metro that runs 12% under its state on the fifteen services we can see is assumed
+   * to run 12% under on the sixteenth". Assumed. That is an estimate, and HARD RULE 1
+   * does not have an exception for a well-built one.
    *
-   * The shape of the distribution is the state's; the level is this metro's. Both
-   * halves come from real filings.
+   * It shipped a specific lie. `/rates/sacramento-ca/standard-office-visit` printed
+   * $84.79 under the H1 "Standard office visit cost in Sacramento, CA", computed as
+   * California's $75.97 x 1.1161. Sacramento holds 17 filings for that code. The home
+   * page of this same site refused the identical cell and said so. One product, two
+   * answers, and the one that spoke with a city's name on it was the invented one.
+   *
+   * KILLED 2026-08-26 under David's 08-24 order 6. The fall-through below is the whole
+   * fix: when a metro cannot answer, CALIFORNIA answers, California is what the page
+   * says, and `fellBackFrom` carries the metro's real count so the page can print the
+   * reason as a number. A page that names a city now holds that city's own filings.
    */
-  const localScope = geo.cbsa ? { cbsa: geo.cbsa, name: geo.metroName ?? geo.cbsa } : null;
-  if (localScope) {
-    const k = metroIndex(localScope.cbsa);
-    const scaled = {
-      ...verdict.cell,
-      p25: Math.round(verdict.cell.p25 * k * 100) / 100,
-      p50: Math.round(verdict.cell.p50 * k * 100) / 100,
-      p75: Math.round(verdict.cell.p75 * k * 100) / 100,
-      p90: verdict.cell.p90 == null ? verdict.cell.p90 : Math.round(verdict.cell.p90 * k * 100) / 100,
-    };
-    // PATH#2: the metro was too thin to publish, so this is the STATE distribution scaled to the
-    // metro's own measured price level. It must NEVER read as a measured metro cell (deliverable 5).
-    //
-    // HARD TRAP (David ruling 2026-08-10): decide localized_estimate vs statewide by KEY PRESENCE in
-    // METRO_INDEX, NEVER by `k === 1`. metroIndex() returns 1 for BOTH a real earned index of exactly
-    // 1.000 (73 of the 668 entries) AND an unearned/missing metro, so a value check would mislabel 73
-    // real localizations as statewide and let every default-1 miss pass as a "localized estimate".
-    const hasEarnedIndex = Object.prototype.hasOwnProperty.call(METRO_INDEX, localScope.cbsa);
-    // The peer sample is the STATE cell's, not the metro's. The chip carries this n under the honest
-    // basis label so the count and the geography can never disagree.
-    const stateN = verdict.cell.n;
-    const basis: CellBasis = hasEarnedIndex
-      ? { basis: "localized_estimate", n: stateN, confidence: confidenceFor(stateN), scaleFactor: k }
-      : { basis: "statewide", n: stateN, confidence: confidenceFor(stateN) };
-    return {
-      found: true,
-      cpt,
-      description: describe(cpt, null),
-      scope: "metro",
-      geoId: localScope.cbsa,
-      geoName: localScope.name,
-      cell: scaled,
-      confidence: verdict.confidence,
-      basis,
-      medicare,
-      updatedAt: st.updated_at ?? null,
-    };
-  }
 
   // PATH#3: a plain state answer (the caller asked about a state, or geo.cbsa was absent). Statewide,
   // and it says so. n is the state cell's peer sample.
