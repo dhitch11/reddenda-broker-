@@ -744,7 +744,26 @@ export default async function Landing() {
                 A {PLAN_SPEND.lives} life plan in California spends about ${PLAN_SPEND.annualMillions} million a year.
               </h2>
               <p className="lede" style={{ color: "var(--body)" }}>
-                That is <span className="num">{PLAN_SPEND.pepy}</span> per employee per year. We print
+                That is <span className="num">{PLAN_SPEND.pepy}</span>{" "}
+                <span
+                  style={{
+                    display: "inline-block",
+                    fontSize: "var(--text-xs)",
+                    letterSpacing: ".04em",
+                    textTransform: "uppercase",
+                    padding: "2px 8px",
+                    borderRadius: 999,
+                    border: "1px solid rgba(191,138,26,.45)",
+                    background: "rgba(191,138,26,.10)",
+                    color: "#8a6412",
+                    verticalAlign: "middle",
+                  }}
+                >
+                  modelled
+                </span>{" "}
+                per employee per year, in a range of{" "}
+                <span className="num">{PLAN_SPEND.bandLow}</span> to{" "}
+                <span className="num">{PLAN_SPEND.bandHigh}</span>. We print
                 it because a fee means nothing without the number under it.
               </p>
             </div>
