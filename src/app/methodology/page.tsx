@@ -305,16 +305,21 @@ export default async function Methodology() {
                     [SCALE.metros.toLocaleString("en-US"), "metropolitan areas the corpus indexes", "the platform page"],
                     [MEASURED_COVERAGE.publishedMetros.toLocaleString("en-US"), "market pages published on this site", "the markets index"],
                     [MEASURED_COVERAGE.metrosAnsweringLocally.toLocaleString("en-US"),
-                      `of those markets hold enough of their own filings to answer at metro grain (measured ${MEASURED_COVERAGE.measuredAt})`,
+                      <>of those markets hold enough of their own filings to answer at metro grain{" "}
+                      <span style={{ whiteSpace: "nowrap" }}>(measured {MEASURED_COVERAGE.measuredAt})</span></>,
                       "every market page"],
                     [SCALE.procedures.toLocaleString("en-US"), "procedures the corpus indexes", "the platform page"],
                     [SERVICES.length.toLocaleString("en-US"), "services in the public picker here", "this page, the markets index"],
                     [MEASURED_COVERAGE.metroServicePagesAnsweringLocally.toLocaleString("en-US"),
-                      `of the ${MEASURED_COVERAGE.publishedPages.toLocaleString("en-US")} market and service pages answer at metro grain (measured ${MEASURED_COVERAGE.measuredAt})`,
+                      <>of the {MEASURED_COVERAGE.publishedPages.toLocaleString("en-US")} market and service pages answer at metro grain{" "}
+                      <span style={{ whiteSpace: "nowrap" }}>(measured {MEASURED_COVERAGE.measuredAt})</span></>,
                       "every market page"],
                     [MEASURED_COVERAGE.statesAnswering.toLocaleString("en-US"), "states and territories that answer when a metro cannot", "the fallback line on a market page"],
-                  ].map(([n, what, where]) => (
-                    <tr key={String(n) + String(what)}>
+                  ].map(([n, what, where], i) => (
+                    /* An ISO date must not break across lines: "2026-" then "08-26" reads as two
+                       numbers. The measured rows carry JSX rather than a template string so the
+                       parenthetical can be nowrap without making the whole cell unbreakable. */
+                    <tr key={String(n) + String(i)}>
                       <td className="num" style={{
                         padding: "10px 10px 10px 0", borderBottom: "1px solid var(--hair)",
                         fontWeight: 650, whiteSpace: "nowrap", verticalAlign: "top", color: "var(--ink)",
