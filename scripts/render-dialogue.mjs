@@ -185,11 +185,39 @@ function parse(md) {
     const speaker = m[1].toUpperCase();
     let text = m[2].replace(/[*_`]/g, "").trim();
     const airM = text.match(/\{air:\s*([\d.]+)\s*\}\s*$/);
-    const gap = airM ? Math.min(Number(airM[1]), MAX_GAP) : DEFAULT_GAP;
+    const gap = airM ? Math.min(Number(airM[1]), MAX_GAP) : null; // null = derive it, below
     text = text.replace(/\{air:[^}]*\}\s*$/, "").trim();
     if (!text) continue;
     turns.push({ speaker, text, gap, chapter: pendingChapter });
     pendingChapter = null;
+  }
+
+  /* ── NATURAL GAP VARIATION ─────────────────────────────────────────────────
+     MEASURED on the first full render of this piece: 85 speaker changes with
+     gap min = median = max = 0.32s. Every metric passed. Every gap was
+     identical to the millisecond, which no two humans have ever managed, and
+     it is the kind of defect that only an ear or a histogram catches.
+
+     So the gap is DERIVED from the turn it follows, deterministically, from
+     things a listener actually responds to:
+       · a QUESTION gets answered fast. People do not deliberate after "?".
+       · a LONG declarative earns a breath before the next voice comes in.
+       · a turn ending on a SHORT punchy fragment gets a beat to land.
+       · a CHAPTER boundary gets real air, because the subject just changed.
+     Deterministic, not random: the same script renders the same timings, which
+     is what makes a re-render comparable to the take before it. */
+  for (let i = 0; i < turns.length; i++) {
+    if (turns[i].gap !== null) continue;            // an explicit {air:N} always wins
+    const t = turns[i];
+    const words = t.text.split(/\s+/).length;
+    const nextIsChapter = i + 1 < turns.length && turns[i + 1].chapter;
+    let g = 0.30;
+    if (/\?["')\]]*\s*$/.test(t.text)) g = 0.24;   // a question: answered quickly
+    else if (words <= 8) g = 0.42;                  // a short landing line: let it sit
+    else if (words >= 60) g = 0.52;                 // a long answer: a real breath
+    else g = 0.30 + Math.min(0.16, words / 400);    // gently with length
+    if (nextIsChapter) g += 0.55;                   // the subject just changed
+    turns[i].gap = Math.min(MAX_GAP, Number(g.toFixed(3)));
   }
   return turns;
 }

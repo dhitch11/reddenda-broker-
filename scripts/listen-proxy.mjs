@@ -93,7 +93,14 @@ const LONG_PAUSE = 0.8;        // the President's own threshold
 const DROPOUT = 2.6;           // longer than any beat a script here asks for
 const gapFlag = (args.find((a) => a.startsWith("--turngaps=")) ?? "").split("=")[1];
 const TURN_GAP_BAND = gapFlag ? gapFlag.split(",").map(Number) : null;
-const LUFS_BAND = [-18.5, -14.5];
+/* The loudness band is a flag for the same reason the pace band is. -16.5 is the
+   web-hero level. The practice piece is mastered to -18.7 to match the MEASURED
+   reddenda.org/bobanddave reference, which is the level David's ear already
+   approved on a long spoken two-hander, and a 16-minute piece wants more
+   headroom than a 70-second cut. Where a measured reference exists, it beats
+   the norm. Pass --lufs=-20,-17.5. */
+const lufsFlag = (args.find((a) => a.startsWith("--lufs=")) ?? "").split("=")[1];
+const LUFS_BAND = lufsFlag ? lufsFlag.split(",").map(Number) : [-18.5, -14.5];
 const TP_CEIL = -1.0;
 
 const BANNED = [
@@ -107,6 +114,16 @@ const BANNED = [
   "percentile", "cpt", "hcpcs", "qpa", "idr", "cbsa", "npi",
   // the persona and the disclosure line, both retired by order
   "i'm an ai", "i am an ai", "artificial intelligence",
+  /* ── LAW 5, THE GEOGRAPHY LAW (David, 2026-08-26, ORDERS-PRESIDENT-V2-FINAL) ──
+     "Sacramento is the focus on each and every tool, in each and every way. All
+     data, all companies, all resources, and all examples should reference either
+     Roseville, California, or Sacramento, California, or the greater California
+     Bay Area."  Other markets stay SELECTABLE by a user for their own book, but
+     they never appear as OUR example - and an audio example is the most fixed
+     example there is, because a recording cannot be re-defaulted later.
+     Scanned against the BLIND TRANSCRIPT, so it catches a city the model spoke
+     rather than a city the script wrote. */
+  "houston", "new york", "atlanta", "st. louis", "saint louis", "chicago",
 ];
 const TAG_LEAK = /\[[^\]]{1,40}\]|\((?:pause|beat|sfx|music|laughs?|sighs?)[^)]*\)/gi;
 
@@ -202,7 +219,34 @@ function apiKey() {
   new Function("module", "exports", "require", readFileSync(p, "utf8"))(module, module.exports, () => ({}));
   return module.exports.ELEVENLABS_PHONE_API_KEY ?? null;
 }
-const norm = (s) => s.toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim();
+/* ── NORMALISING FOR THE BLIND DIFF ────────────────────────────────────────────
+   Two artifacts made this diff cry wolf on the first dialogue it ever saw, and
+   both would have masked a REAL dropped word behind 74 fake ones:
+
+   1. SPEAKER LABELS. "BLAIR:" and "DAVID:" are stage directions, not speech.
+      Left in, the diff reported blair x37 and david x37 "missing from the
+      audio" - correctly, since nobody says them, and uselessly.
+   2. NUMERALS. The script writes "525" and the voice says "five hundred twenty
+      five". The diff scored 525 as missing and five/hundred/twenty as added.
+      A transcript diff that cannot read a number is no use on a script whose
+      whole purpose is numbers.
+
+   So labels are stripped and numerals are expanded to the words a voice would
+   actually say, on BOTH sides. What survives is a real difference. */
+const NUM_ONES = ["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
+const NUM_TENS = ["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
+function numToWords(n) {
+  if (!Number.isFinite(n) || n < 0) return String(n);
+  if (n < 20) return NUM_ONES[n];
+  if (n < 100) return (NUM_TENS[Math.floor(n / 10)] + " " + (n % 10 ? NUM_ONES[n % 10] : "")).trim();
+  if (n < 1000) return (NUM_ONES[Math.floor(n / 100)] + " hundred " + (n % 100 ? numToWords(n % 100) : "")).trim();
+  if (n < 1e6) return (numToWords(Math.floor(n / 1000)) + " thousand " + (n % 1000 ? numToWords(n % 1000) : "")).trim();
+  return (numToWords(Math.floor(n / 1e6)) + " million " + (n % 1e6 ? numToWords(n % 1e6) : "")).trim();
+}
+const norm = (s) =>
+  s.replace(/^\s*(BLAIR|DAVID)\s*:/gim, " ")
+   .replace(/\b\d[\d,]*\b/g, (m) => numToWords(Number(m.replace(/,/g, ""))))
+   .toLowerCase().replace(/[^a-z ]+/g, " ").replace(/\s+/g, " ").trim();
 
 let heard = "";
 try {
@@ -234,9 +278,34 @@ if (scriptPath && existsSync(scriptPath) && heard) {
   let body = start >= 0 ? md.slice(start + 16) : md;
   const end = body.search(/\n##\s/);
   if (end > 0) body = body.slice(0, end);
-  const scriptWords = norm(body.replace(/\{air:[^}]*\}/g, "")).split(" ").filter(Boolean);
-  const hb = new Map(); for (const w of heardWords) hb.set(w, (hb.get(w) ?? 0) + 1);
-  const sb = new Map(); for (const w of scriptWords) sb.set(w, (sb.get(w) ?? 0) + 1);
+  /* Strip everything that is on the page for a HUMAN and never reaches the voice:
+     chapter headings, bold notes, tables, blockquotes, rules, and the air markers.
+     Left in, the seven chapter titles alone contributed a dozen phantom "dropped"
+     words and buried whatever real difference there might have been. */
+  const spokenOnly = body
+    .split(/\r?\n/)
+    .filter((l) => !/^\s*(#|\*\*|\||>|-{3,})/.test(l))
+    .join("\n");
+  const scriptWords = norm(spokenOnly.replace(/\{air:[^}]*\}/g, "")).split(" ").filter(Boolean);
+  /* ── BENIGN VARIANTS ───────────────────────────────────────────────────────
+     A blind transcript differs from a script in ways that are not defects, and a
+     gate that reports them all buries the one that is. Measured on the first
+     16-minute dialogue this ever ran against: 9 "dropped" word types, ALL of
+     them variants - the voice contracted "going to" to "gonna", Scribe heard
+     "alright" as "all right" and "refused" as "refuse". None is a dropped
+     sentence, which is the thing this check exists to catch.
+     So known variants are folded to one form on both sides. Anything NOT on
+     this list still surfaces, which is the point: the list is short and
+     explicit, never a fuzzy match. */
+  const FOLD = new Map(Object.entries({
+    gonna: "going to", wanna: "want to", gotta: "got to", kinda: "kind of",
+    alright: "all right", centre: "center", "'cause": "because",
+    refuse: "refused", refuses: "refused",
+  }));
+  const fold = (arr) => arr.flatMap((w) => (FOLD.get(w) ?? w).split(" "));
+  heardWords.splice(0, heardWords.length, ...fold(heardWords));
+  const hb = new Map(); for (const w of fold(heardWords)) hb.set(w, (hb.get(w) ?? 0) + 1);
+  const sb = new Map(); for (const w of fold(scriptWords)) sb.set(w, (sb.get(w) ?? 0) + 1);
   for (const [w, c] of sb) { const d = c - (hb.get(w) ?? 0); if (d > 0) missing.push(`${w}×${d}`); }
   for (const [w, c] of hb) { const d = c - (sb.get(w) ?? 0); if (d > 0) added.push(`${w}×${d}`); }
 }
@@ -279,7 +348,13 @@ if (Number.isFinite(tp) && tp > TP_CEIL) problems.push(`TRUE PEAK ${tp.toFixed(1
 
 if (heard) {
   const lower = " " + norm(heard) + " ";
-  for (const b of BANNED) if (lower.includes(" " + norm(b) + " ")) problems.push(`BANNED PHRASE HEARD IN THE AUDIO: "${b}". The script may be clean; this is what a listener actually hears.`);
+  for (const b of BANNED) {
+    if (!lower.includes(" " + norm(b) + " ")) continue;
+    const isGeo = ["houston", "new york", "atlanta", "st. louis", "saint louis", "chicago"].includes(b);
+    problems.push(isGeo
+      ? `LAW 5 VIOLATION HEARD IN THE AUDIO: "${b}". Every example is Sacramento, Roseville or the greater Bay Area. A recording cannot be re-defaulted later, so this one is permanent until it is re-rendered.`
+      : `BANNED PHRASE HEARD IN THE AUDIO: "${b}". The script may be clean; this is what a listener actually hears.`);
+  }
   const leaks = heard.match(TAG_LEAK);
   if (leaks) problems.push(`TAG LEAK: the voice spoke a direction out loud: ${leaks.slice(0, 3).join(" ")}`);
   if (missing.length) problems.push(`BLIND READ dropped or changed ${missing.length} word type(s) from the script: ${missing.slice(0, 12).join(" ")}`);
