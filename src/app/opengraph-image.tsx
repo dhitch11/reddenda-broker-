@@ -2,7 +2,6 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { SCALE } from "@/lib/national";
-import { METROS } from "@/lib/metros";
 
 /**
  * THE SITE-WIDE CARD. @BROKER-CANON.
@@ -49,15 +48,21 @@ export default async function Image() {
   ]);
 
   /*
-     METRO COUNT COMES FROM THE PICKER, NOT THE ENGINE, AND THE DIFFERENCE IS REAL.
-     `SCALE.metros` (the engine) is 918; `METROS.length` (what a visitor can actually
-     select) is 928. A shared card claiming 918 beside a site claiming 928 is the
-     "917 in the copy, 124 in the picker" defect in miniature, and on the one surface
-     that travels without the site next to it to reconcile against. The card states
-     what the product can actually be asked for.
+     THIS USED `METROS.length` (928, the picker) RATHER THAN `SCALE.metros` (918, the
+     engine), and the reasoning was sound at the time: a card claiming 918 beside a site
+     claiming 928 is the "917 in the copy, 124 in the picker" defect in miniature, on the
+     one surface that travels with no site next to it to reconcile against.
+
+     That reasoning now points the other way. /tools was corrected to 918 because its
+     sentence is a claim about what the TOOL answers, and the engine answers for 918
+     (metros.txt: 918 entries; federal-catalog.metros: 918). So 928 here would be the
+     card disagreeing with the site, which is the exact thing the original comment was
+     protecting against. Both say 918, from the same computed constant, and the three
+     metrics below now all come from one source instead of two.
   */
-  const metros = METROS.length.toLocaleString("en-US");
+  const metros = SCALE.metros.toLocaleString("en-US");
   const procedures = SCALE.procedures.toLocaleString("en-US");
+  const cells = SCALE.cells.toLocaleString("en-US");
 
   return new ImageResponse(
     (
@@ -130,9 +135,15 @@ export default async function Image() {
           }}
         >
           <div style={{ display: "flex" }}>
+            {/* ★ "Every / carrier" STOOD HERE AS A STAT, and no text search could ever
+                have found it: the claim was split across a value and a label, so greps for
+                "every carrier" walked past it while it rendered in 40px type on the most
+                forwarded surface we publish. A screenshot found it. Replaced with the
+                third computed figure, so all three now come from SCALE and every one of
+                them is a count we can produce on demand. */}
             <Metric value={metros} label="metro markets" />
             <Metric value={procedures} label="procedures" />
-            <Metric value="Every" label="carrier" />
+            <Metric value={cells} label="market cells" />
           </div>
           <div style={{ fontFamily: "Mono", fontSize: 21, color: FAINT }}>broker.reddenda.com</div>
         </div>
