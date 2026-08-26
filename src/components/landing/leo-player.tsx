@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { LeoTransport } from "./leo-transport";
 
 /**
- * LEO. The three minute pitch that lives on a play button in the hero.
+ * LEO. The pitch that lives on a play button in the hero. Cut II runs 7:14.
  * @BROKER-12, 2026-08-24.
  *
  * ═══ THE GUARD IS THE POINT OF THIS FILE ══════════════════════════════════════
@@ -29,7 +29,24 @@ import { LeoTransport } from "./leo-transport";
  * that can see it.
  */
 
-const AUDIO_PUBLIC_PATH = "/audio/leo.mp3";
+/* ═══ WHICH CUT PLAYS ═════════════════════════════════════════════════════════
+   LEO II, "The Hometown Cut": 7:14, 1,086 words, built for the Citrus Heights
+   room. It replaces the 2:50 first cut, which David heard and called choppy —
+   the API was clipping the tail of every section, so each beat ended mid-breath.
+   The fix was structural and lives in scripts/render-audio.mjs: fetch MP3 per
+   chunk, decode to PCM locally, join sample-exact, encode ONCE. A join in the
+   compressed domain is what produced the clicks; there is no compressed-domain
+   join left in the pipeline.
+
+   ONE NAME, TWO FILES. The .mp3 and the .json are derived from this basename, so
+   a future cut is a one-line change and the guard below still gates the file the
+   browser will actually request. The previous cut stays on disk at /audio/leo.mp3
+   and is deliberately NOT a fallback: falling back would mean a listener silently
+   hears the take we withdrew. If leo2 is absent the hero renders with no player,
+   which is the honest state.
+   ═════════════════════════════════════════════════════════════════════════════ */
+const AUDIO_BASENAME = "leo2";
+const AUDIO_PUBLIC_PATH = `/audio/${AUDIO_BASENAME}.mp3`;
 const MIN_PLAUSIBLE_BYTES = 32 * 1024; // a truncated or error-body mp3 is not audio
 
 type Sidecar = {
@@ -42,8 +59,8 @@ type Sidecar = {
 
 export function LeoPlayer({ variant = "band" }: { variant?: "band" | "hero" } = {}) {
   const publicDir = join(process.cwd(), "public");
-  const mp3 = join(publicDir, "audio", "leo.mp3");
-  const sidecar = join(publicDir, "audio", "leo.json");
+  const mp3 = join(publicDir, "audio", `${AUDIO_BASENAME}.mp3`);
+  const sidecar = join(publicDir, "audio", `${AUDIO_BASENAME}.json`);
 
   if (!existsSync(mp3)) return null;
 

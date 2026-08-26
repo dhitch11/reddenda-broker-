@@ -235,11 +235,21 @@ export function LeoTransport({
   const bufPct = duration ? Math.max(0, Math.min(100, (buffered / duration) * 100)) : 0;
   const total = duration || knownDuration || 0;
 
+  /* ⛔ THE SUBTITLE USED TO SAY "in three minutes" AS A STRING LITERAL, and when the
+     7:14 cut replaced the 2:50 one the front door went on advertising three minutes
+     over seven minutes of audio. A hardcoded duration is a claim that drifts the
+     moment the file behind it changes, and nothing in the build can catch it.
+     So the label is DERIVED from the same measured duration the transport already
+     holds — and when the duration is not yet known it says nothing about length at
+     all, rather than guessing. A number we do not have does not get printed. */
+  const lengthPhrase = total >= 30 ? `in ${Math.round(total / 60)} minutes` : "";
+  const promise = lengthPhrase ? `why we built this, ${lengthPhrase}` : "why we built this";
+
   return (
     <div className="leo" data-ready={ready ? "1" : "0"} data-variant={variant}>
       {/* preload="metadata" and not "auto": the duration has to be known before a
           control may render, but a visitor who never presses play should not pay
-          for three minutes of audio on a phone. */}
+          for the whole file on a phone. */}
       <audio ref={audioRef} src={src} preload="metadata" playsInline />
 
       {/* ONE LINE, NOT TWO. The pinned hero column runs to exactly its height
@@ -250,7 +260,7 @@ export function LeoTransport({
       <div className="leo__head">
         <span className="leo__eq" aria-hidden="true"><i /><i /><i /><i /></span>
         <span className="leo__title">Meet Leo</span>
-        <span className="leo__sub">why we built this, in three minutes</span>
+        <span className="leo__sub">{promise}</span>
       </div>
 
       {!ready ? (
@@ -264,7 +274,7 @@ export function LeoTransport({
               type="button"
               className="leo__play"
               onClick={toggle}
-              aria-label={playing ? "Pause Leo" : "Play Leo: why we built this, in three minutes"}
+              aria-label={playing ? "Pause Leo" : `Play Leo: ${promise}`}
             >
               {playing ? (
                 <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
@@ -299,7 +309,7 @@ export function LeoTransport({
               >
                 <span className="leo__buf" style={{ width: `${bufPct}%` }} aria-hidden="true" />
                 <span className="leo__fill" style={{ width: `${pct}%` }} aria-hidden="true" />
-                {/* Beat marks, so a listener can see the shape of the three minutes
+                {/* Beat marks, so a listener can see the shape of the run
                     rather than only its length. Purely visual: seeking is the track's. */}
                 {chapters.length > 1 && total
                   ? chapters.slice(1).map((c) => (

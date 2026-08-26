@@ -26,7 +26,7 @@
  * Usage: node scripts/render-audio.mjs <script.md> <public/audio/name.mp3>
  * Speaks only the `## SPOKEN SCRIPT` section. Key by name from ~/.reddenda/elevenlabs.env.
  */
-import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync, unlinkSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join, dirname } from "node:path";
 
@@ -83,10 +83,22 @@ async function tts(text, prev, next) {
   if (next) body.next_text = next;
   for (let a = 1; a <= 4; a++) {
     const r = await fetch(
-      `https://api.elevenlabs.io/v1/text-to-speech/${VOICE}?output_format=pcm_44100`,
+      `https://api.elevenlabs.io/v1/text-to-speech/${VOICE}?output_format=mp3_44100_128`,
       { method: "POST", headers: { "xi-api-key": KEY, "content-type": "application/json" }, body: JSON.stringify(body) },
     );
-    if (r.ok) return Buffer.from(await r.arrayBuffer());
+    if (r.ok) {
+      /* CREATOR-TIER PATH. pcm_44100 is Pro-only, so we request MP3 and decode it to raw PCM
+         LOCALLY with ffmpeg. The join then happens on samples exactly as before, and the encoder
+         delay/padding that made the first Leo choppy is removed by the decode rather than by the
+         vendor. One encode still happens, once, at the end. */
+      const mp3 = Buffer.from(await r.arrayBuffer());
+      const tmpIn = join("/tmp", `leo-chunk-${process.pid}-${Math.round(performance.now())}.mp3`);
+      writeFileSync(tmpIn, mp3);
+      const pcm = execFileSync("ffmpeg", ["-v", "error", "-i", tmpIn, "-f", "s16le", "-ar", "44100",
+        "-ac", "1", "-"], { maxBuffer: 1024 * 1024 * 512 });
+      try { unlinkSync(tmpIn); } catch {}
+      return pcm;
+    }
     const msg = await r.text();
     if (a === 4) throw new Error(`TTS ${r.status}: ${msg.slice(0, 200)}`);
     await new Promise((res) => setTimeout(res, 1500 * a));

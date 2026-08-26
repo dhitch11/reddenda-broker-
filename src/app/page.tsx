@@ -313,7 +313,7 @@ export default async function Landing() {
 
           It also reads BETTER here. In the hero it competed with the two CTAs for
           the same click. Here the order is the argument: the claim, the number,
-          then "and here is three minutes on why". Nobody presses play before they
+          then "and here is the audio on why". Nobody presses play before they
           have seen the number. */}
       <div className="trust-band">
         <div className="wrap">
