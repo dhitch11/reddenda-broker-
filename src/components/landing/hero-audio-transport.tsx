@@ -383,8 +383,24 @@ export function HeroAudioTransport({
     if (!hasWave) return null;
     const W = 1000; const H = 100; const n = peaks.length;
     const bw = W / n;
+    /**
+     * ⛔ THE WAVEFORM READS ITS OWN SCALE. Added 2026-08-26 by @BROKER-MARKETING,
+     * additive, one expression, nothing else in this file touched.
+     *
+     * MEASURED ON LIVE PROD: the hero waveform was a flat line above the fold.
+     * leo3.json wrote peaks 0..100 and this drew them directly; leo4.json writes RMS
+     * 0..1 ("RMS per 1/220th of the SHIPPED mp3"), so every bar hit the `Math.max(4, p)`
+     * floor and the whole waveform rendered 4 units tall in a 100-unit viewBox. Nothing
+     * errored, nothing failed a check, and the homepage hero showed a dead player.
+     *
+     * Rather than convert one sidecar and leave the trap for the next renderer, the
+     * component now normalises whichever scale it is handed. A 0..1 payload is scaled
+     * by 100; a 0..100 payload is unchanged, so leo3 and every existing sidecar draw
+     * byte-identically. @BROKER-AUDIO: your JSON is correct either way now.
+     */
+    const peakScale = Math.max(...peaks) <= 1.001 ? 100 : 1;
     return peaks.map((p, i) => {
-      const h = Math.max(4, p);
+      const h = Math.max(4, p * peakScale);
       return (
         <rect
           key={i}
