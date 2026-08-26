@@ -58,11 +58,25 @@ const config: RoleConfig = {
        Both scenarios below are written to be TRUE FIRST and useful second, and neither
        prints a figure: static prose quoting a table it cannot see is a number that decays
        silently, and this repo has the scar. The figures live in the tool, where they are
-       computed on the request. */
+       computed on the request.
+
+       ⛔ AND THE PHARMACY ONE WAS CORRECTED WITHIN THE HOUR, BY ME, BEFORE ANYONE READ IT.
+       The first draft said of clinic-administered drugs: "We hold them, by market, with the
+       sample size beside them." TRUE ABOUT THE DATA - 659,681 J-code rows, and in Sacramento
+       J9173 carries n=12,835 - AND FALSE ABOUT THE PRODUCT. MEASURED: the service catalog is
+       75 codes in the app and 12 on this site, and NOT ONE OF THEM IS A J-CODE.
+       /api/lookup?service=J9173 returns invalid_service. A reader who acted on that sentence
+       would have gone looking and found nothing.
+       ★ IT IS THE SAME DEFECT I SPENT THE MORNING REMOVING FROM OTHER PEOPLE'S SURFACES: A
+       CLAIM THE PRODUCT CANNOT HONOUR. "We hold it" and "you can see it" are different
+       sentences, and the gap between them is exactly where a marketing page turns into a
+       promise nobody kept. It now says both halves - what is in the corpus, and what is not
+       yet in the lookup - and names the reason, which is that a drug price without the right
+       unit is worse than no drug price. */
     {
       when: "When somebody offers you pharmacy savings",
       body:
-        "We hold no pharmacy benefit manager contract, no rebate data and no point-of-sale pricing, so we will tell you nothing about your pharmacy benefit. The federal government collects rebate totals and says in writing that it cannot publish them in a form that identifies a plan or a drug, so anybody selling you a pharmacy number built from public data should be asked which file it came from. What is public is the other half of drug spend: the drugs given in a clinic - the infusions and the injections - are billed under the medical benefit at a negotiated rate, and those rates are filed like every other one. We hold them, by market, with the sample size beside them, and the spread between the low and the high end of one city on a single cancer drug is not small.",
+        "We hold no pharmacy benefit manager contract, no rebate data and no point-of-sale pricing, so we will tell you nothing about your pharmacy benefit. The federal government collects rebate totals and says in writing that it cannot publish them in a form that identifies a plan or a drug, so anybody selling you a pharmacy number built from public data should be asked which file it came from. What is public is the other half of drug spend: the drugs given in a clinic - the infusions and the injections - are billed under the medical benefit at a negotiated rate, and those rates are filed like every other one. They are in our corpus, and they are not yet in the lookup: the tools cover imaging, scopes and procedures today, and putting a drug price on screen means getting its unit right, which is a thing to do properly rather than quickly. Ask us for the drug your plan actually spends on and we will show you what we hold.",
     },
     {
       when: "When someone asks whether you could build your own network",
