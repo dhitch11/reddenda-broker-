@@ -26,6 +26,10 @@ const NAV = [
      else was reordered. */
   { href: "/rates", label: "Market rates" },
   { href: "/methodology", label: "Methodology" },
+  /* ADDED 2026-08-26. The price was readable only by scrolling most of the way down
+     the homepage, so the one question a broker asks before expensing anything had no
+     address you could send to whoever signs. Additive; nothing reordered. */
+  { href: "/pricing", label: "Pricing" },
 ];
 
 export const DISCOVERY_URL = "https://calendly.com/reddenda/discovery";

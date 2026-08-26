@@ -65,10 +65,31 @@ export const dynamic = "force-dynamic";
 const APP = "https://app.reddenda.com/broker";
 const APP_DEMO = "https://app.reddenda.com/broker?demo=1";
 
-const usd = (v: number) =>
-  v.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+/* ★ ONE MONEY FORMATTER, AND IT NEVER ROUNDS UP. 2026-08-26.
+   There were two. `usd` printed whole dollars, `usdc` printed cents, and the SAME
+   figure went through both: the bar rendered $1,119.53 as its visible text and
+   $1,120 in its aria-label, so the screen and the screen reader disagreed about a
+   federal fee-schedule amount on a page whose brand line is "we print the number".
+   Measured on live prod: $417.65 next to $418, $1,119.53 next to $1,120.
+
+   THE DISTINCTION, and it is a distinction and not a house style:
+     A MEASURED RATE PRINTS TO THE CENT. It is a measurement we are attributing to
+     somebody else, so it carries its cents and it carries all of them.
+     OUR OWN SKU PRICES PRINT IN WHOLE DOLLARS. $149 / $1,490 / $4,900 are ours,
+     they have no cents, and they resolve from Stripe by lookup_key regardless.
+   So `usd` is gone rather than kept for "compact" places: the compact place was an
+   accessibility label, which is the one copy of the figure a sighted reviewer never
+   checks.
+
+   AND THE ASYMMETRY. Truncated toward zero, never rounded. Rounding $1,119.535 to
+   $1,119.54 inflates a price we are attributing to a payer by half a cent, and the
+   estate's rule is that a cited figure rounds DOWN or not at all, never up. The
+   epsilon absorbs binary float representations of exact cent values, so $417.65
+   does not become $417.64. */
 const usdc = (v: number) =>
-  v.toLocaleString("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2 });
+  (Math.floor(v * 100 + 1e-6) / 100).toLocaleString("en-US", {
+    style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2,
+  });
 
 export default async function Landing() {
   /* One round trip for the whole page. Each of these fails to a sentence, never
@@ -824,7 +845,7 @@ function BarRow({ bar, max }: { bar: SiteBar; max: number }) {
       <div
         className="bar-row__track"
         role="img"
-        aria-label={`${bar.label}: ${usd(bar.total)}`}
+        aria-label={`${bar.label}: ${usdc(bar.total)}`}
       >
         <span className="bar-row__fill" style={{ ["--w" as string]: w }} />
       </div>

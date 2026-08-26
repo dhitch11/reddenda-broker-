@@ -252,15 +252,31 @@ function Kpi({ label, value, tone }: { label: string; value: string; tone?: "acc
   );
 }
 
+/* Abbreviated on purpose: these are book-level aggregates, not cited rates.
+   TRUNCATED, NEVER ROUNDED UP (2026-08-26 ruling). Every figure here is a MODELED
+   opportunity, so rounding up inflates our own claim, which is the direction that
+   costs us credibility rather than the direction that costs us a sale. $1.29M
+   shows as $1.29M and $1.296M shows as $1.29M, never $1.3M. */
+const floorTo = (n: number, dp: number) => {
+  const f = 10 ** dp;
+  return Math.floor(n * f + 1e-6) / f;
+};
+
 function usd(n: number): string {
-  if (n >= 1_000_000) return "$" + (n / 1_000_000).toFixed(n >= 10_000_000 ? 1 : 2) + "M";
-  if (n >= 1_000) return "$" + Math.round(n / 1000) + "K";
-  return "$" + Math.round(n).toLocaleString();
+  if (n >= 1_000_000) {
+    const dp = n >= 10_000_000 ? 1 : 2;
+    return "$" + floorTo(n / 1_000_000, dp).toFixed(dp) + "M";
+  }
+  if (n >= 1_000) return "$" + Math.floor(n / 1000) + "K";
+  return "$" + Math.floor(n).toLocaleString();
 }
 
-/** Per-case figures are read out loud in a meeting. They get real dollars, never $1K. */
+/** Per-case figures are read out loud in a meeting. They get real dollars, never $1K.
+    Whole dollars because these are MODELED per-case figures rather than a cited
+    fee-schedule line, which is the thing that carries its cents. Floored, not
+    rounded: same asymmetry as everywhere else, a modeled figure never rounds up. */
 function exact(n: number): string {
-  return "$" + Math.round(n).toLocaleString("en-US");
+  return "$" + Math.floor(n).toLocaleString("en-US");
 }
 
 function q4(cal: { month: string; groups: number }[]): string {

@@ -54,3 +54,31 @@ export const LADDER = {
 
 /** The sentence under the Broker Pro card. Built here so the two figures cannot drift apart. */
 export const PRO_PER = `per month, or ${LADDER.proAnnual.display} a year`;
+
+/**
+ * THE ANNUAL SAVING, DERIVED. Never typed.
+ *
+ * The conductor's instruction was explicit and it is the right instinct: show the real
+ * arithmetic, and COMPUTE it from the resolved amounts rather than writing "$298" into
+ * copy. A saving is the one number on a pricing page a buyer checks with their own
+ * phone calculator, so it has to be the subtraction the prices actually make. If Stripe
+ * repriced either plan and someone updated only the display strings, a hardcoded saving
+ * would keep advertising a discount that no longer exists, and the drift guard would not
+ * catch it because the guard checks PRICES against Stripe, not the arithmetic between them.
+ *
+ * Integer cents throughout. `Math.round` on the percentage only, and only for display.
+ */
+const TWELVE_MONTHS = LADDER.proMonthly.unitAmount * 12;
+const SAVED = TWELVE_MONTHS - LADDER.proAnnual.unitAmount;
+const usd = (cents: number) => `$${(cents / 100).toLocaleString("en-US")}`;
+
+export const ANNUAL_SAVING = {
+  /** What twelve monthly payments actually come to. */
+  twelveMonths: usd(TWELVE_MONTHS),
+  /** The difference, in dollars. Zero or negative means there is no discount to claim. */
+  saved: usd(SAVED),
+  savedCents: SAVED,
+  percent: Math.round((SAVED / TWELVE_MONTHS) * 100),
+  /** True only when annual is genuinely cheaper. Guard every "save" claim on this. */
+  worthIt: SAVED > 0,
+} as const;
