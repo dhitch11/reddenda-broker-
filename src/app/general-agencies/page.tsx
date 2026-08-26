@@ -30,10 +30,10 @@ const config: RoleConfig = {
     "They can get carrier illustrations anywhere. They cannot usually get metro-level filed rates from their GA. Put it in their hands under your name and it becomes a reason to bring you the case.",
 
   demo: {
-    service: "70553",
-    market: "35620",
+    service: "29881",
+    market: "40900",
     why:
-      "This is what one of your brokers would run before a New York case. The value to you is not that you can run it. It is that two hundred of them can, on your platform, and that the one who does walks into a renewal better armed than the one who does not.",
+      "This is what one of your brokers would run before a Sacramento case. The value to you is not that you can run it. It is that two hundred of them can, on your platform, and that the one who does walks into a renewal better armed than the one who does not.",
   },
 
   scenarios: [

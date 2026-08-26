@@ -1823,7 +1823,12 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
 
    Scoped to `.field-live` on purpose: an unpinned hero is never touched by anything here,
    so a page that does not arm cannot be changed by a rule that exists to help it arm. */
-@media (min-width: 900px) and (prefers-reduced-motion: no-preference) and (max-height: 880px) {
+/* 920, not 880. The tape moved above the fold (a win worth 43px of first screen) and
+   that pushed the stage down, which left the scroll cue 5px under the fold at
+   1440x900 - measured, cue bottom 905 in a 900px viewport. This step is card padding
+   and block rhythm only; the headline size lives in the 800px step below, so the
+   commonest laptop keeps the type that already matches the benchmark exactly. */
+@media (min-width: 900px) and (prefers-reduced-motion: no-preference) and (max-height: 920px) {
   .hero-stage.field-live .hero-copy { gap: 12px; }
   .hero-stage.field-live .hero-proof-card { padding-top: 14px; padding-bottom: 14px; gap: 12px; }
   .hero-stage.field-live .hero-proof .bars { gap: 10px; }
@@ -2554,3 +2559,5 @@ body.is-scrolled .cine .site-header { border-bottom-color: var(--hair); backgrou
   .pap__play { transition: none; }
   .pap__play:hover { transform: none; }
 }
+
+

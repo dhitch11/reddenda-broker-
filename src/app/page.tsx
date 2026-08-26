@@ -172,25 +172,63 @@ export default async function Landing() {
           jump list lives in the body below, which is where a jump list belongs. */}
       <SiteHeader cta={{ href: APP, label: "Create account" }} />
 
+      {/* ⬆ THE TAPE, MOVED UNDER THE NAV. Measured hero audit, 2026-08-26.
+          It was at y=6,760 of a 7,777px page: 87% down, which is to say nobody ever
+          saw it. reddenda.health puts the same device at y=99, directly under its
+          nav, and it is the first thing that tells a visitor the data is alive. We
+          already had the better version of it - a 64s loop of real Sacramento
+          prices with their vintages, refusing to render at all when the tables are
+          down - and we were hiding it below the pricing section.
+
+          This is a position change and nothing else. Same component, same figures,
+          same honest empty state. It is the highest value-per-minute fix on the
+          audit's list precisely because there was nothing to build. */}
+      {/* THE TAPE. Only rendered when there is something real to put on it. An
+          empty ticker, or one padded out to look busy, would be the exact failure
+          this page is about. */}
+      {tape.length > 0 && (
+        <div className="tape" aria-label="Measured figures currently held by this server">
+          <div className="tape-track">
+            {/* ★ KEYED BY POSITION, NOT BY CPT. The care panel contributes three
+                cells that all carry k="CPT 45378", and the ledger contributes the
+                same code again, so keying on `t.k` produced duplicate React keys.
+                The defect was invisible for as long as the data failed to load:
+                the first fetch that succeeded surfaced six console errors. The
+                list is rebuilt whole per render, so the index is a stable key. */}
+            <div className="tape-half">
+              {tape.map((t, i) => (
+                <span className="tape-cell" key={i}>
+                  <s>{t.k}</s>
+                  <b>{t.v}</b>
+                  <s>{t.note}</s>
+                </span>
+              ))}
+            </div>
+            {/* The seam. Identical content, hidden from assistive tech so the
+                figures are announced once rather than stuttered. */}
+            <div className="tape-half" aria-hidden="true">
+              {tape.map((t, i) => (
+                <span className="tape-cell" key={`dup-${i}`}>
+                  <s>{t.k}</s>
+                  <b>{t.v}</b>
+                  <s>{t.note}</s>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+
       {/* The in-page anchors, kept as a SECONDARY strip. They are genuinely useful on
           a page this long; they were never a substitute for site navigation. */}
-      <nav aria-label="On this page" className="wrap"
-        /* paddingTop, NOT the `padding` shorthand. `.wrap` supplies the horizontal
-           gutter through padding-inline, and a shorthand here reset it to 0, so the
-           strip sat flush against the viewport edge and the first word read as
-           clipped. Every assertion passed: it was inside the viewport, it just had
-           no gutter. A screenshot found it. */
-        style={{ display: "flex", flexWrap: "wrap", gap: 14, paddingTop: 14,
-                 fontSize: "var(--text-xs)", color: "var(--faint)" }}>
-        <span style={{ fontFamily: "var(--font-mono), monospace", letterSpacing: ".1em", textTransform: "uppercase" }}>
-          On this page
-        </span>
-        <a href="#proof" style={{ color: "var(--muted)" }}>The number</a>
-        <a href="#refusal" style={{ color: "var(--muted)" }}>What we refuse</a>
-        <a href="#levers" style={{ color: "var(--muted)" }}>Self-funded levers</a>
-        <a href="#denominator" style={{ color: "var(--muted)" }}>What this is a fraction of</a>
-        <a href="#pricing" style={{ color: "var(--muted)" }}>Pricing</a>
-      </nav>
+      {/* ⛔ THE "ON THIS PAGE" JUMP STRIP IS DELETED, not hidden.
+          code-marketing section 3.1 row 2 is explicit and it is the binding budget:
+          target 0 words, "Delete. It duplicates the nav and is the first thing a
+          phone shows." It also cost the hero 47px of the first screen on every
+          viewport, and the first screen is the whole argument on this page. The five
+          anchors it carried are all still reachable: the nav covers the two that are
+          pages, and the rest are one scroll away on a page that is one scroll. */}
 
       {/* THE SHOT. 200vh of stage, one viewport of sticky hero, and a single
           number `--p` that carries the frame from the claim to the number.
@@ -796,42 +834,6 @@ export default async function Landing() {
           </Reveal>
         </div>
       </section>
-
-      {/* THE TAPE. Only rendered when there is something real to put on it. An
-          empty ticker, or one padded out to look busy, would be the exact failure
-          this page is about. */}
-      {tape.length > 0 && (
-        <div className="tape" aria-label="Measured figures currently held by this server">
-          <div className="tape-track">
-            {/* ★ KEYED BY POSITION, NOT BY CPT. The care panel contributes three
-                cells that all carry k="CPT 45378", and the ledger contributes the
-                same code again, so keying on `t.k` produced duplicate React keys.
-                The defect was invisible for as long as the data failed to load:
-                the first fetch that succeeded surfaced six console errors. The
-                list is rebuilt whole per render, so the index is a stable key. */}
-            <div className="tape-half">
-              {tape.map((t, i) => (
-                <span className="tape-cell" key={i}>
-                  <s>{t.k}</s>
-                  <b>{t.v}</b>
-                  <s>{t.note}</s>
-                </span>
-              ))}
-            </div>
-            {/* The seam. Identical content, hidden from assistive tech so the
-                figures are announced once rather than stuttered. */}
-            <div className="tape-half" aria-hidden="true">
-              {tape.map((t, i) => (
-                <span className="tape-cell" key={`dup-${i}`}>
-                  <s>{t.k}</s>
-                  <b>{t.v}</b>
-                  <s>{t.note}</s>
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ══════════════════════════════════════════════════════════════════════
           CLOSE

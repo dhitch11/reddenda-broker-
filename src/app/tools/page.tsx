@@ -93,10 +93,12 @@ export default async function ToolsIndex() {
   const configured = isConfigured();
 
   // One real, current figure so the page proves the corpus is live rather than
-  // claiming it. Los Angeles brain MRI: the widest recognisable spread we hold.
+  // claiming it. Sacramento, per LAW 5: every example we choose is Sacramento,
+  // Roseville or the Bay Area. Los Angeles was the old pick and it is a real market
+  // a real user can still select; it is simply not OUR example any more.
   let spread: { lo: number; hi: number; n: number; market: string } | null = null;
   if (configured) {
-    const la = findMetro("31080");
+    const la = findMetro("40900");
     try {
       const r = await marketRate("70553", {
         cbsa: la?.cbsa,
@@ -111,7 +113,7 @@ export default async function ToolsIndex() {
           lo: r.cell.p25,
           hi: r.cell.p90,
           n: r.cell.n,
-          market: (la?.name ?? "Los Angeles").split("-")[0],
+          market: (la?.name ?? "Sacramento").split("-")[0],
         };
       }
     } catch {

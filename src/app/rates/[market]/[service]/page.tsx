@@ -150,7 +150,25 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
   // Peer markets for the same service. The comparison IS the insight: a number
   // alone tells a broker nothing, a number beside four other markets tells them
   // whether their client is buying in an expensive one.
-  const peers = METROS.filter((m) => m.cbsa !== metro.cbsa).slice(0, PEER_COUNT);
+  /**
+   * ⛔ THE PEERS ARE THIS MARKET'S OWN STATE FIRST. LAW 5, and better product anyway.
+   *
+   * This was `METROS.slice(0, PEER_COUNT)`, the five largest markets in the country,
+   * which meant every one of the 36,192 rate pages compared itself against New York,
+   * Los Angeles, Chicago, Miami and Washington. On a Sacramento page that is our
+   * example geography, not the reader's, and LAW 5 says our examples are Sacramento,
+   * Roseville or the Bay Area.
+   *
+   * It is also the weaker comparison. A benefits professional in Sacramento is deciding
+   * between California markets, not wondering how Miami prices a colonoscopy. Same-state
+   * peers first, then the largest markets to fill the row when a state is thin, so a
+   * small-state page still gets a comparison rather than an empty section.
+   */
+  const sameState = METROS.filter((m) => m.cbsa !== metro.cbsa && m.state === metro.state);
+  const peers = [
+    ...sameState,
+    ...METROS.filter((m) => m.cbsa !== metro.cbsa && m.state !== metro.state),
+  ].slice(0, PEER_COUNT);
   const peerRates = configured
     ? await Promise.all(
         peers.map(async (m) => ({
