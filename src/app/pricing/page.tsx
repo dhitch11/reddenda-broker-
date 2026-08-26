@@ -4,6 +4,7 @@ import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/ch
 import { Reveal } from "@/components/marketing/reveal";
 import { LADDER, ANNUAL_SAVING, AGENCY_PER_GROUP } from "@/lib/pricing-ladder";
 import { PLAN_SPEND, PHARMACY_GAP } from "@/lib/plan-spend";
+import { APP, BUY, BUY_PRO_MONTHLY, BUY_AGENCY } from "@/lib/buy-links";
 
 /**
  * /pricing — THE PRICE, READABLE WITHOUT BOOKING A CALL.
@@ -40,7 +41,9 @@ import { PLAN_SPEND, PHARMACY_GAP } from "@/lib/plan-spend";
  * just finished removing from its share links, so it takes a call until a mint exists.
  */
 
-const APP = "https://app.reddenda.com/broker";
+/* The door and buy constants moved to src/lib/buy-links.ts on 2026-08-26 so the
+   homepage's pricing cards and this page can never point a pressed price at two
+   different rails. The two comment blocks below document the shared values. */
 
 /* ⛔ WHERE A BUYER ACTUALLY BUYS. ADDED 2026-08-26, AND IT IS HERE BECAUSE IT WAS NOWHERE.
  *
@@ -58,7 +61,6 @@ const APP = "https://app.reddenda.com/broker";
  * ★ THE ONE THING NOT TO DO HERE IS PUT A PRICE IN THIS LINK. The plan is chosen on the buy
  * page and the amount is resolved server-side from the live Stripe catalog by lookup_key, never
  * from anything a browser sends. A price in a URL is a price a customer can edit. */
-const BUY = "https://app.reddenda.com/broker/console/upgrade";
 
 /* Each plan card on the buy page carries `id={slug}`, so a fragment lands the buyer on the plan
    whose price they just pressed. MEASURED BEFORE THIS EXISTED: "Broker Pro $149 per seat per
@@ -69,8 +71,6 @@ const BUY = "https://app.reddenda.com/broker/console/upgrade";
    amount is still resolved server-side from the live Stripe catalog by lookup_key. And a fragment
    degrades to nothing - if the anchor is ever absent the buyer lands at the top of the page, which
    is exactly today's behaviour, so this can never be the reason a purchase fails. */
-const BUY_PRO_MONTHLY = `${BUY}#pro_monthly`;
-const BUY_AGENCY = `${BUY}#agency_annual`;
 
 export const metadata: Metadata = {
   title: "Pricing",

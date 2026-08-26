@@ -9,6 +9,7 @@ import { LeoPlayer } from "@/components/landing/leo-player";
 import { siteOfCare, refusalLedger, scale, type SiteBar } from "@/lib/landing-data";
 import { LADDER, PRO_PER, AGENCY_PER_GROUP } from "@/lib/pricing-ladder";
 import { PLAN_SPEND, PHARMACY_GAP } from "@/lib/plan-spend";
+import { APP, APP_DEMO, BUY_PRO_MONTHLY, BUY_AGENCY } from "@/lib/buy-links";
 
 /**
  * broker.reddenda.com  ·  THE LANDING PAGE
@@ -63,8 +64,6 @@ export const viewport: Viewport = {
  */
 export const dynamic = "force-dynamic";
 
-const APP = "https://app.reddenda.com/broker";
-const APP_DEMO = "https://app.reddenda.com/broker?demo=1";
 
 /* ★ ONE MONEY FORMATTER, AND IT NEVER ROUNDS UP. 2026-08-26.
    There were two. `usd` printed whole dollars, `usdc` printed cents, and the SAME
@@ -317,9 +316,14 @@ export default async function Landing() {
           have seen the number. */}
       <div className="trust-band">
         <div className="wrap">
+          {/* "…when the page loads" became conditionally false once the baked
+              second source existed, so the sentence now claims only what is true
+              on BOTH paths: the figure came out of a published table and wears
+              that table's own date. */}
           <p>
             No PHI, ever. Prices, not quotes and not bills. Nothing on this page is a
-            projection: every figure is read out of a published table when the page loads.
+            projection: every figure comes out of a published table and carries that
+            table&rsquo;s own date.
           </p>
         </div>
       </div>
@@ -546,12 +550,16 @@ export default async function Landing() {
         <div className="wrap">
           <Reveal>
             <div className="sec-head">
+              {/* ★ REWRITTEN 2026-08-26. The old H2 put "fiduciary" in a page
+                  heading, which the buyer lane's hard constraint bans (a heading
+                  is a cover), and the lede was a statute recital at grade 12+.
+                  The claim is the same; the words are the reader's. */}
               <span className="eyebrow">Why this landed on your desk</span>
-              <h2 className="sec-title">Your client is a fiduciary now, and so is their file.</h2>
+              <h2 className="sec-title">The rules changed. The file is the proof.</h2>
               <p className="lede" style={{ color: "var(--body)" }}>
-                The Consolidated Appropriations Act, 2021 moved group health plans onto ground
-                that retirement plans have stood on for decades. Three of those changes are the
-                reason a rate number is now a documentation problem and not a curiosity.
+                In 2021, Congress gave health plans the same duties retirement plans have
+                carried for decades. Three changes turned the rate number into paperwork
+                your client has to be able to show.
               </p>
             </div>
           </Reveal>
@@ -602,8 +610,8 @@ export default async function Landing() {
           <div className="wrap">
             <Reveal>
               <div className="sec-head">
-                <span className="eyebrow">Counted at load, not claimed</span>
-                <h2 className="sec-title">What this server is actually holding.</h2>
+                <span className="eyebrow">Counted, not claimed</span>
+                <h2 className="sec-title">What the tables hold.</h2>
               </div>
             </Reveal>
             <Reveal delay={70}>
@@ -729,8 +737,13 @@ export default async function Landing() {
                   "Out-of-network exposure against the plan's QPA",
                   "Client-ready exhibits with the sourcing printed",
                 ]}
-                cta="Create account"
-                href={APP}
+                /* ★ PRESS THE PRICE, LAND ON THE PLAN. These two cards sent a
+                   buyer who pressed a price to the signup door while /pricing
+                   already deep-linked the buy page per plan. Same rail now:
+                   live Checkout on the app, amount resolved server-side from
+                   Stripe by lookup_key, never from this link. */
+                cta="Buy Broker Pro"
+                href={BUY_PRO_MONTHLY}
                 feature
               />
             </Reveal>
@@ -746,8 +759,8 @@ export default async function Landing() {
                   "Onboarding for your producers",
                   `A firm advising twenty self-funded groups pays ${AGENCY_PER_GROUP(20)} a group a year, and that does not change when you hire`,
                 ]}
-                cta="Create account"
-                href={APP}
+                cta="Buy for your agency"
+                href={BUY_AGENCY}
               />
             </Reveal>
             <Reveal delay={180}>
@@ -783,9 +796,15 @@ export default async function Landing() {
       {tape.length > 0 && (
         <div className="tape" aria-label="Measured figures currently held by this server">
           <div className="tape-track">
+            {/* ★ KEYED BY POSITION, NOT BY CPT. The care panel contributes three
+                cells that all carry k="CPT 45378", and the ledger contributes the
+                same code again, so keying on `t.k` produced duplicate React keys.
+                The defect was invisible for as long as the data failed to load:
+                the first fetch that succeeded surfaced six console errors. The
+                list is rebuilt whole per render, so the index is a stable key. */}
             <div className="tape-half">
-              {tape.map((t) => (
-                <span className="tape-cell" key={t.k}>
+              {tape.map((t, i) => (
+                <span className="tape-cell" key={i}>
                   <s>{t.k}</s>
                   <b>{t.v}</b>
                   <s>{t.note}</s>
@@ -795,8 +814,8 @@ export default async function Landing() {
             {/* The seam. Identical content, hidden from assistive tech so the
                 figures are announced once rather than stuttered. */}
             <div className="tape-half" aria-hidden="true">
-              {tape.map((t) => (
-                <span className="tape-cell" key={`dup-${t.k}`}>
+              {tape.map((t, i) => (
+                <span className="tape-cell" key={`dup-${i}`}>
                   <s>{t.k}</s>
                   <b>{t.v}</b>
                   <s>{t.note}</s>

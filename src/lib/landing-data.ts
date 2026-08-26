@@ -1,5 +1,7 @@
 import { serviceClient, isConfigured } from "./db";
 import { findService } from "./catalog";
+import { judge, N_MINIMUM } from "./honesty";
+import fixture from "./landing-fixture.json";
 
 /**
  * THE LANDING PAGE'S DATA LAYER.
@@ -22,6 +24,27 @@ import { findService } from "./catalog";
  *    `reason` written for a benefits broker. A missing database, an empty table
  *    and a rejected cell are three different sentences and the page prints the
  *    true one. There is no fallback constant anywhere in this file.
+ *
+ *    ★ AND SINCE 2026-08-26 THERE IS A SECOND SOURCE, WHICH IS NOT A CONSTANT.
+ *    On 2026-08-26 the live homepage rendered the proof row as FOUR "Unavailable"
+ *    tiles and the hero card as a refusal, while these exact queries answered in
+ *    200ms with real rows from this repo. Two defects compounded:
+ *
+ *      (a) `pfs.error` WAS NEVER READ. A failed query left `data` null, `rows`
+ *          became [], and the page printed "the fee schedule does not carry
+ *          45378 at locality 63" - a FALSE sentence about the data, produced by
+ *          an unread error about the connection. An error is not an empty, and
+ *          the two now take different branches.
+ *      (b) The page had one source. When the deploy's environment could not
+ *          reach the tables, the page about printing the number printed none.
+ *
+ *    The second source is `landing-fixture.json`: RAW ROWS from these same
+ *    tables, baked by scripts/bake-landing-fixture.mjs and committed. Raw rows,
+ *    not computed answers, so the one compute path below runs over either source
+ *    and the two cannot drift. Every fixture value carries the table's own
+ *    vintage. Live read first, fixture only when the live read FAILS - a
+ *    successful query returning zero rows is a true absence and still renders
+ *    the honest sentence, never the fixture.
  *
  * 3. THE LOCALITY IS NAMED, AND IT IS A REAL LOCALITY.
  *    This module reads `medicare_locality_cpt_rate_fixed` and filters to an
@@ -177,17 +200,34 @@ function vintage(row: { year?: unknown; quarter?: unknown } | null | undefined):
   return q == null ? String(y) : `${y} Q${q}`;
 }
 
+/** The raw shapes the compute path accepts, from a live query or the fixture alike. */
+type RawRow = Record<string, unknown>;
+
+/** The fixture's care branch, run through the SAME compute path as a live read.
+    Returns null when the fixture was baked for a different cell than the one
+    asked for, so a future page change cannot silently serve the wrong market. */
+function fixtureCare(cpt: string, state: string, locality: string): SiteOfCare | null {
+  const f = fixture.care;
+  if (!f || f.cpt !== cpt || f.state !== state || f.locality !== locality) return null;
+  return computeSiteOfCare(cpt, state, f.pfsRows as RawRow[], f.opps as RawRow | null, f.asc as RawRow | null);
+}
+
+const CARE_OUTAGE =
+  "We could not reach the federal fee tables to answer this, so there is nothing here. This is an outage on our side and not a gap in the data.";
+
 export async function siteOfCare(
   cpt: string,
   state: string = SACRAMENTO.state,
   locality: string = SACRAMENTO.locality,
 ): Promise<SiteOfCare> {
   if (!isConfigured()) {
-    return {
-      ok: false,
-      reason:
-        "This server is not holding the federal fee tables right now, so there is no rate to show. We would rather show you nothing than show you a number we cannot source.",
-    };
+    return (
+      fixtureCare(cpt, state, locality) ?? {
+        ok: false,
+        reason:
+          "This server is not holding the federal fee tables right now, so there is no rate to show. We would rather show you nothing than show you a number we cannot source.",
+      }
+    );
   }
 
   try {
@@ -220,17 +260,55 @@ export async function siteOfCare(
         .maybeSingle(),
     ]);
 
-    const rows = (pfs.data ?? []) as Record<string, unknown>[];
-    const m = rows[0];
-    const office = num(m?.nonfac_rate);
-    const professional = num(m?.fac_rate);
-
-    if (office == null && professional == null) {
-      return {
-        ok: false,
-        reason: `The federal physician fee schedule does not carry ${cpt} at Medicare locality ${locality} in ${state} in our copy of the table, so there is no federal basis to compare settings against.`,
-      };
+    /* ★ AN ERROR IS NOT AN EMPTY. See rule 2 in the header: on 2026-08-26 a
+       failed query fell through this seam as an empty result set and the page
+       printed a false sentence about the DATA to describe a failure of the
+       CONNECTION. Any query error means we do not know what the tables hold,
+       so the answer comes from the bake, and only if the bake matches. The
+       panel's promise is the three-setting comparison, so a partial read - one
+       leg errored, two answered - is treated the same way: we will not caption
+       a missing leg "Medicare does not publish this" when the truth is that we
+       never heard back. */
+    if (pfs.error || opps.error || asc.error) {
+      return fixtureCare(cpt, state, locality) ?? { ok: false, reason: CARE_OUTAGE };
     }
+
+    return computeSiteOfCare(
+      cpt,
+      state,
+      (pfs.data ?? []) as RawRow[],
+      (opps.data ?? null) as RawRow | null,
+      (asc.data ?? null) as RawRow | null,
+    );
+  } catch {
+    return fixtureCare(cpt, state, locality) ?? { ok: false, reason: CARE_OUTAGE };
+  }
+}
+
+/** ONE compute path, fed by the live read or the bake. All the honesty rules
+    live here exactly once: zero-as-packaged, the duplicate-row disclosure, the
+    refusal to total past a missing facility fee. */
+function computeSiteOfCare(
+  cpt: string,
+  state: string,
+  pfsRows: RawRow[],
+  oppsRow: RawRow | null,
+  ascRow: RawRow | null,
+): SiteOfCare {
+  const rows = pfsRows;
+  const m = rows[0];
+  const office = num(m?.nonfac_rate);
+  const professional = num(m?.fac_rate);
+  const localityCode = (m?.locality as string | null) ?? null;
+
+  if (office == null && professional == null) {
+    /* A SUCCESSFUL query with zero rows. This is a true absence and it renders
+       as one; the connection-failure case never reaches this function. */
+    return {
+      ok: false,
+      reason: `The federal physician fee schedule does not carry ${cpt}${localityCode ? ` at Medicare locality ${localityCode}` : ""} in ${state} in our copy of the table, so there is no federal basis to compare settings against.`,
+    };
+  }
 
     /* The disclosure, built from what is actually in the result set rather than
        from an assumption about what the extra row means. */
@@ -239,8 +317,8 @@ export async function siteOfCare(
       ? `This locality returns ${rows.length} rows for ${cpt} that are identical on every field the fee table exposes, differing only in their RVUs. We take the full-RVU line, printed above. The other resolves to ${others.map((v) => usdIn(v)).join(", ")}. The table carries no modifier column, so we will not tell you what that row is.`
       : null;
 
-    const oppsRate = num(opps.data?.payment_rate);
-    const ascRate = num(asc.data?.payment_rate);
+    const oppsRate = num(oppsRow?.payment_rate);
+    const ascRate = num(ascRow?.payment_rate);
     /* Zero is CMS saying "packaged or not separately payable here", not "free". */
     const oppsFee = oppsRate != null && oppsRate > 0 ? oppsRate : null;
     const ascFee = ascRate != null && ascRate > 0 ? ascRate : null;
@@ -301,7 +379,7 @@ export async function siteOfCare(
       description: findService(cpt)?.name ?? `CPT ${cpt}`,
       state,
       localityName: (m?.locality_name as string | null) ?? null,
-      localityCode: (m?.locality as string | null) ?? null,
+      localityCode,
       duplicateRowNote,
       bars,
       hopdVsOfficePct,
@@ -312,18 +390,11 @@ export async function siteOfCare(
         publisher: PUBLISHER.pfs,
       },
       facility: {
-        vintage: vintage(opps.data) ?? vintage(asc.data),
-        sourceFile: (opps.data?.source_file as string | null) ?? (asc.data?.source_file as string | null) ?? null,
+        vintage: vintage(oppsRow) ?? vintage(ascRow),
+        sourceFile: (oppsRow?.source_file as string | null) ?? (ascRow?.source_file as string | null) ?? null,
         publisher: PUBLISHER.opps,
       },
     };
-  } catch {
-    return {
-      ok: false,
-      reason:
-        "We could not reach the federal fee tables to answer this, so there is nothing here. This is an outage on our side and not a gap in the data.",
-    };
-  }
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
@@ -378,17 +449,29 @@ const BASKET: { cpt: string; label: string }[] = [
   { cpt: "66984", label: "Cataract surgery with lens implant" },
 ];
 
+/** The fixture's ledger branch through the SAME compute path as a live read.
+    Null when the bake was for a different metro than the one asked for. */
+function fixtureLedger(cbsa: string, metro: string): Refusals | null {
+  const f = fixture.ledger;
+  if (!f || f.cbsa !== cbsa) return null;
+  return computeLedger(cbsa, metro, f.rows as RawRow[]);
+}
+
+const LEDGER_OUTAGE =
+  "We could not reach the commercial corpus to answer this. That is an outage on our side, not a gap in the data.";
+
 export async function refusalLedger(cbsa: string, metro: string): Promise<Refusals> {
   if (!isConfigured()) {
-    return {
-      ok: false,
-      reason: "This server is not holding the commercial corpus right now, so there is nothing to accept or refuse.",
-    };
+    return (
+      fixtureLedger(cbsa, metro) ?? {
+        ok: false,
+        reason: "This server is not holding the commercial corpus right now, so there is nothing to accept or refuse.",
+      }
+    );
   }
 
   try {
     const sb = serviceClient();
-    const { judge, N_MINIMUM } = await import("./honesty");
 
     const { data, error } = await sb
       .from("cpt_peer_stats_cbsa")
@@ -399,13 +482,21 @@ export async function refusalLedger(cbsa: string, metro: string): Promise<Refusa
         BASKET.map((b) => b.cpt),
       );
 
+    /* An error is not an empty. See the header: the answer comes from the bake,
+       and only the true zero-rows case renders the per-code absence sentences. */
     if (error) {
-      return {
-        ok: false,
-        reason: "We could not reach the commercial corpus to answer this. That is an outage on our side, not a gap in the data.",
-      };
+      return fixtureLedger(cbsa, metro) ?? { ok: false, reason: LEDGER_OUTAGE };
     }
 
+    return computeLedger(cbsa, metro, (data ?? []) as RawRow[]);
+  } catch {
+    return fixtureLedger(cbsa, metro) ?? { ok: false, reason: LEDGER_OUTAGE };
+  }
+}
+
+/** ONE compute path for the ledger: the honesty filter runs here exactly once,
+    over live rows or the bake's rows alike. */
+function computeLedger(cbsa: string, metro: string, data: RawRow[]): Refusals {
     const byCpt = new Map<string, Record<string, unknown>>();
     for (const row of data ?? []) byCpt.set(String((row as Record<string, unknown>).cpt), row as Record<string, unknown>);
 
@@ -474,12 +565,6 @@ export async function refusalLedger(cbsa: string, metro: string): Promise<Refusa
       minimumSample: N_MINIMUM,
       corpusStamp,
     };
-  } catch {
-    return {
-      ok: false,
-      reason: "We could not reach the commercial corpus to answer this. That is an outage on our side, not a gap in the data.",
-    };
-  }
 }
 
 /* ────────────────────────────────────────────────────────────────────────────
@@ -505,7 +590,18 @@ async function countOf(table: string): Promise<number | null> {
 }
 
 export async function scale(): Promise<ScaleFact[]> {
-  if (!isConfigured()) return [];
+  /* A null count falls back to the bake's count, which was a real HEAD count
+     against the same table on the bake date. The page's eyebrow says "counted,
+     not claimed", and both paths keep that sentence true. */
+  const baked = fixture.counts ?? { pfs: null, opps: null, asc: null };
+
+  if (!isConfigured()) {
+    return [
+      { label: "Physician fee rows", value: baked.pfs, foot: PUBLISHER.pfs },
+      { label: "Hospital outpatient codes", value: baked.opps, foot: PUBLISHER.opps },
+      { label: "Surgery center codes", value: baked.asc, foot: PUBLISHER.asc },
+    ].filter((f) => f.value != null);
+  }
 
   const [pfs, opps, asc] = await Promise.all([
     countOf("medicare_locality_cpt_rate"),
@@ -514,8 +610,8 @@ export async function scale(): Promise<ScaleFact[]> {
   ]);
 
   return [
-    { label: "Physician fee rows", value: pfs, foot: PUBLISHER.pfs },
-    { label: "Hospital outpatient codes", value: opps, foot: PUBLISHER.opps },
-    { label: "Surgery center codes", value: asc, foot: PUBLISHER.asc },
+    { label: "Physician fee rows", value: pfs ?? baked.pfs, foot: PUBLISHER.pfs },
+    { label: "Hospital outpatient codes", value: opps ?? baked.opps, foot: PUBLISHER.opps },
+    { label: "Surgery center codes", value: asc ?? baked.asc, foot: PUBLISHER.asc },
   ];
 }

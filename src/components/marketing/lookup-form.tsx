@@ -1,6 +1,6 @@
-import { METROS } from "@/lib/metros";
 import { SERVICES } from "@/lib/catalog";
 import { ServicePicker } from "@/components/ServicePicker";
+import { MetroPicker } from "@/components/MetroPicker";
 
 /**
  * The lookup.
@@ -86,15 +86,16 @@ export function LookupForm({
         defaultCpt={service ?? "70553"}
       />
 
-      <Field label="Market" htmlFor="market">
-        <select id="market" name="market" defaultValue={market ?? "31080"} style={selectStyle}>
-          {METROS.map((m) => (
-            <option key={m.cbsa} value={m.cbsa}>
-              {m.name}
-            </option>
-          ))}
-        </select>
-      </Field>
+      {/*
+        MARKET adopted @BROKER-READY's MetroPicker on 2026-08-26, replacing a
+        native <select> carrying all 928 metro names. The select rendered ~1,270
+        words of option text into the DOM of every page holding this form; QA
+        measured the three role pages carrying 3,818 words of duplicated metro
+        list between them, and the President ordered it gone. Same combobox
+        pattern as SERVICE above, same degradation: the CBSA lives in a hidden
+        input, so an unhydrated submit sends the default exactly as before.
+      */}
+      <MetroPicker name="market" defaultValue={market ?? "31080"} />
 
       <button type="submit" className="btn btn-primary" style={{ height: 46, whiteSpace: "nowrap" }}>
         Show the market
@@ -102,45 +103,3 @@ export function LookupForm({
     </form>
   );
 }
-
-function Field({ label, htmlFor, children }: { label: string; htmlFor: string; children: React.ReactNode }) {
-  return (
-    <div style={{ display: "grid", gap: 5, minWidth: 0 }}>
-      <label
-        htmlFor={htmlFor}
-        style={{
-          fontFamily: "var(--font-mono), monospace",
-          fontSize: 10,
-          fontWeight: 600,
-          textTransform: "uppercase",
-          letterSpacing: "var(--track-eyebrow)",
-          color: "var(--faint)",
-          paddingLeft: 2,
-        }}
-      >
-        {label}
-      </label>
-      {children}
-    </div>
-  );
-}
-
-const selectStyle: React.CSSProperties = {
-  width: "100%",
-  minWidth: 0,
-  height: 46,
-  padding: "0 12px",
-  borderRadius: "var(--r-sm)",
-  border: "1px solid var(--hair)",
-  background: "var(--paper)",
-  color: "var(--ink)",
-  fontSize: "var(--text-base)",
-  appearance: "none",
-  // The native chevron differs per platform and one of them is an emoji glyph.
-  // Draw our own so the control is identical everywhere.
-  backgroundImage:
-    "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'><path d='M1 1.5L6 6.5L11 1.5' stroke='%235B6166' stroke-width='1.6' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>\")",
-  backgroundRepeat: "no-repeat",
-  backgroundPosition: "right 12px center",
-  paddingRight: 34,
-};
