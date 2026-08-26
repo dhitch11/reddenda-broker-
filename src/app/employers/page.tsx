@@ -32,10 +32,10 @@ const config: RoleConfig = {
     "You are accountable for a number to someone senior, and almost everything you are shown about it comes from a party with a position in the outcome. This is the same underlying data, published by the plans themselves, read in plain English.",
 
   demo: {
-    service: "73721",
+    service: "45378",
     market: "40900",
     why:
-      "A knee MRI in Sacramento. You do not need to know what a procedure code is to read this. The spread between the low and high end of one market is usually the part that surprises people, and it is the part you can actually do something about.",
+      "A screening colonoscopy in Sacramento. You do not need to know what a procedure code is to read this. The spread between the low and high end of one market is usually the part that surprises people, and it is the part you can actually do something about.",
   },
 
   scenarios: [

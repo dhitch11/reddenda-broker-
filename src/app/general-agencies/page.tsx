@@ -6,7 +6,7 @@ export const revalidate = 3600;
 export const metadata: Metadata = {
   title: "For general agencies",
   description:
-    "Equip a downstream broker network with market rate intelligence under your name.",
+    "Equip a downstream broker network with market rate intelligence most of their GAs do not hand them.",
 };
 
 /**
@@ -27,10 +27,10 @@ const config: RoleConfig = {
   eyebrow: "For general agencies and wholesalers",
   h1: "Give your brokers a reason to quote through you.",
   lede:
-    "They can get carrier illustrations anywhere. They cannot usually get metro-level filed rates from their GA. Put it in their hands under your name and it becomes a reason to bring you the case.",
+    "Your downstream brokers can get carrier illustrations from anyone. Metro level negotiated rate data is much harder to come by, and handing it to them under your name gives them a reason to bring you the case.",
 
   demo: {
-    service: "29881",
+    service: "99203",
     market: "40900",
     why:
       "This is what one of your brokers would run before a Sacramento case. The value to you is not that you can run it. It is that two hundred of them can, on your platform, and that the one who does walks into a renewal better armed than the one who does not.",
@@ -63,7 +63,6 @@ const config: RoleConfig = {
       "Artifacts a broker hands to a client, carrying a source line that survives being forwarded.",
       "Coverage across every metro your network writes in, with the honest gaps visible rather than hidden.",
       "The same methodology page your brokers can send to a skeptical client, so your team is not the one defending the data.",
-      "A view of which markets and services your network is actually asking about, which is a real signal about where your book is under pressure.",
     ],
   },
 

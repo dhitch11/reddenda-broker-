@@ -236,7 +236,7 @@ export default async function Methodology() {
                 },
                 {
                   h: "We hold no protected health information",
-                  b: "There is no PHI in this product, there is no path by which member data could enter it, and there never will be. This is price data about contracts between plans and providers.",
+                  b: "There is no PHI in this product and there is no path by which member data could enter it: we never ingest a source that contains any. This is price data about contracts between plans and providers.",
                 },
               ]}
             />

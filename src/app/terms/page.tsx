@@ -40,13 +40,13 @@ const sections: LegalSection[] = [
   {
     h: "Availability",
     body: [
-      "This surface is under active development and access is currently limited. Content, coverage and packaging will change. Where a market or service is not yet available you will see an explicit statement to that effect rather than an empty screen.",
+      "These terms cover the free tools and the paid products sold on this site. Where a market or service is not yet available you will see an explicit statement to that effect rather than an empty screen. Content, coverage and packaging will change. Where a market or service is not yet available you will see an explicit statement to that effect rather than an empty screen.",
     ],
   },
   {
     h: "Who you are contracting with",
     body: [
-      `${BRAND.name} is operated by ${BRAND.parent}, a TwinFlame Group company. For anything requiring a written commitment, including a data use question from your own compliance team, contact us and we will answer in writing rather than by pointing at this page.`,
+      `${BRAND.name} is operated by TwinFlame Investments LLC, a Wyoming limited liability company. For anything requiring a written commitment, including a data use question from your own compliance team, contact us and we will answer in writing rather than by pointing at this page.`,
     ],
   },
 ];

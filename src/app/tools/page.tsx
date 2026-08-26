@@ -37,7 +37,7 @@ export const metadata = {
      every carrier files, which is exactly why the same phrase was removed from
      /api/lookup's source block in this commit. */
   description:
-    "What health plans have agreed to pay for care, across 918 U.S. metro markets, instantly.",
+    "What health plans have agreed to pay, in plain English. 840 metro markets hold enough of their own filings to answer at metro grain today. Where a market falls short, we say so instead of stretching a number.",
 };
 
 const money = (v: number) => "$" + Math.round(v).toLocaleString("en-US");

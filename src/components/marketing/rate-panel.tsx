@@ -192,11 +192,14 @@ export function RatePanel({
         ) : (
           <Stat label="The expensive end" value="gap" tone="gap" sub="Not published for this market" />
         )}
-        {pctOfMedicare != null ? (
-          <Stat label="Middle price vs Medicare" value={`${pctOfMedicare}%`} tone="spread" sub="Derived from the two figures shown" />
-        ) : (
-          <Stat label="Middle price vs Medicare" value="gap" tone="gap" sub="No Medicare rate for this market" />
-        )}
+        {/* ⛔ "Middle price vs Medicare" IS GONE, BOTH BRANCHES. Banned by WR1 and by
+            the final paste pack. The ratio divided this panel's median by a Medicare
+            figure that is not always the same geography, and a percent computed across
+            two grains reads as precision it does not have. The pack's replacement stat
+            is the "Middle half spans" cell directly above, which was already here, so
+            this slot is removed rather than filled with a second copy of it. The
+            Medicare dollar itself still renders on the page with its locality named;
+            it is only the ratio that dies. */}
       </div>
 
       {medicare && <MedicareAnchorBlock medicare={medicare} />}

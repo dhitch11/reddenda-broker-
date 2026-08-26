@@ -17,10 +17,10 @@ const config: RoleConfig = {
     "Your client is being told their increase is what the market is doing. You can now check that. Sacramento and Roseville rates, filed by the payers themselves, for the services that actually drive a group's spend.",
 
   demo: {
-    service: "45378",
+    service: "99203",
     market: "40900",
     why:
-      "A colonoscopy in Sacramento. Change either field and the answer changes with it. This is the same query your client can watch you run on a screen share, and the source line under it is the one they will ask about.",
+      "A new patient visit in Sacramento. Change either field and the answer changes with it. This is the same query your client can watch you run on a screen share, and the source line under it is the one they will ask about.",
   },
 
   scenarios: [

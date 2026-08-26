@@ -566,7 +566,7 @@ export default async function Landing() {
           <Reveal>
             <div className="sec-head">
               <span className="eyebrow">Three levers a self-funded plan can actually pull, largest first</span>
-              <h2 className="sec-title">Fully insured, you renew. Self-funded, you decide where the money goes.</h2>
+              <h2 className="sec-title">Fully insured, the price sits inside the premium. Self-funded, the plan pays the price itself, so where care happens shows up in its own spend.</h2>
             </div>
           </Reveal>
 
@@ -653,7 +653,7 @@ export default async function Landing() {
                 eyebrow="ERISA 408(b)(2)(B)"
                 title="The law asks for the fee in writing"
                 body="The statute has a covered service provider describe its compensation to the plan fiduciary in writing. It reaches arrangements expected to pay $1,000 a year or more, and it sets the timing as reasonably in advance of the contract being entered into, extended or renewed."
-                cite="29 U.S.C. 1108(b)(2)(B), added by Pub. L. 116-260 Div. BB Title II sec. 202. Applies to contracts entered into on or after 2021-12-27."
+                cite="29 U.S.C. 1108(b)(2)(B), added by Pub. L. 116-260, Div. BB, Title II, sec. 202 (2020); covered-service headings broadened by Pub. L. 119-75, sec. 6702 (Feb. 3, 2026). Applies to contracts entered into on or after 2021-12-27."
               />
             </Reveal>
             <Reveal delay={120}>
