@@ -7,7 +7,7 @@ import { GlowEye } from "@/components/landing/glow-eye";
 import { ScrubStage, Tilt } from "@/components/landing/hero-motion";
 import { LeoPlayer } from "@/components/landing/leo-player";
 import { siteOfCare, refusalLedger, scale, type SiteBar } from "@/lib/landing-data";
-import { LADDER, PRO_PER } from "@/lib/pricing-ladder";
+import { LADDER, PRO_PER, AGENCY_PER_GROUP } from "@/lib/pricing-ladder";
 
 /**
  * broker.reddenda.com  ·  THE LANDING PAGE
@@ -454,38 +454,54 @@ export default async function Landing() {
         <div className="wrap">
           <Reveal>
             <div className="sec-head">
-              <span className="eyebrow">Three levers a self-funded plan can actually pull</span>
+              <span className="eyebrow">Three levers a self-funded plan can actually pull, largest first</span>
               <h2 className="sec-title">Fully insured, you renew. Self-funded, you steer.</h2>
             </div>
           </Reveal>
 
+          {/* ★ REORDERED 2026-08-26 AGAINST THE MEASUREMENT, and the old order was
+              backwards. It led with Site of care, which is the best DEMO and the
+              SMALLEST paid lever: the clinically shiftable pool is 4.41% of
+              facility-delivered spend, and surgical codes are already 98-100%
+              facility, so there is very little left to move. It is not gone, it
+              just is not a lever here: the site-of-care panel sits higher up the
+              page, which is its correct job.
+
+              What leads instead is the largest measured lever, and it is not the
+              one every RFP is about. Inside ONE metro at ONE carrier, moving
+              facility volume from the median-priced facility to the 25th
+              percentile removes 53.25% of facility spend. Carrier choice, the
+              thing the RFP actually decides, is worth 4.94% on the same basket
+              once per-code spreads are weighted by utilization; the impressive
+              1.32x per-code median is noise that cancels.
+
+              ⛔ NO SAVINGS DOLLAR ON ANY LEVER, deliberately. The capture rate is
+              unmeasured, so a dollar here would be an assumption wearing a
+              measurement's clothes. Percentages of spend are what was measured and
+              they are labelled as a reallocation, not as money we promise. */}
           <div className="g3" style={{ marginTop: 30 }}>
             <Reveal delay={60}>
               <Lever
-                title="Site of care"
-                why="The same procedure costs different money in different rooms."
-                money="One steered case can outrun a year of plan-design tinkering."
-                proof={
-                  care.ok && care.ascSavingVsHopd != null
-                    ? `${usdc(care.ascSavingVsHopd)} separates the surgery center from the hospital on ${care.description.toLowerCase()}, on the federal schedule alone.`
-                    : "Live figure in the panel above, with its locality and quarter named."
-                }
+                title="Which facility, not which room"
+                why="Inside one metro, at one carrier, for the same code, facilities are not priced alike."
+                money="The spread between facilities is wider than the spread between carriers."
+                proof="Anthem, Sacramento, 55 codes each carrying 100 or more filed observations: shifting facility volume from the median-priced facility to the 25th percentile is 53.25% of facility spend, corroborated independently at 59.49% on Blue Shield's separately ingested book of 694 codes. That is a reallocation of volume, not a saving we promise: how much of it a plan captures is not something we have measured."
               />
             </Reveal>
             <Reveal delay={120}>
+              <Lever
+                title="Network repricing"
+                why="The network your client rents has a price and a shape."
+                money="See the spread on one basket, in one market, before you renew."
+                proof="Commercial distributions from the transparency files, every cell carrying its sample size, every refusal carrying its reason. Weighted by utilization, carrier choice is worth 4.94% on the Sacramento professional basket: real, and smaller than the per-code headline spread suggests, because those spreads largely cancel."
+              />
+            </Reveal>
+            <Reveal delay={180}>
               <Lever
                 title="Out-of-network exposure"
                 why="Federal arbitration decides what your plan pays when there is no contract."
                 money="Awards are public. Your exposure is knowable before you renew."
                 proof="Federal IDR outcomes against the plan's own qualifying payment amount, with the code count, the line count and the period on the face of the screen."
-              />
-            </Reveal>
-            <Reveal delay={180}>
-              <Lever
-                title="Network repricing"
-                why="The network your client rents has a price and a shape."
-                money="See the spread on one basket, in one market, before you renew."
-                proof="Commercial distributions from the transparency files, every cell carrying its sample size, every refusal carrying its reason."
               />
             </Reveal>
           </div>
@@ -629,6 +645,7 @@ export default async function Landing() {
                   "Your agency's name on every exhibit, set server side",
                   "Shared saved markets and baskets",
                   "Onboarding for your producers",
+                  `A firm advising twenty self-funded groups pays ${AGENCY_PER_GROUP(20)} a group a year, and that does not change when you hire`,
                 ]}
                 cta="Create account"
                 href={APP}

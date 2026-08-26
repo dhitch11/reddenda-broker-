@@ -52,8 +52,15 @@ export const LADDER = {
   exhibitOnce: { lookupKey: "broker_exhibit_once", display: "$490", unitAmount: 49000, interval: null },
 } satisfies Record<string, LadderPlan>;
 
-/** The sentence under the Broker Pro card. Built here so the two figures cannot drift apart. */
-export const PRO_PER = `per month, or ${LADDER.proAnnual.display} a year`;
+/** The sentence under the Broker Pro card. Built here so the two figures cannot drift apart.
+ *
+ * ★ "PER SEAT" IS LOAD-BEARING AND WAS MISSING. This read "per month, or $1,490 a
+ * year" with no seat qualifier. Read as firm-wide it undercuts the $4,900 Agency
+ * tier by 3.29x and the whole ladder collapses: a firm would buy one Pro seat and
+ * never look at Agency. The seat model is declared on the Stripe product itself
+ * (`seat_model=per_seat` on prod_V8L5nmLVGV4THJ), so the rendered copy was the only
+ * surface disagreeing with the catalogue. */
+export const PRO_PER = `per seat, per month, or ${LADDER.proAnnual.display} a year`;
 
 /**
  * THE ANNUAL SAVING, DERIVED. Never typed.
@@ -71,6 +78,17 @@ export const PRO_PER = `per month, or ${LADDER.proAnnual.display} a year`;
 const TWELVE_MONTHS = LADDER.proMonthly.unitAmount * 12;
 const SAVED = TWELVE_MONTHS - LADDER.proAnnual.unitAmount;
 const usd = (cents: number) => `$${(cents / 100).toLocaleString("en-US")}`;
+
+/**
+ * AGENCY, PER GROUP. Derived, and deliberately divided by the number of GROUPS a firm
+ * advises rather than by anything to do with a plan's spend.
+ *
+ * ⛔ NEVER divide the Agency fee by one group's plan spend. "$4,900 against a $3.95M
+ * plan" is a favourable-denominator move, and any broker with four accounts catches it
+ * in one second. Divide by the thing the buyer actually counts: their own book.
+ */
+export const AGENCY_PER_GROUP = (groups: number) =>
+  `$${Math.round(LADDER.agencyAnnual.unitAmount / 100 / groups).toLocaleString("en-US")}`;
 
 export const ANNUAL_SAVING = {
   /** What twelve monthly payments actually come to. */

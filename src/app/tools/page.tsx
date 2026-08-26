@@ -84,6 +84,11 @@ const TOOLS: Tool[] = [
   },
 ];
 
+/* The primary CTA resolves through this rather than repeating a URL. If the tool is
+   renamed or moved, the button follows it. Falls back to the first tool rather than to
+   a hardcoded path, so it cannot silently point at a route that is gone. */
+const RATE_CHECK: Tool = TOOLS.find((t) => t.name === "Rate Check") ?? TOOLS[0];
+
 export default async function ToolsIndex() {
   const configured = isConfigured();
 
@@ -305,8 +310,15 @@ export default async function ToolsIndex() {
                 in full.
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 22 }}>
-                <a href="https://app.reddenda.com/broker/console" className="btn btn-primary">
-                  Open Rate Check
+                {/* ★ THIS BUTTON DISAGREED WITH ITS OWN PAGE. It said "Open Rate Check"
+                    and pointed at /broker/console, the Overview, while the Rate Check
+                    card fifty lines up points at /broker/console/rates. Same page, same
+                    tool, two destinations, and a signed-in broker pressing the big
+                    primary CTA landed somewhere other than the thing it named.
+                    Resolved FROM the tools list rather than typed again, so the CTA and
+                    the card cannot drift apart a second time. */}
+                <a href={RATE_CHECK.href} className="btn btn-primary">
+                  Open {RATE_CHECK.name}
                 </a>
                 <a href={DISCOVERY_URL} className="btn btn-secondary">
                   Talk to us

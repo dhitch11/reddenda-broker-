@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteHeader, SiteFooter, DISCOVERY_URL } from "@/components/marketing/chrome";
 import { Reveal } from "@/components/marketing/reveal";
-import { LADDER, ANNUAL_SAVING } from "@/lib/pricing-ladder";
+import { LADDER, ANNUAL_SAVING, AGENCY_PER_GROUP } from "@/lib/pricing-ladder";
+import { PLAN_SPEND, PHARMACY_GAP } from "@/lib/plan-spend";
 
 /**
  * /pricing — THE PRICE, READABLE WITHOUT BOOKING A CALL.
@@ -105,6 +106,10 @@ const PLANS: Plan[] = [
       "Your agency's name on every exhibit, set server side so it cannot be edited out",
       "Shared saved markets and baskets across the team",
       "Onboarding for your producers",
+      /* Divided by the buyer's OWN BOOK, never by a client's plan spend. "$4,900
+         against a $3.95M plan" is a favourable denominator and any broker with four
+         accounts catches it. */
+      `A firm advising twenty self-funded groups pays ${AGENCY_PER_GROUP(20)} a group a year`,
     ],
     cta: "Create your account",
     href: APP,
@@ -181,6 +186,56 @@ export default function PricingPage() {
           </div>
         </section>
 
+        {/* ── THE DENOMINATOR ──────────────────────────────────────────────
+            A price with no denominator is just a number, and the buyer supplies
+            one anyway. Better they use ours, stated and sourced, than guess.
+            MODELLED, and it says so on the face of it in three places. */}
+        <section style={{ paddingBottom: 30 }}>
+          <div className="wrap">
+            <Reveal>
+              <div className="card" style={{ padding: "clamp(20px, 3.5vw, 28px)", display: "grid", gap: 12 }}>
+                <span className="eyebrow">What this is a fraction of</span>
+                <h2 className="display" style={{ fontSize: "var(--text-lg)", color: "var(--ink)" }}>
+                  A {PLAN_SPEND.lives} life self-funded plan in California spends about{" "}
+                  <span className="num">${PLAN_SPEND.annualMillions} million</span> a year.
+                </h2>
+                <p style={{ fontSize: "var(--text-sm)", color: "var(--body)", lineHeight: 1.7, maxWidth: "72ch" }}>
+                  That is <span className="num">{PLAN_SPEND.pepy}</span> per covered employee per year, or{" "}
+                  <span className="num">{PLAN_SPEND.pepm}</span> per covered employee per month, on{" "}
+                  <span className="num">{PLAN_SPEND.lives}</span> lives. We publish it because a fee is
+                  meaningless without the number underneath it, and because you would estimate one anyway.
+                </p>
+                <p style={{ fontSize: "var(--text-xs)", color: "var(--faint)", lineHeight: 1.65, maxWidth: "72ch" }}>
+                  <b>{PLAN_SPEND.source}</b> Nationally the honest band is{" "}
+                  <span className="num">{PLAN_SPEND.bandLow}</span> to{" "}
+                  <span className="num">{PLAN_SPEND.bandHigh}</span> per covered employee per year, and it
+                  is a band rather than a figure because the survey does not support a point estimate. It
+                  does not come from our corpus, and we will not print it as though it did.
+                </p>
+              </div>
+            </Reveal>
+
+            {/* ── THE GAP WE REFUSE TO FILL ─────────────────────────────────
+                The highest-trust sentence available to us, and it costs nothing
+                to say because it is simply true. */}
+            <Reveal delay={80}>
+              <div className="card" style={{ marginTop: 18, padding: "clamp(20px, 3.5vw, 28px)", display: "grid", gap: 10 }}>
+                <span className="eyebrow">What we will not sell you</span>
+                <h2 className="display" style={{ fontSize: "var(--text-lg)", color: "var(--ink)" }}>
+                  Pharmacy is about {PHARMACY_GAP.shareOfSpend} of plan spend. We hold none of it.
+                </h2>
+                <p style={{ fontSize: "var(--text-sm)", color: "var(--body)", lineHeight: 1.7, maxWidth: "72ch" }}>
+                  It is also the fastest-growing line on the plan at roughly{" "}
+                  <span className="num">{PHARMACY_GAP.growth}</span> a year, which is exactly why you should
+                  expect somebody to quote you a number for it. We hold no PBM contract and no rebate data,
+                  so we will tell you nothing about pharmacy. Anyone selling you a pharmacy figure off
+                  transparency files is selling you an assumption.
+                </p>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
         {/* ── WHAT FREE ACTUALLY MEANS ─────────────────────────────────────── */}
         <section className="sec" style={{ paddingTop: 8 }}>
           <div className="wrap">
@@ -243,7 +298,7 @@ export default function PricingPage() {
                 },
                 {
                   q: "Is Agency per seat?",
-                  a: `No. Agency is ${LADDER.agencyAnnual.display} a year, flat, for the whole firm. Add a producer in March and it is the same price. There is no per-seat tier above it and no usage meter underneath it.`,
+                  a: `No. Agency is ${LADDER.agencyAnnual.display} a year, flat, for the whole firm. Broker Pro is the per-seat plan; Agency is not. Add a producer in March and it is the same price. A firm advising twenty self-funded groups is paying ${AGENCY_PER_GROUP(20)} a group a year, and there is no usage meter underneath it.`,
                 },
                 {
                   q: "What happens if we cancel?",
