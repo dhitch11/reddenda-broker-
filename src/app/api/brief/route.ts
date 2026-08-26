@@ -142,7 +142,12 @@ export async function GET(req: NextRequest) {
         },
         updatedAt,
         source: {
-          basis: "Every carrier's negotiated price, in every U.S. market",
+          /* `basis` is deleted here for the same reason it was deleted from
+             /api/lookup: it was a CONSTANT asserting "Every carrier's negotiated
+             price, in every U.S. market" on every response including the refusals.
+             Kaiser and Sutter file zero conventional in-network rows by construction,
+             and a market we decline is a market we do not have. `note` carries the
+             honest sentence. */
           note: "What plans have agreed to pay, not what a patient is billed.",
         },
       },

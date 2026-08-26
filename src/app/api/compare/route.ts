@@ -111,7 +111,8 @@ export async function GET(req: NextRequest) {
           priciest,
         },
         source: {
-          basis: "Every carrier's negotiated price, in every U.S. market",
+          /* Deleted, same as /api/lookup and /api/brief: a constant scope claim cannot
+             describe an answer that varies, and this one was false in both halves. */
           note: "What plans have agreed to pay, not what a patient is billed.",
         },
       },

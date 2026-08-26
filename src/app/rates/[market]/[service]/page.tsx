@@ -71,7 +71,7 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const title = rateTitle(m, s);
   return {
     title,
-    description: `What health plans have contracted to pay for ${s.plain} in ${metroShort(m)}, Every carrier, the low end to the high end, with a Medicare reference beside it.`,
+    description: `What health plans have contracted to pay for ${s.plain} in ${metroShort(m)}. The carriers that filed, the low end to the high end, with a Medicare reference beside it.`,
     alternates: { canonical: ratePath(m, s) },
     openGraph: {
       title: `${title} . ${BRAND.name}`,
@@ -237,7 +237,7 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                   />
                   <Insight
                     label="How wide the data runs"
-                    body={`Every carrier writing this procedure in this market${found.confidence === "reported" ? ", though this is a smaller market and we mark it as one" : ""}. What each plan has agreed to pay, side by side. These are prices, not bills, so they do not show how often anyone needs it.`}
+                    body={`The carriers that filed for this procedure in this market${found.confidence === "reported" ? ", though this is a smaller market and we mark it as one" : ""}. What each plan has agreed to pay, side by side. These are prices, not bills, so they do not show how often anyone needs it.`}
                   />
                 </div>
               </Reveal>
