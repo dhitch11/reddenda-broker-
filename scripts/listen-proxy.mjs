@@ -54,7 +54,7 @@
  * Exit 2 = a check could not run, which is NOT a pass.
  */
 import { readFileSync, existsSync, writeFileSync, unlinkSync } from "node:fs";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { join, basename } from "node:path";
 import { homedir } from "node:os";
 
@@ -92,6 +92,15 @@ const problems = [];
 const notes = [];
 const couldNotRun = [];
 
+
+/* ffmpeg writes loudnorm's JSON and silencedetect's lines to STDERR, not stdout.
+   execFileSync returns stdout, so capturing them with it silently yields null and
+   the caller crashes on .toString() of nothing. spawnSync exposes both streams. */
+function ffstderr(argv) {
+  const r = spawnSync("ffmpeg", argv, { encoding: "utf8", maxBuffer: 1024 * 1024 * 64 });
+  return (r.stderr ?? "") + (r.stdout ?? "");
+}
+
 /* ── duration ──────────────────────────────────────────────────────────────── */
 const duration = Number(execFileSync("ffprobe", ["-v", "error", "-show_entries", "format=duration",
   "-of", "default=nw=1:nk=1", MP3]).toString().trim());
@@ -99,9 +108,8 @@ const duration = Number(execFileSync("ffprobe", ["-v", "error", "-show_entries",
 /* ── loudness, two-pass measurement only (nothing is written) ──────────────── */
 let loud = {};
 try {
-  const out = execFileSync("ffmpeg", ["-v", "info", "-i", MP3, "-af",
-    "loudnorm=I=-16.5:TP=-1.5:LRA=11:print_format=json", "-f", "null", "-"],
-    { stdio: ["ignore", "ignore", "pipe"] }).toString();
+  const out = ffstderr(["-v", "info", "-i", MP3, "-af",
+    "loudnorm=I=-16.5:TP=-1.5:LRA=11:print_format=json", "-f", "null", "-"]);
   loud = JSON.parse((out.match(/\{[\s\S]*\}/) ?? ["{}"])[0]);
 } catch (e) {
   couldNotRun.push(`loudness: ${String(e).slice(0, 90)}`);
@@ -113,9 +121,8 @@ const lra = Number(loud.input_lra);
 /* ── air: every silence, measured ──────────────────────────────────────────── */
 let pauses = [];
 try {
-  const sd = execFileSync("ffmpeg", ["-v", "info", "-i", MP3, "-af",
-    "silencedetect=noise=-38dB:d=0.25", "-f", "null", "-"],
-    { stdio: ["ignore", "ignore", "pipe"] }).toString();
+  const sd = ffstderr(["-v", "info", "-i", MP3, "-af",
+    "silencedetect=noise=-38dB:d=0.25", "-f", "null", "-"]);
   const starts = [...sd.matchAll(/silence_start:\s*([\d.]+)/g)].map((m) => Number(m[1]));
   const ends = [...sd.matchAll(/silence_end:\s*([\d.]+)\s*\|\s*silence_duration:\s*([\d.]+)/g)]
     .map((m) => ({ end: Number(m[1]), dur: Number(m[2]) }));

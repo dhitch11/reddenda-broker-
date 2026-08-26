@@ -69,9 +69,18 @@
  * is printed by this script, on any path, including on failure.
  */
 import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync, unlinkSync } from "node:fs";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { join, dirname, basename } from "node:path";
 import { homedir } from "node:os";
+
+
+/* ffmpeg writes loudnorm's JSON and silencedetect's lines to STDERR, not stdout.
+   execFileSync returns stdout, so capturing them with it silently yields null and
+   the caller crashes on .toString() of nothing. spawnSync exposes both streams. */
+function ffstderr(argv) {
+  const r = spawnSync("ffmpeg", argv, { encoding: "utf8", maxBuffer: 1024 * 1024 * 64 });
+  return (r.stderr ?? "") + (r.stdout ?? "");
+}
 
 /* ── arguments ─────────────────────────────────────────────────────────────── */
 const args = process.argv.slice(2);
@@ -331,9 +340,9 @@ writeFileSync(tmpPcm, rawPcm);
    guess and moves the level while the piece plays, which is audible on a 75s
    read with deliberate silence in it. */
 const measure = JSON.parse(
-  (execFileSync("ffmpeg", ["-v", "info", "-f", "s16le", "-ar", String(SR), "-ac", "1", "-i", tmpPcm,
-    "-af", `loudnorm=I=${TARGET_LUFS}:TP=${TARGET_TP}:LRA=11:print_format=json`, "-f", "null", "-"],
-    { stdio: ["ignore", "ignore", "pipe"] }).toString().match(/\{[\s\S]*\}/) ?? ["{}"])[0],
+  (ffstderr(["-v", "info", "-f", "s16le", "-ar", String(SR), "-ac", "1", "-i", tmpPcm,
+    "-af", `loudnorm=I=${TARGET_LUFS}:TP=${TARGET_TP}:LRA=11:print_format=json`, "-f", "null", "-"])
+    .match(/\{[\s\S]*\}/) ?? ["{}"])[0],
 );
 execFileSync("ffmpeg", ["-y", "-v", "error", "-f", "s16le", "-ar", String(SR), "-ac", "1", "-i", tmpPcm,
   "-af", `loudnorm=I=${TARGET_LUFS}:TP=${TARGET_TP}:LRA=11:measured_I=${measure.input_i}:measured_TP=${measure.input_tp}:measured_LRA=${measure.input_lra}:measured_thresh=${measure.input_thresh}:offset=${measure.target_offset}:linear=true`,

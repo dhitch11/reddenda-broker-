@@ -26,14 +26,34 @@ import { HeroAudioTransport } from "./hero-audio-transport";
  */
 
 /* ═══ WHICH CUT PLAYS ═════════════════════════════════════════════════════════
-   LEO III, "The Two Numbers Cut": 79 seconds, 236 words, the buy-side pitch.
-   It replaces the 7:14 second cut, which named a real person in its second
-   sentence against David's 08-26 order and ran far past "not wordy". The
-   script, the three-candidate war room and the claim check live in
-   ~/.broker-fleet/LEO3-SCRIPT.md. Rendered on the seamless PCM path
-   (scripts/render-audio.mjs), mastered to -16.5 LUFS integrated with true
-   peak below -1.5 dBTP, and gated through the listen-proxy (blind transcript
-   match, turn-gap scan, waveform inspection) before it was allowed here.
+   LEO IV, "THE BUILDING": 69 seconds, 140 words, Spine B, ordered by the
+   President 17:26Z on 2026-08-26. Script, war room and claim check in
+   ~/.broker-fleet/LEO4-SCRIPT.md.
+
+   WHY IT REPLACED LEO III, and the second reason is the one worth keeping:
+     1. LEO III was measured at 179 wpm with ZERO pauses of 0.8s or longer, and
+        it opened "Hey. I'm Leo. I'm an AI" against the never-say-AI rule.
+     2. ★ ITS NUMBERS WERE NOT ON THE PAGE IT PLAYED ON. It spoke two prices for
+        a brain MRI while the card beside it showed a colonoscopy site-of-care
+        panel, and its second headline figure appeared ZERO times in the served
+        homepage HTML. Nobody erred: the page moved to the site-of-care hero
+        after the audio was cut, and a recording cannot follow. That is why
+        scripts/check-spoken-drift.mjs now exists and runs before a promote.
+
+   LEO IV lands on +168%, which this same page prints four times in the card
+   121px away, and it names Medicare as the basis out loud because the card's
+   own provenance line is where the local-office / national-facility split is
+   disclosed.
+
+   Rendered by scripts/render-hero-audio.mjs (one call per beat, prosody carried
+   across each seam, each beat trimmed then padded with exactly the air the
+   script asks for), mastered to -16.5 LUFS with true peak under -1.5 dBTP, and
+   gated: 124 wpm, 17 pauses at 0.8s+, longest 2.26s, and a blind Scribe read
+   that came back word-perfect against the script.
+
+   ⚠️ leo4-take-b.mp3 sits beside this file. It is the SAME SCRIPT on the fleet's
+   settings, published only so David can A/B two URLs. It is NOT a fallback and
+   nothing here may ever point at it. When he rules, the loser is deleted.
 
    ONE NAME. The .mp3, the .json and the .vtt all derive from this basename.
    THERE IS NO FALLBACK TAKE, and there is no longer a withdrawn take on disk to
@@ -45,6 +65,17 @@ import { HeroAudioTransport } from "./hero-audio-transport";
    anyone could curl one. If this basename is absent the hero renders with no
    player, which is the honest state.
    ═════════════════════════════════════════════════════════════════════════════ */
+/* ⏸️ HELD AT leo3 BY DAVID'S DIRECT ORDER, 2026-08-26 ~18:10Z, verbatim: "You need
+   to wait to do the audio if you're doing the one that's on the homepage hero
+   section, because we still have a war room going right now and things are still
+   getting designed. How can you write an audio of everything we have to offer if
+   we still haven't figured out everything we have to offer?"
+
+   LEO IV is rendered, gated and sitting in public/audio/ ready to go. Flipping
+   this ONE LINE to "leo4" is the entire promote. It stays at leo3 until the war
+   room lands and the offering is settled, because a recorded pitch cannot follow
+   a product that is still being designed - which is the same lesson that put
+   LEO III's brain-MRI numbers beside a colonoscopy card. */
 const AUDIO_BASENAME = "leo3";
 const AUDIO_PUBLIC_PATH = `/audio/${AUDIO_BASENAME}.mp3`;
 const MIN_PLAUSIBLE_BYTES = 32 * 1024; // a truncated or error-body mp3 is not audio
