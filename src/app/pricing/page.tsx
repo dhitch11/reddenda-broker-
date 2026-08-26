@@ -42,6 +42,24 @@ import { PLAN_SPEND, PHARMACY_GAP } from "@/lib/plan-spend";
 
 const APP = "https://app.reddenda.com/broker";
 
+/* ⛔ WHERE A BUYER ACTUALLY BUYS. ADDED 2026-08-26, AND IT IS HERE BECAUSE IT WAS NOWHERE.
+ *
+ * This page printed four prices and EVERY CALL TO ACTION ON IT WENT TO THE DOOR OR TO CALENDLY.
+ * Nothing on the marketing site led to a checkout, and nothing inside the product did either:
+ * measured on prod, `/broker/console/upgrade` - THE ONLY PAGE WITH A BUY BUTTON - answered 200
+ * with 32,607 bytes of THE SIGNUP DOOR, and the only links to it were the checkout SUCCESS and
+ * CANCEL pages, which you can only see AFTER you have already bought.
+ *
+ * That is fixed on the app side and VERIFIED LIVE: h1 "Priced flat, so it is easy to disclose",
+ * the four prices, three email fields, and none of the door's markers. So the paid tiers now
+ * point at the page where the money is actually taken, and the free tier still points at the
+ * door, which is correct - the free tier IS the door.
+ *
+ * ★ THE ONE THING NOT TO DO HERE IS PUT A PRICE IN THIS LINK. The plan is chosen on the buy
+ * page and the amount is resolved server-side from the live Stripe catalog by lookup_key, never
+ * from anything a browser sends. A price in a URL is a price a customer can edit. */
+const BUY = "https://app.reddenda.com/broker/console/upgrade";
+
 export const metadata: Metadata = {
   title: "Pricing",
   description:
@@ -91,8 +109,8 @@ const PLANS: Plan[] = [
       "Client-ready exhibits, with the source and the vintage printed on them",
       "A share link that opens for whoever you send it to, with no account",
     ],
-    cta: "Create your account",
-    href: APP,
+    cta: "Start Broker Pro",
+    href: BUY,
     feature: true,
     chip: "Most brokers",
   },
@@ -111,8 +129,8 @@ const PLANS: Plan[] = [
          accounts catches it. */
       `A firm advising twenty self-funded groups pays ${AGENCY_PER_GROUP(20)} a group a year`,
     ],
-    cta: "Create your account",
-    href: APP,
+    cta: "Start Agency",
+    href: BUY,
     note: "Flat and firm-wide. Not per seat, and it does not meter on producers, clients, claims or lives.",
   },
   {
