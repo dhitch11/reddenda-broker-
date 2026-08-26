@@ -2,7 +2,6 @@ import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { marketRate } from "@/lib/rates";
-import { nationalRate } from "@/lib/national";
 import { type Basis } from "@/lib/basis";
 import { findMetroBySlug, findServiceBySlug, metroShort } from "@/components/marketing/slugs";
 
@@ -106,10 +105,25 @@ export default async function Image({
         state: metro.state,
         metroName: metro.name,
       });
-      if (!r.found) {
-        const n = nationalRate(svc.cpt, { cbsa: metro.cbsa, state: metro.state, metroName: metro.name });
-        if (n.found) r = n;
-      }
+      /* ★ NO FALLBACK HERE, AND THAT IS THE WHOLE POINT.
+         This block called `nationalRate` when the corpus refused. `page.tsx` for this
+         exact route does NOT: it resolves through `marketRate` alone. So the page and its
+         own share card resolved differently, and the divergence is not theoretical.
+         MEASURED on live prod: `/rates/new-york-ny/longer-office-visit` renders
+         "NO PUBLISHABLE FIGURE", while this card rendered $80 / $99 / $130 / $166 for the
+         same market and code.
+
+         The card carried a "Demo simulation" tag, so it was labelled rather than bare.
+         That is not enough. A share card is the surface that gets pasted into Slack and
+         screenshotted, and it outlives every correction; a reader sees four dollar figures
+         and a headline, clicks through, and finds the site refusing to show them. The
+         comment at the top of this block already said a card that disagreed with the page
+         it links to would be worse than no card. It was right, and the fallback was the
+         disagreement.
+
+         Now the card resolves exactly as the page does. Where the page refuses, the card
+         carries the mark, the market and the service with no figures, which is the honest
+         unfurl for a question we decline to answer. */
       if (r.found) { cell = r.cell; basis = r.basis.basis; }
     } catch {
       // A corpus hiccup renders the honest card, never a guessed one.

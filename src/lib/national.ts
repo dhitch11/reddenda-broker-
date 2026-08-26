@@ -9,7 +9,7 @@
  *
  * The real corpus (`marketRate()`) answers for the markets and codes we actually
  * hold and returns `found: false` everywhere else. The national engine
- * (`src/demo/engine.ts`) answers for **928 metros x 670 procedures = 615,060
+ * (`src/demo/engine.ts`) answers for **918 metros x 7,647 procedures = 7,019,946
  * cells**, deterministically, instantly, with real CMS federal anchors on every
  * one and REAL California data. This module is the seam between them.
  *

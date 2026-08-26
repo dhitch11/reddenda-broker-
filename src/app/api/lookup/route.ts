@@ -71,7 +71,26 @@ export async function GET(req: NextRequest) {
         state,
         metroName: metro?.name,
       });
-      if (national.found) rate = national;
+      /* ★ SYNTHETIC CELLS DO NOT LEAVE THIS ROUTE. MEASURED, NOT SUSPECTED.
+         A 400-combination sweep of live production (20 catalog codes x 20 metros) found
+         TWO responses shipping a modelled cell as an answer: New York 35620 / 99214 at
+         p50 $98.95 and Buffalo 15380 / 99214 at p50 $150, both `basis: "demo"`,
+         `synthetic: true`, n=3,443. "What does an office visit cost in New York" is the
+         first thing a broker types.
+
+         The page for that same market already refuses it. `/rates/new-york-ny/
+         longer-office-visit` renders "NO PUBLISHABLE FIGURE" because page.tsx resolves
+         through `marketRate` alone. So this route was answering a question the site
+         itself declines to answer, which is worse than either behaviour on its own.
+
+         A modelled cell is a fine thing for a demo environment that says it is one. It is
+         not an answer to an API question about what plans have agreed to pay, and the
+         `found: false` path below already says exactly that, in words, with the reason.
+
+         `synthetic` is the engine's OWN provenance flag (`_src`), not an inference here.
+         Engine cells sourced from the real California corpus carry `_src: 'real'` and are
+         still admitted, because those are measured. */
+      if (national.found && !national.synthetic) rate = national;
     }
 
     const catalog = findService(service);
@@ -94,7 +113,13 @@ export async function GET(req: NextRequest) {
         category: catalog?.category ?? null,
         payers,
         source: {
-          basis: "Every carrier's negotiated price, in every U.S. market",
+          /* `basis` HELD "Every carrier's negotiated price, in every U.S. market" AND IS
+             GONE. It was a constant, so it shipped on every response this route has ever
+             produced, including the refusals and including the modelled cells above. Two
+             claims in nine words, neither one true: not every carrier files, and the
+             markets where we refuse are by definition markets we do not have. A scope
+             claim that cannot vary cannot be a description of the answer it is attached
+             to. `note` below is the honest sentence and it stays. */
           peerUpdatedAt: rate.found ? rate.updatedAt : null,
           manifestBuiltAt: meta.builtAt,
           note: "What plans have agreed to pay, not what a patient is billed.",

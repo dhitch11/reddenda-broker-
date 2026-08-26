@@ -208,7 +208,7 @@ export function RateCheck({
             {data?.payers && <Payers payers={data.payers} state={res.geoName ?? ""} />}
 
             <footer style={{ marginTop: "var(--sp-4)", paddingTop: "var(--sp-3)", borderTop: "1px solid var(--border)", fontSize: 12, color: "var(--text-3)", lineHeight: 1.6 }}>
-              {data?.source?.basis}. {data?.source?.note} These are prices, not bills. They do not
+              {data?.source?.note} These are prices, not bills. They do not
               show how often anyone needs the procedure.
             </footer>
           </>

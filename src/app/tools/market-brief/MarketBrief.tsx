@@ -211,7 +211,7 @@ export function MarketBrief({ initial = "31080" }: { initial?: string }) {
             )}
 
             <footer className={s.source}>
-              {data.source.basis}. {data.source.note} These are prices, not bills. They do not show
+              {data.source.note} These are prices, not bills. They do not show
               how often anyone needs the procedure.
             </footer>
           </>

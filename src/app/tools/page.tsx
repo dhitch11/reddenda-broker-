@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { marketRate } from "@/lib/rates";
-import { METROS, findMetro } from "@/lib/metros";
+import { findMetro } from "@/lib/metros";
 import { SERVICES } from "@/lib/catalog";
 import { SCALE } from "@/lib/national";
 import { isConfigured } from "@/lib/db";
@@ -28,8 +28,16 @@ export const revalidate = 3600;
 
 export const metadata = {
   title: "The platform",
+  /* TWO CORRECTIONS IN ONE SENTENCE, both measured.
+     "928" was hardcoded and was the wrong population: 928 is the number of CBSA market
+     PAGES this site publishes (METROS.length in src/lib/metros.ts). What the TOOL can
+     answer is the engine's coverage, computed at 918 (src/demo/seed/metros.txt, 918
+     entries; federal-catalog.metros, 918). A claim about what the tool does has to count
+     what the tool holds. And "Every carrier's" is a scope claim we cannot support: not
+     every carrier files, which is exactly why the same phrase was removed from
+     /api/lookup's source block in this commit. */
   description:
-    "Every carrier's negotiated price for care, in all 928 U.S. metro markets, instantly.",
+    "What health plans have agreed to pay for care, across 918 U.S. metro markets, instantly.",
 };
 
 const money = (v: number) => "$" + Math.round(v).toLocaleString("en-US");
@@ -131,10 +139,14 @@ export default async function ToolsIndex() {
               </h1>
 
               <p className="lede rise rise-2" style={{ marginTop: 18, maxWidth: "58ch" }}>
-                Every carrier&rsquo;s negotiated price, in all {METROS.length} U.S. metro markets,
-                instantly. {SCALE.procedures.toLocaleString("en-US")} procedures, searchable in
-                seconds. And where a market is too thin to describe honestly, the tool tells you so
-                instead of showing you a number.
+                {/* {METROS.length} rendered 928 here, which is the count of market PAGES on
+                    this site, not the count of markets this tool answers for. SCALE.metros is
+                    computed from the engine's own seed and is 918. Ten markets of difference is
+                    ten dead ends for anyone who counted. */}
+                What health plans have agreed to pay, across {SCALE.metros.toLocaleString("en-US")} U.S.
+                metro markets, instantly. {SCALE.procedures.toLocaleString("en-US")} procedures,
+                searchable in seconds. And where a market is too thin to describe honestly, the tool
+                tells you so instead of showing you a number.
               </p>
 
               {spread && (
