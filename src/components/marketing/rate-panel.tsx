@@ -212,10 +212,29 @@ export function RatePanel({
 function MedicareAnchorBlock({
   medicare,
 }: {
-  medicare: { nonFacility: number | null; facility: number | null; year: number | null };
+  medicare: {
+    nonFacility: number | null;
+    facility: number | null;
+    year: number | null;
+    locality?: string | null;
+    localityName?: string | null;
+    basis?: string;
+  };
 }) {
   const { nonFacility, facility } = medicare;
   if (nonFacility == null && facility == null) return null;
+
+  /* ★ THE LOCALITY IS PRINTED, 2026-08-26 (Bulletin 2 #5). The anchor now comes
+     from one named Medicare locality instead of a statewide blend, and a dollar
+     from a named place owes the reader the place. Title-cased because the table
+     stores "SACRAMENTO-ROSEVILLE-FOLSOM" and shouting is not provenance. */
+  const where = medicare.localityName
+    ? medicare.localityName
+        .toLowerCase()
+        .split(/(\s|-)/)
+        .map((part) => (/^[a-z]/.test(part) ? part.charAt(0).toUpperCase() + part.slice(1) : part))
+        .join("")
+    : null;
 
   // A split only exists where the two figures actually differ. For 22 of the 39
   // services in the basket they are identical, and printing "office $332,
@@ -234,7 +253,8 @@ function MedicareAnchorBlock({
       }}
     >
       <p className="eyebrow" style={{ color: "var(--muted)", marginBottom: 10 }}>
-        Medicare reference
+        Medicare reference{where ? ` · ${where}` : ""}
+        {medicare.basis && medicare.basis !== "matched" && where ? " (nearest published locality)" : ""}
       </p>
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 26, alignItems: "flex-start" }}>

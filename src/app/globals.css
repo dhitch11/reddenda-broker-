@@ -1261,6 +1261,19 @@ body.cine { color: var(--body); }
   mask-image: radial-gradient(120% 90% at 50% 0%, #000 0%, #000 42%, transparent 78%);
 }
 
+/* THE PRICE FIELD. The hero's canvas substrate: every dot a real U.S. county,
+   drawn by components/landing/price-field.tsx from deploy-baked table reads.
+   Sits above the grid and under the content (negative z, after the grid in the
+   DOM), and is pointer-transparent so it can never eat a click. If its data
+   file is absent the component renders nothing and this rule matches nothing:
+   empty ink is the designed failure state. */
+.price-field {
+  position: absolute; inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .94;
+}
+
 /* The horizon. A single hairline of brand light where the hero meets the page,
    which is the one place a dark section can end without looking like a crash. */
 .hero-plane::after {

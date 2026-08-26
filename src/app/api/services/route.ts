@@ -41,7 +41,39 @@ function presentable(desc: string): string {
   return t.charAt(0).toUpperCase() + t.slice(1);
 }
 
+/**
+ * ★ METERED 2026-08-26 under Bulletin 2 #5 ("gate or meter"). This route serves
+ * catalog names and codes, never a dollar, so it stays open for the typeahead —
+ * but open is not unmetered. 600 requests per IP per hour is far above any
+ * human typing rate (the picker debounces) and far below a scrape.
+ *
+ * HONEST LIMIT OF THIS METER, stated so nobody oversells it: the counter is
+ * per-instance memory, so a fleet of lambdas each grants its own window and a
+ * cold start resets one. It is a ceiling against casual bulk pulls, not a
+ * security boundary; the security boundary is that THIS ROUTE HOLDS NO RATES.
+ */
+const WINDOW_MS = 60 * 60 * 1000;
+const CEILING = 600;
+const hits = new Map<string, { n: number; at: number }>();
+
 export async function GET(req: NextRequest) {
+  const ip = (req.headers.get("x-nf-client-connection-ip") ?? req.headers.get("x-forwarded-for") ?? "unknown")
+    .split(",")[0]
+    .trim();
+  const now = Date.now();
+  const h = hits.get(ip);
+  if (!h || now - h.at > WINDOW_MS) {
+    hits.set(ip, { n: 1, at: now });
+    if (hits.size > 5000) {
+      for (const [k, v] of hits) if (now - v.at > WINDOW_MS) hits.delete(k);
+    }
+  } else if (++h.n > CEILING) {
+    return NextResponse.json(
+      { ok: false, error: "metered", note: "Too many catalog searches from this address. Try again in an hour, or use the console." },
+      { status: 429, headers: { "retry-after": "3600", "cache-control": "no-store" } },
+    );
+  }
+
   const q = (req.nextUrl.searchParams.get("q") ?? "").trim();
 
   // Empty query: the curated basket, which is the default view in the control.

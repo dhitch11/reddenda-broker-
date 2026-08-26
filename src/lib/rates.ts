@@ -1,4 +1,5 @@
 import { serviceClient } from "./db";
+import { caLocalityCodeFor, CA_DEFAULT_LOCALITY } from "./ca-locality";
 import { METRO_INDEX, metroIndex } from "./metro-index";
 import { judge, explain, type CleanCell, type Confidence, type Rejection } from "./honesty";
 // THE UNIFIED RATE-BASIS STANDARD (David ruling 2026-08-10). Every returned cell carries a per-row
@@ -81,6 +82,14 @@ export type MedicareAnchor = {
   /** Hospital outpatient / facility allowed amount. */
   facility: number | null;
   year: number | null;
+  /** ★ WHICH Medicare locality these dollars are from. Added 2026-08-26 under
+      Bulletin 2 #5. A dollar from this module now names its locality, and any
+      surface that prints it owes the reader that name. */
+  locality: string | null;
+  localityName: string | null;
+  /** "matched" means the caller's own market. Anything else is a real number
+      from a NAMED other locality, and the surface says so. */
+  basis: "matched" | "state_default" | "rest_of" | "arbitrary";
 };
 
 export type PayerRow = {
@@ -127,24 +136,83 @@ function describe(cpt: string, upstream: string | null | undefined): string {
   return upstream;
 }
 
-/** Medicare is the anchor every benefits professional already has a feel for. */
-export async function medicareAnchor(cpt: string, state: string): Promise<MedicareAnchor | null> {
+/** Medicare is the anchor every benefits professional already has a feel for.
+ *
+ * ★ REWRITTEN 2026-08-26 UNDER BULLETIN 2 #5: THE BLENDED TABLE IS GONE FROM
+ * THIS FILE. `medicare_locality_cpt_rate` holds ONE row per (state, cpt) whose
+ * value is the unweighted mean across that state's localities wearing one
+ * city's stale name — measured on the war-room board: this host printed 45378
+ * office at $422.96 while the app printed Sacramento's real $417.65, so the
+ * two hosts David presents from disagreed about the same code. The read is now
+ * `_fixed` at LOCALITY grain, one locality picked the same way the app picks
+ * it (exact CBSA crosswalk first, then the CA default, then "rest of", each
+ * step NAMED on the result), and the max-total-RVU row within the locality so
+ * a component price can never stand in for the whole service. One table, one
+ * picker, two hosts, one number.
+ */
+export async function medicareAnchor(
+  cpt: string,
+  state: string,
+  geo?: { cbsa?: string },
+): Promise<MedicareAnchor | null> {
   const sb = serviceClient();
   const { data, error } = await sb
-    .from("medicare_locality_cpt_rate")
-    .select("nonfac_rate, fac_rate, localized_rate, year")
+    .from("medicare_locality_cpt_rate_fixed")
+    .select("nonfac_rate, fac_rate, year, locality, locality_name, work_rvu, pe_rvu_nonfac, mp_rvu")
     .eq("cpt", cpt)
-    .eq("state", state)
-    .limit(1)
-    .maybeSingle();
+    .eq("state", state);
 
-  if (error || !data) return null;
+  /* An error is not an empty: a failed read renders as "no anchor", never as a
+     dollar, and the caller's copy owns the honest absence sentence. */
+  if (error || !data?.length) return null;
 
-  const nonFac = num(data.nonfac_rate) ?? num(data.localized_rate);
-  const fac = num(data.fac_rate);
+  type Row = Record<string, unknown>;
+  const rows = data as Row[];
+  const totalRvu = (r: Row) =>
+    (num(r.work_rvu) ?? 0) + (num(r.pe_rvu_nonfac) ?? 0) + (num(r.mp_rvu) ?? 0);
+
+  const localities = Array.from(new Set(rows.map((r) => String(r.locality ?? ""))));
+  let chosen: string | null = null;
+  let basis: MedicareAnchor["basis"] = "matched";
+
+  /* An exact CBSA wins: the crosswalk cannot collide the way a name can. */
+  if (geo?.cbsa) {
+    const code = caLocalityCodeFor(geo.cbsa);
+    if (code) chosen = localities.find((l) => l.trim() === code) ?? null;
+  }
+  /* The app's CA default is Sacramento, printed, never silent. */
+  if (chosen === null && state.trim().toUpperCase() === "CA") {
+    chosen = localities.find((l) => l.trim() === CA_DEFAULT_LOCALITY) ?? null;
+    if (chosen !== null) basis = "state_default";
+  }
+  if (chosen === null) {
+    chosen =
+      localities.find((l) => {
+        const nm = String(rows.find((r) => String(r.locality ?? "") === l)?.locality_name ?? "");
+        return /^rest of/i.test(nm.trim());
+      }) ?? null;
+    if (chosen !== null) basis = "rest_of";
+  }
+  if (chosen === null) {
+    chosen = [...localities].sort()[0] ?? null;
+    basis = "arbitrary";
+  }
+
+  const pool = rows.filter((r) => String(r.locality ?? "") === chosen);
+  const row = (pool.length ? pool : rows).reduce((best, r) => (totalRvu(r) > totalRvu(best) ? r : best));
+
+  const nonFac = num(row.nonfac_rate);
+  const fac = num(row.fac_rate);
   if (nonFac == null && fac == null) return null;
 
-  return { nonFacility: nonFac, facility: fac, year: data.year ?? null };
+  return {
+    nonFacility: nonFac,
+    facility: fac,
+    year: (row.year as number | null) ?? null,
+    locality: (row.locality as string | null) ?? null,
+    localityName: (row.locality_name as string | null) ?? null,
+    basis,
+  };
 }
 
 /**
@@ -178,7 +246,7 @@ export async function marketRate(
       });
 
       if (verdict.ok) {
-        const medicare = await medicareAnchor(cpt, geo.state);
+        const medicare = await medicareAnchor(cpt, geo.state, { cbsa: geo.cbsa });
         // PATH#1: a real metro cell survived the honesty filter. This IS this metro's own filings.
         return {
           found: true,
@@ -227,7 +295,7 @@ export async function marketRate(
     };
   }
 
-  const medicare = await medicareAnchor(cpt, geo.state);
+  const medicare = await medicareAnchor(cpt, geo.state, { cbsa: geo.cbsa });
 
   /**
    * LOCALISE THE ANSWER.

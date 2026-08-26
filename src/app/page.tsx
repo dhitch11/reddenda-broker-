@@ -5,6 +5,7 @@ import { ScrollState } from "@/components/marketing/scroll-state";
 import { Reveal } from "@/components/marketing/reveal";
 import { GlowEye } from "@/components/landing/glow-eye";
 import { ScrubStage, Tilt } from "@/components/landing/hero-motion";
+import { PriceField } from "@/components/landing/price-field";
 import { LeoPlayer } from "@/components/landing/leo-player";
 import { siteOfCare, refusalLedger, scale, type SiteBar } from "@/lib/landing-data";
 import { LADDER, PRO_PER, AGENCY_PER_GROUP } from "@/lib/pricing-ladder";
@@ -202,6 +203,11 @@ export default async function Landing() {
           <b /><b /><b />
         </div>
         <div className="hero-plane__grid" aria-hidden="true" />
+        {/* THE PRICE FIELD. Real counties, real Medicare dollars, condensing
+            onto the same axis the panel's trio lives on as the shot scrubs.
+            After the grid so it paints above it; negative z keeps it under
+            every word. See components/landing/price-field.tsx. */}
+        <PriceField />
 
         {/* THE PADDING IS A CLASS, NOT AN INLINE STYLE, AND THAT IS THE WHOLE POINT.
             It was inline. An inline style beats any selector without !important, so
@@ -569,7 +575,7 @@ export default async function Landing() {
               <Legal
                 eyebrow="ERISA 408(b)(2)(B)"
                 title="Disclosure is what makes the fee reasonable"
-                body="A service contract with a group health plan is not reasonable unless the broker or consultant discloses its direct and indirect compensation in writing to the responsible plan fiduciary. Lose reasonable and you lose the exemption. It bites at $1,000 of expected compensation, and it is due reasonably in advance of signing, extending or renewing."
+                body="A service contract with a group health plan is not reasonable unless the broker or consultant discloses what they are paid, directly and indirectly, in writing, to the person at the plan responsible for hiring them. Lose reasonable and you lose the exemption. It bites at $1,000 of expected pay, and it is due before signing, extending or renewing."
                 cite="29 U.S.C. 1108(b)(2)(B), added by Pub. L. 116-260 Div. BB Title II sec. 202. Applies to contracts entered into on or after 2021-12-27."
               />
             </Reveal>

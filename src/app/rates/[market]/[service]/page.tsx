@@ -221,7 +221,13 @@ export default async function RatePage({ params }: { params: Promise<Params> }) 
                     label="Against Medicare"
                     body={
                       vsMedicare != null
-                        ? `The middle price sits at ${vsMedicare}% of the Medicare rate for the same service in this state. Medicare is a fixed reference line most finance teams already have a feel for, which is why we print it beside every figure. It is not a fair price and not what anything should cost.`
+                        ? `The middle price sits at ${vsMedicare}% of what Medicare pays for the same service${
+                            /* Bulletin 2 #5: the anchor is one named locality now, and the
+                               sentence names it rather than claiming the whole state. */
+                            found?.medicare?.localityName
+                              ? ` at its ${titleWords(found.medicare.localityName)} locality`
+                              : " in this state"
+                          }. Medicare is a fixed reference line most finance teams already have a feel for, which is why we print it beside every figure. It is not a fair price and not what anything should cost.`
                         : `We do not hold a Medicare rate for this service in this state, so we do not show a comparison. The distribution above stands on its own.`
                     }
                   />
@@ -549,4 +555,13 @@ function ordinal(n: number): string {
   const s = ["th", "st", "nd", "rd"];
   const v = n % 100;
   return n + (s[(v - 20) % 10] || s[v] || s[0]);
+}
+
+/** The fee table stores "SACRAMENTO-ROSEVILLE-FOLSOM"; prose does not shout. */
+function titleWords(s: string): string {
+  return s
+    .toLowerCase()
+    .split(/(\s|-)/)
+    .map((part) => (/^[a-z]/.test(part) ? part.charAt(0).toUpperCase() + part.slice(1) : part))
+    .join("");
 }

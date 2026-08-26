@@ -148,6 +148,13 @@ export function nationalRate(
           nonFacility: cell.site_of_care?.office_total ?? medicare,
           facility: cell.site_of_care?.hopd_total ?? null,
           year: 2026,
+          /* The demo engine's anchor is not resolved through the locality
+             picker, and saying so is the honest label: no locality is claimed,
+             and the "arbitrary" basis tells every surface to say which grain
+             it actually has (the engine's own state figure). */
+          locality: null,
+          localityName: null,
+          basis: "arbitrary",
         }
       : null,
     updatedAt: null,
