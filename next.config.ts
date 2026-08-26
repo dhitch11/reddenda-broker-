@@ -22,6 +22,17 @@ const nextConfig: NextConfig = {
       { source: "/tools/market-brief", destination: `${CONSOLE}/brief`, permanent: true },
     ];
   },
+  /**
+   * The /practiceaudio sidecar is read with `fs` at request time, so it has to be
+   * traced into the server bundle. Without this the page builds, deploys, returns
+   * 200 and renders "the recording is not published yet" forever, because the file
+   * it looks for was left behind in the publish directory. The mp3 is deliberately
+   * NOT traced: it is served by the CDN behind the proxy gate, not proxied by a function.
+   */
+  outputFileTracingIncludes: {
+    "/practiceaudio": ["./public/practice-audio-media/*.json"],
+  },
+
   reactStrictMode: true,
   poweredByHeader: false,
 
