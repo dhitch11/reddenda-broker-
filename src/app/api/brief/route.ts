@@ -151,7 +151,21 @@ export async function GET(req: NextRequest) {
           note: "What plans have agreed to pay, not what a patient is billed.",
         },
       },
-      { headers: { "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400" } },
+      /* ★ DECLARED SHARED-CACHE HEADER REMOVED, AND IT WAS A LANDMINE RATHER THAN A BUG.
+         This route declared `public, s-maxage=3600`, and the CDN in front of it was
+         MEASURED on 2026-08-26 returning:
+           netlify-vary: query=__nextDataReq|_rsc
+         `service`, `metro` and `state` are NOT in that cache key. A shared cache
+         honouring the declared header would therefore collapse every query string onto
+         ONE entry and serve one market's rates for all 928 of them, which is exactly
+         the defect that hit /broker/api/repricing on the app.
+         It is not firing today: Netlify overrides these to `no-store` and the measured
+         response carries `cache-status: fwd=bypass`. So this changes nothing anybody can
+         observe. It removes a header that is wrong on its face and would become a
+         uniformly-false rate map the day that override changes.
+         If shared caching is ever wanted here, the query params must be in the Netlify
+         vary list EXPLICITLY and re-measured with two different markets first. */
+      { headers: { "Cache-Control": "no-store, max-age=0, must-revalidate", "Netlify-CDN-Cache-Control": "no-store" } },
     );
   } catch (err) {
     console.error("[brief]", err);
