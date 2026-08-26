@@ -1,6 +1,6 @@
 {
-  "renderedAt": "2026-08-26T18:52:22.530Z",
-  "renderedFrom": "practiceaudio-final.md",
+  "renderedAt": "2026-08-26T20:54:04.177Z",
+  "renderedFrom": "practiceaudio-v2.md",
   "take": "locked",
   "cast": {
     "BLAIR": {
@@ -11,7 +11,7 @@
         "similarity_boost": 0.82,
         "style": 0.32,
         "use_speaker_boost": true,
-        "speed": 0.75
+        "speed": 0.85
       }
     },
     "DAVID": {
@@ -22,2202 +22,2286 @@
         "similarity_boost": 0.8,
         "style": 0.28,
         "use_speaker_boost": true,
-        "speed": 0.75
+        "speed": 0.85
       }
     }
   },
-  "src": "practiceaudio.mp3",
-  "bytes": 14967998,
-  "duration": 935.47,
-  "minutes": 15.59,
-  "words": 1985,
+  "src": "/audio/practiceaudio-v2b.mp3",
+  "bytes": 15184501,
+  "duration": 949,
+  "minutes": 15.82,
+  "words": 2175,
   "wordsBySpeaker": {
     "BLAIR": 351,
-    "DAVID": 1634
+    "DAVID": 1824
   },
-  "turns": 74,
-  "wpm": 127.3,
+  "turns": 75,
+  "wpm": 137.5,
   "speakerGainDb": {
-    "BLAIR": 3.89,
+    "BLAIR": 3.9,
     "DAVID": 0
   },
-  "loudness": "-18.7 LUFS integrated, true peak under -1.5 dBTP, matched to the measured reddenda.org/bobanddave reference",
+  "loudness": {
+    "targetLufs": -16.5,
+    "targetTruePeakDb": -1.5,
+    "measuredInputLufs": -18.7,
+    "reference": "reddenda.org/bobanddave assets/vo, measured -18.70 LUFS / -1.66 dBTP / mono 44.1k 128k"
+  },
   "chapters": [
     {
       "t": 0,
+      "text": "What you walk in holding"
+    },
+    {
+      "t": 77.9,
       "text": "The file nobody opens"
     },
     {
-      "t": 26.7,
+      "t": 104.1,
       "text": "525 percent of what"
     },
     {
-      "t": 87.46,
+      "t": 160.66,
       "text": "Two numbers, one floor"
     },
     {
-      "t": 205.79,
+      "t": 274.97,
       "text": "Sacramento only"
     },
     {
-      "t": 296.46,
+      "t": 356.96,
       "text": "Nothing honest to price"
     },
     {
-      "t": 388.98,
+      "t": 441.94,
       "text": "The hallway version"
     },
     {
-      "t": 570.91,
+      "t": 605.06,
       "text": "Four people, one booth"
     }
   ],
   "captions": [
     {
       "t0": 0,
-      "t1": 2.91,
+      "t1": 6.82,
+      "text": "Before Blair starts, here is what you can actually do for these brokers tonight, as of this build.",
+      "speaker": "DAVID"
+    },
+    {
+      "t0": 7.53,
+      "t1": 18.58,
+      "text": "You can pull what every carrier pays in any market in the country, live, on your phone, with the sample size and the date on every number.",
+      "speaker": "DAVID"
+    },
+    {
+      "t0": 19.29,
+      "t1": 26.97,
+      "text": "You can mint a rate exhibit with a broker's own firm name on the cover and hand it to them before the panel ends.",
+      "speaker": "DAVID"
+    },
+    {
+      "t0": 27.75,
+      "t1": 37.63,
+      "text": "You can show a general agency their whole downline's renewals on one register, with a clock counting down on every group.",
+      "speaker": "DAVID"
+    },
+    {
+      "t0": 38.41,
+      "t1": 48.29,
+      "text": "You can open the drug ledger and show a self-funded employer what each drug costs to acquire, what the plan was billed, and who kept the rebate.",
+      "speaker": "DAVID"
+    },
+    {
+      "t0": 48.76,
+      "t1": 55.24,
+      "text": "And you can show the paid claim next to the filed contract, side by side on one screen.",
+      "speaker": "DAVID"
+    },
+    {
+      "t0": 55.96,
+      "t1": 61.29,
+      "text": "And when someone asks what it costs, the first look is free, no card.",
+      "speaker": "DAVID"
+    },
+    {
+      "t0": 61.67,
+      "t1": 64.7,
+      "text": "A seat is one hundred forty nine a month.",
+      "speaker": "DAVID"
+    },
+    {
+      "t0": 65.29,
+      "t1": 68.26,
+      "text": "The whole firm is forty nine hundred a year, flat.",
+      "speaker": "DAVID"
+    },
+    {
+      "t0": 68.94,
+      "t1": 73.71,
+      "text": "If they want it live on their own book, that is a twenty minute call.",
+      "speaker": "DAVID"
+    },
+    {
+      "t0": 74.09,
+      "t1": 75.42,
+      "text": "That is the toolkit.",
+      "speaker": "DAVID"
+    },
+    {
+      "t0": 75.81,
+      "t1": 76.83,
+      "text": "Now the questions.",
+      "speaker": "DAVID"
+    },
+    {
+      "t0": 77.81,
+      "t1": 80.13,
       "text": "You keep saying the villain is a file.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 3.5,
-      "t1": 5.14,
+      "t0": 81.25,
+      "t1": 82.55,
       "text": "Not a carrier.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 5.57,
-      "t1": 7.36,
+      "t0": 83.15,
+      "t1": 84.32,
       "text": "Not a person.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 8.29,
-      "t1": 10.79,
+      "t0": 85.44,
+      "t1": 87.75,
       "text": "A file.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 11.12,
-      "t1": 11.55,
+      "t0": 88.09,
+      "t1": 88.49,
       "text": "Right.",
       "speaker": "DAVID"
     },
     {
-      "t0": 12.1,
-      "t1": 15.11,
+      "t0": 89.62,
+      "t1": 92.54,
       "text": "Most health plans have to file the rates they've agreed to.",
       "speaker": "DAVID"
     },
     {
-      "t0": 15.15,
-      "t1": 16.44,
+      "t0": 93.67,
+      "t1": 94.95,
       "text": "Those files are public.",
       "speaker": "DAVID"
     },
     {
-      "t0": 16.85,
-      "t1": 18.14,
+      "t0": 96.07,
+      "t1": 97.14,
       "text": "They're also huge.",
       "speaker": "DAVID"
     },
     {
-      "t0": 18.6,
-      "t1": 21.18,
+      "t0": 97.26,
+      "t1": 99.74,
       "text": "Almost nobody on the buying side ever opens one.",
       "speaker": "DAVID"
     },
     {
-      "t0": 21.91,
-      "t1": 23.3,
+      "t0": 99.87,
+      "t1": 101.17,
       "text": "There's no villain in that.",
       "speaker": "DAVID"
     },
     {
-      "t0": 24.03,
-      "t1": 25.75,
+      "t0": 101.5,
+      "t1": 103.69,
       "text": "It's just a file nobody opens.",
       "speaker": "DAVID"
     },
     {
-      "t0": 26.63,
-      "t1": 29.85,
+      "t0": 104.04,
+      "t1": 106.85,
       "text": "Then start with the part that gets you challenged.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 30.9,
-      "t1": 40.79,
+      "t0": 107.64,
+      "t1": 117.97,
       "text": "Somebody points at your screen, reads 525 percent, and says 525 percent of what?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 39.75,
-      "t1": 40.16,
+      "t0": 117.07,
+      "t1": 117.42,
       "text": "Good.",
       "speaker": "DAVID"
     },
     {
-      "t0": 41.03,
-      "t1": 43.54,
+      "t0": 118.13,
+      "t1": 120.61,
       "text": "That's the right question, and the answer's already on the screen.",
       "speaker": "DAVID"
     },
     {
-      "t0": 44.02,
-      "t1": 56.11,
+      "t0": 121.06,
+      "t1": 133.99,
       "text": "When an out of network claim goes to federal arbitration in the United States, the middle award is 525 percent of the plan's own qualifying payment amount.",
       "speaker": "DAVID"
     },
     {
-      "t0": 56.62,
-      "t1": 60.63,
+      "t0": 134.31,
+      "t1": 138.01,
       "text": "That's the plan's own middle contracted rate for that service.",
       "speaker": "DAVID"
     },
     {
-      "t0": 61.22,
-      "t1": 62.71,
+      "t0": 138.47,
+      "t1": 139.8,
       "text": "Not a billed charge.",
       "speaker": "DAVID"
     },
     {
-      "t0": 63.22,
-      "t1": 64.67,
+      "t0": 140.25,
+      "t1": 141.51,
       "text": "Not the plan's offer.",
       "speaker": "DAVID"
     },
     {
-      "t0": 65.1,
-      "t1": 71.43,
+      "t0": 141.89,
+      "t1": 145.96,
       "text": "And every point above a hundred is money the plan didn't budget.",
       "speaker": "DAVID"
     },
     {
-      "t0": 71.01,
-      "t1": 73.61,
+      "t0": 145.92,
+      "t1": 148.7,
       "text": "Where's that number from?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 72.88,
-      "t1": 76.56,
+      "t0": 147.53,
+      "t1": 151.07,
       "text": "The federal public file of arbitration decisions.",
       "speaker": "DAVID"
     },
     {
-      "t0": 77.64,
-      "t1": 81.84,
+      "t0": 151.9,
+      "t1": 154.89,
       "text": "Four point three million dispute line items.",
       "speaker": "DAVID"
     },
     {
-      "t0": 82.77,
-      "t1": 87.74,
+      "t0": 155.84,
+      "t1": 161.14,
       "text": "There's no year printed on that page, so I don't give you one.",
       "speaker": "DAVID"
     },
     {
-      "t0": 87.46,
-      "t1": 93.41,
+      "t0": 160.66,
+      "t1": 166.32,
       "text": "Why does the bottom of that fraction matter so much to you?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 92.21,
-      "t1": 95.31,
+      "t0": 164.9,
+      "t1": 168.81,
       "text": "Because we had it wrong for a while, and we caught it ourselves.",
       "speaker": "DAVID"
     },
     {
-      "t0": 95.9,
-      "t1": 97.56,
+      "t0": 169.79,
+      "t1": 171.26,
       "text": "One emergency room visit.",
       "speaker": "DAVID"
     },
     {
-      "t0": 98.07,
-      "t1": 102.96,
+      "t0": 172.09,
+      "t1": 176.02,
       "text": "The plan's own rate was 203 dollars and 74 cents.",
       "speaker": "DAVID"
     },
     {
-      "t0": 103.47,
-      "t1": 106.78,
+      "t0": 176.55,
+      "t1": 179.46,
       "text": "The award was 608 dollars and 40 cents.",
       "speaker": "DAVID"
     },
     {
-      "t0": 107.37,
-      "t1": 109.5,
+      "t0": 180.18,
+      "t1": 181.99,
       "text": "That's 299 percent.",
       "speaker": "DAVID"
     },
     {
-      "t0": 110.19,
-      "t1": 115.61,
+      "t0": 182.44,
+      "t1": 188.62,
       "text": "Measure the same award against what the plan offered instead, and it's 210 percent.",
       "speaker": "DAVID"
     },
     {
-      "t0": 116.23,
-      "t1": 117.09,
+      "t0": 189.14,
+      "t1": 189.93,
       "text": "Same award.",
       "speaker": "DAVID"
     },
     {
-      "t0": 117.62,
-      "t1": 118.84,
+      "t0": 190.54,
+      "t1": 191.52,
       "text": "Two different numbers.",
       "speaker": "DAVID"
     },
     {
-      "t0": 119.05,
-      "t1": 121.01,
+      "t0": 191.55,
+      "t1": 193.65,
       "text": "So now we print which one it is.",
       "speaker": "DAVID"
     },
     {
-      "t0": 121.85,
-      "t1": 123.71,
+      "t0": 194.36,
+      "t1": 195.98,
       "text": "Don't go looking for that on the screen.",
       "speaker": "DAVID"
     },
     {
-      "t0": 123.73,
-      "t1": 126.99,
+      "t0": 196,
+      "t1": 199.55,
       "text": "That's the story of a bug we found in our own page.",
       "speaker": "DAVID"
     },
     {
-      "t0": 127.11,
-      "t1": 130.22,
+      "t0": 200,
+      "t1": 202.55,
       "text": "And 525 is national.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 131.49,
-      "t1": 134.17,
+      "t0": 203.37,
+      "t1": 205.01,
       "text": "My book is here.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 134.53,
-      "t1": 137.63,
+      "t0": 204.76,
+      "t1": 207.75,
       "text": "Then say California out loud, because the screen shortens it.",
       "speaker": "DAVID"
     },
     {
-      "t0": 138.08,
-      "t1": 145.55,
+      "t0": 208.2,
+      "t1": 216.33,
       "text": "Here the middle award is 279 percent, on forty-seven thousand three hundred ninety-seven dispute line items.",
       "speaker": "DAVID"
     },
     {
-      "t0": 146.07,
-      "t1": 151.02,
+      "t0": 216.93,
+      "t1": 221.06,
       "text": "The middle half lands between 242 and 330 percent.",
       "speaker": "DAVID"
     },
     {
-      "t0": 151.06,
-      "t1": 151.71,
+      "t0": 221.26,
+      "t1": 221.97,
       "text": "Hang on.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 152.56,
-      "t1": 158.32,
+      "t0": 222.59,
+      "t1": 228.35,
       "text": "Your dropdown says California, 81,409 line items.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 158.79,
-      "t1": 162.5,
+      "t0": 228.61,
+      "t1": 232.47,
       "text": "Your panel says 47,397.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 162.72,
-      "t1": 165.46,
+      "t0": 233.01,
+      "t1": 236.49,
       "text": "You just changed your own number in front of me.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 165.19,
-      "t1": 165.94,
+      "t0": 235.86,
+      "t1": 236.62,
       "text": "Good eye.",
       "speaker": "DAVID"
     },
     {
-      "t0": 166.89,
-      "t1": 170.64,
+      "t0": 237.74,
+      "t1": 241.74,
       "text": "The bigger number is every dispute line California produced.",
       "speaker": "DAVID"
     },
     {
-      "t0": 171.77,
-      "t1": 177.73,
+      "t0": 242.35,
+      "t1": 248.18,
       "text": "The smaller one is the rows that cleared our floor, and it's the one we headline.",
       "speaker": "DAVID"
     },
     {
-      "t0": 178.85,
-      "t1": 183.39,
+      "t0": 249.13,
+      "t1": 252.62,
       "text": "I'd rather show you the smaller number and tell you why.",
       "speaker": "DAVID"
     },
     {
-      "t0": 183.79,
-      "t1": 186.85,
+      "t0": 252.01,
+      "t1": 255.4,
       "text": "Most people would show you the big one.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 186.43,
-      "t1": 187.7,
+      "t0": 254.69,
+      "t1": 255.87,
       "text": "That's the whole point.",
       "speaker": "DAVID"
     },
     {
-      "t0": 187.79,
-      "t1": 197.28,
+      "t0": 256.46,
+      "t1": 266.52,
       "text": "Everyone in this category will either blur the number until you book a demo, or hand you a number and never tell you what it's made of.",
       "speaker": "DAVID"
     },
     {
-      "t0": 198.21,
-      "t1": 204.82,
+      "t0": 267.34,
+      "t1": 274.01,
       "text": "We print the number, the sample size, the date, and the rows we refused to print.",
       "speaker": "DAVID"
     },
     {
-      "t0": 205.75,
-      "t1": 206.89,
+      "t0": 274.93,
+      "t1": 275.84,
       "text": "Alright.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 207.97,
-      "t1": 210.29,
+      "t0": 276.95,
+      "t1": 279.03,
       "text": "My book's in Los Angeles.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 210.88,
-      "t1": 214.25,
+      "t0": 279.64,
+      "t1": 283.48,
       "text": "Do you have prospects for me there?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 214.48,
-      "t1": 215.38,
+      "t0": 283.67,
+      "t1": 284.47,
       "text": "Not today.",
       "speaker": "DAVID"
     },
     {
-      "t0": 215.8,
-      "t1": 221.2,
+      "t0": 285.26,
+      "t1": 289.35,
       "text": "That directory is Sacramento only, and the page says so on its own face.",
       "speaker": "DAVID"
     },
     {
-      "t0": 221.86,
-      "t1": 227.82,
+      "t0": 290.25,
+      "t1": 295.69,
       "text": "Sacramento, Roseville, Rocklin, Citrus Heights, Antelope.",
       "speaker": "DAVID"
     },
     {
-      "t0": 228.39,
-      "t1": 235.65,
+      "t0": 296.48,
+      "t1": 302.62,
       "text": "Switch it to another market and the page closes, rather than show you Sacramento under somebody else's name.",
       "speaker": "DAVID"
     },
     {
-      "t0": 236.17,
-      "t1": 240.9,
+      "t0": 302.86,
+      "t1": 307.73,
       "text": "Ask us for your market and we'll tell you honestly whether we can build one.",
       "speaker": "DAVID"
     },
     {
-      "t0": 241.01,
-      "t1": 243.57,
+      "t0": 307.17,
+      "t1": 309.68,
       "text": "That's a small map.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 242.96,
-      "t1": 243.63,
+      "t0": 308.84,
+      "t1": 309.46,
       "text": "It is.",
       "speaker": "DAVID"
     },
     {
-      "t0": 244.09,
-      "t1": 247.36,
+      "t0": 309.6,
+      "t1": 313.09,
       "text": "It's also three thousand and thirty named organizations.",
       "speaker": "DAVID"
     },
     {
-      "t0": 248.08,
-      "t1": 250.89,
+      "t0": 313.14,
+      "t1": 316.1,
       "text": "Two hundred seventeen carry a filed contract.",
       "speaker": "DAVID"
     },
     {
-      "t0": 251.51,
-      "t1": 253.44,
+      "t0": 316.55,
+      "t1": 318.5,
       "text": "Two hundred ten named carriers.",
       "speaker": "DAVID"
     },
     {
-      "t0": 253.9,
-      "t1": 258.19,
+      "t0": 319.1,
+      "t1": 322.7,
       "text": "A hundred ninety-eight name a broker of record on the filing.",
       "speaker": "DAVID"
     },
     {
-      "t0": 259.04,
-      "t1": 263.33,
+      "t0": 323.31,
+      "t1": 326.23,
       "text": "And one of those five cities is Citrus Heights.",
       "speaker": "DAVID"
     },
     {
-      "t0": 264.26,
-      "t1": 267.48,
+      "t0": 326.94,
+      "t1": 328.76,
       "text": "That's the room we're standing in.",
       "speaker": "DAVID"
     },
     {
-      "t0": 267.9,
-      "t1": 271.05,
+      "t0": 329.18,
+      "t1": 332.02,
       "text": "So what's missing from it?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 269.8,
-      "t1": 271.8,
+      "t0": 330.91,
+      "t1": 332.75,
       "text": "Government and church employers.",
       "speaker": "DAVID"
     },
     {
-      "t0": 271.97,
-      "t1": 272.74,
+      "t0": 333.96,
+      "t1": 334.62,
       "text": "All of them.",
       "speaker": "DAVID"
     },
     {
-      "t0": 273.55,
-      "t1": 277.5,
+      "t0": 335.83,
+      "t1": 340.25,
       "text": "Federal law exempts them from filing, so they're not in the record at all.",
       "speaker": "DAVID"
     },
     {
-      "t0": 278.33,
-      "t1": 285.15,
+      "t0": 340.81,
+      "t1": 345.31,
       "text": "In a state capital that's a big hole, and it's a hole in the source, not a hole in our search.",
       "speaker": "DAVID"
     },
     {
-      "t0": 286.1,
-      "t1": 295.39,
+      "t0": 345.87,
+      "t1": 355.89,
       "text": "And those employer filings run twelve to twenty-two months behind, so the broker named on one is who was on it then.",
       "speaker": "DAVID"
     },
     {
-      "t0": 296.4,
-      "t1": 300.36,
+      "t0": 356.94,
+      "t1": 359.93,
       "text": "Now the one everybody at this show is selling.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 301.29,
-      "t1": 302.46,
+      "t0": 361.04,
+      "t1": 362.07,
       "text": "Pharmacy.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 303.73,
-      "t1": 306.11,
+      "t0": 362.9,
+      "t1": 365.3,
       "text": "What's your number?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 306.31,
-      "t1": 307.4,
+      "t0": 363.99,
+      "t1": 364.99,
       "text": "We don't have one.",
       "speaker": "DAVID"
     },
     {
-      "t0": 308.5,
-      "t1": 314.47,
+      "t0": 365.51,
+      "t1": 372.19,
       "text": "We hold no pharmacy benefit manager contract, no rebate data, no point of sale pricing.",
       "speaker": "DAVID"
     },
     {
-      "t0": 314.92,
-      "t1": 317.41,
+      "t0": 372.9,
+      "t1": 375.65,
       "text": "We'll tell you nothing about your pharmacy benefit.",
       "speaker": "DAVID"
     },
     {
-      "t0": 318.01,
-      "t1": 325.16,
+      "t0": 375.94,
+      "t1": 382.8,
       "text": "And anyone selling you a pharmacy number off public files should be asked which file it came from.",
       "speaker": "DAVID"
     },
     {
-      "t0": 324.68,
-      "t1": 329,
+      "t0": 383.11,
+      "t1": 386.41,
       "text": "That's an odd thing to sound proud of.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 327.71,
-      "t1": 328.5,
+      "t0": 385.72,
+      "t1": 386.59,
       "text": "Here's why.",
       "speaker": "DAVID"
     },
     {
-      "t0": 329.35,
-      "t1": 332.5,
+      "t0": 387.54,
+      "t1": 390.13,
       "text": "There's another half of drug spend that is public.",
       "speaker": "DAVID"
     },
     {
-      "t0": 332.96,
-      "t1": 334.76,
+      "t0": 391.08,
+      "t1": 392.75,
       "text": "The drugs given in a clinic.",
       "speaker": "DAVID"
     },
     {
-      "t0": 335.29,
-      "t1": 341.49,
+      "t0": 393.58,
+      "t1": 399.58,
       "text": "Infusions and injections, billed under the medical benefit at a negotiated rate.",
       "speaker": "DAVID"
     },
     {
-      "t0": 342.13,
-      "t1": 346.87,
+      "t0": 400.53,
+      "t1": 404.22,
       "text": "They never touch a rebate structure at all, and almost nobody's looking at them.",
       "speaker": "DAVID"
     },
     {
-      "t0": 346.9,
-      "t1": 348.47,
+      "t0": 404.25,
+      "t1": 405.83,
       "text": "We hold those rates already.",
       "speaker": "DAVID"
     },
     {
-      "t0": 348.51,
-      "t1": 350.47,
+      "t0": 406.43,
+      "t1": 407.96,
       "text": "They're not in the lookup yet.",
       "speaker": "DAVID"
     },
     {
-      "t0": 350.88,
-      "t1": 353.02,
+      "t0": 408.39,
+      "t1": 410.66,
       "text": "Why not?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 351.94,
-      "t1": 357.64,
+      "t0": 409.31,
+      "t1": 413.62,
       "text": "Because a drug price with the wrong unit is worse than no drug price.",
       "speaker": "DAVID"
     },
     {
-      "t0": 358.23,
-      "t1": 361.07,
+      "t0": 414.33,
+      "t1": 417.09,
       "text": "One of these is billed in ten milligram units.",
       "speaker": "DAVID"
     },
     {
-      "t0": 361.59,
-      "t1": 364.13,
+      "t0": 417.48,
+      "t1": 420.51,
       "text": "A course is three to four hundred milligrams.",
       "speaker": "DAVID"
     },
     {
-      "t0": 364.73,
-      "t1": 368.8,
+      "t0": 420.96,
+      "t1": 424.78,
       "text": "Read one as the other and you're off by thirty-five times.",
       "speaker": "DAVID"
     },
     {
-      "t0": 369.39,
-      "t1": 373.49,
+      "t0": 425.73,
+      "t1": 429.1,
       "text": "So it ships when the unit is right, and not before.",
       "speaker": "DAVID"
     },
     {
-      "t0": 373.49,
-      "t1": 377.44,
+      "t0": 429.04,
+      "t1": 432.1,
       "text": "And if somebody pushes anyway?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 377.63,
-      "t1": 379.43,
+      "t0": 432.26,
+      "t1": 433.87,
       "text": "The product answers for me.",
       "speaker": "DAVID"
     },
     {
-      "t0": 380.11,
-      "t1": 388.08,
+      "t0": 434.69,
+      "t1": 441.04,
       "text": "Ask it what a drug code costs and it says there is nothing honest to price.",
       "speaker": "DAVID"
     },
     {
-      "t0": 388.98,
-      "t1": 391.15,
+      "t0": 441.94,
+      "t1": 443.62,
       "text": "Now do it with no screen.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 392.23,
-      "t1": 396.18,
+      "t0": 444.93,
+      "t1": 448.27,
       "text": "Someone walks up cold, coffee in hand.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 397.26,
-      "t1": 398.48,
+      "t0": 449.39,
+      "t1": 450.28,
       "text": "I'll be her.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 399.56,
-      "t1": 400.37,
+      "t0": 451.4,
+      "t1": 452.02,
       "text": "Hi.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 401.45,
-      "t1": 403.79,
+      "t0": 453.33,
+      "t1": 455.64,
       "text": "What do you do?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 404.03,
-      "t1": 407.25,
+      "t0": 455.87,
+      "t1": 458.95,
       "text": "Most health plans have to file their contracted rates.",
       "speaker": "DAVID"
     },
     {
-      "t0": 407.3,
-      "t1": 408.66,
+      "t0": 459.1,
+      "t1": 460.44,
       "text": "The files are public.",
       "speaker": "DAVID"
     },
     {
-      "t0": 409.08,
-      "t1": 410.03,
+      "t0": 461.26,
+      "t1": 462.12,
       "text": "And huge.",
       "speaker": "DAVID"
     },
     {
-      "t0": 410.62,
-      "t1": 413.39,
+      "t0": 462.57,
+      "t1": 464.95,
       "text": "Almost nobody on the buying side opens one.",
       "speaker": "DAVID"
     },
     {
-      "t0": 414.32,
-      "t1": 415.23,
+      "t0": 465.34,
+      "t1": 466.13,
       "text": "We read them.",
       "speaker": "DAVID"
     },
     {
-      "t0": 415.91,
-      "t1": 418.01,
+      "t0": 467.24,
+      "t1": 469.11,
       "text": "That's the whole company.",
       "speaker": "DAVID"
     },
     {
-      "t0": 418.39,
-      "t1": 419.07,
+      "t0": 468.83,
+      "t1": 469.54,
       "text": "Huh.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 420.34,
-      "t1": 422.85,
+      "t0": 470.85,
+      "t1": 473.52,
       "text": "How does that help us?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 423.09,
-      "t1": 424.54,
+      "t0": 473.76,
+      "t1": 475.08,
       "text": "Same knee operation.",
       "speaker": "DAVID"
     },
     {
-      "t0": 425.12,
-      "t1": 425.93,
+      "t0": 475.23,
+      "t1": 476.11,
       "text": "Same patient.",
       "speaker": "DAVID"
     },
     {
-      "t0": 426,
-      "t1": 427.03,
+      "t0": 476.25,
+      "t1": 477.2,
       "text": "Sacramento.",
       "speaker": "DAVID"
     },
     {
-      "t0": 427.61,
-      "t1": 429.83,
+      "t0": 478.03,
+      "t1": 480.39,
       "text": "In an office it's five forty-one.",
       "speaker": "DAVID"
     },
     {
-      "t0": 430.11,
-      "t1": 433.09,
+      "t0": 480.57,
+      "t1": 483.77,
       "text": "In a surgery center, two thousand one eighty-six.",
       "speaker": "DAVID"
     },
     {
-      "t0": 433.46,
-      "t1": 436.39,
+      "t0": 484.38,
+      "t1": 487.64,
       "text": "In a hospital, three thousand eight hundred eighty-four.",
       "speaker": "DAVID"
     },
     {
-      "t0": 436.97,
-      "t1": 439.37,
+      "t0": 488.16,
+      "t1": 490.94,
       "text": "Moving one case is sixteen ninety-eight.",
       "speaker": "DAVID"
     },
     {
-      "t0": 439.82,
-      "t1": 441.8,
+      "t0": 491.32,
+      "t1": 493.41,
       "text": "That's off the federal schedules.",
       "speaker": "DAVID"
     },
     {
-      "t0": 442.71,
-      "t1": 444.51,
+      "t0": 493.7,
+      "t1": 495.31,
       "text": "And here's the honest part.",
       "speaker": "DAVID"
     },
     {
-      "t0": 445.09,
-      "t1": 448.69,
+      "t0": 495.7,
+      "t1": 498.15,
       "text": "The doctor's half is priced for this area.",
       "speaker": "DAVID"
     },
     {
-      "t0": 449.6,
-      "t1": 452.24,
+      "t0": 498.21,
+      "t1": 500.56,
       "text": "The building half is the national amount.",
       "speaker": "DAVID"
     },
     {
-      "t0": 452.82,
-      "t1": 456.24,
+      "t0": 501.08,
+      "t1": 504.14,
       "text": "I'd rather say that than let you find it.",
       "speaker": "DAVID"
     },
     {
-      "t0": 455.24,
-      "t1": 456.32,
+      "t0": 504.55,
+      "t1": 505.38,
       "text": "Hang on.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 457.4,
-      "t1": 459.04,
+      "t0": 506.09,
+      "t1": 507.51,
       "text": "That's a real number.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 460.31,
-      "t1": 463.65,
+      "t0": 508.03,
+      "t1": 510.96,
       "text": "What do you charge for it?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 462.24,
-      "t1": 464.47,
+      "t0": 509.61,
+      "t1": 511.6,
       "text": "A seat's a hundred forty-nine a month.",
       "speaker": "DAVID"
     },
     {
-      "t0": 465.15,
-      "t1": 467,
+      "t0": 512.29,
+      "t1": 514.1,
       "text": "Or fourteen ninety for the year.",
       "speaker": "DAVID"
     },
     {
-      "t0": 467.51,
-      "t1": 472.67,
+      "t0": 514.91,
+      "t1": 519.89,
       "text": "A whole firm is forty-nine hundred a year, flat, not per person.",
       "speaker": "DAVID"
     },
     {
-      "t0": 473.47,
-      "t1": 474.8,
+      "t0": 520.7,
+      "t1": 521.92,
       "text": "One flat fee.",
       "speaker": "DAVID"
     },
     {
-      "t0": 475.17,
-      "t1": 476.54,
+      "t0": 522.72,
+      "t1": 524.25,
       "text": "Never a share of anything.",
       "speaker": "DAVID"
     },
     {
-      "t0": 477.24,
-      "t1": 482.05,
+      "t0": 525.17,
+      "t1": 529.83,
       "text": "A fee that grows with someone's number gives us a reason to prefer one answer.",
       "speaker": "DAVID"
     },
     {
-      "t0": 482.48,
-      "t1": 484.03,
+      "t0": 530.12,
+      "t1": 531.43,
       "text": "We'd rather not have one.",
       "speaker": "DAVID"
     },
     {
-      "t0": 484.31,
-      "t1": 488.99,
+      "t0": 531.82,
+      "t1": 535.57,
       "text": "And you can read all of that on the site without booking a call.",
       "speaker": "DAVID"
     },
     {
-      "t0": 489.47,
-      "t1": 490.12,
+      "t0": 536.05,
+      "t1": 536.6,
       "text": "Right.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 490.92,
-      "t1": 493.6,
+      "t0": 536.93,
+      "t1": 538.93,
       "text": "So why is it valuable?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 492.82,
-      "t1": 502.06,
+      "t0": 538.7,
+      "t1": 543.44,
       "text": "We print the number, the sample size, the date, and the rows we refused to print.",
       "speaker": "DAVID"
     },
     {
-      "t0": 502.66,
-      "t1": 509.91,
+      "t0": 543.89,
+      "t1": 548.92,
       "text": "And where there isn't an honest number, you get a sentence instead of a figure.",
       "speaker": "DAVID"
     },
     {
-      "t0": 508.93,
-      "t1": 512.37,
+      "t0": 548.23,
+      "t1": 551.76,
       "text": "How does that land in a meeting?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 512.57,
-      "t1": 517.99,
+      "t0": 550.4,
+      "t1": 554.69,
       "text": "Your client's being told their increase is what the market's doing.",
       "speaker": "DAVID"
     },
     {
-      "t0": 518.17,
-      "t1": 519.44,
+      "t0": 556.01,
+      "t1": 557.31,
       "text": "Now they can check that.",
       "speaker": "DAVID"
     },
     {
-      "t0": 520.6,
-      "t1": 529.28,
+      "t0": 558.13,
+      "t1": 564.66,
       "text": "The conversation stops being about your commission and starts being about their spend.",
       "speaker": "DAVID"
     },
     {
-      "t0": 528.67,
-      "t1": 529.4,
+      "t0": 565,
+      "t1": 565.67,
       "text": "Right.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 530.66,
-      "t1": 532.27,
+      "t0": 566.38,
+      "t1": 568.11,
       "text": "I think I'm interested.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 533.35,
-      "t1": 536.42,
+      "t0": 569.22,
+      "t1": 571.5,
       "text": "Can you talk to my team?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 535.15,
-      "t1": 535.86,
+      "t0": 571.09,
+      "t1": 571.89,
       "text": "Happy to.",
       "speaker": "DAVID"
     },
     {
-      "t0": 536.94,
-      "t1": 538.18,
+      "t0": 572.24,
+      "t1": 573.49,
       "text": "Do two things first.",
       "speaker": "DAVID"
     },
     {
-      "t0": 538.97,
-      "t1": 541.58,
+      "t0": 574.36,
+      "t1": 576.81,
       "text": "Open the public page on your phone at that table.",
       "speaker": "DAVID"
     },
     {
-      "t0": 542.66,
-      "t1": 543.52,
+      "t0": 577.1,
+      "t1": 577.92,
       "text": "No login.",
       "speaker": "DAVID"
     },
     {
-      "t0": 544.02,
-      "t1": 546.07,
+      "t0": 578.26,
+      "t1": 580.31,
       "text": "Check us against a rate you already know.",
       "speaker": "DAVID"
     },
     {
-      "t0": 546.18,
-      "t1": 547.67,
+      "t0": 580.95,
+      "t1": 582.53,
       "text": "Then open the demo door.",
       "speaker": "DAVID"
     },
     {
-      "t0": 548.35,
-      "t1": 549.84,
+      "t0": 583.38,
+      "t1": 585.1,
       "text": "Press log in with demo.",
       "speaker": "DAVID"
     },
     {
-      "t0": 550.63,
-      "t1": 552.21,
+      "t0": 585.85,
+      "t1": 587.61,
       "text": "No email, nothing to cancel.",
       "speaker": "DAVID"
     },
     {
-      "t0": 553.14,
-      "t1": 559.02,
+      "t0": 588.48,
+      "t1": 593.57,
       "text": "After that we book a call and I'll bring a market your team actually works in.",
       "speaker": "DAVID"
     },
     {
-      "t0": 559.45,
-      "t1": 562.6,
+      "t0": 593.32,
+      "t1": 596.29,
       "text": "Anything I have to hand over?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 562.83,
-      "t1": 563.45,
+      "t0": 596.52,
+      "t1": 597.11,
       "text": "Nothing.",
       "speaker": "DAVID"
     },
     {
-      "t0": 564.13,
-      "t1": 565.85,
+      "t0": 597.94,
+      "t1": 599.75,
       "text": "No patient data, ever.",
       "speaker": "DAVID"
     },
     {
-      "t0": 566.36,
-      "t1": 570.68,
+      "t0": 600.07,
+      "t1": 604.93,
       "text": "It all comes off files the health plans publish themselves.",
       "speaker": "DAVID"
     },
     {
-      "t0": 570.83,
-      "t1": 575.44,
+      "t0": 605,
+      "t1": 608.51,
       "text": "Four different people are going to stop at that booth.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 576.61,
-      "t1": 578.21,
+      "t0": 609.33,
+      "t1": 610.89,
       "text": "Start with the broker.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 579.39,
-      "t1": 582.33,
+      "t0": 612.2,
+      "t1": 614.87,
       "text": "Say she's got a client meeting Thursday.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 583.33,
-      "t1": 585.88,
+      "t0": 616.18,
+      "t1": 619.35,
       "text": "What does she walk in with?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 585.33,
-      "t1": 588.32,
+      "t0": 618.03,
+      "t1": 621.63,
       "text": "A public page she can open on her phone at the table.",
       "speaker": "DAVID"
     },
     {
-      "t0": 588.46,
-      "t1": 590.47,
+      "t0": 622.16,
+      "t1": 624.4,
       "text": "A brain scan in Sacramento.",
       "speaker": "DAVID"
     },
     {
-      "t0": 591.19,
-      "t1": 593.45,
+      "t0": 625.22,
+      "t1": 627.95,
       "text": "The middle price is five ninety-two.",
       "speaker": "DAVID"
     },
     {
-      "t0": 594.43,
-      "t1": 597.13,
+      "t0": 628.66,
+      "t1": 631.63,
       "text": "Half that market sits above it, half below.",
       "speaker": "DAVID"
     },
     {
-      "t0": 597.75,
-      "t1": 603.02,
+      "t0": 632.23,
+      "t1": 637.39,
       "text": "Twenty-two thousand two hundred thirty-two filings behind it, as of July twentieth.",
       "speaker": "DAVID"
     },
     {
-      "t0": 603.7,
-      "t1": 607.94,
+      "t0": 637.71,
+      "t1": 642.09,
       "text": "And that gap is between contracts, not between quality.",
       "speaker": "DAVID"
     },
     {
-      "t0": 608.31,
-      "t1": 610.96,
+      "t0": 642.31,
+      "t1": 645.19,
       "text": "And inside the product?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 610.33,
-      "t1": 613.78,
+      "t0": 643.91,
+      "t1": 647.45,
       "text": "A sheet with twelve named plans for this market.",
       "speaker": "DAVID"
     },
     {
-      "t0": 614.26,
-      "t1": 617.42,
+      "t0": 648.16,
+      "t1": 650.44,
       "text": "Underneath, it counts what it held back.",
       "speaker": "DAVID"
     },
     {
-      "t0": 617.84,
-      "t1": 619.58,
+      "t0": 651.15,
+      "t1": 652.87,
       "text": "Six cells held back.",
       "speaker": "DAVID"
     },
     {
-      "t0": 620,
-      "t1": 624.35,
+      "t0": 652.95,
+      "t1": 657.39,
       "text": "Twenty-three plans left out, because their book belongs to another state.",
       "speaker": "DAVID"
     },
     {
-      "t0": 625.13,
-      "t1": 627.11,
+      "t0": 657.91,
+      "t1": 659.65,
       "text": "That sheet is hers to read.",
       "speaker": "DAVID"
     },
     {
-      "t0": 627.76,
-      "t1": 631.69,
+      "t0": 660.36,
+      "t1": 664.09,
       "text": "What she sends a client is the price sheet or the question set.",
       "speaker": "DAVID"
     },
     {
-      "t0": 632.28,
-      "t1": 636.66,
+      "t0": 665.04,
+      "t1": 669.96,
       "text": "Those open with no account, and there's nothing on them to click.",
       "speaker": "DAVID"
     },
     {
-      "t0": 636.97,
-      "t1": 640.55,
+      "t0": 669.62,
+      "t1": 673.24,
       "text": "Does one carry her firm's name?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 639.51,
-      "t1": 643.81,
+      "t0": 672.05,
+      "t1": 675.29,
       "text": "On her own seat it will carry her firm's name across the top.",
       "speaker": "DAVID"
     },
     {
-      "t0": 644.74,
-      "t1": 646.81,
+      "t0": 675.32,
+      "t1": 676.92,
       "text": "The demo one carries ours.",
       "speaker": "DAVID"
     },
     {
-      "t0": 647.49,
-      "t1": 650.84,
+      "t0": 677.21,
+      "t1": 679.76,
       "text": "Say that out loud, because somebody's going to look.",
       "speaker": "DAVID"
     },
     {
-      "t0": 650.66,
-      "t1": 653.45,
+      "t0": 680.11,
+      "t1": 682.9,
       "text": "Which plans are on the sheet?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 652.67,
-      "t1": 654.44,
+      "t0": 682.19,
+      "t1": 683.71,
       "text": "Twelve that file here.",
       "speaker": "DAVID"
     },
     {
-      "t0": 655.36,
-      "t1": 660.37,
+      "t0": 684.42,
+      "t1": 687.74,
       "text": "And before you ask, we don't hold Blue Shield at volume yet.",
       "speaker": "DAVID"
     },
     {
-      "t0": 661.3,
-      "t1": 662.6,
+      "t0": 688.19,
+      "t1": 689.16,
       "text": "We're acquiring it.",
       "speaker": "DAVID"
     },
     {
-      "t0": 662.66,
-      "t1": 670.64,
+      "t0": 689.19,
+      "t1": 694.31,
       "text": "I'm not going to give you a California number built on one carrier and call it the market.",
       "speaker": "DAVID"
     },
     {
-      "t0": 669.51,
-      "t1": 673.97,
+      "t0": 694,
+      "t1": 698.36,
       "text": "In this room somebody's going to say Kaiser.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 674.39,
-      "t1": 675.99,
+      "t0": 698.78,
+      "t1": 700.11,
       "text": "Say it before they do.",
       "speaker": "DAVID"
     },
     {
-      "t0": 676.63,
-      "t1": 683.3,
+      "t0": 700.89,
+      "t1": 708.3,
       "text": "Kaiser doesn't publish negotiated rates in the form this product reads, because it doesn't negotiate them.",
       "speaker": "DAVID"
     },
     {
-      "t0": 684.04,
-      "t1": 686.51,
+      "t0": 709.21,
+      "t1": 712.38,
       "text": "Care happens inside its own system.",
       "speaker": "DAVID"
     },
     {
-      "t0": 686.91,
-      "t1": 690.17,
+      "t0": 713.04,
+      "t1": 715.79,
       "text": "So nothing built on these files can price Kaiser.",
       "speaker": "DAVID"
     },
     {
-      "t0": 690.73,
-      "t1": 692.74,
+      "t0": 716.69,
+      "t1": 717.82,
       "text": "Ours included.",
       "speaker": "DAVID"
     },
     {
-      "t0": 692.14,
-      "t1": 698.09,
+      "t0": 718.11,
+      "t1": 723.31,
       "text": "And the thing she'll ask you for that you don't have yet?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 697.05,
-      "t1": 700.87,
+      "t0": 722.36,
+      "t1": 725.38,
       "text": "Her own book on the screen, ranked by renewal date.",
       "speaker": "DAVID"
     },
     {
-      "t0": 701.95,
-      "t1": 704.51,
+      "t0": 726.33,
+      "t1": 728.43,
       "text": "That's the one brokers ask for most.",
       "speaker": "DAVID"
     },
     {
-      "t0": 705.59,
-      "t1": 706.78,
+      "t0": 729.39,
+      "t1": 730.41,
       "text": "We haven't built it.",
       "speaker": "DAVID"
     },
     {
-      "t0": 707.37,
-      "t1": 709.63,
+      "t0": 731.23,
+      "t1": 733.65,
       "text": "That one's coming.",
       "speaker": "DAVID"
     },
     {
-      "t0": 708.76,
-      "t1": 709.68,
+      "t0": 732.54,
+      "t1": 733.37,
       "text": "Next.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 710.19,
-      "t1": 712.8,
+      "t0": 734.68,
+      "t1": 737.27,
       "text": "The general agency.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 713.22,
-      "t1": 717.03,
+      "t0": 737.69,
+      "t1": 740.89,
       "text": "Same product for the firm, one flat price.",
       "speaker": "DAVID"
     },
     {
-      "t0": 717.83,
-      "t1": 719.68,
+      "t0": 741.41,
+      "t1": 743.88,
       "text": "Forty-nine hundred a year, flat.",
       "speaker": "DAVID"
     },
     {
-      "t0": 719.76,
-      "t1": 720.74,
+      "t0": 744.7,
+      "t1": 745.62,
       "text": "Not per seat.",
       "speaker": "DAVID"
     },
     {
-      "t0": 721.82,
-      "t1": 726.09,
+      "t0": 746.45,
+      "t1": 749.72,
       "text": "If the firm's a big one, we size it on the call.",
       "speaker": "DAVID"
     },
     {
-      "t0": 725.61,
-      "t1": 728.53,
+      "t0": 749.49,
+      "t1": 752.32,
       "text": "How do the producers get in?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 728.74,
-      "t1": 730.9,
+      "t0": 752.56,
+      "t1": 754.29,
       "text": "One firm login today.",
       "speaker": "DAVID"
     },
     {
-      "t0": 731.55,
-      "t1": 737.82,
+      "t0": 754.9,
+      "t1": 759.55,
       "text": "Send us their emails and we open seats by hand, inside one business day.",
       "speaker": "DAVID"
     },
     {
-      "t0": 738.7,
-      "t1": 742.84,
+      "t0": 760.16,
+      "t1": 763.92,
       "text": "The agency console, the adoption board, the co-branded page.",
       "speaker": "DAVID"
     },
     {
-      "t0": 743.49,
-      "t1": 744.65,
+      "t0": 764.37,
+      "t1": 765.6,
       "text": "None of that is built.",
       "speaker": "DAVID"
     },
     {
-      "t0": 744.68,
-      "t1": 746.62,
+      "t0": 765.78,
+      "t1": 767.8,
       "text": "That one's coming.",
       "speaker": "DAVID"
     },
     {
-      "t0": 746.05,
-      "t1": 747,
+      "t0": 766.98,
+      "t1": 767.66,
       "text": "Third.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 748.27,
-      "t1": 752.69,
+      "t0": 768.26,
+      "t1": 771.12,
       "text": "The self-funded employer.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 751.51,
-      "t1": 754.2,
+      "t0": 770.49,
+      "t1": 773.02,
       "text": "He's who those knee numbers are actually about.",
       "speaker": "DAVID"
     },
     {
-      "t0": 754.38,
-      "t1": 758.86,
+      "t0": 773.93,
+      "t1": 778.75,
       "text": "Same operation, three buildings, sixteen ninety-eight between two of them.",
       "speaker": "DAVID"
     },
     {
-      "t0": 759.44,
-      "t1": 761.27,
+      "t0": 779.54,
+      "t1": 781.32,
       "text": "That's his money, not the broker's.",
       "speaker": "DAVID"
     },
     {
-      "t0": 761.96,
-      "t1": 766.81,
+      "t0": 782.24,
+      "t1": 786.87,
       "text": "And that 279 percent isn't the broker's problem either.",
       "speaker": "DAVID"
     },
     {
-      "t0": 767.5,
-      "t1": 771.56,
+      "t0": 787.78,
+      "t1": 792.1,
       "text": "A self-funded plan pays that award out of its own money.",
       "speaker": "DAVID"
     },
     {
-      "t0": 771.59,
-      "t1": 773.13,
+      "t0": 793.22,
+      "t1": 794.55,
       "text": "He never buys a seat.",
       "speaker": "DAVID"
     },
     {
-      "t0": 773.56,
-      "t1": 776.49,
+      "t0": 794.6,
+      "t1": 797.65,
       "text": "It reaches him through his broker.",
       "speaker": "DAVID"
     },
     {
-      "t0": 776.38,
-      "t1": 781.72,
+      "t0": 796.94,
+      "t1": 802.14,
       "text": "And if most of a broker's book is fully insured?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 780.38,
-      "t1": 781.93,
+      "t0": 801.2,
+      "t1": 802.63,
       "text": "Part of this still works.",
       "speaker": "DAVID"
     },
     {
-      "t0": 782.33,
-      "t1": 788.86,
+      "t0": 803.15,
+      "t1": 808.31,
       "text": "The market page and the building to building numbers don't care how a group is funded.",
       "speaker": "DAVID"
     },
     {
-      "t0": 789.61,
-      "t1": 793.04,
+      "t0": 808.91,
+      "t1": 811.93,
       "text": "They come off public files and federal schedules.",
       "speaker": "DAVID"
     },
     {
-      "t0": 793.91,
-      "t1": 800.94,
+      "t0": 812.31,
+      "t1": 817.32,
       "text": "The employer directory is built from federal plan filings, so that half is narrower.",
       "speaker": "DAVID"
     },
     {
-      "t0": 801.63,
-      "t1": 805.27,
+      "t0": 817.84,
+      "t1": 821.36,
       "text": "Start with the market page on a group you've already got.",
       "speaker": "DAVID"
     },
     {
-      "t0": 805.04,
-      "t1": 809.64,
+      "t0": 820.95,
+      "t1": 825.09,
       "text": "And someone from a health plan stops by.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 808.84,
-      "t1": 810.64,
+      "t0": 824.03,
+      "t1": 825.67,
       "text": "There's nothing to sell them today.",
       "speaker": "DAVID"
     },
     {
-      "t0": 811.23,
-      "t1": 813.2,
+      "t0": 826.39,
+      "t1": 828.39,
       "text": "No price, no checkout.",
       "speaker": "DAVID"
     },
     {
-      "t0": 814.28,
-      "t1": 818.2,
+      "t0": 829.11,
+      "t1": 834.07,
       "text": "They can read their own filed rates next to the market, same as anyone.",
       "speaker": "DAVID"
     },
     {
-      "t0": 819.28,
-      "t1": 825.18,
+      "t0": 835.04,
+      "t1": 840.33,
       "text": "What we do with that group is still open, and it's better to say so.",
       "speaker": "DAVID"
     },
     {
-      "t0": 824.36,
-      "t1": 825.88,
+      "t0": 839.59,
+      "t1": 841,
       "text": "Here's the hard one.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 826.47,
-      "t1": 832.77,
+      "t0": 842.31,
+      "t1": 847.81,
       "text": "What stops someone deciding you're just another data outfit?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 831.69,
-      "t1": 832.99,
+      "t0": 846.7,
+      "t1": 848.05,
       "text": "The empty screens.",
       "speaker": "DAVID"
     },
     {
-      "t0": 833.64,
-      "t1": 837.42,
+      "t0": 848.74,
+      "t1": 852.55,
       "text": "Ask for Santa Rosa and it refuses in half a second.",
       "speaker": "DAVID"
     },
     {
-      "t0": 837.83,
-      "t1": 845.95,
+      "t0": 853.25,
+      "t1": 860.66,
       "text": "It says our floor is a hundred distinct providers behind every figure, and we don't lower it to fill a page.",
       "speaker": "DAVID"
     },
     {
-      "t0": 846.71,
-      "t1": 852.58,
+      "t0": 861.34,
+      "t1": 866.63,
       "text": "Ask for Chico and every filing we hold there belongs to another state's book.",
       "speaker": "DAVID"
     },
     {
-      "t0": 853.01,
-      "t1": 857.65,
+      "t0": 867,
+      "t1": 871.92,
       "text": "You show people the questions you won't answer.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 856.91,
-      "t1": 862.46,
+      "t0": 871.09,
+      "t1": 876.84,
       "text": "Two ordinary office visits in Sacramento have seventeen filings and twenty.",
       "speaker": "DAVID"
     },
     {
-      "t0": 863.25,
-      "t1": 864.46,
+      "t0": 877.35,
+      "t1": 878.31,
       "text": "We need a hundred.",
       "speaker": "DAVID"
     },
     {
-      "t0": 865.05,
-      "t1": 871.92,
+      "t0": 879.11,
+      "t1": 886.06,
       "text": "So we refuse the Sacramento cell, show California instead, and label that row statewide.",
       "speaker": "DAVID"
     },
     {
-      "t0": 872.35,
-      "t1": 876.32,
+      "t0": 886.49,
+      "t1": 890.22,
       "text": "An empty result on our site is the product working correctly.",
       "speaker": "DAVID"
     },
     {
-      "t0": 876.69,
-      "t1": 879.06,
+      "t0": 890.57,
+      "t1": 892.8,
       "text": "Give me one more.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 878.06,
-      "t1": 880.94,
+      "t0": 892.07,
+      "t1": 894.7,
       "text": "Our answer cards count their own gaps.",
       "speaker": "DAVID"
     },
     {
-      "t0": 881.37,
-      "t1": 886.88,
+      "t0": 895.65,
+      "t1": 900.79,
       "text": "One says a further point is held off the card, because nobody has read the source text yet.",
       "speaker": "DAVID"
     },
     {
-      "t0": 887.81,
-      "t1": 893.52,
+      "t0": 901.74,
+      "t1": 906.84,
       "text": "It tells you which of its own points it hasn't finished checking.",
       "speaker": "DAVID"
     },
     {
-      "t0": 893.9,
-      "t1": 895.59,
+      "t0": 907.23,
+      "t1": 909.14,
       "text": "Zero customers.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 896.52,
-      "t1": 899.89,
+      "t0": 910.09,
+      "t1": 913.22,
       "text": "That's what someone's going to hear.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 899.14,
-      "t1": 900.23,
+      "t0": 912.54,
+      "t1": 913.79,
       "text": "That's what it is.",
       "speaker": "DAVID"
     },
     {
-      "t0": 900.31,
-      "t1": 905.81,
+      "t0": 914.74,
+      "t1": 921.16,
       "text": "So the price is public, and the numbers are in front of you before you pay us anything.",
       "speaker": "DAVID"
     },
     {
-      "t0": 906.5,
-      "t1": 907.97,
+      "t0": 922.11,
+      "t1": 923.56,
       "text": "Check the number first.",
       "speaker": "DAVID"
     },
     {
-      "t0": 908.3,
-      "t1": 911.35,
+      "t0": 924.17,
+      "t1": 927.36,
       "text": "The order matters more than the count.",
       "speaker": "DAVID"
     },
     {
-      "t0": 910.95,
-      "t1": 912.03,
+      "t0": 927.74,
+      "t1": 928.76,
       "text": "Last one.",
       "speaker": "BLAIR"
     },
     {
-      "t0": 913.11,
-      "t1": 916.67,
+      "t0": 930.07,
+      "t1": 933.36,
       "text": "What do you want them to leave with?",
       "speaker": "BLAIR"
     },
     {
-      "t0": 916.91,
-      "t1": 917.72,
+      "t0": 933.56,
+      "t1": 934.23,
       "text": "One thing.",
       "speaker": "DAVID"
     },
     {
-      "t0": 918.79,
-      "t1": 920.55,
+      "t0": 934.69,
+      "t1": 936.35,
       "text": "Nobody has bought a seat yet.",
       "speaker": "DAVID"
     },
     {
-      "t0": 921.82,
-      "t1": 925.72,
+      "t0": 937.17,
+      "t1": 940.71,
       "text": "You'd be the first, and I'd sit with you while you did it.",
       "speaker": "DAVID"
     },
     {
-      "t0": 926.65,
-      "t1": 928.86,
+      "t0": 941.32,
+      "t1": 943.34,
       "text": "So don't take our word for any of it.",
       "speaker": "DAVID"
     },
     {
-      "t0": 930.12,
-      "t1": 932.31,
+      "t0": 943.94,
+      "t1": 945.98,
       "text": "Check us on a rate you already know.",
       "speaker": "DAVID"
     },
     {
-      "t0": 933.23,
-      "t1": 935.9,
+      "t0": 946.59,
+      "t1": 949.4,
       "text": "If we're wrong, you'll find it in a minute.",
       "speaker": "DAVID"
     }
   ],
   "speakerSpans": [
     {
-      "speaker": "BLAIR",
+      "speaker": "DAVID",
       "t0": 0,
-      "t1": 10.79
-    },
-    {
-      "speaker": "DAVID",
-      "t0": 11.13,
-      "t1": 25.75
+      "t1": 76.83
     },
     {
       "speaker": "BLAIR",
-      "t0": 26.7,
-      "t1": 39.53
+      "t0": 77.9,
+      "t1": 87.75
     },
     {
       "speaker": "DAVID",
-      "t0": 39.77,
-      "t1": 70.52
+      "t0": 88.09,
+      "t1": 103.15
     },
     {
       "speaker": "BLAIR",
-      "t0": 71.04,
-      "t1": 72.7
+      "t0": 104.1,
+      "t1": 116.83
     },
     {
       "speaker": "DAVID",
-      "t0": 72.94,
-      "t1": 86.55
+      "t0": 117.07,
+      "t1": 145.47
     },
     {
       "speaker": "BLAIR",
-      "t0": 87.46,
-      "t1": 91.97
+      "t0": 145.99,
+      "t1": 147.35
     },
     {
       "speaker": "DAVID",
-      "t0": 92.21,
-      "t1": 126.63
+      "t0": 147.59,
+      "t1": 159.74
     },
     {
       "speaker": "BLAIR",
-      "t0": 127.15,
-      "t1": 134.17
+      "t0": 160.66,
+      "t1": 164.81
     },
     {
       "speaker": "DAVID",
-      "t0": 134.59,
-      "t1": 150.72
+      "t0": 165.05,
+      "t1": 199.55
     },
     {
       "speaker": "BLAIR",
-      "t0": 151.1,
-      "t1": 164.86
+      "t0": 200.07,
+      "t1": 204.39
     },
     {
       "speaker": "DAVID",
-      "t0": 165.22,
-      "t1": 183.39
+      "t0": 204.81,
+      "t1": 220.92
     },
     {
       "speaker": "BLAIR",
-      "t0": 183.79,
-      "t1": 186.1
+      "t0": 221.31,
+      "t1": 235.55
     },
     {
       "speaker": "DAVID",
-      "t0": 186.52,
-      "t1": 204.82
+      "t0": 235.91,
+      "t1": 251.64
     },
     {
       "speaker": "BLAIR",
-      "t0": 205.79,
-      "t1": 214.25
+      "t0": 252.04,
+      "t1": 254.31
     },
     {
       "speaker": "DAVID",
-      "t0": 214.49,
-      "t1": 240.66
+      "t0": 254.73,
+      "t1": 274.01
     },
     {
       "speaker": "BLAIR",
-      "t0": 241.1,
-      "t1": 242.59
+      "t0": 274.97,
+      "t1": 283.48
     },
     {
       "speaker": "DAVID",
-      "t0": 243.01,
-      "t1": 267.48
+      "t0": 283.72,
+      "t1": 306.79
     },
     {
       "speaker": "BLAIR",
-      "t0": 267.9,
-      "t1": 269.56
+      "t0": 307.22,
+      "t1": 308.42
     },
     {
       "speaker": "DAVID",
-      "t0": 269.8,
-      "t1": 295.39
+      "t0": 308.84,
+      "t1": 328.76
     },
     {
       "speaker": "BLAIR",
-      "t0": 296.46,
-      "t1": 306.11
+      "t0": 329.18,
+      "t1": 330.74
     },
     {
       "speaker": "DAVID",
-      "t0": 306.35,
-      "t1": 324.35
+      "t0": 330.98,
+      "t1": 355.89
     },
     {
       "speaker": "BLAIR",
-      "t0": 324.76,
-      "t1": 327.36
+      "t0": 356.96,
+      "t1": 363.78
     },
     {
       "speaker": "DAVID",
-      "t0": 327.78,
-      "t1": 350.47
+      "t0": 364.02,
+      "t1": 382.8
     },
     {
       "speaker": "BLAIR",
-      "t0": 350.9,
-      "t1": 351.76
+      "t0": 383.21,
+      "t1": 385.41
     },
     {
       "speaker": "DAVID",
-      "t0": 352,
-      "t1": 373.1
+      "t0": 385.83,
+      "t1": 407.96
     },
     {
       "speaker": "BLAIR",
-      "t0": 373.53,
-      "t1": 377.44
+      "t0": 408.4,
+      "t1": 409.16
     },
     {
       "speaker": "DAVID",
-      "t0": 377.68,
-      "t1": 388.08
+      "t0": 409.4,
+      "t1": 428.66
     },
     {
       "speaker": "BLAIR",
-      "t0": 388.98,
-      "t1": 403.79
+      "t0": 429.09,
+      "t1": 432.1
     },
     {
       "speaker": "DAVID",
-      "t0": 404.03,
-      "t1": 418.01
+      "t0": 432.34,
+      "t1": 441.04
     },
     {
       "speaker": "BLAIR",
-      "t0": 418.39,
-      "t1": 422.85
+      "t0": 441.94,
+      "t1": 455.64
     },
     {
       "speaker": "DAVID",
-      "t0": 423.09,
-      "t1": 454.8
+      "t0": 455.88,
+      "t1": 468.51
     },
     {
       "speaker": "BLAIR",
-      "t0": 455.32,
-      "t1": 462.06
+      "t0": 468.88,
+      "t1": 473.52
     },
     {
       "speaker": "DAVID",
-      "t0": 462.3,
-      "t1": 488.99
+      "t0": 473.76,
+      "t1": 504.14
     },
     {
       "speaker": "BLAIR",
-      "t0": 489.51,
-      "t1": 492.58
+      "t0": 504.66,
+      "t1": 509.44
     },
     {
       "speaker": "DAVID",
-      "t0": 492.82,
-      "t1": 508.55
+      "t0": 509.68,
+      "t1": 535.56
     },
     {
       "speaker": "BLAIR",
-      "t0": 508.93,
-      "t1": 512.37
+      "t0": 536.08,
+      "t1": 538.46
     },
     {
       "speaker": "DAVID",
-      "t0": 512.61,
-      "t1": 528.3
+      "t0": 538.7,
+      "t1": 547.88
     },
     {
       "speaker": "BLAIR",
-      "t0": 528.68,
-      "t1": 534.98
+      "t0": 548.26,
+      "t1": 550.17
     },
     {
       "speaker": "DAVID",
-      "t0": 535.22,
-      "t1": 559.02
+      "t0": 550.41,
+      "t1": 564.66
     },
     {
       "speaker": "BLAIR",
-      "t0": 559.47,
-      "t1": 562.6
+      "t0": 565.03,
+      "t1": 570.88
     },
     {
       "speaker": "DAVID",
-      "t0": 562.84,
-      "t1": 570.02
+      "t0": 571.12,
+      "t1": 592.92
     },
     {
       "speaker": "BLAIR",
-      "t0": 570.91,
-      "t1": 585.12
+      "t0": 593.36,
+      "t1": 596.29
     },
     {
       "speaker": "DAVID",
-      "t0": 585.36,
-      "t1": 607.94
+      "t0": 596.53,
+      "t1": 604.18
     },
     {
       "speaker": "BLAIR",
-      "t0": 608.37,
-      "t1": 610.13
+      "t0": 605.06,
+      "t1": 617.8
     },
     {
       "speaker": "DAVID",
-      "t0": 610.37,
-      "t1": 636.5
+      "t0": 618.04,
+      "t1": 641.95
     },
     {
       "speaker": "BLAIR",
-      "t0": 637.02,
-      "t1": 639.34
+      "t0": 642.38,
+      "t1": 643.68
     },
     {
       "speaker": "DAVID",
-      "t0": 639.58,
-      "t1": 650.3
+      "t0": 643.92,
+      "t1": 669.13
     },
     {
       "speaker": "BLAIR",
-      "t0": 650.66,
-      "t1": 652.48
+      "t0": 669.65,
+      "t1": 671.81
     },
     {
       "speaker": "DAVID",
-      "t0": 652.72,
-      "t1": 669.17
+      "t0": 672.05,
+      "t1": 679.76
     },
     {
       "speaker": "BLAIR",
-      "t0": 669.56,
-      "t1": 673.97
+      "t0": 680.13,
+      "t1": 682.02
     },
     {
       "speaker": "DAVID",
-      "t0": 674.39,
-      "t1": 691.82
+      "t0": 682.26,
+      "t1": 693.65
     },
     {
       "speaker": "BLAIR",
-      "t0": 692.21,
-      "t1": 696.92
+      "t0": 694.04,
+      "t1": 698.36
     },
     {
       "speaker": "DAVID",
-      "t0": 697.16,
-      "t1": 708.4
+      "t0": 698.78,
+      "t1": 717.75
     },
     {
       "speaker": "BLAIR",
-      "t0": 708.76,
-      "t1": 712.8
+      "t0": 718.15,
+      "t1": 722.15
     },
     {
       "speaker": "DAVID",
-      "t0": 713.22,
-      "t1": 725.25
+      "t0": 722.39,
+      "t1": 732.18
     },
     {
       "speaker": "BLAIR",
-      "t0": 725.62,
-      "t1": 728.53
+      "t0": 732.54,
+      "t1": 737.27
     },
     {
       "speaker": "DAVID",
-      "t0": 728.77,
-      "t1": 745.66
+      "t0": 737.69,
+      "t1": 749.18
     },
     {
       "speaker": "BLAIR",
-      "t0": 746.05,
-      "t1": 751.15
+      "t0": 749.55,
+      "t1": 752.32
     },
     {
       "speaker": "DAVID",
-      "t0": 751.57,
-      "t1": 776.03
+      "t0": 752.56,
+      "t1": 766.73
     },
     {
       "speaker": "BLAIR",
-      "t0": 776.47,
-      "t1": 780.21
+      "t0": 767.11,
+      "t1": 770.15
     },
     {
       "speaker": "DAVID",
-      "t0": 780.45,
-      "t1": 804.66
+      "t0": 770.57,
+      "t1": 796.55
     },
     {
       "speaker": "BLAIR",
-      "t0": 805.1,
-      "t1": 808.51
+      "t0": 796.99,
+      "t1": 801.01
     },
     {
       "speaker": "DAVID",
-      "t0": 808.93,
-      "t1": 824.02
+      "t0": 801.25,
+      "t1": 820.6
     },
     {
       "speaker": "BLAIR",
-      "t0": 824.42,
-      "t1": 831.48
+      "t0": 821.03,
+      "t1": 823.72
     },
     {
       "speaker": "DAVID",
-      "t0": 831.72,
-      "t1": 852.58
+      "t0": 824.14,
+      "t1": 839.24
     },
     {
       "speaker": "BLAIR",
-      "t0": 853.01,
-      "t1": 856.56
+      "t0": 839.63,
+      "t1": 846.5
     },
     {
       "speaker": "DAVID",
-      "t0": 856.98,
-      "t1": 876.32
+      "t0": 846.74,
+      "t1": 866.63
     },
     {
       "speaker": "BLAIR",
-      "t0": 876.72,
-      "t1": 877.64
+      "t0": 867.05,
+      "t1": 870.76
     },
     {
       "speaker": "DAVID",
-      "t0": 878.06,
-      "t1": 893.52
+      "t0": 871.18,
+      "t1": 890.22
     },
     {
       "speaker": "BLAIR",
-      "t0": 893.92,
-      "t1": 898.81
+      "t0": 890.62,
+      "t1": 891.66
     },
     {
       "speaker": "DAVID",
-      "t0": 899.23,
-      "t1": 910.57
+      "t0": 892.08,
+      "t1": 906.84
     },
     {
       "speaker": "BLAIR",
-      "t0": 910.95,
-      "t1": 916.67
+      "t0": 907.23,
+      "t1": 912.2
     },
     {
       "speaker": "DAVID",
-      "t0": 916.91,
-      "t1": 935.42
+      "t0": 912.62,
+      "t1": 927.36
+    },
+    {
+      "speaker": "BLAIR",
+      "t0": 927.74,
+      "t1": 933.36
+    },
+    {
+      "speaker": "DAVID",
+      "t0": 933.6,
+      "t1": 948.97
     }
   ],
   "peaks": [
-    80,
-    53,
-    50,
-    61,
-    68,
-    57,
-    58,
-    51,
-    81,
-    58,
-    94,
-    68,
-    82,
-    75,
-    76,
-    72,
-    72,
-    49,
-    44,
-    40,
-    67,
-    73,
-    91,
-    86,
-    86,
-    66,
-    85,
-    73,
-    86,
-    77,
-    58,
-    71,
-    85,
-    73,
-    74,
-    74,
-    86,
-    69,
-    64,
-    62,
-    66,
-    57,
-    61,
-    59,
-    75,
-    64,
-    53,
-    67,
-    52,
-    66,
-    64,
-    71,
-    77,
-    62,
-    67,
-    53,
-    73,
-    64,
-    61,
-    62,
-    58,
-    57,
-    33,
-    65,
-    78,
-    70,
-    64,
-    81,
-    63,
-    59,
-    58,
-    46,
-    72,
-    76,
-    65,
-    98,
-    75,
-    74,
-    55,
-    64,
-    70,
-    64,
-    67,
-    77,
-    77,
-    82,
-    79,
-    64,
-    61,
-    60,
-    44,
-    58,
-    77,
-    45,
-    62,
-    75,
-    65,
-    47,
-    47,
-    50,
-    69,
-    59,
-    69,
-    46,
-    62,
-    57,
-    55,
-    64,
-    59,
-    58,
-    70,
-    69,
-    78,
-    86,
-    82,
-    64,
-    69,
-    66,
-    72,
-    70,
-    46,
-    41,
-    43,
-    41,
-    49,
-    44,
-    56,
-    50,
-    51,
-    47,
-    68,
-    70,
-    75,
-    95,
-    67,
-    51,
-    52,
-    66,
-    47,
-    60,
-    58,
-    50,
-    80,
-    77,
-    57,
-    64,
-    65,
-    57,
-    61,
-    57,
-    89,
-    86,
-    100,
-    78,
-    66,
-    65,
-    58,
-    65,
-    49,
-    63,
-    59,
-    54,
-    57,
-    93,
-    52,
-    46,
-    50,
-    57,
-    62,
-    57,
-    67,
-    58,
-    68,
-    66,
-    77,
-    54,
-    91,
-    79,
-    63,
-    71,
-    64,
-    79,
-    84,
-    64,
-    60,
-    67,
-    66,
-    65,
-    68,
-    69,
-    67,
-    69,
-    67,
-    60,
-    67,
-    51,
-    87,
-    94,
-    85,
-    86,
-    67,
-    71,
-    63,
-    69,
-    76,
-    68,
-    90,
-    79,
-    72,
-    66,
-    59,
-    60,
-    79,
-    68,
-    55,
-    45,
-    69,
-    51,
-    70,
-    76
+    0.7404,
+    0.5852,
+    0.7042,
+    0.6365,
+    0.6505,
+    0.5983,
+    0.7454,
+    0.6341,
+    0.5408,
+    0.8725,
+    0.6335,
+    0.6076,
+    0.5993,
+    0.699,
+    0.6161,
+    0.703,
+    0.778,
+    0.7178,
+    0.6975,
+    0.5488,
+    0.418,
+    0.6922,
+    0.6994,
+    0.5611,
+    0.6128,
+    0.8309,
+    0.7647,
+    0.7525,
+    0.8935,
+    0.9066,
+    0.775,
+    0.8281,
+    0.8535,
+    0.8852,
+    0.733,
+    0.4271,
+    0.5207,
+    0.8452,
+    0.5704,
+    0.4816,
+    0.7651,
+    0.7215,
+    0.674,
+    0.6925,
+    0.716,
+    0.8025,
+    0.5453,
+    0.7649,
+    0.8737,
+    0.8414,
+    0.754,
+    0.7004,
+    0.7388,
+    0.8004,
+    0.7414,
+    0.7348,
+    0.7352,
+    0.6469,
+    0.7624,
+    0.9476,
+    0.8232,
+    0.6939,
+    0.7798,
+    0.5836,
+    0.5878,
+    0.533,
+    0.8165,
+    0.9325,
+    0.7574,
+    1,
+    0.8395,
+    0.8148,
+    0.9846,
+    0.7243,
+    0.9413,
+    0.8983,
+    0.6033,
+    0.515,
+    0.5324,
+    0.6219,
+    0.5451,
+    0.4855,
+    0.6778,
+    0.5563,
+    0.8388,
+    0.8099,
+    0.7118,
+    0.8257,
+    0.7471,
+    0.4976,
+    0.4692,
+    0.4366,
+    0.4576,
+    0.6218,
+    0.6979,
+    0.7645,
+    0.8035,
+    0.782,
+    0.7558,
+    0.8269,
+    0.5169,
+    0.6119,
+    0.5094,
+    0.7255,
+    0.5001,
+    0.6633,
+    0.6019,
+    0.6558,
+    0.5099,
+    0.5333,
+    0.5484,
+    0.7304,
+    0.6407,
+    0.6736,
+    0.7744,
+    0.7985,
+    0.6754,
+    0.58,
+    0.6371,
+    0.7042,
+    0.5477,
+    0.7138,
+    0.7816,
+    0.8271,
+    0.7048,
+    0.6871,
+    0.7575,
+    0.7223,
+    0.3471,
+    0.5673,
+    0.4244,
+    0.5498,
+    0.705,
+    0.7888,
+    0.7354,
+    0.5887,
+    0.842,
+    0.6171,
+    0.5704,
+    0.6424,
+    0.6679,
+    0.5394,
+    0.6166,
+    0.874,
+    0.6348,
+    0.7673,
+    0.7569,
+    0.7219,
+    0.6344,
+    0.6289,
+    0.5295,
+    0.7688,
+    0.5282,
+    0.5407,
+    0.5532,
+    0.7748,
+    0.9919,
+    0.9886,
+    0.7923,
+    0.7905,
+    0.7551,
+    0.597,
+    0.8268,
+    0.5861,
+    0.6398,
+    0.6187,
+    0.7341,
+    0.7163,
+    0.556,
+    0.5092,
+    0.5088,
+    0.9254,
+    0.8095,
+    0.9414,
+    0.6835,
+    0.949,
+    0.8138,
+    0.7554,
+    0.8826,
+    0.7954,
+    0.7931,
+    0.6755,
+    0.7384,
+    0.7263,
+    0.7799,
+    0.86,
+    0.9474,
+    0.8893,
+    0.9571,
+    0.7998,
+    0.7953,
+    0.6974,
+    0.7816,
+    0.62,
+    0.5668,
+    0.7503,
+    0.7003,
+    0.8025,
+    0.8829,
+    0.8271,
+    0.9334,
+    0.6625,
+    0.8886,
+    0.5791,
+    0.7171,
+    0.8982,
+    0.7947,
+    0.6001,
+    0.6513,
+    0.7115,
+    0.5296,
+    0.682,
+    0.6714,
+    0.6033,
+    0.5847,
+    0.6076,
+    0.5189,
+    0.5176,
+    0.5796,
+    0.6814
   ],
-  "transcript": "Blair: You keep saying the villain is a file. Not a carrier. Not a person. A file.\n\nDavid: Right. Most health plans have to file the rates they've agreed to. Those files are public. They're also huge. Almost nobody on the buying side ever opens one. There's no villain in that. It's just a file nobody opens.\n\nBlair: Then start with the part that gets you challenged. Somebody points at your screen, reads 525 percent, and says 525 percent of what?\n\nDavid: Good. That's the right question, and the answer's already on the screen. When an out of network claim goes to federal arbitration in the United States, the middle award is 525 percent of the plan's own qualifying payment amount. That's the plan's own middle contracted rate for that service. Not a billed charge. Not the plan's offer. And every point above a hundred is money the plan didn't budget.\n\nBlair: Where's that number from?\n\nDavid: The federal public file of arbitration decisions. Four point three million dispute line items. There's no year printed on that page, so I don't give you one.\n\nBlair: Why does the bottom of that fraction matter so much to you?\n\nDavid: Because we had it wrong for a while, and we caught it ourselves. One emergency room visit. The plan's own rate was 203 dollars and 74 cents. The award was 608 dollars and 40 cents. That's 299 percent. Measure the same award against what the plan offered instead, and it's 210 percent. Same award. Two different numbers. So now we print which one it is. Don't go looking for that on the screen. That's the story of a bug we found in our own page.\n\nBlair: And 525 is national. My book is here.\n\nDavid: Then say California out loud, because the screen shortens it. Here the middle award is 279 percent, on forty-seven thousand three hundred ninety-seven dispute line items. The middle half lands between 242 and 330 percent.\n\nBlair: Hang on. Your dropdown says California, 81,409 line items. Your panel says 47,397. You just changed your own number in front of me.\n\nDavid: Good eye. The bigger number is every dispute line California produced. The smaller one is the rows that cleared our floor, and it's the one we headline. I'd rather show you the smaller number and tell you why.\n\nBlair: Most people would show you the big one.\n\nDavid: That's the whole point. Everyone in this category will either blur the number until you book a demo, or hand you a number and never tell you what it's made of. We print the number, the sample size, the date, and the rows we refused to print.\n\nBlair: Alright. My book's in Los Angeles. Do you have prospects for me there?\n\nDavid: Not today. That directory is Sacramento only, and the page says so on its own face. Sacramento, Roseville, Rocklin, Citrus Heights, Antelope. Switch it to another market and the page closes, rather than show you Sacramento under somebody else's name. Ask us for your market and we'll tell you honestly whether we can build one.\n\nBlair: That's a small map.\n\nDavid: It is. It's also three thousand and thirty named organizations. Two hundred seventeen carry a filed contract. Two hundred ten named carriers. A hundred ninety-eight name a broker of record on the filing. And one of those five cities is Citrus Heights. That's the room we're standing in.\n\nBlair: So what's missing from it?\n\nDavid: Government and church employers. All of them. Federal law exempts them from filing, so they're not in the record at all. In a state capital that's a big hole, and it's a hole in the source, not a hole in our search. And those employer filings run twelve to twenty-two months behind, so the broker named on one is who was on it then.\n\nBlair: Now the one everybody at this show is selling. Pharmacy. What's your number?\n\nDavid: We don't have one. We hold no pharmacy benefit manager contract, no rebate data, no point of sale pricing. We'll tell you nothing about your pharmacy benefit. And anyone selling you a pharmacy number off public files should be asked which file it came from.\n\nBlair: That's an odd thing to sound proud of.\n\nDavid: Here's why. There's another half of drug spend that is public. The drugs given in a clinic. Infusions and injections, billed under the medical benefit at a negotiated rate. They never touch a rebate structure at all, and almost nobody's looking at them. We hold those rates already. They're not in the lookup yet.\n\nBlair: Why not?\n\nDavid: Because a drug price with the wrong unit is worse than no drug price. One of these is billed in ten milligram units. A course is three to four hundred milligrams. Read one as the other and you're off by thirty-five times. So it ships when the unit is right, and not before.\n\nBlair: And if somebody pushes anyway?\n\nDavid: The product answers for me. Ask it what a drug code costs and it says there is nothing honest to price.\n\nBlair: Now do it with no screen. Someone walks up cold, coffee in hand. I'll be her. Hi. What do you do?\n\nDavid: Most health plans have to file their contracted rates. The files are public. And huge. Almost nobody on the buying side opens one. We read them. That's the whole company.\n\nBlair: Huh. How does that help us?\n\nDavid: Same knee operation. Same patient. Sacramento. In an office it's five forty-one. In a surgery center, two thousand one eighty-six. In a hospital, three thousand eight hundred eighty-four. Moving one case is sixteen ninety-eight. That's off the federal schedules. And here's the honest part. The doctor's half is priced for this area. The building half is the national amount. I'd rather say that than let you find it.\n\nBlair: Hang on. That's a real number. What do you charge for it?\n\nDavid: A seat's a hundred forty-nine a month. Or fourteen ninety for the year. A whole firm is forty-nine hundred a year, flat, not per person. One flat fee. Never a share of anything. A fee that grows with someone's number gives us a reason to prefer one answer. We'd rather not have one. And you can read all of that on the site without booking a call.\n\nBlair: Right. So why is it valuable?\n\nDavid: We print the number, the sample size, the date, and the rows we refused to print. And where there isn't an honest number, you get a sentence instead of a figure.\n\nBlair: How does that land in a meeting?\n\nDavid: Your client's being told their increase is what the market's doing. Now they can check that. The conversation stops being about your commission and starts being about their spend.\n\nBlair: Right. I think I'm interested. Can you talk to my team?\n\nDavid: Happy to. Do two things first. Open the public page on your phone at that table. No login. Check us against a rate you already know. Then open the demo door. Press log in with demo. No email, nothing to cancel. After that we book a call and I'll bring a market your team actually works in.\n\nBlair: Anything I have to hand over?\n\nDavid: Nothing. No patient data, ever. It all comes off files the health plans publish themselves.\n\nBlair: Four different people are going to stop at that booth. Start with the broker. Say she's got a client meeting Thursday. What does she walk in with?\n\nDavid: A public page she can open on her phone at the table. A brain scan in Sacramento. The middle price is five ninety-two. Half that market sits above it, half below. Twenty-two thousand two hundred thirty-two filings behind it, as of July twentieth. And that gap is between contracts, not between quality.\n\nBlair: And inside the product?\n\nDavid: A sheet with twelve named plans for this market. Underneath, it counts what it held back. Six cells held back. Twenty-three plans left out, because their book belongs to another state. That sheet is hers to read. What she sends a client is the price sheet or the question set. Those open with no account, and there's nothing on them to click.\n\nBlair: Does one carry her firm's name?\n\nDavid: On her own seat it will carry her firm's name across the top. The demo one carries ours. Say that out loud, because somebody's going to look.\n\nBlair: Which plans are on the sheet?\n\nDavid: Twelve that file here. And before you ask, we don't hold Blue Shield at volume yet. We're acquiring it. I'm not going to give you a California number built on one carrier and call it the market.\n\nBlair: In this room somebody's going to say Kaiser.\n\nDavid: Say it before they do. Kaiser doesn't publish negotiated rates in the form this product reads, because it doesn't negotiate them. Care happens inside its own system. So nothing built on these files can price Kaiser. Ours included.\n\nBlair: And the thing she'll ask you for that you don't have yet?\n\nDavid: Her own book on the screen, ranked by renewal date. That's the one brokers ask for most. We haven't built it. That one's coming.\n\nBlair: Next. The general agency.\n\nDavid: Same product for the firm, one flat price. Forty-nine hundred a year, flat. Not per seat. If the firm's a big one, we size it on the call.\n\nBlair: How do the producers get in?\n\nDavid: One firm login today. Send us their emails and we open seats by hand, inside one business day. The agency console, the adoption board, the co-branded page. None of that is built. That one's coming.\n\nBlair: Third. The self-funded employer.\n\nDavid: He's who those knee numbers are actually about. Same operation, three buildings, sixteen ninety-eight between two of them. That's his money, not the broker's. And that 279 percent isn't the broker's problem either. A self-funded plan pays that award out of its own money. He never buys a seat. It reaches him through his broker.\n\nBlair: And if most of a broker's book is fully insured?\n\nDavid: Part of this still works. The market page and the building to building numbers don't care how a group is funded. They come off public files and federal schedules. The employer directory is built from federal plan filings, so that half is narrower. Start with the market page on a group you've already got.\n\nBlair: And someone from a health plan stops by.\n\nDavid: There's nothing to sell them today. No price, no checkout. They can read their own filed rates next to the market, same as anyone. What we do with that group is still open, and it's better to say so.\n\nBlair: Here's the hard one. What stops someone deciding you're just another data outfit?\n\nDavid: The empty screens. Ask for Santa Rosa and it refuses in half a second. It says our floor is a hundred distinct providers behind every figure, and we don't lower it to fill a page. Ask for Chico and every filing we hold there belongs to another state's book.\n\nBlair: You show people the questions you won't answer.\n\nDavid: Two ordinary office visits in Sacramento have seventeen filings and twenty. We need a hundred. So we refuse the Sacramento cell, show California instead, and label that row statewide. An empty result on our site is the product working correctly.\n\nBlair: Give me one more.\n\nDavid: Our answer cards count their own gaps. One says a further point is held off the card, because nobody has read the source text yet. It tells you which of its own points it hasn't finished checking.\n\nBlair: Zero customers. That's what someone's going to hear.\n\nDavid: That's what it is. So the price is public, and the numbers are in front of you before you pay us anything. Check the number first. The order matters more than the count.\n\nBlair: Last one. What do you want them to leave with?\n\nDavid: One thing. Nobody has bought a seat yet. You'd be the first, and I'd sit with you while you did it. So don't take our word for any of it. Check us on a rate you already know. If we're wrong, you'll find it in a minute.",
-  "title": "The room, end to end",
-  "voice": "Blair asks; the Reddenda David Thomas voice answers. Both synthetic, both built for this estate.",
-  "claimCheck": "Every figure spoken here traces to sourced ground truth, and three adversarial verifiers ran against the script before it was rendered. Two returned FATAL and both were fixed: a mint path was described as shipped when it produced no link in 48 seconds, and the 525 percent figure was spoken without its grain in a California room. Where there is no honest number, the recording says so rather than reaching."
+  "transcript": "David: Before Blair starts, here is what you can actually do for these brokers tonight, as of this build. You can pull what every carrier pays in any market in the country, live, on your phone, with the sample size and the date on every number. You can mint a rate exhibit with a broker's own firm name on the cover and hand it to them before the panel ends. You can show a general agency their whole downline's renewals on one register, with a clock counting down on every group. You can open the drug ledger and show a self-funded employer what each drug costs to acquire, what the plan was billed, and who kept the rebate. And you can show the paid claim next to the filed contract, side by side on one screen. And when someone asks what it costs, the first look is free, no card. A seat is one hundred forty nine a month. The whole firm is forty nine hundred a year, flat. If they want it live on their own book, that is a twenty minute call. That is the toolkit. Now the questions.\n\nBlair: You keep saying the villain is a file. Not a carrier. Not a person. A file.\n\nDavid: Right. Most health plans have to file the rates they've agreed to. Those files are public. They're also huge. Almost nobody on the buying side ever opens one. There's no villain in that. It's just a file nobody opens.\n\nBlair: Then start with the part that gets you challenged. Somebody points at your screen, reads 525 percent, and says 525 percent of what?\n\nDavid: Good. That's the right question, and the answer's already on the screen. When an out of network claim goes to federal arbitration in the United States, the middle award is 525 percent of the plan's own qualifying payment amount. That's the plan's own middle contracted rate for that service. Not a billed charge. Not the plan's offer. And every point above a hundred is money the plan didn't budget.\n\nBlair: Where's that number from?\n\nDavid: The federal public file of arbitration decisions. Four point three million dispute line items. There's no year printed on that page, so I don't give you one.\n\nBlair: Why does the bottom of that fraction matter so much to you?\n\nDavid: Because we had it wrong for a while, and we caught it ourselves. One emergency room visit. The plan's own rate was 203 dollars and 74 cents. The award was 608 dollars and 40 cents. That's 299 percent. Measure the same award against what the plan offered instead, and it's 210 percent. Same award. Two different numbers. So now we print which one it is. Don't go looking for that on the screen. That's the story of a bug we found in our own page.\n\nBlair: And 525 is national. My book is here.\n\nDavid: Then say California out loud, because the screen shortens it. Here the middle award is 279 percent, on forty-seven thousand three hundred ninety-seven dispute line items. The middle half lands between 242 and 330 percent.\n\nBlair: Hang on. Your dropdown says California, 81,409 line items. Your panel says 47,397. You just changed your own number in front of me.\n\nDavid: Good eye. The bigger number is every dispute line California produced. The smaller one is the rows that cleared our floor, and it's the one we headline. I'd rather show you the smaller number and tell you why.\n\nBlair: Most people would show you the big one.\n\nDavid: That's the whole point. Everyone in this category will either blur the number until you book a demo, or hand you a number and never tell you what it's made of. We print the number, the sample size, the date, and the rows we refused to print.\n\nBlair: Alright. My book's in Los Angeles. Do you have prospects for me there?\n\nDavid: Not today. That directory is Sacramento only, and the page says so on its own face. Sacramento, Roseville, Rocklin, Citrus Heights, Antelope. Switch it to another market and the page closes, rather than show you Sacramento under somebody else's name. Ask us for your market and we'll tell you honestly whether we can build one.\n\nBlair: That's a small map.\n\nDavid: It is. It's also three thousand and thirty named organizations. Two hundred seventeen carry a filed contract. Two hundred ten named carriers. A hundred ninety-eight name a broker of record on the filing. And one of those five cities is Citrus Heights. That's the room we're standing in.\n\nBlair: So what's missing from it?\n\nDavid: Government and church employers. All of them. Federal law exempts them from filing, so they're not in the record at all. In a state capital that's a big hole, and it's a hole in the source, not a hole in our search. And those employer filings run twelve to twenty-two months behind, so the broker named on one is who was on it then.\n\nBlair: Now the one everybody at this show is selling. Pharmacy. What's your number?\n\nDavid: We don't have one. We hold no pharmacy benefit manager contract, no rebate data, no point of sale pricing. We'll tell you nothing about your pharmacy benefit. And anyone selling you a pharmacy number off public files should be asked which file it came from.\n\nBlair: That's an odd thing to sound proud of.\n\nDavid: Here's why. There's another half of drug spend that is public. The drugs given in a clinic. Infusions and injections, billed under the medical benefit at a negotiated rate. They never touch a rebate structure at all, and almost nobody's looking at them. We hold those rates already. They're not in the lookup yet.\n\nBlair: Why not?\n\nDavid: Because a drug price with the wrong unit is worse than no drug price. One of these is billed in ten milligram units. A course is three to four hundred milligrams. Read one as the other and you're off by thirty-five times. So it ships when the unit is right, and not before.\n\nBlair: And if somebody pushes anyway?\n\nDavid: The product answers for me. Ask it what a drug code costs and it says there is nothing honest to price.\n\nBlair: Now do it with no screen. Someone walks up cold, coffee in hand. I'll be her. Hi. What do you do?\n\nDavid: Most health plans have to file their contracted rates. The files are public. And huge. Almost nobody on the buying side opens one. We read them. That's the whole company.\n\nBlair: Huh. How does that help us?\n\nDavid: Same knee operation. Same patient. Sacramento. In an office it's five forty-one. In a surgery center, two thousand one eighty-six. In a hospital, three thousand eight hundred eighty-four. Moving one case is sixteen ninety-eight. That's off the federal schedules. And here's the honest part. The doctor's half is priced for this area. The building half is the national amount. I'd rather say that than let you find it.\n\nBlair: Hang on. That's a real number. What do you charge for it?\n\nDavid: A seat's a hundred forty-nine a month. Or fourteen ninety for the year. A whole firm is forty-nine hundred a year, flat, not per person. One flat fee. Never a share of anything. A fee that grows with someone's number gives us a reason to prefer one answer. We'd rather not have one. And you can read all of that on the site without booking a call.\n\nBlair: Right. So why is it valuable?\n\nDavid: We print the number, the sample size, the date, and the rows we refused to print. And where there isn't an honest number, you get a sentence instead of a figure.\n\nBlair: How does that land in a meeting?\n\nDavid: Your client's being told their increase is what the market's doing. Now they can check that. The conversation stops being about your commission and starts being about their spend.\n\nBlair: Right. I think I'm interested. Can you talk to my team?\n\nDavid: Happy to. Do two things first. Open the public page on your phone at that table. No login. Check us against a rate you already know. Then open the demo door. Press log in with demo. No email, nothing to cancel. After that we book a call and I'll bring a market your team actually works in.\n\nBlair: Anything I have to hand over?\n\nDavid: Nothing. No patient data, ever. It all comes off files the health plans publish themselves.\n\nBlair: Four different people are going to stop at that booth. Start with the broker. Say she's got a client meeting Thursday. What does she walk in with?\n\nDavid: A public page she can open on her phone at the table. A brain scan in Sacramento. The middle price is five ninety-two. Half that market sits above it, half below. Twenty-two thousand two hundred thirty-two filings behind it, as of July twentieth. And that gap is between contracts, not between quality.\n\nBlair: And inside the product?\n\nDavid: A sheet with twelve named plans for this market. Underneath, it counts what it held back. Six cells held back. Twenty-three plans left out, because their book belongs to another state. That sheet is hers to read. What she sends a client is the price sheet or the question set. Those open with no account, and there's nothing on them to click.\n\nBlair: Does one carry her firm's name?\n\nDavid: On her own seat it will carry her firm's name across the top. The demo one carries ours. Say that out loud, because somebody's going to look.\n\nBlair: Which plans are on the sheet?\n\nDavid: Twelve that file here. And before you ask, we don't hold Blue Shield at volume yet. We're acquiring it. I'm not going to give you a California number built on one carrier and call it the market.\n\nBlair: In this room somebody's going to say Kaiser.\n\nDavid: Say it before they do. Kaiser doesn't publish negotiated rates in the form this product reads, because it doesn't negotiate them. Care happens inside its own system. So nothing built on these files can price Kaiser. Ours included.\n\nBlair: And the thing she'll ask you for that you don't have yet?\n\nDavid: Her own book on the screen, ranked by renewal date. That's the one brokers ask for most. We haven't built it. That one's coming.\n\nBlair: Next. The general agency.\n\nDavid: Same product for the firm, one flat price. Forty-nine hundred a year, flat. Not per seat. If the firm's a big one, we size it on the call.\n\nBlair: How do the producers get in?\n\nDavid: One firm login today. Send us their emails and we open seats by hand, inside one business day. The agency console, the adoption board, the co-branded page. None of that is built. That one's coming.\n\nBlair: Third. The self-funded employer.\n\nDavid: He's who those knee numbers are actually about. Same operation, three buildings, sixteen ninety-eight between two of them. That's his money, not the broker's. And that 279 percent isn't the broker's problem either. A self-funded plan pays that award out of its own money. He never buys a seat. It reaches him through his broker.\n\nBlair: And if most of a broker's book is fully insured?\n\nDavid: Part of this still works. The market page and the building to building numbers don't care how a group is funded. They come off public files and federal schedules. The employer directory is built from federal plan filings, so that half is narrower. Start with the market page on a group you've already got.\n\nBlair: And someone from a health plan stops by.\n\nDavid: There's nothing to sell them today. No price, no checkout. They can read their own filed rates next to the market, same as anyone. What we do with that group is still open, and it's better to say so.\n\nBlair: Here's the hard one. What stops someone deciding you're just another data outfit?\n\nDavid: The empty screens. Ask for Santa Rosa and it refuses in half a second. It says our floor is a hundred distinct providers behind every figure, and we don't lower it to fill a page. Ask for Chico and every filing we hold there belongs to another state's book.\n\nBlair: You show people the questions you won't answer.\n\nDavid: Two ordinary office visits in Sacramento have seventeen filings and twenty. We need a hundred. So we refuse the Sacramento cell, show California instead, and label that row statewide. An empty result on our site is the product working correctly.\n\nBlair: Give me one more.\n\nDavid: Our answer cards count their own gaps. One says a further point is held off the card, because nobody has read the source text yet. It tells you which of its own points it hasn't finished checking.\n\nBlair: Zero customers. That's what someone's going to hear.\n\nDavid: That's what it is. So the price is public, and the numbers are in front of you before you pay us anything. Check the number first. The order matters more than the count.\n\nBlair: Last one. What do you want them to leave with?\n\nDavid: One thing. Nobody has bought a seat yet. You'd be the first, and I'd sit with you while you did it. So don't take our word for any of it. Check us on a rate you already know. If we're wrong, you'll find it in a minute.",
+  "peaksNote": "RMS per 1/220th of the SHIPPED mp3, decoded after mastering. Not drawn."
 }
