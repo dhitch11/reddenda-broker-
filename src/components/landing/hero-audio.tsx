@@ -99,7 +99,13 @@ import { HeroAudioTransport } from "./hero-audio-transport";
    year, and hand a producer the whole territory sorted by renewal month, with the plan
    administrator, the accounting firm that prepared the filing, and the phone number off
    the filing. Same voice, same pace law as v3. */
-const AUDIO_BASENAME = "pitch-v4";
+/* ▶ PITCH V5 (2026-08-27): v4 spoke two fields as promises that the filing does not carry
+   for us today (preparer_firm is null on every in-scope row; admin_name on 2%). The
+   showcase voice covers capabilities fulfilled at onboarding, not a claim about a specific
+   public form. The beat now stands on what the view actually holds at scale: the phone off
+   the filing (99%), the broker of record and their pay (90%), carrier, participants, funding
+   class, plan year; the administrator only where the filing names one. */
+const AUDIO_BASENAME = "pitch-v5";
 const AUDIO_PUBLIC_PATH = `/audio/${AUDIO_BASENAME}.mp3`;
 const MIN_PLAUSIBLE_BYTES = 32 * 1024; // a truncated or error-body mp3 is not audio
 
