@@ -30,7 +30,7 @@ import { APP, BUY, BUY_PRO_MONTHLY, BUY_AGENCY } from "@/lib/buy-links";
  * entitlement ladder (`src/lib/broker/tier.ts`) rather than assumed:
  *   public  a stranger. The market aggregate and its sample size, for any market and
  *           service we hold. Real measured numbers, not a teaser.
- *   demo    gave an email. The same data PLUS the per-payer breakdown and the console.
+ *   demo    gave an email. The same data, one plan by name per lookup, the console, and a watermarked preview of the client exhibit (the repricing exhibit is the only sheet that carries the watermark today; do not widen this sentence until another one does).
  *   pro     bought Broker Pro. Mints the client-facing exhibit.
  *   agency  bought Agency. Everything Pro has, firm-wide, agency name set server side.
  * So: the dollars are free and identity is not, which is the honest sentence and also
@@ -75,7 +75,7 @@ import { APP, BUY, BUY_PRO_MONTHLY, BUY_AGENCY } from "@/lib/buy-links";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Flat published fees. The market figures are free to read; a seat adds the payer detail and the client-ready exhibit.",
+    "Flat published fees. The market figures and one plan by name are free to read. A seat adds every plan by name, exports and the client-ready exhibit.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -97,28 +97,33 @@ const PLANS: Plan[] = [
     name: "Free",
     amount: "$0",
     per: "no card, no trial clock",
-    blurb: "Read the market. This is not a teaser tier and the numbers in it are the real ones.",
+    blurb: "Read the market. The numbers in it are the real ones.",
     lines: [
       "The negotiated-rate distribution for any market and service we hold",
-      "The filing count on every figure, so you can see how thin or deep it is",
+      "The filing count on every figure",
       "The federal Medicare anchor beside it",
       "A refusal, in writing, wherever the sample cannot support a number",
+      "Site of care, the out-of-network state figure and the Medicare Advantage county view",
+      /* The exact clause the app prints on every ceiled response (lib/broker/ceiling.ts):
+         "A free seat shows one plan by name." Keep the words identical to the product's. */
+      "One plan by name on every lookup, and a watermarked preview of the client exhibit",
     ],
     cta: "Look up a market",
     href: APP,
-    note: "The dollars are free. Identity is not: the per-payer breakdown and the console open once you give an email, still at no charge.",
+    note: "The dollars are free. Identity is not: an email gets you the console, at no charge.",
     chip: "Start here",
   },
   {
     name: "Broker Pro",
     amount: LADDER.proMonthly.display,
     per: "per seat, per month",
-    blurb: "For the producer who walks into renewals. Everything free has, plus the document you hand the client.",
+    blurb: "For the producer who walks into renewals.",
     lines: [
-      "Which carrier pays what, by name, not just the market spread",
+      "Every plan by name on every lookup. A free seat shows one plan by name.",
       "Site of care: the same procedure priced across settings",
       "Out-of-network exposure against the plan's own QPA",
       "Client-ready exhibits, with the source and the vintage printed on them",
+      "Exports of every table, and the repricing exhibit you hand a client",
       "A share link that opens for whoever you send it to, with no account",
     ],
     cta: "Start Broker Pro",
@@ -293,11 +298,11 @@ export default function PricingPage() {
                 },
                 {
                   t: "Free, with an email",
-                  b: "The same figures, plus which carrier pays what by name, plus the console you work in. No card, and nothing expires. The email exists so we know who is asking, not so we can start a clock.",
+                  b: "The same figures, plus one plan by name on every lookup, plus the console you work in and a watermarked preview of the client exhibit. No card, and nothing expires. The email exists so we know who is asking, not so we can start a clock.",
                 },
                 {
                   t: "What a seat is actually for",
-                  b: "The document. A seat mints the client-ready exhibit and the share link that opens for whoever you forward it to. That is the thing worth money, so that is the thing behind the price.",
+                  b: "Every plan by name, the exports, and the document. A seat shows every plan on every lookup, exports any table, and mints the client-ready exhibit and the share link that opens for whoever you forward it to. That is the thing worth money, so that is the thing behind the price.",
                 },
               ].map((c) => (
                 <Reveal key={c.t}>
@@ -340,7 +345,7 @@ export default function PricingPage() {
                 },
                 {
                   q: "Can we see it before we pay?",
-                  a: "Yes, and not as a guided tour. The free tier is the real product against the real corpus. Look up your own market and your own procedure codes, and check a number you already know before you believe any of the ones you do not.",
+                  a: "Yes, and not as a guided tour. The free tier is the real product against the real corpus. Look up your own market and your own procedure codes, and check a number you already know before you believe any of the ones you do not. You also see the shape of every paid page. A held plan or a held export says so on the face instead of hiding.",
                 },
                 {
                   q: "We are a multi-agency or a portfolio.",
@@ -422,6 +427,13 @@ function PlanCard({ plan }: { plan: Plan }) {
         <a href={plan.href} className={`btn ${plan.feature ? "btn-primary" : "btn-secondary"}`} style={{ width: "100%" }}>
           {plan.cta}
         </a>
+        {/* A discovery-call CTA beside every price (the pricing ruling, 2026-08-27). The
+            exhibit card's own CTA already points at Calendly, so it is not doubled. */}
+        {plan.href !== DISCOVERY_URL && (
+          <a href={DISCOVERY_URL} className="btn btn-secondary" style={{ width: "100%" }}>
+            Book a discovery call
+          </a>
+        )}
       </div>
     </div>
   );

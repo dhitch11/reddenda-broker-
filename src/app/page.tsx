@@ -751,7 +751,7 @@ export default async function Landing() {
                 per={PRO_PER}
                 lines={[
                   "Office vs surgery center vs hospital, every published code",
-                  "What plans pay, low to high, with the sample size shown",
+                  "Every plan by name, low to high, with the sample size. A free seat shows one plan by name.",
                   "Out-of-network exposure against the plan's own benchmark",
                   "Client-ready exhibits with the sourcing printed",
                 ]}
@@ -1055,6 +1055,13 @@ function Price({
       <a href={href} className={`btn ${feature ? "btn-primary" : "btn-secondary"}`} style={{ width: "100%" }}>
         {cta}
       </a>
+      {/* A discovery-call CTA beside every price (the pricing ruling, 2026-08-27). The
+          exhibit card's own CTA already points at Calendly, so it is not doubled. */}
+      {href !== DISCOVERY_URL && (
+        <a href={DISCOVERY_URL} className="btn btn-secondary" style={{ width: "100%", marginTop: 8 }}>
+          Book a discovery call
+        </a>
+      )}
     </div>
   );
 }
