@@ -141,7 +141,7 @@ DAVID: This is the one I get most excited about. Every employer with a hundred p
 
 BLAIR: So what does a general agency actually get?
 
-DAVID: Their whole territory, described by itself. Point a producer at any market and the register hands them every employer in it sorted by renewal month. The incumbent carrier. The incumbent broker and what they were paid last year, to the dollar. How many people are on the plan and whether it is insured or self funded. And the phone number off the filing. Twenty thousand two hundred of the twenty thousand four hundred California filings carry one. Where the filing names the plan administrator, you get that too.
+DAVID: Their whole territory, described by itself. Point a producer at any market and the register hands them every employer in it sorted by renewal month. The incumbent carrier. The incumbent broker and what they were paid last year, to the dollar. How many people are on the plan and whether it is insured or self funded. The name of the person who signed the filing, for more than nine in ten employers in the Bay Area and Sacramento. And a direct phone number off the filing for essentially every one of them. We counted: one hundred twenty nine thousand employers in those two circles, and a phone on ninety nine point seven percent.
 
 BLAIR: How did you pull that off?
 

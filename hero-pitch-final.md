@@ -40,7 +40,7 @@ And then the government does the funniest thing. It publishes all of it. {air:0.
 
 We opened every one. Every state. Every year on record. {air:1.4}
 
-So picture this. You are a general agency. You point one of your producers at a market. Any market. {air:0.8} And the register hands them every employer in it, sorted by the month their plan renews. The carrier they are with. The broker who has them today. What that broker was paid last year, to the dollar. {air:1.0} How many people are on the plan and whether it is insured or self funded. The month the plan year turns. {air:0.9} And the phone number, straight off the filing. Twenty thousand two hundred twenty one of the twenty thousand three hundred ninety two California filings carry one. Where the filing names the plan administrator, you get that too. {air:1.3}
+So picture this. You are a general agency. You point one of your producers at a market. Any market. {air:0.8} And the register hands them every employer in it, sorted by the month their plan renews. The carrier they are with. The broker who has them today. What that broker was paid last year, to the dollar. {air:1.0} How many people are on the plan and whether it is insured or self funded. The month the plan year turns. {air:0.9} The name of the person who signed the filing. For more than nine in ten employers in the Bay Area and Sacramento, that is a real human being, on the record, and nobody has ever called them about it. {air:1.0} And a direct phone number, straight off the filing, for essentially every one. {air:1.3}
 
 That is not a lead list. That is the entire territory, describing itself, in public, for twenty years, while everyone drove past it. {air:1.2}
 

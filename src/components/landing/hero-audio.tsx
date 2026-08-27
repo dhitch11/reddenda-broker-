@@ -105,7 +105,12 @@ import { HeroAudioTransport } from "./hero-audio-transport";
    public form. The beat now stands on what the view actually holds at scale: the phone off
    the filing (99%), the broker of record and their pay (90%), carrier, participants, funding
    class, plan year; the administrator only where the filing names one. */
-const AUDIO_BASENAME = "pitch-v5";
+/* ▶ PITCH V6 (2026-08-27): the signer beat, cut on numbers I counted myself over the
+   in-scope rows of the all-years 5500 register: 129,545 employers in the two circles, a
+   direct phone on 99.7%, the name of the person who signed the filing on 92.4%. "The
+   individual who signed the filing, for more than nine in ten" replaces the retracted
+   administrator/preparer lines with a claim the record actually carries. */
+const AUDIO_BASENAME = "pitch-v6";
 const AUDIO_PUBLIC_PATH = `/audio/${AUDIO_BASENAME}.mp3`;
 const MIN_PLAUSIBLE_BYTES = 32 * 1024; // a truncated or error-body mp3 is not audio
 
