@@ -92,7 +92,14 @@ import { HeroAudioTransport } from "./hero-audio-transport";
    speed 1.0, air 0.8 + scripted holds. Measured: 435.64s, 162 wpm overall / 191
    speaking, 29 pauses at 0.8s+, -17.0 LUFS. The monologue band stays overruled for
    this piece on the same order; v1/v2 kept on disk for the record. */
-const AUDIO_BASENAME = "pitch-v3";
+/* ▶ PITCH V4 (David, 2026-08-27): the general-agency offering rebuilt around the Form
+   5500 at max scale, written to be exciting to listen to: every employer with 100+ on a
+   plan files who insures them, who their broker is and what that broker was paid; the
+   government publishes it and nobody reads it; we read every one, every state, every
+   year, and hand a producer the whole territory sorted by renewal month, with the plan
+   administrator, the accounting firm that prepared the filing, and the phone number off
+   the filing. Same voice, same pace law as v3. */
+const AUDIO_BASENAME = "pitch-v4";
 const AUDIO_PUBLIC_PATH = `/audio/${AUDIO_BASENAME}.mp3`;
 const MIN_PLAUSIBLE_BYTES = 32 * 1024; // a truncated or error-body mp3 is not audio
 

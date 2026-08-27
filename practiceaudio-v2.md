@@ -137,11 +137,19 @@ DAVID: Her own book on the screen, ranked by renewal date. That's the one broker
 
 BLAIR: Next. The general agency.
 
-DAVID: Same product for the firm, one flat price. Forty-nine hundred a year, flat. Not per seat. If the firm's a big one, we size it on the call.
+DAVID: This is the one I get most excited about. Every employer with a hundred people on a plan files a federal form called the fifty five hundred, every year, and it names their carrier, their broker of record, and what that broker was paid. The government publishes all of it and nobody reads it. We read every one, every state, every year on record.
 
-BLAIR: How do the producers get in?
+BLAIR: So what does a general agency actually get?
 
-DAVID: One firm login today. Send us their emails and we open seats by hand, inside one business day. The agency console, the adoption board, the co-branded page. None of that is built. That one's coming.
+DAVID: Their whole territory, described by itself. Point a producer at any market and the register hands them every employer in it sorted by renewal month. The incumbent carrier. The incumbent broker and what they were paid last year, to the dollar. The plan administrator's name, the person inside that company who owns the health plan decision. The accounting firm that prepared the filing, so you know who advises them on money before you call. And the phone number off the filing. Twenty thousand two hundred of the twenty thousand four hundred California filings carry one.
+
+BLAIR: How did you pull that off?
+
+DAVID: Honestly, the files were sitting there. What did not exist was the machine to read a hundred fifty thousand of them, join every employer to the rate record, and put a renewal clock on every row. We built that. In California alone, eight thousand four hundred employers. Three hundred forty eight in Sacramento.
+
+BLAIR: And the price for the firm?
+
+DAVID: Forty-nine hundred a year, flat. Not per seat. Up to ten named producers. If the firm's a big one, we size it on the call.
 
 BLAIR: Third. The self-funded employer.
 

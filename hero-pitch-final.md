@@ -32,7 +32,23 @@ Now here is the turn.
 
 Rates are what everyone expects. What changes your Monday is that the same discipline runs across your whole book.
 
-Every group you serve sits in one operator register, with the renewal clock counting down, so the ninety day window never arrives as a surprise in a carrier email. Beside each group, a dossier built from the record. Every employer plan sponsor in the country files a Form 5500, and we hold them. In California alone, eight thousand four hundred sixty seven. Three thousand two hundred seventy in the Bay Area and Sacramento corridors, three hundred forty eight in Sacramento itself. Nine hundred sixty eight million dollars of broker commission filed on California Schedule A for plan year 2023, across fifty two thousand two hundred sixty eight rows. That is your industry, describing itself, in public, all this time.
+Now here is the one nobody sees coming. {air:1.3}
+
+Every employer in America with a hundred people on a health plan has to tell the federal government, every single year, exactly who insures them, who their broker is, and what that broker got paid. In writing. On a form called the fifty five hundred. {air:1.0}
+
+And then the government does the funniest thing. It publishes all of it. {air:0.9} A hundred and fifty thousand filings a year, dropped into zip files so ugly that in twenty years, nobody in this industry ever bothered to open them. {air:1.3}
+
+We opened every one. Every state. Every year on record. {air:1.4}
+
+So picture this. You are a general agency. You point one of your producers at a market. Any market. {air:0.8} And the register hands them every employer in it, sorted by the month their plan renews. The carrier they are with. The broker who has them today. What that broker was paid last year, to the dollar. {air:1.0} The name of the plan administrator, the person inside that company who owns the health plan decision. The accounting firm that prepared the filing, so you already know who advises them on money. {air:0.9} And the phone number. Off the filing. Twenty thousand two hundred twenty one of the twenty thousand three hundred ninety two California filings carry one. {air:1.3}
+
+That is not a lead list. That is the entire territory, describing itself, in public, for twenty years, while everyone drove past it. {air:1.2}
+
+The ninety day window before a renewal? You see it open before the incumbent does. {air:1.0} Which producer gets the call? The one holding the register. {air:1.3}
+
+People ask how we pulled this off. Honestly, the files were sitting right there. What did not exist was the machine to read a hundred fifty thousand of them, join every employer to the rate record, and put a live renewal clock on every row. {air:0.9} We built that machine. In California alone: eight thousand four hundred sixty seven employers. Three thousand two hundred seventy in the Bay Area and Sacramento corridors. Three hundred forty eight in Sacramento itself. {air:1.4}
+
+Every group you serve sits in that same operator register, with the renewal clock counting down, so the ninety day window never arrives as a surprise in a carrier email. Beside each group, a dossier built from the record. Three thousand two hundred seventy in the Bay Area and Sacramento corridors, three hundred forty eight in Sacramento itself. Nine hundred sixty eight million dollars of broker commission filed on California Schedule A for plan year 2023, across fifty two thousand two hundred sixty eight rows. That is your industry, describing itself, in public, all this time.
 
 Three hundred thirty six thousand three hundred twenty California provider affiliation rows, twenty two thousand two hundred twenty named groups. So who is actually in this network near our warehouse is an answer, not a project.
 
