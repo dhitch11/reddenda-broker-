@@ -54,7 +54,17 @@ const flag = (n, d) => {
   return a ? a.split("=").slice(1).join("=") : d;
 };
 const BASE = flag("url", "https://broker.reddenda.com").replace(/\/$/, "");
-let SCRIPT = flag("script", join(homedir(), ".broker-fleet", "LEO4-SCRIPT.md"));
+/* THE DEFAULT IS THE SCRIPT OF THE TAKE THAT ACTUALLY SHIPS, AND IT LIVES IN THIS REPO.
+   It used to default to ~/.broker-fleet/LEO4-SCRIPT.md. LEO IV was retired on 2026-08-27
+   when pitch-v6 shipped, and nobody moved the default, so from 08-27 to 08-29 this guard
+   ran against a script for a take that is not served and reported a failure that meant
+   nothing. A gate that always fails is a gate everyone learns to skip, which is worse than
+   no gate: it was red for two days while a real drift went through underneath it.
+   It also pointed OUTSIDE the repo, at a directory a fleet can rotate. The shipped script
+   is a versioned artifact and belongs beside the audio it produced. Keep them together:
+   public/audio/<basename>.json carries `renderedFrom`, and that is the file named here. */
+const SHIPPED_SCRIPT = join(process.cwd(), "hero-pitch-final.md");
+let SCRIPT = flag("script", SHIPPED_SCRIPT);
 if (SCRIPT.startsWith("~")) SCRIPT = SCRIPT.replace("~", homedir());
 
 if (!existsSync(SCRIPT)) {
@@ -156,7 +166,61 @@ function recompute(expr) {
     if (v == null) return { ok: false, why: `ledger row ${cpt} has no ${field}` };
     return { ok: true, value: v, how: `${fixture.ledger.metro} ${cpt} ${field}, stamped ${row.updated_at}` };
   }
+  if (kind === "register") return { ok: "async", table: "broker_employer_register", filter: rest };
+  if (kind === "manifest") return { ok: "async", manifest: rest[0] };
+  if (kind === "untraced") {
+    return { ok: false, why: `NOT YET TRACED TO A SOURCE. The script speaks it as a fact about ${rest.join(":") || "our data"} and nobody has named the table it comes from. An undeclared source is an unanswered question, and this guard reports unanswered as unanswered.` };
+  }
   return { ok: false, why: `unknown recompute handler "${kind}"` };
+}
+
+/* ── the table is an authority too, and for a SCALE figure it is the better one ──
+   The primary law of this guard is that a spoken figure must be printed by the page
+   that carries the player, so the page can correct the recording when reality moves.
+   That law is right for a figure the page prints: a price, a percentage on a card.
+   It cannot reach a figure that describes the SIZE of the corpus behind the product.
+   "Eight thousand four hundred sixty seven employers" is not a card, it is the row
+   count of the register this site serves, and no page prints it.
+   So a row may declare `-` as its page ONLY when it declares a real database
+   recompute. That is strictly STRONGER than the page check, not weaker: the page is
+   itself derived from these tables, so checking the table skips a hop. A row with
+   page `-` AND recompute `none`/`untraced` is not exempt from anything; it fails.  */
+const SB_URL = (readEnv("NEXT_PUBLIC_SUPABASE_URL") || "").replace(/\/$/, "");
+const SB_KEY = readEnv("SUPABASE_SERVICE_ROLE_KEY");
+
+function readEnv(name) {
+  if (process.env[name]) return process.env[name];
+  try {
+    const raw = readFileSync(join(process.cwd(), ".env.local"), "utf8");
+    const m = raw.match(new RegExp(`^${name}=(.*)$`, "m"));
+    return m ? m[1].trim() : null;
+  } catch { return null; }
+}
+
+async function dbCount(table, filter) {
+  if (!SB_URL || !SB_KEY) return { ok: false, why: "no Supabase credentials in env or .env.local; the table check cannot run" };
+  let q = `${SB_URL}/rest/v1/${table}?select=*`;
+  if (filter && filter.length === 2 && filter[0] !== "*") q += `&${filter[0]}=eq.${encodeURIComponent(filter[1])}`;
+  try {
+    const r = await fetch(q, { headers: { apikey: SB_KEY, authorization: `Bearer ${SB_KEY}`, prefer: "count=exact", range: "0-0" } });
+    const cr = r.headers.get("content-range");
+    const n = cr ? Number(cr.split("/")[1]) : NaN;
+    if (!Number.isFinite(n)) return { ok: false, why: `${table} returned no exact count (HTTP ${r.status})` };
+    const how = filter && filter[0] !== "*" ? `count of ${table} where ${filter[0]} = ${filter[1]}` : `row count of ${table}`;
+    return { ok: true, value: n, how };
+  } catch (e) { return { ok: false, why: `${table}: ${String(e).slice(0, 90)}` }; }
+}
+
+async function manifestCount(metric) {
+  if (!SB_URL || !SB_KEY) return { ok: false, why: "no Supabase credentials; the manifest check cannot run" };
+  try {
+    const r = await fetch(`${SB_URL}/rest/v1/data_manifest?select=row_count,built_at&metric=eq.${encodeURIComponent(metric)}&order=built_at.desc&limit=1`, {
+      headers: { apikey: SB_KEY, authorization: `Bearer ${SB_KEY}` },
+    });
+    const rows = await r.json();
+    if (!Array.isArray(rows) || !rows.length) return { ok: false, why: `data_manifest has no metric "${metric}"` };
+    return { ok: true, value: rows[0].row_count, how: `data_manifest.${metric}.row_count, built ${String(rows[0].built_at).slice(0, 10)}` };
+  } catch (e) { return { ok: false, why: `data_manifest: ${String(e).slice(0, 90)}` }; }
 }
 
 /* ── run every declared figure ─────────────────────────────────────────────── */
@@ -166,14 +230,17 @@ console.log(`  against ${BASE}`);
 console.log(`  ${rows.length} declared figure(s)\n`);
 
 for (const row of rows) {
-  const html = await fetchPage(row.page);
+  const html = row.page === "-" ? null : await fetchPage(row.page);
 
   /* 1. the script really does say it */
   const saysIt = spoken.toLowerCase().includes(row.spokenAs.toLowerCase());
   /* 2. the page really does print it */
-  const onPage = html ? html.includes(row.onScreen) : null;
+  const pageExempt = row.page === "-";
+  const dbBacked = /^(register|manifest):/.test(row.recompute);
+  const onPage = pageExempt ? null : html ? html.includes(row.onScreen) : null;
   /* 3. the source still produces it */
-  const rc = recompute(row.recompute);
+  let rc = recompute(row.recompute);
+  if (rc.ok === "async") rc = rc.manifest ? await manifestCount(rc.manifest) : await dbCount(rc.table, rc.filter);
   const rcMatches =
     rc.ok && rc.value !== null
       ? String(row.onScreen).replace(/[^\d.-]/g, "") === String(rc.value)
@@ -182,12 +249,17 @@ for (const row of rows) {
   const mark = (b) => (b === null ? "?" : b ? "✓" : "✗");
   console.log(`  ${row.onScreen}`);
   console.log(`    spoken as   ${mark(saysIt)}  "${row.spokenAs}"`);
-  console.log(`    on ${row.page.padEnd(10)} ${mark(onPage)}  served HTML contains "${row.onScreen}"`);
+  console.log(
+    pageExempt
+      ? `    on page     -  declared as a scale figure no page prints; the table is its authority`
+      : `    on ${row.page.padEnd(10)} ${mark(onPage)}  served HTML contains "${row.onScreen}"`,
+  );
   console.log(`    recomputed  ${mark(rc.ok ? rcMatches : null)}  ${rc.ok ? `${rc.value ?? "n/a"} · ${rc.how}` : rc.why}`);
 
   if (!saysIt) problems.push(`"${row.onScreen}": the script does not contain the spoken form "${row.spokenAs}". The declaration and the script have diverged.`);
   if (onPage === false) problems.push(`"${row.onScreen}": the audio speaks it and ${BASE}${row.page} DOES NOT PRINT IT. The page has moved and the recording has not. Re-verify, edit the script, re-render.`);
-  if (onPage === null) unanswered.push(`could not read ${BASE}${row.page} to check "${row.onScreen}"`);
+  if (onPage === null && !pageExempt) unanswered.push(`could not read ${BASE}${row.page} to check "${row.onScreen}"`);
+  if (pageExempt && !dbBacked) problems.push(`"${row.onScreen}": declared page "-" (no page prints it) but its recompute is "${row.recompute}". The page exemption exists ONLY for a figure whose authority is a real table. With neither a page nor a table this figure has no authority at all, which is the exact thing this guard refuses to wave through.`);
   if (rc.ok && !rcMatches) problems.push(`"${row.onScreen}": the source now computes ${rc.value} (${rc.how}). This is WHY the page moved.`);
   if (!rc.ok) unanswered.push(`could not recompute "${row.onScreen}": ${rc.why}`);
   console.log();
@@ -196,6 +268,13 @@ for (const row of rows) {
 /* ── the sidecar must agree with the script it claims to be ────────────────── */
 const audioDir = join(process.cwd(), "public", "audio");
 if (existsSync(audioDir)) {
+  const SHIPPED_SIDECAR = (() => {
+    try {
+      const tsx = readFileSync(join(process.cwd(), "src", "components", "landing", "hero-audio.tsx"), "utf8");
+      const m = tsx.match(/AUDIO_BASENAME\s*=\s*"([^"]+)"/);
+      return m ? `${m[1]}.json` : null;
+    } catch { return null; }
+  })();
   for (const f of readdirSync(audioDir).filter((f) => f.endsWith(".json"))) {
     let meta;
     try { meta = JSON.parse(readFileSync(join(audioDir, f), "utf8")); } catch { continue; }
@@ -205,6 +284,14 @@ if (existsSync(audioDir)) {
        them three times in its first sentence. This check is cheap and it is why. */
     const named = t.match(/\b(?:David|Thomas)\b/g);
     if (named) problems.push(`public/audio/${f} names a person in its public transcript (${named.length} hit(s)). Sidecars are served at 200; scrub or delete it.`);
+    /* Only the SHIPPED take has to match the shipped script. Any other sidecar in
+       here is a take nobody plays, and the correct verdict on one of those is not
+       "it disagrees with the script" but "why is it still on a public host at all".
+       Seven of them were, on 2026-08-27 through 08-29. See hero-audio.tsx. */
+    if (SHIPPED_SIDECAR && f !== SHIPPED_SIDECAR) {
+      problems.push(`public/audio/${f} is not the shipped take (${SHIPPED_SIDECAR}) and is served at 200 to anyone. A take on a public host is a take a listener can hear. Delete the .mp3, the .json and the .vtt together.`);
+      continue;
+    }
     for (const row of rows) {
       if (!t) break;
       if (!t.toLowerCase().includes(row.spokenAs.toLowerCase())) {

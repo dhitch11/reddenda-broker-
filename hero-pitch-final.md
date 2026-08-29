@@ -63,3 +63,46 @@ One last figure, labelled the way the screen labels it. A two hundred fifty life
 In a market that sells confident numbers, the one willing to tell you no is the only one worth believing.
 
 Book a discovery call. Twenty minutes. Your metro, your codes, your groups, on the screen, with the refusals showing. Then walk into your next renewal holding the file.
+
+## SPOKEN FIGURES
+
+Every number this take says out loud, declared so it can be re-checked when the data moves.
+`scripts/check-spoken-drift.mjs` reads this table. A figure that is not in it is a figure
+nobody will re-check, which is the one that eventually goes wrong in public.
+
+Columns: `onScreen` is the written form. `spokenAs` is the exact wording in the script above.
+`page` is the page that prints it, or `-` for a scale figure no page prints, which is legal
+ONLY with a real table recompute. `recompute` names the authority.
+
+| on screen | spoken as | page | recompute |
+| --- | --- | --- | --- |
+| 8,467 | eight thousand four hundred sixty seven | - | register:* |
+| 3,270 | three thousand two hundred seventy | - | register:in_scope:true |
+| 348 | three hundred forty eight | - | register:cbsa:40900 |
+| 968 | nine hundred sixty eight million | / | untraced:CA Schedule A broker commission, plan year 2023 |
+| 52,268 | fifty two thousand two hundred sixty eight | / | untraced:CA Schedule A broker rows, plan year 2023 |
+| 8,769 | eight thousand seven hundred sixty nine | - | untraced:supply and equipment codes carrying a plain-English name |
+| 336,320 | three hundred thirty six thousand three hundred twenty | - | untraced:California provider affiliation rows |
+| 22,220 | twenty two thousand two hundred twenty | - | untraced:named provider groups in California |
+
+### WHAT THIS TABLE SAYS ABOUT THE TAKE ON AIR RIGHT NOW
+
+Measured 2026-08-29 against `broker_employer_register` (vintage 2026-08-25), the table this
+site actually serves:
+
+- **8,467 is exact.** `select count(*)` = 8467.
+- **3,270 is exact.** `count where in_scope = true` = 3270.
+- **348 is WRONG BY TWO. The table says 346**, both by `market = 'Sacramento-Roseville-Folsom, CA'`
+  and by `cbsa = '40900'`. The take was rendered 2026-08-27T06:10Z and the figure has moved since.
+  This is the drift this guard exists to catch, and it went two days uncaught because the guard
+  was pointed at the script of a take that had already been retired.
+- **968 and 52,268 are printed by the homepage**, so the page carries them and the primary check
+  covers them. Their underlying table has not been named here yet.
+- **8,769 / 336,320 / 22,220 are untraced.** They are spoken as facts about our own corpus and no
+  one has recorded which table produces them. `provider_affiliations` holds 3,899,791 rows
+  nationally per `data_manifest`, but the California cut that would give 336,320 has not been run,
+  and an exact count times out through the REST path. Untraced is reported as unanswered, not as a
+  pass. Whoever names the source should fill in the recompute here, not delete the row.
+
+Nothing above is a forbidden claim and nothing is inflated. Every one of these figures
+UNDERSTATES the corpus rather than overstating it. The 346 sentence needs a re-cut of that beat.
