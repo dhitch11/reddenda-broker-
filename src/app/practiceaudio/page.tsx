@@ -79,13 +79,13 @@ const mediaSrc = (sc: Sidecar, fallback: string) =>
 export default async function PracticeAudio({
   searchParams,
 }: {
-  searchParams: Promise<{ bad?: string }>;
+  searchParams: Promise<{ bad?: string; wait?: string }>;
 }) {
-  const { bad } = await searchParams;
+  const { bad, wait } = await searchParams;
   const jar = await cookies();
   const unlocked = await verify(jar.get(PRACTICE_COOKIE)?.value);
 
-  if (!unlocked) return <Lock bad={bad === "1"} live={configured()} />;
+  if (!unlocked) return <Lock bad={bad === "1"} waiting={wait === "1"} live={configured()} />;
 
   const [rehearsal, brief, stagefour] = await Promise.all([loadSidecar(SIDECAR), loadSidecar(BRIEF_SIDECAR), loadSidecar(STAGEFOUR_SIDECAR)]);
 
@@ -190,7 +190,7 @@ export default async function PracticeAudio({
  * phone with a flaky connection in a conference centre, which is the only place
  * this page will ever actually be opened.
  */
-function Lock({ bad, live }: { bad: boolean; live: boolean }) {
+function Lock({ bad, waiting, live }: { bad: boolean; waiting: boolean; live: boolean }) {
   return (
     <main className="pa pa--lock">
       <div className="pa__lockbox">
@@ -209,15 +209,21 @@ function Lock({ bad, live }: { bad: boolean; live: boolean }) {
             autoFocus
             spellCheck={false}
             className="pa__input"
-            aria-describedby={bad ? "pa-err" : undefined}
+            aria-describedby={bad || waiting ? "pa-err" : undefined}
           />
           <button type="submit" className="pa__submit">
             Open
           </button>
         </form>
-        {bad ? (
+        {bad && !waiting ? (
           <p id="pa-err" role="alert" className="pa__err">
             That code did not open it.
+          </p>
+        ) : null}
+        {waiting ? (
+          <p id="pa-err" role="alert" className="pa__err">
+            Too many tries from this connection. Wait a minute, then try again. Your code is fine if it
+            was right; this is the door slowing down, not rejecting you.
           </p>
         ) : null}
         {!live ? (

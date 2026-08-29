@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { PRACTICE_COOKIE, mint, opens, configured } from "@/lib/practice-gate";
+import { callerKey, takeSlot } from "@/lib/attempt-limit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -12,21 +13,46 @@ export const dynamic = "force-dynamic";
  * not say which of the two happened, because "the secret is not set" tells an
  * attacker the shape of the lock.
  *
- * THE DELAY IS DELIBERATE. Six digits is 1,000,000 possibilities, which a script
- * can walk in minutes over a fast endpoint. A flat ~400ms on every attempt, right
- * or wrong, turns that into weeks and costs the one person who knows the code
- * four tenths of a second, once.
+ * ⛔ THE DELAY THAT USED TO BE DESCRIBED HERE DID NOT DO WHAT THIS COMMENT CLAIMED.
+ *
+ * It said: "Six digits is 1,000,000 possibilities... A flat ~400ms on every attempt,
+ * right or wrong, turns that into weeks." It does not, because a per-request sleep is
+ * not a rate limit: nothing made the requests take turns, so the sleeps simply
+ * overlapped. @BRK-HELP measured it on live prod 2026-08-29 — twenty concurrent
+ * attempts finished in 5.20s against a serial floor of 8.00s — and there was no counter
+ * of any kind. At a concurrency of fifty, one laptop walks the space in about two hours.
+ *
+ * A control that is only a control in its own comment is this estate's most repeated
+ * defect, and this was one. The limiter now lives in `@/lib/attempt-limit`: attempts
+ * from one address SERIALISE, failures raise that address's delay geometrically and
+ * then lock it out, and a distributed spread trips a global floor. Read that file for
+ * what it honestly does not cover (the state is per function instance).
  */
 export async function POST(req: NextRequest) {
-  const started = Date.now();
-  const form = await req.formData().catch(() => null);
-  const code = typeof form?.get("code") === "string" ? String(form.get("code")).trim() : "";
+  /* The slot is taken BEFORE the body is read and before the code is checked. An address
+     that is locked out never reaches `opens()` at all, so a lockout cannot be probed for
+     timing differences between a right and a wrong code. */
+  const slot = await takeSlot(callerKey(req.headers));
 
-  const ok = configured() && (await opens(code));
-  const value = ok ? await mint() : null;
+  if (!slot.allowed) {
+    /* A distinct flag, not `bad=1`. Telling someone they are rate limited reveals nothing
+       about the code, and the alternative is a real visitor being told their correct code
+       is wrong, which is the failure this route has already shipped once. */
+    return new NextResponse(null, { status: 303, headers: { location: "/practiceaudio?wait=1" } });
+  }
 
-  const wait = 400 - (Date.now() - started);
-  if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+  let ok = false;
+  let value: string | null = null;
+  try {
+    const form = await req.formData().catch(() => null);
+    const code = typeof form?.get("code") === "string" ? String(form.get("code")).trim() : "";
+    ok = configured() && (await opens(code));
+    value = ok ? await mint() : null;
+  } finally {
+    /* ALWAYS. A slot that is never settled deadlocks that address's queue forever, which
+       would turn this limiter into a self-inflicted denial of service on one visitor. */
+    await slot.settle(ok);
+  }
 
   /**
    * ⛔ RELATIVE LOCATION, NEVER AN ABSOLUTE ONE BUILT FROM `nextUrl.origin`.
