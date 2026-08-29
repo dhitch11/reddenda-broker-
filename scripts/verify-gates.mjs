@@ -261,16 +261,40 @@ async function checkPracticeGate() {
       "the /competitors failure mode: bytes shipped and hidden client-side");
   }
 
-  /* The static media has to be gated separately: a CDN file never consults a component. */
+  /* The static media has to be gated separately: a CDN file never consults a component.
+   *
+   * ⛔ AND IT MUST BE TESTED ON PATH SHAPE, NOT JUST ON THE PATH. Added 2026-08-29 after this
+   * script shipped a PASS on a gate that was open. The canonical path returned 404 and I called
+   * the gate proven. It was not: `/practice-audio-media//practiceaudio.mp3` returned the whole
+   * 16,636,491-byte recording, md5-identical to the repo file, to an anonymous request, and so
+   * did the uppercase form. The proxy matcher is compared against the literal request path while
+   * the CDN's static resolver collapses duplicate slashes and resolves case-insensitively, so
+   * the variant never enters the proxy at all.
+   *
+   * A GATE PROTECTS A ROUTE, NOT A FILE. Every variant below is a real bypass measured on live
+   * production, not a hypothetical. If you add a gated static path anywhere, add its shapes here. */
   const media = "/practice-audio-media/practiceaudio.mp3";
-  const anonMedia = await get(media);
-  if (anonMedia.status === 404) {
-    PASS("the private recording refuses anonymous", "404", "404",
-      `curl -sI ${HOST}${media}`, "404 not 403, so the path is not confirmed to exist");
-  } else {
-    FAIL("the private recording refuses anonymous", "404", String(anonMedia.status),
-      `curl -sI ${HOST}${media}`, "a gated page with an open media URL is a lock beside an open window");
+  const SHAPES = [
+    ["canonical", "/practice-audio-media/practiceaudio.mp3"],
+    ["double slash", "/practice-audio-media//practiceaudio.mp3"],
+    ["leading double slash", "//practice-audio-media/practiceaudio.mp3"],
+    ["uppercase", "/PRACTICE-AUDIO-MEDIA/practiceaudio.mp3"],
+    ["mixed case", "/Practice-Audio-Media/practiceaudio.mp3"],
+    ["trailing dot segment", "/practice-audio-media/./practiceaudio.mp3"],
+    ["encoded slash", "/practice-audio-media%2Fpracticeaudio.mp3"],
+  ];
+  for (const [shape, path] of SHAPES) {
+    const r = await get(path);
+    if (r.status === 404) {
+      PASS(`the private recording refuses anonymous (${shape})`, "404", "404",
+        `curl -sI '${HOST}${path}'`, shape === "canonical" ? "404 not 403, so the path is not confirmed to exist" : null);
+    } else {
+      FAIL(`the private recording refuses anonymous (${shape})`, "404", String(r.status),
+        `curl -sI '${HOST}${path}'`,
+        "PATH-SHAPE BYPASS: the CDN normalises this form and the proxy matcher does not, so the file is served without ever entering the gate");
+    }
   }
+  const anonMedia = await get(media);
 
   /* Forged credentials must all be refused. Every early return in verify() is false. */
   const forgeries = ["1", "true", "x.y", "1000000000.AAAA", `${Math.floor(Date.now() / 1000) + 9999}.notasig`];
