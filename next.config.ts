@@ -26,11 +26,20 @@ const nextConfig: NextConfig = {
    * The /practiceaudio sidecar is read with `fs` at request time, so it has to be
    * traced into the server bundle. Without this the page builds, deploys, returns
    * 200 and renders "the recording is not published yet" forever, because the file
-   * it looks for was left behind in the publish directory. The mp3 is deliberately
-   * NOT traced: it is served by the CDN behind the proxy gate, not proxied by a function.
+   * it looks for was left behind in the publish directory.
+   *
+   * ★ CHANGED 2026-08-29. The old note said the mp3 was "deliberately NOT traced: it is
+   * served by the CDN behind the proxy gate". That arrangement is what leaked: the CDN
+   * served the take to anonymous callers through five path shapes the matcher never saw
+   * (duplicate slash, leading double slash, two casings, %2F). The media now lives in
+   * `private-media/`, OUTSIDE public/, so it has no URL at all, and the ONLY way to it is
+   * `/practiceaudio/media/[file]`, which checks the cookie itself. That route reads the
+   * bytes with `fs`, so the mp3s and vtts must now be traced too. If they are not, the
+   * gate is perfect and the player is silent.
    */
   outputFileTracingIncludes: {
-    "/practiceaudio": ["./public/practice-audio-media/*.json"],
+    "/practiceaudio": ["./private-media/*.json"],
+    "/practiceaudio/media/[file]": ["./private-media/*.mp3", "./private-media/*.vtt"],
   },
 
   reactStrictMode: true,

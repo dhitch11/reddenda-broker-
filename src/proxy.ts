@@ -26,11 +26,31 @@ import { PRACTICE_COOKIE, verify } from "@/lib/practice-gate";
  * supposed to be unknown to everyone but its owner, so an unauthenticated request
  * gets the same answer it would get for any path that does not exist.
  *
- * WHY THE CDN STILL SERVES THE BYTES. The proxy decides, then hands off; the file
- * itself is delivered by Netlify with real HTTP Range support. That matters more
- * than it sounds: iOS Safari will not play a recording it cannot seek in, and a
- * serverless function proxying twenty megabytes is both slower and capped. The
- * check happens at the edge, the delivery stays on the CDN.
+ * ⛔ THE PARAGRAPH THAT USED TO SIT HERE DESCRIBED THE DEFECT, NOT THE DESIGN.
+ * It read: "WHY THE CDN STILL SERVES THE BYTES. The proxy decides, then hands off;
+ * the file itself is delivered by Netlify with real HTTP Range support... The check
+ * happens at the edge, the delivery stays on the CDN." That was measured false on
+ * 2026-08-29. A matcher is compared against the LITERAL request path; Netlify's
+ * static resolver collapses duplicate slashes, decodes %2F and resolves
+ * case-insensitively. Five shapes never entered this function and the CDN served the
+ * private 17.3-minute take, with working Range, to anonymous callers:
+ *   /practice-audio-media//practiceaudio.mp3    206
+ *   //practice-audio-media/practiceaudio.mp3    206
+ *   /PRACTICE-AUDIO-MEDIA/practiceaudio.mp3     206
+ *   /Practice-Audio-Media/practiceaudio.mp3     206
+ *   /practice-audio-media%2Fpracticeaudio.mp3   200
+ * while the canonical path returned a correct 404 the whole time, which is why both
+ * sides of the gate had been "verified" and it was still open.
+ *
+ * THE MEDIA NO LONGER LIVES IN public/. It is in `private-media/`, outside the publish
+ * directory, and it is served by `src/app/practiceaudio/media/[file]/route.ts`, which
+ * checks the cookie itself. A file the CDN can see is a file the CDN will serve, and no
+ * matcher fixes that in general.
+ *
+ * THE `/practice-audio-media/:path*` ENTRY BELOW STAYS, and it is now belt-and-braces
+ * rather than the control: nothing is published at that prefix any more, so it should
+ * never match. If it ever does, someone has put media back in public/ and this refuses
+ * it on the canonical path while they find out why. Do NOT treat it as the gate.
  */
 export const config = {
   matcher: ["/practiceaudio", "/practiceaudio/:path*", "/practice-audio-media/:path*"],

@@ -34,7 +34,10 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } },
 };
 
-const MEDIA_DIR = "practice-audio-media";
+/* NOT under public/. These files were served to anonymous callers through five path
+   shapes until 2026-08-29 (see src/app/practiceaudio/media/[file]/route.ts). They now
+   live outside the publish directory and have no URL of their own. */
+const MEDIA_DIR = "private-media";
 const SIDECAR = "practiceaudio.json";
 const BRIEF_SIDECAR = "meetingbrief.json";
 /* The four stage questions as their own take, by David's direct order 2026-08-26
@@ -60,7 +63,7 @@ type Sidecar = {
 
 async function loadSidecar(name: string): Promise<Sidecar | null> {
   try {
-    const raw = await readFile(join(process.cwd(), "public", MEDIA_DIR, name), "utf8");
+    const raw = await readFile(join(process.cwd(), MEDIA_DIR, name), "utf8");
     const j = JSON.parse(raw) as Sidecar;
     /* A sidecar with no duration is a half-written file, not a recording. */
     const secs = Number(j.duration ?? j.seconds ?? 0);
@@ -71,10 +74,11 @@ async function loadSidecar(name: string): Promise<Sidecar | null> {
   }
 }
 
-/* The renderer writes `src` as a path ("/audio/x.mp3"); this page serves from the
-   gated media dir only. Basename it rather than trusting either convention. */
+/* The renderer writes `src` as a path ("/audio/x.mp3"); this page serves through the
+   gated route only. Basename it rather than trusting either convention, and never
+   build a URL that a CDN could answer without consulting the cookie. */
 const mediaSrc = (sc: Sidecar, fallback: string) =>
-  `/${MEDIA_DIR}/${(sc.src ?? fallback).split("/").pop() ?? fallback}`;
+  `/practiceaudio/media/${(sc.src ?? fallback).split("/").pop() ?? fallback}`;
 
 export default async function PracticeAudio({
   searchParams,
