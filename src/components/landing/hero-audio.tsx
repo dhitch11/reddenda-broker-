@@ -51,19 +51,30 @@ import { HeroAudioTransport } from "./hero-audio-transport";
    gated: 124 wpm, 17 pauses at 0.8s+, longest 2.26s, and a blind Scribe read
    that came back word-perfect against the script.
 
-   ⚠️ leo4-take-b.mp3 sits beside this file. It is the SAME SCRIPT on the fleet's
-   settings, published only so David can A/B two URLs. It is NOT a fallback and
-   nothing here may ever point at it. When he rules, the loser is deleted.
-
    ONE NAME. The .mp3, the .json and the .vtt all derive from this basename.
-   THERE IS NO FALLBACK TAKE, and there is no longer a withdrawn take on disk to
-   fall back TO. leo.mp3 / leo.json / leo2.mp3 / leo2.json were deleted on
-   2026-08-26: all four were serving 200 on prod, and BOTH sidecars named a real
-   person in a public JSON body (leo.json three times, in its first sentence,
-   beside a statement that his voice was cloned). Falling back would mean a
-   listener silently hears a withdrawn take; keeping the files at all meant
-   anyone could curl one. If this basename is absent the hero renders with no
-   player, which is the honest state.
+   THERE IS NO FALLBACK TAKE, and there is no withdrawn take on disk to fall
+   back TO. leo.mp3 / leo.json / leo2.mp3 / leo2.json were deleted on 2026-08-26:
+   all four were serving 200 on prod, and BOTH sidecars named a real person in a
+   public JSON body (leo.json three times, in its first sentence, beside a
+   statement that his voice was cloned). Falling back would mean a listener
+   silently hears a withdrawn take; keeping the files at all meant anyone could
+   curl one. If this basename is absent the hero renders with no player, which
+   is the honest state.
+
+   ⚠️ THE PARAGRAPH ABOVE WAS FALSE FOR TWO DAYS AND IS TRUE AGAIN AS OF
+   2026-08-29. Between 08-26 and 08-29 SEVEN withdrawn takes sat on disk and
+   served 200 to anonymous curl on prod: pitch-v1 through pitch-v5 (the
+   superseded hero pitches, 6:27 to 9:35 each) plus leo4 and leo4-take-b (the
+   69-second A/B pair, whose own note here said "when he rules, the loser is
+   deleted" and he ruled by shipping pitch-v6, yet neither was deleted). 21 files,
+   51,422,525 bytes, every one of them carrying a FULL TRANSCRIPT of a pitch
+   this site no longer makes, as plain crawlable JSON. Nothing in the repo
+   referenced any of them; "nothing references it" is not "nobody can reach it",
+   which is the exact lesson leo.json taught on 08-26. All 21 are deleted.
+   The rule, restated so the next lane does not relearn it: A TAKE ON A PUBLIC
+   HOST IS A TAKE A LISTENER CAN HEAR. Retire the .mp3, the .json and the .vtt
+   in ONE commit, and curl the sidecar afterwards, not just the media. History
+   belongs in the script file and in git, never in the publish directory.
    ═════════════════════════════════════════════════════════════════════════════ */
 /* ▶ OFF HOLD. The 18:10-18:15Z "stop" was David switching accounts, not a ruling
    (President, 18:25Z, from David direct). LEO IV gates on quality only, and it
